@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 02 - Anatomy of a Java Program</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 02 of 07 &nbsp;&bull;&nbsp; Lesson 01 - Basic Java Programming</div>
+  <h2>Anatomy of a Java Program – Keywords, Structure &amp; jshell</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type">Theory + Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 01 - Basic Java Programming &#9656; Session 02</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Explain the purpose of <code>package</code>, <code>class</code>, <code>main</code>, and <code>import</code> in a Java program</li>
+      <li>Identify comments, semicolons, and braces and explain why each is required</li>
+      <li>Recognise common Java keywords and describe what each one means at a beginner level</li>
+      <li>Open and use <code>jshell</code> to test single lines of code instantly</li>
+      <li>Read and understand the full skeleton of a Java Application from Session 01</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. The Full Program Skeleton — Revisiting Session 01</h2>
+
+    <p>In Session 01 you ran a program without fully understanding its "packaging". Now let's open up that packaging layer by layer. Here is the complete skeleton again — this time, every part labelled:</p>
+
+<pre><code>// --------------- LINE 1: A COMMENT ---------------
+// Comments start with // and are ignored by the compiler.
+
+// Optional: import libraries you need (e.g. Scanner for keyboard input)
+// import java.util.Scanner;
+
+package myfirstprogram;          // -- PACKAGE: a labelled container for our code (optional for first labs)
+
+public class Hello               // -- CLASS: a container that holds related code (file: Hello.java)
+{                                // -- OPENING BRACE: starts the class block
+    public static void main(String[] args)  // -- main: the entry point
+    {                            // -- OPENING BRACE: starts the main method block
+        System.out.println("Hello!");  // -- SEMICOLON: every statement ends with ;
+    }                            // -- CLOSING BRACE: ends main
+}                                // -- CLOSING BRACE: ends class Hello</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 300" role="img" aria-label="Nested structure of a Java program">
+        <rect x="30" y="20" width="700" height="260" rx="10" fill="#f3e5f5" stroke="#8e24aa" stroke-width="3"/>
+        <text x="60" y="48" font-size="13" font-weight="700" fill="#8e24aa">package myfirstprogram;</text>
+        <text x="380" y="48" font-size="11" fill="#5b6472">? the big labelled container (like a filing cabinet)</text>
+        <rect x="60" y="62" width="640" height="195" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="3"/>
+        <text x="90" y="90" font-size="13" font-weight="700" fill="#1565c0">public class Hello</text>
+        <text x="380" y="90" font-size="11" fill="#5b6472">? a drawer inside the cabinet (holds related code)</text>
+        <rect x="90" y="104" width="580" height="130" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3"/>
+        <text x="120" y="132" font-size="13" font-weight="700" fill="#2e7d32">public static void main(String[] args)</text>
+        <text x="520" y="132" font-size="11" fill="#5b6472">? THE ENTRY POINT</text>
+        <rect x="120" y="146" width="520" height="70" rx="8" fill="#fffde7" stroke="#f9a825" stroke-width="2"/>
+        <text x="380" y="175" text-anchor="middle" font-size="12" fill="#7a5c00">Your statements go here, one per line, each ending with ;</text>
+        <text x="380" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#7a5c00">System.out.println("Hello!");</text>
+      </svg>
+      <div class="cap">Figure 2.1 — Package &rarr; Class &rarr; main method &rarr; your statements. Every Java console program has this skeleton.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. The Building Blocks Explained</h2>
+
+    <h3 class="sub-title">2.1 Comments — Notes for Humans</h3>
+    <p>A <strong>comment</strong> is text the compiler completely ignores. It exists only to help you (and other programmers) understand the code.</p>
+    <table>
+      <thead><tr><th>Style</th><th>Syntax</th><th>When to Use</th></tr></thead>
+      <tbody>
+        <tr><td>Single-line</td><td><code>// anything after these two slashes</code></td><td>Short explanations above a line or block</td></tr>
+        <tr><td>Multi-line</td><td><code>/* text spanning several lines */</code></td><td>Longer explanations (use sparingly)</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">2.2 Semicolons — Full Stops for Statements</h3>
+    <p>Every Java <strong>statement</strong> (one complete instruction) must end with a <strong>semicolon</strong> <code>;</code>. Think of it as a full stop at the end of a sentence. Without it, the compiler does not know where one instruction ends and the next begins.</p>
+<pre><code>System.out.println("Hello");   // &rarr; correct — ends with ;
+System.out.println("Hello")    // &rarr; error — '; expected</code></pre>
+
+    <h3 class="sub-title">2.3 Braces — Defining Blocks of Code</h3>
+    <p>Curly braces <code>{ }</code> group related lines together into a <strong>block</strong>. Every opening <code>{</code> must have a matching closing <code>}</code>. VS Code highlights matching pairs when you click on one brace — use this feature constantly.</p>
+    <p>Indentation (the spaces before each line) is not required by Java but makes blocks readable. Press <strong>Shift + Alt + F</strong> (Format Document) to auto-format your code at any time.</p>
+
+    <h3 class="sub-title">2.4 import — Importing Libraries</h3>
+    <p>The line <code>import java.util.Scanner;</code> at the top means: <em>"I want to use the Scanner class without typing java.util.Scanner every time."</em> For keyboard input you write <code>import java.util.Scanner;</code> so you can use <code>Scanner</code> without the full package path. <code>System.out.println</code> needs no import — <code>System</code> is always available. The JDK also gives you <code>Math</code>, <code>Integer</code>, and many other tools.</p>
+
+    <h3 class="sub-title">2.5 package — The Filing Cabinet</h3>
+    <p>A <strong>package</strong> is a named container that groups related classes together and prevents name collisions. Two different projects can both have a class called <code>Program</code>, and as long as they are in different packages there is no confusion — just like two students named "Kasun" in different classes are identified by their class name.</p>
+
+    <h3 class="sub-title">2.6 class — The Code Container</h3>
+    <p>A <strong>class</strong> is a container that holds related code. In Java, <em>all</em> code must live inside a class — you cannot write loose instructions floating on their own. For Lesson 01, our class is simply called <code>Program</code> and holds our <code>main</code> method. Later lessons introduce classes that model real things (students, books, bank accounts); for now, treat <code>class</code> as the required packaging around your instructions.</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 700 180" role="img" aria-label="VS Code panels overview">
+        <rect x="10" y="10" width="680" height="160" rx="8" fill="#1e1e2e" stroke="#444"/>
+        <rect x="20" y="25" width="200" height="130" rx="4" fill="#252526" stroke="#007acc"/>
+        <text x="120" y="50" text-anchor="middle" font-size="11" fill="#9cdcfe">Explorer</text>
+        <text x="120" y="75" text-anchor="middle" font-size="10" fill="#ccc">MyFirstProgram</text>
+        <text x="120" y="95" text-anchor="middle" font-size="10" fill="#ccc">Hello.java</text>
+        <rect x="240" y="25" width="440" height="95" rx="4" fill="#1e1e2e" stroke="#007acc"/>
+        <text x="260" y="50" font-size="11" fill="#569cd6">class</text>
+        <text x="310" y="50" font-size="11" fill="#4ec9b0">Hello</text>
+        <text x="260" y="75" font-size="11" fill="#dcdcaa">public static void main</text>
+        <text x="260" y="100" font-size="11" fill="#ce9178">"Hello, World!"</text>
+        <rect x="240" y="130" width="440" height="25" rx="2" fill="#007acc"/>
+        <text x="460" y="147" text-anchor="middle" font-size="10" fill="#fff">Terminal / PROBLEMS</text>
+      </svg>
+      <div class="cap">Figure 2.2 — Reminder from Session 01: Explorer (files), Editor (code), Terminal / PROBLEMS (results and errors).</div>
+    </div>
+
+    <h3 class="sub-title">2.7 The main Method — The Entry Point</h3>
+    <p>When you press <strong>Ctrl + F5</strong> (or click Run above <code>main</code>), the JVM looks for exactly one method named <code>main</code> and starts executing from its first line. Let's decode its signature:</p>
+    <table>
+      <thead><tr><th>Part</th><th>Meaning (simple version)</th></tr></thead>
+      <tbody>
+        <tr><td><code>static</code></td><td>"Belongs to the class itself." For now, always write <code>static</code> on <code>main</code>.</td></tr>
+        <tr><td><code>void</code></td><td>"This method gives nothing back when it finishes." (Methods that return a value use a type name here instead — Session 07.)</td></tr>
+        <tr><td><code>main</code></td><td>The special name JDK searches for. lowercase <code>main</code> matters!</td></tr>
+        <tr><td><code>(String[] args)</code></td><td>A box for extra text the operating system can pass in. We will not use it in this lesson, but it must be written.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Think of an envelope:</strong> <code>package</code> (optional) is the outer label, <code>class</code> is the letter inside, and <code>main</code> is where your actual message (the instructions) is written.</li>
+        <li><strong>Only Main runs automatically.</strong> Everything else is just structure. Your job as a beginner: put your instructions inside <code>main</code>, between its <code>{</code> and <code>}</code>.</li>
+        <li><strong>Order of execution:</strong> lines inside <code>main</code> run top to bottom, exactly like following arrows in a flowchart.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Java Keywords — Words You Will Meet</h2>
+
+    <p>Java has about 100 <strong>keywords</strong> — words reserved by the language with special meaning. You cannot use them as variable names. The table below lists the most important ones you will encounter in the first few weeks. Do not memorise them all today — just recognise them when they appear.</p>
+
+    <table>
+      <thead>
+        <tr><th>Keyword</th><th>What It Means (beginner level)</th><th>Example Context</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>class</code></td><td>Declares a container for code</td><td><code>class Program { }</code></td></tr>
+        <tr><td><code>static</code></td><td>Belongs to the class, not an instance</td><td><code>public static void main(...)</code></td></tr>
+        <tr><td><code>void</code></td><td>This method returns nothing</td><td><code>void Main(...)</code></td></tr>
+        <tr><td><code>int</code></td><td>A whole number (no decimals)</td><td><code>int age = 25;</code></td></tr>
+        <tr><td><code>double</code></td><td>A decimal number</td><td><code>double price = 19.99;</code></td></tr>
+        <tr><td><code>String</code></td><td>Text (a sequence of characters)</td><td><code>String name = "Kasun";</code></td></tr>
+        <tr><td><code>boolean</code></td><td>True or false only</td><td><code>boolean passed = true;</code></td></tr>
+        <tr><td><code>if</code></td><td>Make a decision — do something only when a condition is true</td><td><code>if (age &gt;= 18) { ... }</code></td></tr>
+        <tr><td><code>for</code></td><td>Repeat a block of code a set number of times</td><td><code>for (int i = 0; i &lt; 10; i++) { ... }</code></td></tr>
+        <tr><td><code>return</code></td><td>Send a value back from a method and stop</td><td><code>return area;</code></td></tr>
+        <tr><td><code>new</code></td><td>Create a new instance of something</td><td><code>new String[5]</code></td></tr>
+        <tr><td><code>public</code></td><td>Visible from anywhere in the program</td><td><code>public int Age;</code></td></tr>
+        <tr><td><code>private</code></td><td>Visible only inside its own class</td><td><code>private String password;</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <strong>Keywords vs. Identifiers</strong>
+      <p><strong>Keywords</strong> (like <code>int</code>, <code>class</code>) are reserved — you cannot rename them. <strong>Identifiers</strong> are names <em>you</em> choose: variable names (<code>age</code>), project names (<code>MyFirstProgram</code>), method names (<code>CalculateArea</code>). Choose identifiers that describe what they hold: <code>studentName</code> is better than <code>x</code>.</p>
+    </div>
+
+    <div class="warn-box">
+      <strong>Case Sensitivity</strong>
+      <p>Java is case-sensitive. <code>System</code>, <code>system</code>, and <code>SYSTEM</code> are three different identifiers. Keywords like <code>class</code> and <code>Class</code> are also different — only the lowercase version is valid.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. Instant Experiments with jshell</h2>
+
+    <p>Creating a whole project just to test one line of code is slow. The JDK includes a wonderful tool for instant experiments: <strong>jshell</strong>. You type one line, press Enter, and see the result immediately — no project, no main method, no compiling. In this module we run jshell from the <strong>VS Code Terminal</strong>.</p>
+
+    <ol class="step-list">
+      <li>In VS Code open the Terminal: <strong>View &rarr; Terminal</strong> (or Ctrl + `).</li>
+      <li>Type <code>jshell</code> and press Enter. A <code>jshell&gt;</code> prompt appears.</li>
+      <li>Type <code>2 + 3</code> and press Enter — it replies <code>5</code>.</li>
+      <li>Type <code>int x = 10;</code> and press Enter. Now type just <code>x</code> (no semicolon) and press Enter — it replies <code>10</code>. The variable is alive in the session's memory!</li>
+      <li>Try <code>x * 2 + 1</code> &rarr; it instantly shows <code>21</code>.</li>
+      <li>Try <code>"Hello" + " World"</code> &rarr; it shows <code>"Hello World"</code>. The <code>+</code> joins strings together.</li>
+      <li>Try <code>System.out.println("Test from jshell!");</code> — output appears in the jshell session.</li>
+      <li>Type <code>/exit</code> when you are finished.</li>
+    </ol>
+
+    <div class="tip-box">
+      <strong>Why This Matters</strong>
+      <p><code>jshell</code> is your <em>sandbox</em>. Whenever you are unsure what a line of code does — test it here in five seconds instead of guessing. We will use it throughout the module to explore new concepts before writing full programs.</p>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 2.1 — jshell Explorer (45 min)</strong>
+      <p>Open <code>jshell</code> and evaluate each of the following. <strong>Predict the result first</strong>, write your prediction in your lab book, then check:</p>
+      <ol>
+        <li><code>10 + 5</code></li>
+        <li><code>10 - 5</code></li>
+        <li><code>10 * 5</code></li>
+        <li><code>10 / 5</code></li>
+        <li><code>10 / 3</code> &nbsp;(whole-number division — what happens to the remainder?)</li>
+        <li><code>10 % 3</code> &nbsp;(the <code>%</code> "modulo" operator gives the remainder)</li>
+        <li><code>10.0 / 3</code> &nbsp;(now with a decimal — compare with #5)</li>
+        <li><code>"5" + "3"</code> &nbsp;(what happens when you + two strings of digits?)</li>
+        <li><code>Math.sqrt(144)</code> and <code>Math.pow(2, 10)</code></li>
+        <li><code>75 &gt;= 50</code> &nbsp;(this gives <code>true</code> or <code>false</code> — a preview of Session 04)</li>
+      </ol>
+      <p>Write one sentence in your lab book for each: what did you learn?</p>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 2.2 — Simple Calculations in a Java Application (45 min)</strong>
+      <p>Create a new folder called <code>SimpleCalc</code> (File &rarr; Open Folder in VS Code). Using the program skeleton from Session 01, write a program that:</p>
+      <ol>
+        <li>Prints a title line: <code>=== Simple Calculator ===</code></li>
+        <li>Declares two whole numbers directly in code (no user input yet — that comes in Session 03): <code>int a = 15;</code> and <code>int b = 4;</code></li>
+        <li>Prints the sum, difference, product, and quotient of <code>a</code> and <code>b</code>, each on its own line with a label.</li>
+        <li>Prints the remainder when <code>a</code> is divided by <code>b</code> using the <code>%</code> operator.</li>
+        <li>Add a comment above every calculation explaining what it does.</li>
+        <li>Run with <strong>Ctrl + F5</strong> (or Run above <code>main</code>) and verify: 15 + 4 = 19, 15 / 4 = 3 (whole-number division!), 15 % 4 = 3.</li>
+      </ol>
+      <p><em>First write the steps as a numbered algorithm on paper, then code it. Logic first, syntax second — always.</em></p>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2 class="section-title">5. Quick Reference: The Program Skeleton</h2>
+    <table>
+      <thead><tr><th>Element</th><th>Purpose</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td><code>// comment</code></td><td>Notes for humans</td><td>Ignored by compiler</td></tr>
+        <tr><td><code>import java.util.Scanner;</code></td><td>Import Scanner for keyboard input</td><td>At the top, after package (if any)</td></tr>
+        <tr><td><code>package name;</code></td><td>Group related classes</td><td>Optional first line; no braces</td></tr>
+        <tr><td><code>public class Name { }</code></td><td>Hold related code</td><td>One public class per .java file</td></tr>
+        <tr><td><code>public static void main(...) { }</code></td><td>Entry point — program starts here</td><td>Inside class; your code goes inside Main</td></tr>
+        <tr><td><code>;</code></td><td>End every statement</td><td>After every instruction</td></tr>
+        <tr><td><code>{ }</code></td><td>Define a block</td><td>Every <code>{</code> needs a matching <code>}</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 02</strong>
+      <ol>
+        <li>Describe the purpose of the package, class, and main method in a Java program. (6 marks)</li>
+        <li>What is the purpose of the <code>import</code> statement? Give an example. (3 marks)</li>
+        <li>Explain the difference between a comment, a semicolon, and a brace in Java. (3 marks)</li>
+        <li>Define the term "keyword" and give five examples with a one-line explanation of each. (5 marks)</li>
+        <li>What is <code>jshell</code> used for? How do you open it in VS Code? (2 marks)</li>
+        <li>Write the complete skeleton of a Java Application (package, class, main) with one System.out.println statement inside main. (6 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 02 Summary</h3>
+    <ul>
+      <li>Structure: optional <code>package</code> &rarr; <code>import</code> &rarr; class &rarr; main &rarr; your statements.</li>
+      <li>Comments (<code>//</code>) are for humans; semicolons (<code>;</code>) end statements; braces (<code>{ }</code>) define blocks.</li>
+      <li><code>import java.util.Scanner;</code> lets us write <code>Scanner</code> instead of <code>java.util.Scanner</code>.</li>
+      <li>Keywords are reserved words with special meaning — recognise them, don't use them as variable names.</li>
+      <li><code>jshell</code> = instant one-line experiments from the VS Code Terminal.</li>
+      <li>Your instructions always go inside <code>main</code>, running top to bottom like a flowchart.</li>
+      <li>Next session: variables, data types, and reading keyboard input.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-01.html" class="btn btn-secondary">&larr; S01 - From Flowcharts to Code</a>
+    <a href="session-03.html" class="btn btn-primary">S03 - Variables &amp; I/O &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 02 &ndash; Anatomy of a Java Program &nbsp;|&nbsp; These notes are for educational use only.</p>
+<p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 15 - Inheritance in Depth - protected, base Constructors</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 15 of 23 &nbsp;&bull;&nbsp; Lesson 07 - Inheritance</div>
+  <h2>Inheritance in Depth – protected, base Constructors</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 07 - Inheritance &#9656; Session 15</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Use the <code>protected</code> access modifier appropriately</li>
+      <li>Call base-class constructors from derived classes with <code>super(...)</code></li>
+      <li>Trace the construction order of a derived object</li>
+      <li>Design multi-level hierarchies and know when to stop</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. <code>protected</code> — The Family-Only Modifier</h2>
+
+    <p>Session 14 left a problem: if Vehicle's <code>Speed</code> has a <code>private set</code>, how can a child like <code>SportsCar</code> implement its own <code>turboBoost()</code> that changes the speed? <code>private</code> locks children out too. Making it <code>public</code> exposes it to <em>everyone</em>. The middle ground:</p>
+
+    <div class="definition-box">
+      <strong>Definition — protected</strong>
+      <p>A <code>protected</code> member is accessible <strong>inside its own class and inside any derived class</strong>, but not from outside the family. It sits between private (self only) and public (everyone).</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 200" role="img" aria-label="Access modifier circles">
+        <circle cx="360" cy="100" r="90" fill="none" stroke="#1565c0" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="360" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="#1565c0">public — the street</text>
+        <circle cx="360" cy="100" r="60" fill="none" stroke="#2e7d32" stroke-width="2"/>
+        <text x="360" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">protected — family house</text>
+        <circle cx="360" cy="100" r="30" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2"/>
+        <text x="360" y="105" text-anchor="middle" font-size="10" font-weight="700" fill="#8e24aa">private</text>
+        <text x="120" y="170" font-size="10" fill="#5b6472">Main() is outside — can use public only</text>
+        <text x="480" y="170" font-size="10" fill="#5b6472">Derived class is inside — can use protected + public</text>
+      </svg>
+      <div class="cap">Figure 15.1 — Three circles of trust: private (my room), protected (family), public (street).</div>
+    </div>
+
+<pre><code>class Vehicle {
+    private String brand;
+    protected int speed;                 // protected: children may touch it, outsiders may not
+
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    public int getSpeed() { return speed; }   // public read-only window for outsiders
+
+    public void accelerate() {
+        speed += 10;
+    }
+}
+
+class SportsCar extends Vehicle {
+    public void turboBoost() {
+        speed += 50;                         // LEGAL — SportsCar is family
+        System.out.println(getBrand() + " turbo! Now at " + speed + " km/h");
+    }
+}
+
+// In main:
+SportsCar f = new SportsCar();
+f.setBrand("Ferrari");
+f.turboBoost();          // works — the child manipulated the protected field
+// f.speed = 999;        // COMPILER ERROR — main is not part of the family</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Three circles of trust:</strong> private = my room only; protected = family house; public = the street. <code>speed</code> lives in the family house: Vehicle and all its descendants may enter, strangers (Main) may not.</li>
+        <li><strong>Encapsulation is preserved:</strong> outsiders still cannot corrupt speed — they read it through the public getter but change it only via public methods (accelerate) or family logic (turboBoost).</li>
+        <li><strong>Use sparingly:</strong> protected is a bigger door than private. Prefer <code>private</code> + protected <em>methods</em> when only behaviour (not raw data) needs sharing.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Constructors in a Hierarchy — <code>super(...)</code></h2>
+
+    <p>Constructors are <strong>not inherited</strong>. If Vehicle demands (brand, year) at birth, each child must arrange for those values to reach Vehicle's constructor. The keyword <code>super</code> does it:</p>
+
+<pre><code>class Vehicle {
+    private String brand;
+    private int year;
+
+    public String getBrand() { return brand; }
+    public int getYear() { return year; }
+
+    public Vehicle(String brand, int year) {          // parent constructor demands the essentials
+        this.brand = brand;
+        this.year = year;
+        System.out.println("1) Vehicle constructor ran");
+    }
+}
+
+class Car extends Vehicle {
+    private int numberOfDoors;
+
+    public int getNumberOfDoors() { return numberOfDoors; }
+
+    // super(brand, year) forwards values UP to the Vehicle constructor
+    public Car(String brand, int year, int doors) {
+        super(brand, year);
+        this.numberOfDoors = doors;                       // then the child adds its own part
+        System.out.println("2) Car constructor ran");
+    }
+}
+
+// In main:
+Car c = new Car("Toyota", 2022, 4);
+// Output order:
+// 1) Vehicle constructor ran      <- parent part built FIRST
+// 2) Car constructor ran          <- then the child part</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Bottom floor first:</strong> a Car object contains a complete Vehicle "inside" it. Construction is like building a house: foundation (Vehicle) before walls (Car). Hence the output order — always parent first.</li>
+        <li><strong><code>super(brand, year)</code></strong> is the delivery van carrying the child's constructor arguments up to the parent's constructor. Compare with <code>this(...)</code> from Session 11 which chains <em>sideways</em> within the same class; <code>super(...)</code> chains <em>upwards</em>.</li>
+        <li><strong>When can you omit it?</strong> Only if the parent has a parameterless constructor — Java then calls it silently. If the parent demands parameters, forgetting <code>super(...)</code> is a compiler error.</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">2.1 A Three-Level Chain</h3>
+<pre><code>class ElectricCar extends Car {
+    private int batteryCapacity;
+
+    public int getBatteryCapacity() { return batteryCapacity; }
+
+    public ElectricCar(String brand, int year, int doors, int battery) {
+        super(brand, year, doors);                 // passes to Car, which passes to Vehicle
+        this.batteryCapacity = battery;
+        System.out.println("3) ElectricCar constructor ran");
+    }
+}
+
+// new ElectricCar("Tesla", 2024, 4, 75) prints 1) then 2) then 3) — the full chain, top down.</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 700 180" role="img" aria-label="Constructor chain order">
+        <rect x="250" y="20" width="200" height="45" rx="8" fill="#e3f2fd" stroke="#0277bd" stroke-width="2"/>
+        <text x="350" y="48" text-anchor="middle" font-size="11" font-weight="700" fill="#0277bd">1. Vehicle constructor</text>
+        <line x1="350" y1="65" x2="350" y2="85" stroke="#0277bd" stroke-width="2" marker-end="url(#none)"/>
+        <polygon points="345,85 355,85 350,95" fill="#0277bd"/>
+        <rect x="250" y="100" width="200" height="45" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="350" y="128" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">2. Car constructor</text>
+        <line x1="350" y1="145" x2="350" y2="165" stroke="#2e7d32" stroke-width="2"/>
+        <polygon points="345,165 355,165 350,175" fill="#2e7d32"/>
+        <rect x="230" y="155" width="240" height="20" rx="4" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="350" y="170" text-anchor="middle" font-size="10" font-weight="700" fill="#b28704">3. ElectricCar constructor</text>
+        <text x="560" y="50" font-size="10" fill="#5b6472">super(brand, year)</text>
+        <text x="560" y="130" font-size="10" fill="#5b6472">super(brand, year, doors)</text>
+      </svg>
+      <div class="cap">Figure 15.2 — Constructor execution order: always parent first, then child, down the chain.</div>
+    </div>
+
+    <h3 class="sub-title">2.2 Hierarchy Design Guidelines</h3>
+    <ul>
+      <li><strong>Pull up what is shared</strong> by <em>all</em> children; keep down what only some have.</li>
+      <li><strong>Keep it shallow:</strong> 2–3 levels is usually plenty. Deep towers become impossible to reason about.</li>
+      <li><strong>Re-run the is-a test at every level:</strong> ElectricCar is a Car ✓, Car is a Vehicle ✓.</li>
+      <li><strong>Don't inherit for convenience:</strong> shared <em>data shape</em> is not shared <em>identity</em>.</li>
+    </ul>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 15.1 — Constructor Chains (45 min)</strong>
+      <ol>
+        <li>Build the Vehicle → Car → ElectricCar chain above with the numbered System.out.println messages. Run and verify the 1-2-3 order.</li>
+        <li>Remove <code>super(brand, year)</code> from Car temporarily — read the compiler error, then restore it.</li>
+        <li>Add <code>Motorbike(String brand, int year) { super(brand, year); ... }</code> and a read-only getter <code>getWheels()</code> fixed at 2.</li>
+        <li>In Main create one of each and print all details.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 15.2 — Bank Accounts, Properly (45 min)</strong>
+      <ol>
+        <li>Design: base <code>BankAccount</code> (AccountNumber, Owner, protected balance, Deposit, Withdraw) with a constructor demanding (accountNumber, owner).</li>
+        <li>Child <code>SavingsAccount extends BankAccount</code> adds InterestRate and <code>AddMonthlyInterest()</code> which uses the <em>protected</em> balance directly.</li>
+        <li>Child <code>CurrentAccount extends BankAccount</code> adds OverdraftLimit and <code>WithdrawWithOverdraft</code> allowing balance down to -OverdraftLimit.</li>
+        <li>Test: interest accrues on savings; overdraft works on current; base Withdraw still refuses overdrawing a savings account.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 15</strong>
+      <ol>
+        <li>Compare private, protected and public with one-line descriptions. (3 marks)</li>
+        <li>Why are constructors not inherited? How does a derived class initialise its base part? (4 marks)</li>
+        <li>Write a base class with a parameterized constructor and a derived class that chains to it with <code>super(...)</code>. (6 marks)</li>
+        <li>In what order do constructors run when a derived object is created? Show with output. (4 marks)</li>
+        <li>State two guidelines for designing good class hierarchies. (4 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 15 Summary</h3>
+    <ul>
+      <li><code>protected</code> = family-only access: the class and all its descendants.</li>
+      <li>Constructors are not inherited; <code>super(args)</code> forwards values to the parent constructor.</li>
+      <li>Construction order: always parent first, down the chain to the newest child.</li>
+      <li>Pull shared members up, keep hierarchies shallow, verify is-a at each level.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-14.html" class="btn btn-secondary">&larr; S14 - Inheritance Basics</a>
+    <a href="session-16.html" class="btn btn-primary">S16 - Library Phase 4 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 15 &ndash; Inheritance in Depth &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

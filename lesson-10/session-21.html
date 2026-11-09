@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 21 - Association, Aggregation and Composition</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 21 of 23 &nbsp;&bull;&nbsp; Lesson 10 - Object Relationships</div>
+  <h2>Association, Aggregation &amp; Composition — Theory with UML Diagrams</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 5 Hours</span>
+    <span class="stag stag-type">Theory + Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 10 - Object Relationships &#9656; Session 21</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#ad6800,#7a4a00);">
+    <div class="lesson-num">Lesson 10 of 10 — Block 3: Advanced Relationships</div>
+    <h2>Association, Aggregation &amp; Composition</h2>
+    <p>Inheritance ("is-a") is only one way objects relate. Far more common in real systems is <strong>"has-a"</strong> and <strong>"uses-a"</strong>: a Teacher <em>teaches in</em> a Classroom, a Classroom <em>has</em> Students, a Classroom <em>contains</em> Desks that are destroyed when the room is demolished. This lesson gives you the vocabulary — and the Java patterns — for connecting objects correctly.</p>
+    <div class="lesson-meta">
+      <span>⏱ 5 Hours Theory + Practical</span>
+      <span>📅 Sessions 21 – 23</span>
+      <span>🏫 The School Project</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Define association, aggregation and composition with real-world examples</li>
+      <li>Recognise each relationship's strength and lifetime rules</li>
+      <li>Read and draw UML-style relationship diagrams</li>
+      <li>Implement each relationship in Java and explain the code differences</li>
+      <li>Choose the correct relationship when designing a system</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Beyond Inheritance — Why Relationships Matter</h2>
+
+    <p>In Lessons 06–08 you mastered <strong>inheritance</strong> — the "is-a" relationship. A Book <em>is a</em> LibraryItem. But not every connection is inheritance. A Teacher is <em>not</em> a Classroom. A Desk is <em>not</em> a Student. These are <strong>has-a</strong> and <strong>uses-a</strong> connections — and getting them wrong leads to bugs that inheritance cannot fix.</p>
+
+    <div class="definition-box">
+      <strong>Definition — Object Relationship</strong>
+      <p>An <strong>object relationship</strong> exists when one class holds a reference to an object of another class (a field or property pointing at another object). The three standard types — association, aggregation, composition — differ in <strong>strength</strong>, <strong>ownership</strong>, and <strong>lifetime</strong>.</p>
+    </div>
+
+    <div class="note-box">
+      <strong>The "is-a" vs "has-a" Test</strong>
+      <p>Before writing code, ask: "Is X a type of Y?" → inheritance. "Does X use/have/contain Y?" → association, aggregation, or composition. Never inherit just to reuse a field — that is a relationship mistake.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. The Relationship Spectrum</h2>
+
+    <p>All three relationships mean "objects know about each other" — what differs is <strong>ownership</strong> and <strong>lifetime</strong>. Think of them as increasingly strong bonds:</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 240" role="img" aria-label="Relationship spectrum">
+        <defs>
+          <marker id="arr21" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5b6472"/></marker>
+          <marker id="dia21o" markerWidth="18" markerHeight="12" refX="16" refY="6" orient="auto"><path d="M0,6 L8,0 L16,6 L8,12 Z" fill="white" stroke="#b28704" stroke-width="1.5"/></marker>
+          <marker id="dia21f" markerWidth="18" markerHeight="12" refX="16" refY="6" orient="auto"><path d="M0,6 L8,0 L16,6 L8,12 Z" fill="#c62828" stroke="#c62828"/></marker>
+        </defs>
+        <text x="380" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1f2b">WEAK ————————— Bond strength ————————— STRONG</text>
+        <rect x="20" y="55" width="220" height="150" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="130" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#1565c0">ASSOCIATION</text>
+        <text x="130" y="98" text-anchor="middle" font-size="11" fill="#5b6472">"uses-a / works-with"</text>
+        <rect x="35" y="112" width="80" height="30" rx="5" fill="white" stroke="#1565c0"/>
+        <text x="75" y="132" text-anchor="middle" font-size="10">Teacher</text>
+        <rect x="145" y="112" width="80" height="30" rx="5" fill="white" stroke="#1565c0"/>
+        <text x="185" y="132" text-anchor="middle" font-size="10">Classroom</text>
+        <line x1="115" y1="127" x2="145" y2="127" stroke="#5b6472" stroke-width="2" marker-end="url(#arr21)"/>
+        <text x="130" y="165" text-anchor="middle" font-size="10" fill="#5b6472">Both live independently.</text>
+        <text x="130" y="182" text-anchor="middle" font-size="10" fill="#5b6472">Teacher just KNOWS the room.</text>
+        <rect x="270" y="55" width="220" height="150" rx="10" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="380" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#b28704">AGGREGATION</text>
+        <text x="380" y="98" text-anchor="middle" font-size="11" fill="#5b6472">"has-a (shared/detachable)"</text>
+        <rect x="285" y="112" width="80" height="30" rx="5" fill="white" stroke="#b28704"/>
+        <text x="325" y="132" text-anchor="middle" font-size="10">Classroom</text>
+        <rect x="395" y="112" width="80" height="30" rx="5" fill="white" stroke="#b28704"/>
+        <text x="435" y="132" text-anchor="middle" font-size="10">Student</text>
+        <line x1="395" y1="127" x2="367" y2="127" stroke="#b28704" stroke-width="2" marker-end="url(#dia21o)"/>
+        <text x="380" y="165" text-anchor="middle" font-size="10" fill="#5b6472">Room HAS students, but they</text>
+        <text x="380" y="182" text-anchor="middle" font-size="10" fill="#5b6472">exist without it (can move rooms).</text>
+        <rect x="520" y="55" width="220" height="150" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="630" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#c62828">COMPOSITION</text>
+        <text x="630" y="98" text-anchor="middle" font-size="11" fill="#5b6472">"part-of (owned, dies with)"</text>
+        <rect x="535" y="112" width="80" height="30" rx="5" fill="white" stroke="#c62828"/>
+        <text x="575" y="132" text-anchor="middle" font-size="10">Classroom</text>
+        <rect x="645" y="112" width="80" height="30" rx="5" fill="white" stroke="#c62828"/>
+        <text x="685" y="132" text-anchor="middle" font-size="10">Desk</text>
+        <line x1="645" y1="127" x2="617" y2="127" stroke="#c62828" stroke-width="2" marker-end="url(#dia21f)"/>
+        <text x="630" y="165" text-anchor="middle" font-size="10" fill="#5b6472">Desks are CREATED BY the room</text>
+        <text x="630" y="182" text-anchor="middle" font-size="10" fill="#5b6472">and cease to exist without it.</text>
+      </svg>
+      <div class="cap">Figure 21.1 — The three relationships in UML style: plain arrow = association, hollow diamond = aggregation, filled diamond = composition (diamond sits on the owner).</div>
+    </div>
+
+    <h3 class="sub-title">2.1 Association — "uses-a / works-with"</h3>
+    <div class="definition-box">
+      <strong>Definition — Association</strong>
+      <p>An <strong>association</strong> is a loose relationship where one object simply <em>knows about</em> (holds a reference to) another. Both objects have completely independent lifetimes. Example: a Teacher is assigned to a Classroom; delete either and the other continues to exist.</p>
+    </div>
+<pre><code>class Teacher {
+    private String name;
+    private Classroom assignedRoom;   // ASSOCIATION: reference to a Classroom created ELSEWHERE
+
+    public String getName() { return name; }
+    public Classroom getAssignedRoom() { return assignedRoom; }
+    public void setAssignedRoom(Classroom assignedRoom) { this.assignedRoom = assignedRoom; }
+
+    public Teacher(String name) { this.name = name; }
+
+    public void teach() {
+        if (assignedRoom == null) {
+            System.out.println(name + " has no classroom assigned yet.");
+            return;
+        }
+        System.out.println(name + " is teaching in room " + assignedRoom.getRoomNumber() + ".");
+    }
+}
+
+// In main - the two objects are created independently and then LINKED:
+Classroom r12 = new Classroom("R12");
+Teacher silva = new Teacher("Mr. Silva");
+silva.setAssignedRoom(r12);         // link
+silva.teach();
+silva.setAssignedRoom(null);        // unlink - BOTH objects still perfectly alive</code></pre>
+
+    <h3 class="sub-title">2.2 Aggregation — "has-a" (shared, detachable parts)</h3>
+    <div class="definition-box">
+      <strong>Definition — Aggregation</strong>
+      <p><strong>Aggregation</strong> is a whole–part relationship where the whole <em>has</em> a collection of parts, but the parts are created outside and can outlive the whole or move to another whole. Example: a Classroom has Students — but students exist before the room is assigned and survive if the room closes.</p>
+    </div>
+<pre><code>import java.util.*;
+
+class Classroom {
+    private String roomNumber; // AGGREGATION: the room HOLDS students but did not CREATE them
+    private List&lt;Student&gt; students = new ArrayList&lt;&gt;();
+
+    public String getRoomNumber() { return roomNumber; }
+
+    public Classroom(String roomNumber) { this.roomNumber = roomNumber; }
+
+    public void enroll(Student s) {         // parts are handed IN from outside
+        students.add(s);
+    }
+
+    public void remove(Student s) {         // ...and can leave again, unharmed
+        students.remove(s);
+    }
+}
+
+// In main:
+Student amara = new Student("Amara");     // student exists FIRST, independently
+Classroom r12 = new Classroom("R12");
+r12.enroll(amara);                        // aggregated into the room
+Classroom r15 = new Classroom("R15");
+r12.remove(amara);
+r15.enroll(amara);                        // same student moved - fine!</code></pre>
+
+    <h3 class="sub-title">2.3 Composition — "part-of" (owned, lives and dies with)</h3>
+    <div class="definition-box">
+      <strong>Definition — Composition</strong>
+      <p><strong>Composition</strong> is the strongest whole–part relationship: the whole <em>creates and owns</em> its parts. Parts cannot be shared with another whole and cannot exist independently — when the whole dies, the parts die with it. Example: a Classroom is composed of Desks; when the classroom is destroyed, its desks are destroyed too.</p>
+    </div>
+<pre><code>import java.util.*;
+
+class Desk {
+    private int deskNumber;
+
+    public int getDeskNumber() { return deskNumber; }
+
+    public Desk(int number) { this.deskNumber = number; }
+}
+
+class Classroom {
+    private String roomNumber; // COMPOSITION: the room CREATES its own desks INSIDE itself.
+    private List&lt;Desk&gt; desks = new ArrayList&lt;&gt;();
+
+    public String getRoomNumber() { return roomNumber; }
+
+    public Classroom(String roomNumber, int deskCount) {
+        this.roomNumber = roomNumber;
+        for (int i = 1; i &lt;= deskCount; i++) {
+            desks.add(new Desk(i));       // born inside the constructor - never handed in
+        }
+    }
+
+    // NO public add/remove for desks, and no getter that exposes the list itself.
+    public int getDeskCount() { return desks.size(); }
+}
+
+// In main:
+Classroom r12 = new Classroom("R12", 30);   // 30 desks spring into existence inside
+System.out.println(r12.getDeskCount());            // 30
+// When r12 becomes unreachable, its desks are unreachable too -
+// the Garbage Collector reclaims the WHOLE with all its PARTS.</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 280" role="img" aria-label="School system UML overview">
+        <defs>
+          <marker id="arr21b" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1565c0"/></marker>
+          <marker id="dia21b" markerWidth="18" markerHeight="12" refX="16" refY="6" orient="auto"><path d="M0,6 L8,0 L16,6 L8,12 Z" fill="white" stroke="#b28704" stroke-width="1.5"/></marker>
+          <marker id="dia21c" markerWidth="18" markerHeight="12" refX="16" refY="6" orient="auto"><path d="M0,6 L8,0 L16,6 L8,12 Z" fill="#c62828" stroke="#c62828"/></marker>
+        </defs>
+        <rect x="280" y="20" width="160" height="60" rx="8" fill="#f5f5f5" stroke="#5b6472" stroke-width="2"/>
+        <text x="360" y="45" text-anchor="middle" font-size="13" font-weight="700">School</text>
+        <text x="360" y="65" text-anchor="middle" font-size="10">BuildClassroom(), HireTeacher()</text>
+        <rect x="80" y="120" width="140" height="55" rx="8" fill="#fff8e1" stroke="#b28704"/>
+        <text x="150" y="145" text-anchor="middle" font-size="12" font-weight="700">Classroom</text>
+        <text x="150" y="163" text-anchor="middle" font-size="10">RoomNumber, Enroll()</text>
+        <rect x="300" y="120" width="120" height="55" rx="8" fill="#e3f2fd" stroke="#1565c0"/>
+        <text x="360" y="145" text-anchor="middle" font-size="12" font-weight="700">Teacher</text>
+        <text x="360" y="163" text-anchor="middle" font-size="10">AssignTo(), Teach()</text>
+        <rect x="500" y="120" width="120" height="55" rx="8" fill="#e8f5e9" stroke="#2e7d32"/>
+        <text x="560" y="145" text-anchor="middle" font-size="12" font-weight="700">Student</text>
+        <text x="560" y="163" text-anchor="middle" font-size="10">Name, IndexNo</text>
+        <rect x="80" y="220" width="100" height="45" rx="6" fill="#ffebee" stroke="#c62828"/>
+        <text x="130" y="248" text-anchor="middle" font-size="11" font-weight="700">Desk</text>
+        <line x1="360" y1="80" x2="150" y2="120" stroke="#c62828" stroke-width="2" marker-end="url(#dia21c)"/>
+        <text x="240" y="95" text-anchor="middle" font-size="9" fill="#c62828">composition</text>
+        <line x1="360" y1="80" x2="360" y2="120" stroke="#b28704" stroke-width="2" marker-end="url(#dia21b)"/>
+        <text x="400" y="95" text-anchor="middle" font-size="9" fill="#b28704">aggregation</text>
+        <line x1="300" y1="147" x2="220" y2="147" stroke="#1565c0" stroke-width="2" marker-end="url(#arr21b)"/>
+        <text x="260" y="138" text-anchor="middle" font-size="9" fill="#1565c0">association</text>
+        <line x1="500" y1="147" x2="220" y2="147" stroke="#b28704" stroke-width="2" marker-end="url(#dia21b)"/>
+        <text x="380" y="175" text-anchor="middle" font-size="9" fill="#b28704">aggregation</text>
+        <line x1="150" y1="175" x2="130" y2="220" stroke="#c62828" stroke-width="2" marker-end="url(#dia21c)"/>
+        <text x="100" y="200" text-anchor="middle" font-size="9" fill="#c62828">composition</text>
+        <text x="360" y="270" text-anchor="middle" font-size="11" fill="#5b6472">Full School project diagram — built across Sessions 22 and 23.</text>
+      </svg>
+      <div class="cap">Figure 21.2 — Complete School system relationships: Teacher uses Classroom; Classroom has Students; Classroom has Desks (composition).</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Look WHERE the part is created — that's the giveaway.</strong> Association/aggregation: the part is created <em>outside</em> and a reference is passed in. Composition: the part is created <em>inside</em> the whole (usually in its constructor) and never leaves.</li>
+        <li><strong>Lifetime test:</strong> "If the whole is deleted, does the part survive?" Student — yes → aggregation. Desk — no → composition.</li>
+        <li><strong>Sharing test:</strong> "Can two wholes share one part?" One student in two classrooms at once — no (business rule). One desk in two rooms — impossible → composition.</li>
+        <li><strong>Memory view (Lesson 05 callback):</strong> in composition the only references to Desks live inside the Classroom object — when the room becomes garbage, the desks automatically become unreachable garbage too.</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">2.4 Summary Table — Learn This for the Exam</h3>
+    <table>
+      <thead><tr><th></th><th>Association</th><th>Aggregation</th><th>Composition</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Phrase</strong></td><td>uses-a / knows</td><td>has-a (detachable)</td><td>part-of (owned)</td></tr>
+        <tr><td><strong>Lifetime</strong></td><td>Fully independent</td><td>Part outlives whole</td><td>Part dies with whole</td></tr>
+        <tr><td><strong>Sharing</strong></td><td>Free</td><td>Part can move between wholes</td><td>Never shared</td></tr>
+        <tr><td><strong>Created where?</strong></td><td>Outside, linked later</td><td>Outside, handed in</td><td><strong>Inside the whole</strong></td></tr>
+        <tr><td><strong>UML symbol</strong></td><td>Plain line/arrow</td><td>Hollow diamond ◇</td><td>Filled diamond ◆</td></tr>
+        <tr><td><strong>School example</strong></td><td>Teacher → Classroom</td><td>Classroom ◇ Student</td><td>Classroom ◆ Desk</td></tr>
+      </tbody>
+    </table>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 21.1 — Relationship Classifier (30 min, pairs)</strong>
+      <p>Classify each pair as association, aggregation or composition — justify with the lifetime and sharing tests:</p>
+      <ol>
+        <li>Doctor — Patient</li>
+        <li>Playlist — Song</li>
+        <li>House — Kitchen</li>
+        <li>University — Lecturer</li>
+        <li>Order — OrderLine</li>
+        <li>Car — Driver</li>
+        <li>Book — Chapter</li>
+        <li>Team — Player</li>
+      </ol>
+      <p><em>Some have defensible answers both ways — the justification matters more than the label!</em></p>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 21.2 — Code All Three (60 min)</strong>
+      <ol>
+        <li>Create project <code>Relationships</code>. Implement Teacher–Classroom (association), Classroom–Student (aggregation), Classroom–Desk (composition).</li>
+        <li>Write a Main that demonstrates each giveaway behaviour: unlink a teacher, move a student, show desks cannot be reached from outside.</li>
+        <li>Try to write code that "steals" a Desk out of a Classroom — explain in a comment why the design prevents it.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 21</strong>
+      <ol>
+        <li>Define association, aggregation and composition with one real-world example each. (6 marks)</li>
+        <li>State the lifetime and sharing rules that distinguish aggregation from composition. (4 marks)</li>
+        <li>Given code, identify which relationship it implements and justify. (6 marks)</li>
+        <li>Implement a composition relationship in Java and explain what makes it composition. (8 marks)</li>
+        <li>Draw the UML symbols for the three relationships. (3 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 21 Summary</h3>
+    <ul>
+      <li>Association = knows/uses; both independent; link and unlink freely.</li>
+      <li>Aggregation = has-a; parts handed in from outside, can move or outlive the whole.</li>
+      <li>Composition = part-of; parts born inside the whole, never shared, die with it.</li>
+      <li>Giveaways: where is the part created? can it be reached/shared from outside? who controls its life?</li>
+      <li>Teacher uses Classroom; Classroom has Students; Classroom has Desks — the School project applies all three.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="../lesson-09/session-20.html" class="btn btn-secondary">&larr; S20 - Library Final</a>
+    <a href="session-22.html" class="btn btn-primary">S22 - School Part 1 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 21 &ndash; Object Relationships &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

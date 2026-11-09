@@ -1,0 +1,356 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 02 - Variables, Data Types & Console Input/Output</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 02 of 32 &nbsp;&bull;&nbsp; 2-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Variables, Data Types & Console Input/Output</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 2 Hours</span>
+    <span class="stag stag-type" style="background:#fff8e1;color:#b28704;">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 02 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Variables and Data Types — Giving the Computer a Memory</h2>
+
+    <p>In your flowcharts you wrote things like <code>area = length × width</code> without worrying about what "length" was. In Java, every piece of data must be stored in a <strong>variable</strong>, and every variable must have a declared <strong>data type</strong> that tells the computer what kind of data it holds and how much memory to reserve.</p>
+
+    <div class="definition-box">
+      <strong>Definition — Variable</strong>
+      <p>A <strong>variable</strong> is a named storage location in memory that holds a value which may change while the program runs. In Java, declaring a variable follows the pattern: <code>type name = value;</code> — for example <code>int age = 25;</code></p>
+    </div>
+
+    <div class="definition-box">
+      <strong>Definition — Data Type</strong>
+      <p>A <strong>data type</strong> defines what kind of value a variable can hold. Java is <em>strongly typed</em> — you cannot put text into a number variable without converting it first. Choosing the right type prevents errors and uses memory efficiently.</p>
+    </div>
+
+    <table>
+      <thead><tr><th>Java Type</th><th>Stores</th><th>Example Declaration</th><th>Typical Use</th></tr></thead>
+      <tbody>
+        <tr><td><code>int</code></td><td>Whole numbers (no decimals)</td><td><code>int age = 25;</code></td><td>Counting, IDs, quantities</td></tr>
+        <tr><td><code>double</code></td><td>Decimal numbers</td><td><code>double price = 149.99;</code></td><td>Measurements, averages, temperatures</td></tr>
+        <tr><td><code>String</code></td><td>Text (0 or more characters)</td><td><code>String name = "Kasun";</code></td><td>Names, addresses, messages</td></tr>
+        <tr><td><code>boolean</code></td><td><code>true</code> or <code>false</code> only</td><td><code>boolean isPassed = true;</code></td><td>Yes/no flags, conditions</td></tr>
+        <tr><td><code>char</code></td><td>Exactly one character</td><td><code>char grade = 'A';</code></td><td>Grades, single symbols (single quotes!)</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">1.1 Declaring and Using Variables</h3>
+<pre><code>// Declare (create) a variable and give it an initial value
+int studentCount = 30;
+double averageMark = 72.5;
+String courseName = "OOP";
+boolean isEnrolled = true;
+char grade = 'B';
+double fee = 15000.00;          // use double for money in this module
+
+// Change a variable's value later
+studentCount = 31;          // the old value (30) is replaced
+averageMark = averageMark + 2.5;  // can use the variable in calculations</code></pre>
+
+    <div class="warn-box">
+      <strong>Quote Rules</strong>
+      <ul>
+        <li><code>String</code> values use <strong>double quotes</strong>: <code>"Hello"</code></li>
+        <li><code>char</code> values use <strong>single quotes</strong>: <code>'A'</code></li>
+        <li>For money in this module we use <code>double</code>: <code>99.99</code></li>
+        <li><code>boolean</code> values are just the words <code>true</code> or <code>false</code> (no quotes)</li>
+      </ul>
+    </div>
+
+    <h3 class="sub-title">1.2 Choosing the Right Type</h3>
+    <table>
+      <thead><tr><th>Question</th><th>Type to Use</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>How many students in a class?</td><td><code>int</code></td><td>Whole number, no fractions</td></tr>
+        <tr><td>What is the room temperature?</td><td><code>double</code></td><td>May have decimals (25.5 °C)</td></tr>
+        <tr><td>What is the student's name?</td><td><code>String</code></td><td>Text of any length</td></tr>
+        <tr><td>Did the student pass?</td><td><code>boolean</code></td><td>Only two possible answers</td></tr>
+        <tr><td>What letter grade?</td><td><code>char</code></td><td>Exactly one character</td></tr>
+        <tr><td>What is the monthly salary?</td><td><code>double</code></td><td>Measurements and money (we use double here)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 220" role="img" aria-label="Variables as labelled boxes in memory">
+        <text x="360" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#1a3a5c">Variables = named boxes in memory</text>
+        <rect x="40" y="50" width="140" height="70" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="110" y="75" text-anchor="middle" font-size="11" font-weight="700" fill="#1565c0">int age</text>
+        <text x="110" y="100" text-anchor="middle" font-size="18" font-weight="700" fill="#0d47a1">25</text>
+        <rect x="200" y="50" width="140" height="70" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="270" y="75" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">double temp</text>
+        <text x="270" y="100" text-anchor="middle" font-size="18" font-weight="700" fill="#1b5e20">36.5</text>
+        <rect x="360" y="50" width="160" height="70" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="440" y="75" text-anchor="middle" font-size="11" font-weight="700" fill="#e65100">String name</text>
+        <text x="440" y="100" text-anchor="middle" font-size="16" font-weight="700" fill="#bf360c">"Kasun"</text>
+        <rect x="540" y="50" width="140" height="70" rx="8" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2"/>
+        <text x="610" y="75" text-anchor="middle" font-size="11" font-weight="700" fill="#8e24aa">boolean passed</text>
+        <text x="610" y="100" text-anchor="middle" font-size="16" font-weight="700" fill="#6a1b9a">true</text>
+        <text x="360" y="160" text-anchor="middle" font-size="12" fill="#555">Type on the lid · Value inside · Name is how your code finds the box</text>
+        <text x="360" y="185" text-anchor="middle" font-size="12" fill="#555">Wrong type in a box = compiler error (Java is strongly typed)</text>
+      </svg>
+      <div class="cap">Figure 3.0 — Each variable is a labelled box. The type decides what may go inside; the name is how you refer to it in code.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Console Input and Output</h2>
+
+    <p>At the top of any program that reads the keyboard, add:</p>
+<pre><code>import java.util.Scanner;
+// inside main:
+Scanner sc = new Scanner(System.in);</code></pre>
+
+    <h3 class="sub-title">2.1 Output — Displaying Text</h3>
+    <table>
+      <thead><tr><th>Method</th><th>Behaviour</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><code>System.out.println(...)</code></td><td>Print text and move to the next line</td><td><code>System.out.println("Hello");</code></td></tr>
+        <tr><td><code>System.out.print(...)</code></td><td>Print text but stay on the same line</td><td><code>System.out.print("Name: ");</code></td></tr>
+      </tbody>
+    </table>
+    <p>Use <code>System.out.print</code> for prompts (cursor stays on the same line) and <code>System.out.println</code> for results and headings.</p>
+
+    <h3 class="sub-title">2.2 Input — Reading from the Keyboard</h3>
+    <p><code>sc.nextLine()</code> waits for the user to type something and press Enter. It <strong>always</strong> returns a <code>String</code> — even if the user types digits.</p>
+<pre><code>import java.util.Scanner;
+Scanner sc = new Scanner(System.in);
+
+System.out.print("Enter your age: ");     // prompt — cursor stays on same line
+String input = sc.nextLine();   // reads whatever the user typed as TEXT
+// input is now a String, e.g. "25" — not the number 25!</code></pre>
+
+    <h3 class="sub-title">2.3 Converting Text to Numbers</h3>
+    <p>The computer cannot do maths with text. <code>"25" - 2026</code> makes no sense to it. We must <strong>convert</strong> the string to a number before calculating:</p>
+<pre><code>String yearText = sc.nextLine();
+int birthYear = Integer.parseInt(yearText);    // text "1998" → number 1998
+
+String tempText = sc.nextLine();
+double celsius = Double.parseDouble(tempText);  // text "25.5" → number 25.5</code></pre>
+
+    <p>You can also combine reading and converting in one line:</p>
+<pre><code>int age = Integer.parseInt(sc.nextLine());
+double price = Double.parseDouble(sc.nextLine());</code></pre>
+
+    <h3 class="sub-title">2.3.1 Parse vs Convert — Two Common Styles</h3>
+    <p>Both of these turn text into numbers. You will see both in tutorials and exam answers:</p>
+<pre><code>String text = sc.nextLine();
+
+// Style A — Integer.parseInt / Double.parseDouble (used throughout this lesson)
+int n1 = Integer.parseInt(text);
+double d1 = Double.parseDouble(text);
+
+// Style B — Scanner nextInt / nextDouble (reads the next token as a number)
+// int n2 = sc.nextInt();
+// double d2 = sc.nextDouble();
+// Tip: after nextInt/nextDouble, call sc.nextLine() to clear the leftover newline</code></pre>
+    <div class="tip-box">
+      <strong>Which should you use?</strong>
+      <p>Either is fine for this module. Stick to one style in a program for consistency. Both crash with a <em>NumberFormatException</em> if the text is not a valid number (e.g. <code>"abc"</code>). Later you will meet <code>try/catch with Integer.parseInt</code> for safer validation.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 640 260" role="img" aria-label="Scanner nextLine to parsing flowchart">
+        <defs><marker id="p3" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1f4e79"/></marker></defs>
+        <ellipse cx="320" cy="28" rx="50" ry="20" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="320" y="33" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">START</text>
+        <line x1="320" y1="48" x2="320" y2="68" stroke="#1f4e79" stroke-width="2" marker-end="url(#p3)"/>
+        <path d="M220,70 L420,70 L405,110 L205,110 Z" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="310" y="95" text-anchor="middle" font-size="12" fill="#1565c0">INPUT via nextLine()</text>
+        <line x1="320" y1="110" x2="320" y2="130" stroke="#1f4e79" stroke-width="2" marker-end="url(#p3)"/>
+        <rect x="200" y="130" width="240" height="40" rx="6" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="320" y="155" text-anchor="middle" font-size="12" fill="#f57f17">String text = "25" (still text!)</text>
+        <line x1="320" y1="170" x2="320" y2="190" stroke="#1f4e79" stroke-width="2" marker-end="url(#p3)"/>
+        <rect x="180" y="190" width="280" height="40" rx="6" fill="#fce4ec" stroke="#c2185b" stroke-width="2"/>
+        <text x="320" y="215" text-anchor="middle" font-size="12" fill="#ad1457">parseInt / parseDouble → int age = 25</text>
+      </svg>
+      <div class="cap">Figure 3.1a — Keyboard input is always a string first. Parsing/converting is the bridge to numeric PROCESS boxes.</div>
+    </div>
+
+    <div class="warn-box">
+      <strong>Watch Out</strong>
+      <p>If the user types <code>abc</code> when a number is expected, <code>Integer.parseInt</code> crashes the program with a <em>NumberFormatException</em>. For now, always type valid numbers when testing. We will learn safer conversion methods later.</p>
+    </div>
+
+    <h3 class="sub-title">2.4 Mixing Text and Values — Concatenation &amp; format</h3>
+    <p>Instead of joining strings with <code>+</code>, use <code>+</code> to join parts, or <code>String.format</code> and place variables inside <code>{ }</code>:</p>
+<pre><code>// Joining with + (always works)
+System.out.println("Hello " + name + "! You are " + age + " years old.");
+
+// String.format (useful for decimals and alignment)
+System.out.println(String.format("Hello %s! You are %d years old.", name, age));</code></pre>
+
+    <p>You can put expressions inside the braces too:</p>
+<pre><code>System.out.println("Next year you will be " + (age + 1) + ".");</code></pre>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Complete Example — Age Calculator</h2>
+
+    <p>This program asks the user for their name and birth year, then calculates their approximate age. It uses all three flowchart shapes: INPUT, PROCESS, OUTPUT — inside the program skeleton from Sessions 01 and 02.</p>
+
+<pre><code>import java.util.Scanner;
+
+public class AgeCalculator
+{
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+
+        // ---------- INPUT ----------
+        System.out.print("Enter your name: ");        // print (no ln) keeps cursor on same line
+        String name = sc.nextLine();                  // nextLine reads what the user types as TEXT
+
+        System.out.print("Enter your birth year: ");
+        String yearText = sc.nextLine();              // Everything typed comes in as a String...
+
+        int birthYear = Integer.parseInt(yearText);   // ...so we PARSE the text to a whole number
+
+        // ---------- PROCESS ----------
+        int currentYear = 2026;
+        int age = currentYear - birthYear;            // Simple arithmetic, exactly like your flowchart
+
+        // ---------- OUTPUT ----------
+        System.out.println("Hello " + name + "! You are about " + age + " years old.");
+    }
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>INPUT boxes:</strong> <code>sc.nextLine()</code> is your flowchart's INPUT parallelogram. Important: it <em>always</em> gives back text (a <code>String</code>), even if the user types digits.</li>
+        <li><strong>The conversion step:</strong> real computers cannot do maths with text. <code>Integer.parseInt(...)</code> transforms the text <code>"1998"</code> into the number <code>1998</code>. This is an extra step your flowcharts never needed — but every real program needs it.</li>
+        <li><strong>PROCESS box:</strong> <code>int age = currentYear - birthYear;</code> is a direct translation of your flowchart's process rectangle.</li>
+        <li><strong>OUTPUT box:</strong> <code>System.out.println("Hello " + name + "! You are about " + age + " years old.");</code> — use <code>+</code> to mix fixed text with variable values.</li>
+        <li><strong>Order matters:</strong> lines run top to bottom, exactly like following flowchart arrows.</li>
+      </ol>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 200" role="img" aria-label="Age calculator flowchart to code mapping">
+        <defs><marker id="a3" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1f4e79"/></marker></defs>
+        <ellipse cx="70" cy="100" rx="45" ry="24" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="70" y="105" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">START</text>
+        <line x1="115" y1="100" x2="145" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#a3)"/>
+        <path d="M160,75 L280,75 L265,125 L145,125 Z" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="205" y="95" text-anchor="middle" font-size="10" fill="#1565c0">INPUT name,</text>
+        <text x="205" y="110" text-anchor="middle" font-size="10" fill="#1565c0">birth year</text>
+        <line x1="280" y1="100" x2="310" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#a3)"/>
+        <rect x="315" y="75" width="130" height="50" rx="4" fill="#fff7e6" stroke="#b9770e" stroke-width="2"/>
+        <text x="380" y="95" text-anchor="middle" font-size="10" fill="#b9770e">PROCESS</text>
+        <text x="380" y="110" text-anchor="middle" font-size="10" fill="#b9770e">age = 2026 - year</text>
+        <line x1="445" y1="100" x2="475" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#a3)"/>
+        <path d="M490,75 L620,75 L605,125 L475,125 Z" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2"/>
+        <text x="545" y="105" text-anchor="middle" font-size="10" fill="#8e24aa">OUTPUT greeting</text>
+        <line x1="620" y1="100" x2="650" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#a3)"/>
+        <ellipse cx="690" cy="100" rx="40" ry="24" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="690" y="105" text-anchor="middle" font-size="11" font-weight="700" fill="#c62828">END</text>
+      </svg>
+      <div class="cap">Figure 3.1 — Every flowchart box in the Age Calculator maps to 1–3 lines of Java code, in the same order.</div>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 3.1 — Build the Age Calculator (30 min)</strong>
+      <ol>
+        <li>Draw the flowchart for the Age Calculator on paper first (START &rarr; INPUT &rarr; PROCESS &rarr; OUTPUT &rarr; END).</li>
+        <li>Create a Java Application named <code>AgeCalculator</code> and type the program above (do not copy-paste — typing builds muscle memory).</li>
+        <li>Run it with your own name and birth year. Verify the age is correct.</li>
+        <li>Modify the output to also print: <code>You were born in the 20th/21st century.</code> (Hint: if birthYear &lt; 2000, it is the 20th century — you will learn proper <code>if</code> in Session 05; for now, hard-code a test value.)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. Quick Reference: Flowchart to Code</h2>
+    <table>
+      <thead><tr><th>Flowchart Shape</th><th>Java Equivalent</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>START</td><td>First line inside <code>main</code></td><td>—</td></tr>
+        <tr><td>INPUT</td><td><code>sc.nextLine()</code> + conversion</td><td><code>int n = Integer.parseInt(sc.nextLine());</code></td></tr>
+        <tr><td>PROCESS</td><td>Assignment statement</td><td><code>double area = length * width;</code></td></tr>
+        <tr><td>OUTPUT</td><td><code>System.out.println(...)</code></td><td><code>System.out.println("Area = " + area);</code></td></tr>
+        <tr><td>END</td><td>Closing <code>}</code> of Main</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 3.2 — Temperature Converter (60 min)</strong>
+      <p>Create a new Java Application called <code>TempConverter</code>. Using the AgeCalculator program as your model, write a program that:</p>
+      <ol>
+        <li>Asks the user for a temperature in Celsius (read as string, convert with <code>Double.parseDouble</code>).</li>
+        <li>Calculates Fahrenheit using the formula: <code>F = (C × 9 / 5) + 32</code>.</li>
+        <li>Prints: <code>25 °C = 77 °F</code> style output using concatenation or String.format.</li>
+        <li>Also prints the temperature in Kelvin: <code>K = C + 273.15</code>.</li>
+        <li>Test with: 0 °C (should give 32 °F and 273.15 K), 100 °C (212 °F), and -40 °C (-40 °F — the crossover point!).</li>
+      </ol>
+      <p><em>First draw/write the algorithm (4 steps), then code it. Logic first, syntax second — always.</em></p>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 03</strong>
+      <ol>
+        <li>Declare a variable for each of the following: a student's name, their average mark (with decimals), and whether they passed. (3 marks)</li>
+        <li>State the basic Java data types covered and give one example value for each. (6 marks)</li>
+        <li>Why must <code>sc.nextLine()</code> output be converted before doing arithmetic? Show the conversion code. (4 marks)</li>
+        <li>Explain string concatenation / formatted output and rewrite this using <code>String.format</code>: <code>"Total: " + total</code>. (3 marks)</li>
+        <li>Write a complete Java program that reads a student's name and two test marks, calculates the average, and prints a formatted result. (8 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 03 Summary</h3>
+    <ul>
+      <li>Every variable has a type: int, double, String, boolean, char.</li>
+      <li>Declaration pattern: <code>type name = value;</code></li>
+      <li><code>System.out.print</code> for prompts; <code>System.out.println</code> for results.</li>
+      <li><code>sc.nextLine()</code> always returns a String; use <code>Integer.parseInt</code> / <code>Double.parseDouble</code> before maths.</li>
+      <li>Concatenation <code>"..." + variable</code> and <code>String.format</code> mix text and values cleanly.</li>
+      <li>A complete program = INPUT (Scanner) &rarr; PROCESS (calculations) &rarr; OUTPUT (println) inside main.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-01.html" class="btn btn-secondary">&larr; Session 1</a>
+    <a href="session-03.html" class="btn btn-primary">Session 3 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 02 &nbsp;|&nbsp; 2 Hours &nbsp;|&nbsp; Sequence position 02 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 11 - Method Overloading &amp; the this Keyword</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 11 of 23 &nbsp;&bull;&nbsp; Lesson 05 – Constructors &amp; Overloading</div>
+  <h2>Method Overloading &amp; the <code>this</code> Keyword</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type">Theory + Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 05 – Constructors &amp; Overloading &#9656; Session 11</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Define method overloading and list the rules that make signatures unique</li>
+      <li>Write overloaded methods and predict which version the compiler selects</li>
+      <li>Explain why return type alone cannot distinguish overloads</li>
+      <li>Overload constructors and chain them with <code>this(...)</code></li>
+      <li>Use <code>this</code> for name resolution and constructor delegation</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Method Overloading — One Name, Many Versions</h2>
+
+    <div class="definition-box">
+      <strong>Definition — Method Overloading</strong>
+      <p><strong>Method overloading</strong> means defining several methods in the same class with the <strong>same name</strong> but <strong>different parameter lists</strong> (different number, types, or order of parameters). The compiler selects the correct version by matching the arguments at the call site. This is <em>compile-time polymorphism</em>.</p>
+    </div>
+
+    <p>You have already used overloading: <code>System.out.println</code> is overloaded for String, int, double, and more — each is a different overload of one method name.</p>
+
+<pre><code>class Calculator
+{
+    // Overload 1: two ints
+    public int add(int a, int b)
+    {
+        return a + b;
+    }
+
+    // Overload 2: three ints — different COUNT
+    public int add(int a, int b, int c)
+    {
+        return a + b + c;
+    }
+
+    // Overload 3: two doubles — different TYPES
+    public double add(double a, double b)
+    {
+        return a + b;
+    }
+
+    // Overload 4: String + int — different types and meaning
+    public String add(String text, int number)
+    {
+        return text + number;    // "Room" + 5 → "Room5"
+    }
+
+    // ILLEGAL — only return type differs from Overload 1:
+    // public double add(int a, int b) { return a + b; }
+    // Error: already defines 'Add' with the same parameter types
+}
+
+Calculator calc = new Calculator();
+System.out.println(calc.add(2, 3));          // → Overload 1 → 5
+System.out.println(calc.add(2, 3, 4));       // → Overload 2 → 9
+System.out.println(calc.add(2.5, 3.5));      // → Overload 3 → 6.0
+System.out.println(calc.add("Room", 5));     // → Overload 4 → Room5</code></pre>
+
+    <h3 class="sub-title">1.1 Overloading Rules</h3>
+    <table>
+      <thead><tr><th>Rule</th><th>Valid?</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Different parameter <strong>count</strong></td><td>&#10003; Yes</td><td><code>add(int, int)</code> vs <code>Add(int, int, int)</code></td></tr>
+        <tr><td>Different parameter <strong>types</strong></td><td>&#10003; Yes</td><td><code>add(int, int)</code> vs <code>add(double, double)</code></td></tr>
+        <tr><td>Different parameter <strong>order</strong></td><td>&#10003; Yes</td><td><code>print(int, String)</code> vs <code>print(String, int)</code></td></tr>
+        <tr><td>Different <strong>return type only</strong></td><td>&#10007; No</td><td><code>int Get()</code> vs <code>double Get()</code> — compiler cannot choose from the call alone</td></tr>
+        <tr><td>Only parameter names differ</td><td>&#10007; No</td><td>Not a distinct overload in Java</td></tr>
+      </tbody>
+    </table>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 280" role="img" aria-label="Compiler overload resolution">
+        <text x="380" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1f2b">Compiler Overload Resolution at Compile Time</text>
+        <rect x="30" y="45" width="200" height="50" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="130" y="75" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">Call site</text>
+        <text x="130" y="88" text-anchor="middle" font-family="monospace" font-size="10" fill="#5b6472">calc.add(2, 3)</text>
+        <line x1="230" y1="70" x2="270" y2="70" stroke="#e65100" stroke-width="2" marker-end="url(#arr11)"/>
+        <rect x="275" y="40" width="210" height="60" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="380" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#e65100">Compiler inspects</text>
+        <text x="380" y="78" text-anchor="middle" font-size="10" fill="#5b6472">argument types &amp; count</text>
+        <text x="380" y="92" text-anchor="middle" font-size="10" fill="#5b6472">2 × int → match signature</text>
+        <defs><marker id="arr11" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#e65100"/></marker></defs>
+        <line x1="485" y1="70" x2="525" y2="70" stroke="#e65100" stroke-width="2" marker-end="url(#arr11)"/>
+        <rect x="530" y="45" width="200" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="630" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">Selected overload</text>
+        <text x="630" y="84" text-anchor="middle" font-family="monospace" font-size="10" fill="#5b6472">add(int, int)</text>
+        <rect x="50" y="130" width="150" height="55" rx="6" fill="#f5f5f5" stroke="#999" stroke-width="1" stroke-dasharray="4 2"/>
+        <text x="125" y="152" text-anchor="middle" font-size="10" fill="#999">add(int,int,int)</text>
+        <text x="125" y="168" text-anchor="middle" font-size="9" fill="#c62828">rejected — 3 params</text>
+        <rect x="220" y="130" width="150" height="55" rx="6" fill="#f5f5f5" stroke="#999" stroke-width="1" stroke-dasharray="4 2"/>
+        <text x="295" y="152" text-anchor="middle" font-size="10" fill="#999">add(double,double)</text>
+        <text x="295" y="168" text-anchor="middle" font-size="9" fill="#c62828">rejected — double</text>
+        <rect x="390" y="130" width="150" height="55" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="465" y="152" text-anchor="middle" font-size="10" font-weight="700" fill="#2e7d32">Add(int,int)</text>
+        <text x="465" y="168" text-anchor="middle" font-size="9" fill="#2e7d32">&#10003; exact match</text>
+        <rect x="560" y="130" width="150" height="55" rx="6" fill="#f5f5f5" stroke="#999" stroke-width="1" stroke-dasharray="4 2"/>
+        <text x="635" y="152" text-anchor="middle" font-size="10" fill="#999">add(String,int)</text>
+        <text x="635" y="168" text-anchor="middle" font-size="9" fill="#c62828">rejected — string</text>
+        <text x="380" y="220" text-anchor="middle" font-size="11" fill="#5b6472">Resolution happens before the program runs — no runtime guessing.</text>
+        <text x="380" y="240" text-anchor="middle" font-size="11" fill="#5b6472">If no match exists → compile error. If ambiguous → compile error.</text>
+      </svg>
+      <div class="cap">Figure 11.1 — The compiler routes each call to exactly one overload by comparing argument types and count against every candidate signature.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Receptionist analogy:</strong> four staff members all named "Add" sit at different desks. The receptionist (compiler) reads what the visitor carries — two ints go to desk 1, three ints to desk 2. Routing is decided when the code compiles, not when it runs.</li>
+        <li><strong>Why return type fails:</strong> in <code>calc.add(2, 3)</code> nothing tells the compiler whether you want an <code>int</code> or <code>double</code> back. Only the parameter list can distinguish overloads.</li>
+        <li><strong>Overload when meanings match:</strong> <code>Search</code>, <code>Print</code>, <code>Add</code> — same operation, different inputs. Use separate names when operations differ in purpose.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Constructor Overloading &amp; Chaining with <code>this</code></h2>
+
+    <p>Multiple constructors in one class follow the same overloading rules as methods. The class name is the method name; Java picks the constructor whose parameter list matches the <code>new</code> arguments.</p>
+
+<pre><code>class Book
+{
+    private String title;
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    private String author;
+    public String getAuthor() { return author; }
+    public void setAuthor(String author) { this.author = author; }
+    private String isbn;
+    public String getIsbn() { return isbn; }
+    // no public setter — write only inside this class
+    private int yearPublished;
+    public int getYearPublished() { return yearPublished; }
+    public void setYearPublished(int yearPublished) { this.yearPublished = yearPublished; }
+    private boolean isAvailable;
+    public boolean isAvailable() { return isAvailable; }
+    // no public setter — write only inside this class
+
+    // Primary constructor — all required data
+    public Book(String title, String author, String isbn, int yearPublished)
+    {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.yearPublished = yearPublished;
+        isAvailable = true;
+    }
+
+    // Overloaded constructor — year unknown; chains to primary with year = 0
+    public Book(String title, String author, String isbn) {
+        this(title, author, isbn, 0);
+        // Body runs AFTER the chained constructor finishes.
+        // Year 0 conventionally means "unknown publication year".
+    }
+}
+
+Book b1 = new Book("Clean Code", "Robert C. Martin", "978-0132350884", 2008);
+Book b2 = new Book("Head First Java", "Andrew Stellman", "978-1491976708");  // overload 2</code></pre>
+
+    <h3 class="sub-title">2.1 Constructor Chaining Diagram</h3>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 240" role="img" aria-label="Constructor chain diagram">
+        <text x="380" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1f2b">new Book("Head First Java", "Stellman", "978-1491976708")</text>
+        <rect x="250" y="45" width="260" height="55" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="380" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#e65100">Constructor #2 selected</text>
+        <text x="380" y="86" text-anchor="middle" font-family="monospace" font-size="10" fill="#5b6472">Book(String, String, String)</text>
+        <line x1="380" y1="100" x2="380" y2="125" stroke="#e65100" stroke-width="2" marker-end="url(#arr11b)"/>
+        <text x="400" y="118" font-size="10" fill="#e65100">this(title, author, isbn, 0)</text>
+        <defs><marker id="arr11b" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#e65100"/></marker></defs>
+        <rect x="220" y="130" width="320" height="55" rx="8" fill="#fff8e1" stroke="#b28704" stroke-width="3"/>
+        <text x="380" y="153" text-anchor="middle" font-size="11" font-weight="700" fill="#b28704">Constructor #1 runs first</text>
+        <text x="380" y="171" text-anchor="middle" font-family="monospace" font-size="10" fill="#5b6472">Book(String, String, String, int)</text>
+        <line x1="380" y1="185" x2="380" y2="205" stroke="#2e7d32" stroke-width="2" marker-end="url(#arr11b)"/>
+        <rect x="270" y="208" width="220" height="28" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="380" y="227" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">Object ready — all fields set once</text>
+        <text x="620" y="160" font-size="10" fill="#5b6472">Assignment logic</text>
+        <text x="620" y="175" font-size="10" fill="#5b6472">lives in ONE place</text>
+        <text x="120" y="160" font-size="10" fill="#5b6472">#2 body may be</text>
+        <text x="120" y="175" font-size="10" fill="#5b6472">empty or add extras</text>
+      </svg>
+      <div class="cap">Figure 11.2 — Constructor chaining: overload #2 delegates to #1 via <code>this(...)</code>. Fields are assigned in one place — no duplicated code.</div>
+    </div>
+
+    <h3 class="sub-title">2.2 <code>this</code> — Two Uses Recap</h3>
+    <table>
+      <thead><tr><th>Use</th><th>Syntax</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Name resolution</td><td><code>this.name = name;</code></td><td>Distinguish field from parameter with the same identifier</td></tr>
+        <tr><td>Constructor chaining</td><td><code>public Student(String n) { this(n, 18); }</code></td><td>One constructor calls another; avoids duplicate assignment logic</td></tr>
+      </tbody>
+    </table>
+
+<pre><code>class Student
+{
+    private String name;
+    private int age;
+
+    public Student(String name, int age)
+    {
+        this.name = name;     // Use 1: name resolution
+        this.age = age;
+    }
+
+    public Student(String name)
+    {
+        this(name, 18);   // Use 2: chaining — default age 18
+    }
+
+    public Student()
+    {
+        this("Unnamed", 18);   // chains through the one-param constructor
+    }
+}</code></pre>
+
+    <div class="note-box">
+      <strong>Chaining Rule</strong>
+      <p><code>this(...)</code> must be the <em>first</em> statement in the constructor body and must call another constructor in the <em>same</em> class. The chained constructor runs completely before any remaining statements in the current constructor.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Lab Tasks</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 11.1 — Calculator Overloads (40 min)</strong>
+      <ol>
+        <li>Create project <code>OverloadLab</code>. Implement the <code>Calculator</code> class from Section 1 with all four <code>add</code> overloads.</li>
+        <li>In <code>Main</code>, call each overload and print results. Uncomment the illegal fifth overload and read the compiler error message.</li>
+        <li>Add <code>multiply(int, int)</code> and <code>multiply(double, double)</code>. Predict which runs for <code>multiply(3, 4)</code> and <code>multiply(3.0, 4.0)</code> before running.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 11.2 — Chained Book Constructors (40 min)</strong>
+      <ol>
+        <li>Add the two overloaded <code>Book</code> constructors from Section 2 to your Library project.</li>
+        <li>Add a chained <code>Member</code> constructor: <code>Member(String name) { this(name, "PENDING"); }</code> for temporary membership numbers.</li>
+        <li>Trace on paper what happens for <code>new Book("X", "Y", "Z")</code> step by step before running.</li>
+        <li>Create at least one book via each constructor overload and list the catalog.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 11.3 — Overload Prediction Quiz (20 min, pairs)</strong>
+      <p>In a scratch file, define:</p>
+<pre><code>String Which(int a)       { return "int"; }
+String Which(double a)    { return "double"; }
+String Which(int a, int b){ return "two-int"; }</code></pre>
+      <ol>
+        <li>Predict then test: <code>Which(5)</code>, <code>Which(5.0)</code>, <code>Which(5, 3)</code>, <code>Which('A')</code>, <code>Which(5.0f)</code>.</li>
+        <li>Explain the char and float results — Java picks the closest convertible overload.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 11</strong>
+      <ol>
+        <li>Define method overloading. Which part of a method must differ for a valid overload? (4 marks)</li>
+        <li>Why can two overloads not differ by return type alone? (3 marks)</li>
+        <li>Write two overloaded constructors for a <code>Product</code> class, one chaining to the other with <code>this(...)</code>. (6 marks)</li>
+        <li>Given three overloads and five call expressions, state which overload each call selects. (5 marks)</li>
+        <li>Give two uses of the <code>this</code> keyword with code examples. (4 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 11 Summary</h3>
+    <ul>
+      <li>Overloading = same name, different parameter lists; compiler resolves at compile time.</li>
+      <li>Return type alone can never distinguish overloads — the call site carries no return-type information.</li>
+      <li>Constructors overload exactly like methods; <code>this(...)</code> chains constructors and eliminates duplication.</li>
+      <li><code>this.field</code> resolves name clashes; <code>this(...)</code> delegates construction to another constructor.</li>
+      <li>Overload when operations are conceptually identical; use distinct names when meanings differ.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-10.html" class="btn btn-secondary">&larr; S10 – Constructors</a>
+    <a href="session-12.html" class="btn btn-primary">S12 – Library Phase 3 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 11 &ndash; Method Overloading &amp; the this Keyword &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

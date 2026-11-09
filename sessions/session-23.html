@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 23 - School Project â€” Teacher & Classroom (Part 2)</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 23 of 32 &nbsp;&bull;&nbsp; 3-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>School Project â€” Teacher & Classroom (Part 2)</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type" style="background:#e8f5e9;color:#2e7d32;">Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 23 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<div class="section">
+    <h2 class="section-title">2. Step-by-Step Build</h2>
+
+    <h3 class="sub-title">Step 1 — Student (the independent part)</h3>
+<pre><code>// File: Student.java
+package schoolsystem;
+
+class Student
+{
+private String name;
+public String getName() { return name; }
+private void setName(String name) { this.name = name; }
+private String indexNumber;
+public String getIndexNumber() { return indexNumber; }
+private void setIndexNumber(String indexNumber) { this.indexNumber = indexNumber; }
+public Student(String name, String indexNumber)
+{
+    this.name = name;
+    this.indexNumber = indexNumber;
+}
+
+@Override
+public String toString()
+{
+    return indexNumber + " - " + name;
+}
+}</code></pre>
+
+    <h3 class="sub-title">Step 2 — Classroom (aggregates Students, associated with Teacher)</h3>
+<pre><code>// File: Classroom.java
+package schoolsystem;
+
+
+import java.util.*;
+class Classroom
+{
+private String roomNumber; // ASSOCIATION end: the room knows its teacher (may be null = unstaffed)
+public String getRoomNumber() { return roomNumber; }
+private void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+private Teacher teacher; // AGGREGATION: students are handed in from outside, list kept private
+public Teacher getTeacher() { return teacher; }
+void setTeacher(Teacher teacher) { this.teacher = teacher; }
+private List&lt;Student&gt; students = new ArrayList<>();
+
+public int getStudentCount() { return students.size(); }
+
+public Classroom(String roomNumber)
+{
+    this.roomNumber = roomNumber;
+}
+
+// Called by teacher.AssignTo - keeps BOTH ends of the link consistent
+public void SetTeacher(teacher t)
+{
+    this.teacher = t;
+}
+
+public void enroll(Student s)
+{
+    if (students.contains(s))
+    {
+        System.out.println(s.getName() + " is already in " + roomNumber + ".");
+        return;
+    }
+    students.add(s);
+    System.out.println(s.getName() + " enrolled in " + roomNumber + ".");
+}
+
+public void remove(Student s)
+{
+    students.remove(s);
+}
+
+public void transfer(Student s, Classroom target)
+{
+    if (!students.contains(s))
+    {
+        System.out.println(s.getName() + " is not in " + roomNumber + " - cannot transfer.");
+        return;
+    }
+    remove(s);
+    target.enroll(s);
+    System.out.println(s.getName() + " transferred " + roomNumber + " → " + target.getRoomNumber() + ".");
+}
+
+public void printRegister()
+{
+    String teacherName = this.teacher == null ? "(no teacher)" : teacher.getName();
+    System.out.println("--- Room " + roomNumber + " | teacher: " + teacherName + " | " + getStudentCount() + " students ---");
+    for (Student s : students)
+    {
+        System.out.println("   " + s);
+    }
+}
+}</code></pre>
+
+    <h3 class="sub-title">Step 3 — Teacher (uses Classroom — association)</h3>
+<pre><code>// File: teacher.java
+package schoolsystem;
+
+class Teacher
+{
+private String name;
+public String getName() { return name; }
+private void setName(String name) { this.name = name; }
+private String subject; // ASSOCIATION: a reference to an independently-living Classroom (or null)
+public String getSubject() { return subject; }
+private void setSubject(String subject) { this.subject = subject; }
+private Classroom assignedRoom;
+public Classroom getAssignedRoom() { return assignedRoom; }
+private void setAssignedRoom(Classroom assignedRoom) { this.assignedRoom = assignedRoom; }
+public Teacher(String name, String subject)
+{
+    this.name = name;
+    this.subject = subject;
+}
+
+public void assignTo(Classroom room)
+{
+    // Business rule: a classroom can have at most ONE teacher
+    if (room.getTeacher() != null &amp;&amp; room.getTeacher() != this)
+    {
+        System.out.println("Room " + room.getRoomNumber() + " already has " + room.getTeacher().getName() + "!");
+        return;
+    }
+
+    // If this teacher had a previous room, unlink it first
+    if (assignedRoom != null)
+    {
+        assignedRoom.SetTeacher(null);
+    }
+
+    this.assignedRoom = room;
+    room.SetTeacher(this);
+    System.out.println(name + " assigned to room " + room.getRoomNumber() + ".");
+}
+
+public void teach()
+{
+    if (this.assignedRoom == null)
+    {
+        System.out.println(name + " has no classroom.");
+        return;
+    }
+    System.out.println(name + " is teaching " + subject + " in " + assignedRoom.getRoomNumber() + " " +
+                      "to " + assignedRoom.getStudentCount() + " students.");
+}
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>A two-way association needs both ends updated:</strong> Teacher points at the room AND the room points back. <code>AssignTo</code> is the single method responsible for keeping both references consistent.</li>
+        <li><strong>Guard clauses defend relationship rules:</strong> "at most one teacher per room" is coded as the <code>room.Teacher != null</code> check before linking.</li>
+        <li><strong>Aggregation surface:</strong> the students list is private; outsiders use Enroll/Remove/TransferTo. Encapsulation (Lesson 03) guarding a relationship.</li>
+        <li><strong>TransferTo shows why aggregation matters:</strong> the same Student object moves between rooms — nobody copies students; the reference moves.</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">Step 4 — Test Script in Main</h3>
+<pre><code>Classroom r12 = new Classroom("R12");
+Classroom r15 = new Classroom("R15");
+
+teacher silva = new Teacher("Mr. Silva", "Mathematics");
+teacher fernando = new Teacher("Ms. Fernando", "Science");
+
+silva.assignTo(r12);          // ok
+fernando.assignTo(r12);       // refused - R12 already has Mr. Silva
+fernando.assignTo(r15);       // ok
+
+Student amara = new Student("Amara", "S001");
+Student bimal = new Student("Bimal", "S002");
+Student chami = new Student("Chami", "S003");
+
+r12.enroll(amara);
+r12.enroll(bimal);
+r15.enroll(chami);
+
+silva.teach();                // teaching 2 students
+r12.transfer(bimal, r15);   // Bimal moves rooms - same Object, new whole
+silva.teach();                // now 1 student
+r12.printRegister();
+r15.printRegister();</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 680 200" role="img" aria-label="Object diagram after test script">
+        <text x="340" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1f2b">Object Diagram — State After Test Script</text>
+        <rect x="40" y="50" width="120" height="70" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="100" y="75" text-anchor="middle" font-size="11" font-weight="700">Teacher: Silva</text>
+        <text x="100" y="95" text-anchor="middle" font-size="9">AssignedRoom → R12</text>
+        <rect x="200" y="50" width="120" height="70" rx="8" fill="#fff8e1" stroke="#b28704" stroke-width="2"/>
+        <text x="260" y="75" text-anchor="middle" font-size="11" font-weight="700">Classroom: R12</text>
+        <text x="260" y="95" text-anchor="middle" font-size="9">Teacher → Silva</text>
+        <text x="260" y="108" text-anchor="middle" font-size="9">students: [Amara]</text>
+        <rect x="360" y="50" width="120" height="70" rx="8" fill="#fff8e1" stroke="#b28704" stroke-width="2"/>
+        <text x="420" y="75" text-anchor="middle" font-size="11" font-weight="700">Classroom: R15</text>
+        <text x="420" y="95" text-anchor="middle" font-size="9">Teacher → Fernando</text>
+        <text x="420" y="108" text-anchor="middle" font-size="9">students: [Chami, Bimal]</text>
+        <rect x="520" y="50" width="130" height="70" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="585" y="75" text-anchor="middle" font-size="11" font-weight="700">Student: Bimal</text>
+        <text x="585" y="95" text-anchor="middle" font-size="9">ONE object, now in R15</text>
+        <line x1="100" y1="120" x2="260" y2="120" stroke="#1565c0" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <line x1="260" y1="120" x2="100" y2="120" stroke="#1565c0" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="340" y="165" text-anchor="middle" font-size="10" fill="#5b6472">Two-way association (dashed) + Bimal moved by reference (aggregation)</text>
+        <text x="340" y="185" text-anchor="middle" font-size="10" fill="#5b6472">Draw this diagram in your lab book for every test scenario.</text>
+      </svg>
+      <div class="cap">Figure 22.2 — Runtime object diagram: references in memory after transfers and assignments.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Your Assignment</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 22.1 — Build Part 1 (90 min, assessed)</strong>
+      <ol>
+        <li>Create project <code>SchoolSystem</code> and build Student, Classroom, Teacher exactly as designed. Run the test script; check every expected message.</li>
+        <li>Add the rule "a student may be in only one classroom": add a <code>CurrentRoom</code> property on Student that Enroll/Remove maintain, and make Enroll refuse students already in another room.</li>
+        <li>Test: enrolling Amara into R15 while she's in R12 must be refused; TransferTo must still work.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 22.2 — Reassignment Drills (45 min)</strong>
+      <ol>
+        <li>Reassign Mr. Silva from R12 to R15 (where Ms. Fernando is) — verify refusal.</li>
+        <li>Create room R20; reassign Mr. Silva there; confirm R12 now prints "(no teacher)" — both ends of the old link cleared.</li>
+        <li>Draw the object diagram of the final state in your lab book — every reference in memory.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 22</strong>
+      <ol>
+        <li>Implement a two-way association between two classes, keeping both ends consistent. (8 marks)</li>
+        <li>Why should an aggregated collection be private with public Enroll/Remove methods? (4 marks)</li>
+        <li>Write a Transfer operation that moves a part from one whole to another safely. (6 marks)</li>
+        <li>Given "a teacher is assigned to a classroom", choose and justify the relationship. (4 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 22 Summary — School Part 1 Complete</h3>
+    <ul>
+      <li>Relationship analysis before coding: assigned-to → association; enrol/transfer → aggregation.</li>
+      <li>Teacher uses Classroom — two-way links need one responsible method (AssignTo) updating both ends.</li>
+      <li>Business rules (one teacher per room, one room per student) live as guard clauses at link points.</li>
+      <li>Next session: Desks and composition — Classroom has Desks destroyed with the classroom.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-22.html" class="btn btn-secondary">&larr; Session 22</a>
+    <a href="session-24.html" class="btn btn-primary">Session 24 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 23 &nbsp;|&nbsp; 3 Hours &nbsp;|&nbsp; Sequence position 23 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

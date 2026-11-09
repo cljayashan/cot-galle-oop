@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 04 – Encapsulation &amp; Getters/Setters (Full Notes)</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-logo">📚</div>
+    <div class="header-info">
+      <h1>Object Oriented Programming (Java)</h1>
+      <p>College of Technology Galle &nbsp;|&nbsp; Module K72T004M03 – Level 05</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span><strong>Lesson 04</strong></span>
+    <span><strong>Topic:</strong> Encapsulation &amp; Getters/Setters</span>
+    <span><strong>Duration:</strong> 10 Hours (Theory + Practical)</span>
+    <span><strong>Author:</strong> Jayashan Liyanage</span>
+  </div>
+</header>
+
+<nav class="lesson-nav no-print">
+  <a href="../index.html">Home</a>
+  <a href="../lesson-01/index.html">L01</a>
+  <a href="../lesson-02/index.html">L02</a>
+  <a href="../lesson-03/index.html">L03</a>
+  <a href="index.html" class="active">L04</a>
+  <a href="../lesson-05/index.html">L05</a>
+  <a href="../lesson-06/index.html">L06</a>
+  <a href="../lesson-07/index.html">L07</a>
+  <a href="../lesson-08/index.html">L08</a>
+  <a href="../lesson-09/index.html">L09</a>
+  <a href="../lesson-10/index.html">L10</a>
+</nav>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);">
+    <div class="lesson-num">Lesson 04 of 10</div>
+    <h2>Encapsulation &amp; Getters/Setters – The First Pillar of OOP</h2>
+    <p>Hide the data, expose controlled doors. From <code>public</code>/<code>private</code> through classic getter/setter methods to Java's getter/setter convention — then applied to harden the Library System.</p>
+    <div class="lesson-meta">
+      <span>⏱ 10 Hours Integrated</span>
+      <span>📋 Sessions 07 – 09</span>
+      <span>🔒 Pillar 1 of OOP</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this lesson you will be able to:</h3>
+    <ul>
+      <li>Define encapsulation and justify data hiding</li>
+      <li>Apply <code>public</code>, <code>private</code> (and know of <code>protected</code>/<code>package-private</code>) access modifiers</li>
+      <li>Write validating setters, simple getters/setters, read-only fields and computed methods</li>
+      <li>Refactor public fields to private fields with getters/setters</li>
+      <li>Enforce business rules (borrow limits) through encapsulated state</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1. Access Modifiers (Session 07)</h2>
+    <div class="definition-box">
+      <strong>Definition — Encapsulation</strong>
+      <p>Bundling data + methods into one unit while hiding the data from direct outside access. Outsiders use only the public interface. Analogy: an ATM — cash locked inside, interaction only through the keypad.</p>
+    </div>
+    <table>
+      <thead><tr><th>Modifier</th><th>Access</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><code>public</code></td><td>Everywhere</td><td>The class's control panel</td></tr>
+        <tr><td><code>private</code></td><td>Same class only</td><td>Fields (almost always) + helpers</td></tr>
+        <tr><td><code>protected</code></td><td>Class + children</td><td>Lesson 06 (inheritance)</td></tr>
+        <tr><td><code>package-private</code> (default)</td><td>Same project</td><td>Advanced</td></tr>
+      </tbody>
+    </table>
+    <p>Private members accessed from outside give compiler error <strong>a compile-time access error</strong> — the compiler is the security guard. Convention: camelCase private fields, camelCase methods; PascalCase only for class names.</p>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. Java Getters &amp; Setters (Session 08)</h2>
+<pre><code>class BankAccount {
+    private double balance;   // private storage
+
+    public double getBalance() { return balance; }
+
+    public void setBalance(double newBalance) {
+        if (newBalance &lt; 0) return;   // validation
+        balance = newBalance;
+    }
+}
+
+// Simple: getTitle() / setTitle(String)
+// Read-only: getIsbn() only (no public setter)
+// Computed: public double getArea() { return length * width; }</code></pre>
+    <ul>
+      <li>Java has <strong>no auto-properties</strong> — use explicit getters and setters.</li>
+      <li>Ladder: public field (never) → simple getter/setter → validating setter.</li>
+      <li>Never store what you can compute. VS Code: Right-click in editor → Source Action → Generate Getters and Setters (or Ctrl+. → Generate Getters and Setters).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">3. Library Phase 2 (Session 09)</h2>
+<pre><code>private boolean available = true;
+public boolean isAvailable() { return available; }
+// no public setter — only borrow()/returnBook() change it
+
+private int booksBorrowed;
+public int getBooksBorrowed() { return booksBorrowed; }
+public static final int MAX_BOOKS = 3;
+public boolean canBorrow() { return booksBorrowed &lt; MAX_BOOKS; }
+
+member.borrowBook(book);   // each class enforces its own rule</code></pre>
+    <ul>
+      <li>Book refactored: availability sealed inside the class.</li>
+      <li>New <code>Member</code> class enforces the 3-book borrow limit.</li>
+      <li>Refactoring = better insides, unchanged outside behaviour.</li>
+    </ul>
+  </div>
+
+  <div class="summary-box">
+    <h3>Lesson 04 Summary</h3>
+    <ul>
+      <li>Encapsulation = data hiding + controlled public interface; the compiler enforces it.</li>
+      <li>Fields private; access through getters/setters; validate in setters; compute derived values.</li>
+      <li>No public setter seals state machines inside classes; <code>static final</code> fixes class-wide rules.</li>
+      <li>Library System now physically prevents record corruption and enforces the 3-book limit.</li>
+    </ul>
+  </div>
+
+  <p style="margin-top:24px;" class="no-print">
+    <a href="session-07.html" class="btn btn-primary">Session 07 – Access Modifiers &rarr;</a>
+    <a href="session-08.html" class="btn btn-secondary" style="margin-left:8px;">Session 08 – Getters &amp; Setters &rarr;</a>
+    <a href="session-09.html" class="btn btn-secondary" style="margin-left:8px;">Session 09 – Library Phase 2 &rarr;</a>
+  </p>
+
+  <div class="nav-buttons no-print">
+    <a href="../lesson-03/overview.html" class="btn btn-secondary">&larr; Lesson 03 – Classes &amp; Objects</a>
+    <a href="../lesson-05/overview.html" class="btn btn-primary">Lesson 05 – Constructors &rarr;</a>
+  </div>
+
+</main>
+
+<p style="margin-top:6px;font-size:0.8rem;">Lesson 04 – Encapsulation &amp; Getters/Setters &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+</body>
+</html>

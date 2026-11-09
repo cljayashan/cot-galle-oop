@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assignment 02 – Marking Scheme</title>
+  <style>
+    @page { size: A4; margin: 12mm 12mm 12mm 12mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 10.5pt;
+      line-height: 1.35;
+      color: #111;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 0;
+    }
+    h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; margin: 0; }
+    .header {
+      text-align: center;
+      border-bottom: 2.5px solid #1a3a5c;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+    .header .inst { font-size: 13pt; font-weight: 700; color: #1a3a5c; }
+    .header .mod { font-size: 9.5pt; margin-top: 2px; }
+    .header .paper-title {
+      font-size: 13pt;
+      font-weight: 700;
+      margin-top: 8px;
+      text-transform: uppercase;
+      color: #8b1a1a;
+    }
+    .header .sub { font-size: 9.5pt; margin-top: 3px; }
+    .banner {
+      border: 1.5px solid #8b1a1a;
+      background: #fff5f5;
+      color: #8b1a1a;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: 10pt;
+      padding: 5px 8px;
+      margin: 0 0 10px;
+    }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 22px;
+      margin: 0 0 8px;
+      font-size: 10pt;
+    }
+    .info strong { color: #1a3a5c; }
+    .summary {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 0 10px;
+      font-size: 10pt;
+    }
+    .summary th, .summary td {
+      border: 1px solid #444;
+      padding: 4px 6px;
+      text-align: left;
+    }
+    .summary th { background: #eef2f7; }
+    .summary td.num, .summary th.num { text-align: center; width: 70px; }
+    .part {
+      margin-top: 10px;
+      border-top: 2px solid #1a3a5c;
+      padding-top: 6px;
+    }
+    .part-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .part-head h2 { font-size: 11.5pt; color: #1a3a5c; }
+    .part-head .marks { font-size: 10pt; font-weight: 700; }
+    .q { margin: 0 0 9px; }
+    .q-head { font-weight: 700; margin-bottom: 3px; font-size: 10.5pt; }
+    .q p { margin: 2px 0; }
+    .ans {
+      background: #f4faf4;
+      border-left: 3px solid #2e7d32;
+      padding: 4px 8px;
+      margin: 3px 0 5px;
+    }
+    .ans strong.label { color: #2e7d32; }
+    .mark-note { color: #555; font-size: 9.5pt; font-style: italic; }
+    .code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 9pt;
+      background: #f4f4f4;
+      border: 1px solid #ccc;
+      padding: 6px 8px;
+      margin: 4px 0;
+      white-space: pre;
+      line-height: 1.25;
+    }
+    table.mark {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 4px 0;
+      font-size: 10pt;
+    }
+    table.mark th, table.mark td {
+      border: 1px solid #444;
+      padding: 4px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.mark th { background: #eef2f7; }
+    table.mark td.m { text-align: center; width: 55px; white-space: nowrap; }
+    .footer {
+      margin-top: 10px;
+      border-top: 1.5px solid #1a3a5c;
+      padding-top: 4px;
+      font-size: 8.5pt;
+      text-align: center;
+      color: #444;
+    }
+    .end { text-align: center; font-weight: 700; margin: 10px 0 3px; letter-spacing: 1px; font-size: 10pt; }
+    @media print {
+      body { padding: 0; }
+      .q { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="inst">College of Technology Galle</div>
+    <div class="mod">Course: Full Stack Software Development &mdash; Object Oriented Programming &mdash; Module K72T004M03 &mdash; NVQ Level 05</div>
+    <div class="paper-title">Assignment 02 &mdash; Marking Scheme</div>
+    <div class="sub">Lessons Covered: (01) Hello World, JDK &amp; Java Program Anatomy &nbsp;|&nbsp; (02) Variables, Data Types &amp; Console I/O</div>
+  </div>
+
+  <div class="banner">FOR EXAMINERS ONLY &mdash; DO NOT DISTRIBUTE TO STUDENTS</div>
+
+  <div class="info">
+    <div><strong>Duration:</strong> 1 Hour</div>
+    <div><strong>Total Marks:</strong> 40</div>
+    <div><strong>Pass guidance:</strong> Award marks for equivalent correct answers; spelling of keywords may vary if meaning is clear.</div>
+  </div>
+
+  <table class="summary">
+    <thead>
+      <tr>
+        <th>Part</th>
+        <th>Questions</th>
+        <th class="num">Marks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>A &mdash; JDK, Tools &amp; Program Anatomy</td><td>Q1–Q2</td><td class="num">12</td></tr>
+      <tr><td>B &mdash; Variables, Data Types &amp; Console I/O</td><td>Q3–Q4</td><td class="num">14</td></tr>
+      <tr><td>C &mdash; Code Writing &amp; Tracing</td><td>Q5–Q7</td><td class="num">14</td></tr>
+      <tr><th colspan="2">Total</th><th class="num">40</th></tr>
+    </tbody>
+  </table>
+
+  <!-- PART A -->
+  <div class="part">
+    <div class="part-head">
+      <h2>Part A &mdash; Short Answers</h2>
+      <span class="marks">[12 Marks]</span>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 1 &mdash; (6 marks)</div>
+      <table class="mark">
+        <thead><tr><th>Part</th><th>Expected answer</th><th class="m">Mark</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>1(a)</strong></td>
+            <td>
+              <div class="ans"><strong class="label">Answer:</strong> JDK = <strong>Java Development Kit</strong>. Required because it provides the tools to <strong>compile</strong> (<code>javac</code>) and <strong>run</strong> Java programs (and related libraries / JVM tools).</div>
+              <span class="mark-note">1 mark for expansion; 1 mark for a valid reason (compile/run/develop Java programs).</span>
+            </td>
+            <td class="m">2</td>
+          </tr>
+          <tr>
+            <td><strong>1(b)</strong></td>
+            <td>
+              <div class="ans"><strong class="label">Answer:</strong> IDE = <strong>VS Code</strong> (Visual Studio Code). Extension pack = <strong>Extension Pack for Java</strong> (by Microsoft).</div>
+              <span class="mark-note">1 mark for VS Code; 1 mark for Extension Pack for Java (accept “Java Extension Pack”).</span>
+            </td>
+            <td class="m">2</td>
+          </tr>
+          <tr>
+            <td><strong>1(c)</strong></td>
+            <td>
+              <div class="ans"><strong class="label">Answer:</strong><br>
+                Compile: <code>javac Hello.java</code><br>
+                Run: <code>java Hello</code>
+              </div>
+              <span class="mark-note">1 mark each. Do not accept <code>java Hello.java</code> for running.</span>
+            </td>
+            <td class="m">2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 2 &mdash; (6 marks)</div>
+      <table class="mark">
+        <thead><tr><th>Part</th><th>Expected answer</th><th class="m">Mark</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>2(a)</strong></td>
+            <td>
+              <div class="ans"><strong class="label">Answer:</strong> <code>public</code> &nbsp;/&nbsp; <code>main</code> &nbsp;/&nbsp; <code>println</code></div>
+              <div class="code">public class Welcome
+{
+    public static void main(String[] args)
+    {
+        System.out.println("Hello, World!");
+    }
+}</div>
+              <span class="mark-note">1 mark per blank (3 marks).</span>
+            </td>
+            <td class="m">3</td>
+          </tr>
+          <tr>
+            <td><strong>2(b)</strong></td>
+            <td>
+              <div class="ans"><strong class="label">Answer:</strong> The <code>main</code> method is the <strong>entry point</strong> / starting point of a Java application (where execution begins).</div>
+            </td>
+            <td class="m">1</td>
+          </tr>
+          <tr>
+            <td><strong>2(c)</strong></td>
+            <td>
+              <div class="ans"><strong class="label">Answer:</strong> <code>//</code> starts a <strong>comment</strong> (ignored by the compiler). <code>;</code> ends a <strong>statement</strong>.</div>
+              <span class="mark-note">1 mark for comment; 1 mark for statement terminator.</span>
+            </td>
+            <td class="m">2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PART B -->
+  <div class="part">
+    <div class="part-head">
+      <h2>Part B &mdash; Variables, Data Types &amp; Console I/O</h2>
+      <span class="marks">[14 Marks]</span>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 3 &mdash; (5 marks)</div>
+      <p>Award <strong>1 mark per row</strong> if both a suitable type and a valid declaration + initialization (as two steps or combined) are shown. Accept equivalent names/values.</p>
+      <table class="mark">
+        <thead>
+          <tr><th>#</th><th>Type</th><th>Example (declaration + initialization)</th><th class="m">Mark</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>int</code></td>
+            <td><code>int age;</code><br><code>age = 20;</code><br><span class="mark-note">or <code>int age = 20;</code></span></td>
+            <td class="m">1</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>double</code></td>
+            <td><code>double fee;</code><br><code>fee = 15000.50;</code></td>
+            <td class="m">1</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>String</code></td>
+            <td><code>String name;</code><br><code>name = "Kasun";</code></td>
+            <td class="m">1</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><code>boolean</code></td>
+            <td><code>boolean hasPaid;</code><br><code>hasPaid = true;</code></td>
+            <td class="m">1</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><code>char</code></td>
+            <td><code>char grade;</code><br><code>grade = 'A';</code></td>
+            <td class="m">1</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="mark-note">If type is wrong but declaration uses that wrong type consistently, award 0 for that row. Accept <code>float</code> for fee only if justified; preferred answer is <code>double</code> (as taught).</p>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 4 &mdash; (9 marks)</div>
+      <table class="mark">
+        <thead><tr><th>Part</th><th>Expected answer</th><th class="m">Mark</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>4(a)</strong></td>
+            <td>
+              <div class="ans"><strong class="label">Answer:</strong> <code>String</code> uses <strong>double quotes</strong> e.g. <code>"Hello"</code>. <code>char</code> uses <strong>single quotes</strong> e.g. <code>'A'</code>.</div>
+              <span class="mark-note">1 mark quotes + examples for String; 1 mark for char.</span>
+            </td>
+            <td class="m">2</td>
+          </tr>
+          <tr>
+            <td><strong>4(b)</strong></td>
+            <td>
+              <div class="ans"><strong class="label">Answer (any equivalent):</strong><br>
+                <code>Calculator calc = new Calculator();</code><br>
+                or <code>Calculator obj = new Calculator();</code>
+              </div>
+              <span class="mark-note">1 mark for type + name; 1 mark for <code>new Calculator()</code>. Accept any valid object name.</span>
+            </td>
+            <td class="m">2</td>
+          </tr>
+          <tr>
+            <td><strong>4(c)</strong></td>
+            <td>
+              <div class="ans"><strong class="label">Answer:</strong><br>
+                <code>Scanner sc = new Scanner(System.in);</code><br>
+                <code>String line = sc.nextLine();</code>
+              </div>
+              <span class="mark-note">1.5 marks (or 2) for creating Scanner with <code>System.in</code>; 1.5 marks (or 1) for <code>nextLine()</code>. Total 3. Award full marks if <code>import java.util.Scanner;</code> is also written but not required unless asked. Accept other variable names.</span>
+            </td>
+            <td class="m">3</td>
+          </tr>
+          <tr>
+            <td><strong>4(d)</strong></td>
+            <td>
+              <div class="ans"><strong class="label">Answer:</strong><br>
+                <code>System.out.println("Hello " + name + ", you are " + age);</code>
+              </div>
+              <span class="mark-note">Accept minor spacing differences if output matches. 1 mark concatenation structure; 1 mark correct text/punctuation.</span>
+            </td>
+            <td class="m">2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PART C -->
+  <div class="part">
+    <div class="part-head">
+      <h2>Part C &mdash; Code Writing &amp; Tracing</h2>
+      <span class="marks">[14 Marks]</span>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 5 &mdash; Trace the output (4 marks)</div>
+      <div class="ans">
+        <strong class="label">Expected console output:</strong>
+        <div class="code">Pen x 3
+Total = 76.5</div>
+      </div>
+      <table class="mark">
+        <thead><tr><th>Award</th><th class="m">Mark</th></tr></thead>
+        <tbody>
+          <tr><td>First line correct: <code>Pen x 3</code></td><td class="m">2</td></tr>
+          <tr><td>Second line correct: <code>Total = 76.5</code> (accept <code>76.50</code>)</td><td class="m">2</td></tr>
+        </tbody>
+      </table>
+      <p class="mark-note">If calculation is wrong but format of both lines is right, award max 2 marks total.</p>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 6 &mdash; Find and correct errors (4 marks)</div>
+      <p>Award <strong>1 mark per error</strong> only if the student both identifies the fault and gives a correct fix.</p>
+      <table class="mark">
+        <thead><tr><th>#</th><th>Error</th><th>Corrected line / fix</th><th class="m">Mark</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>Main</code> should be <code>main</code> (case-sensitive)</td>
+            <td><code>public static void main(String[] args)</code></td>
+            <td class="m">1</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>String args</code> should be <code>String[] args</code> (array)</td>
+            <td><code>String[] args</code></td>
+            <td class="m">1</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>string</code> / single quotes wrong for text — use <code>String</code> and double quotes</td>
+            <td><code>String name = "Nimal";</code></td>
+            <td class="m">1</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Missing semicolon at end of <code>println</code> statement</td>
+            <td><code>System.out.println("Hi " + name);</code></td>
+            <td class="m">1</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="mark-note">Note: <code>string</code> (lowercase) and <code>'Nimal'</code> may be counted as one combined error or two; if student lists both clearly with fixes, still cap this item at 1 mark for the name line, and ensure four distinct marks total. Prefer the four rows above.</p>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 7 &mdash; Write a complete program (6 marks)</div>
+      <div class="ans"><strong class="label">Model answer (equivalent accepted):</strong></div>
+      <div class="code">import java.util.Scanner;
+
+public class StudentCard {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String name = sc.nextLine();
+        int mark = Integer.parseInt(sc.nextLine());
+        // accept: int mark = sc.nextInt();
+        System.out.println("Student: " + name + " | Mark: " + mark);
+    }
+}</div>
+      <table class="mark">
+        <thead><tr><th>Criteria</th><th class="m">Mark</th></tr></thead>
+        <tbody>
+          <tr><td>Correct class name <code>StudentCard</code> and valid <code>main</code> method structure</td><td class="m">1</td></tr>
+          <tr><td>Required <code>import java.util.Scanner;</code> (or fully-qualified use of Scanner)</td><td class="m">1</td></tr>
+          <tr><td>Creates <code>Scanner</code> reading from <code>System.in</code></td><td class="m">1</td></tr>
+          <tr><td>Reads name into a <code>String</code> variable</td><td class="m">1</td></tr>
+          <tr><td>Reads mark into an <code>int</code> (accept <code>nextInt()</code> or <code>parseInt(nextLine())</code>)</td><td class="m">1</td></tr>
+          <tr><td>Prints in the required form: <code>Student: ... | Mark: ...</code></td><td class="m">1</td></tr>
+        </tbody>
+      </table>
+      <p class="mark-note">Do not heavily penalize missing braces style or indentation if the program is logically correct. Package line is optional.</p>
+    </div>
+  </div>
+
+  <div class="end">***** END OF MARKING SCHEME *****</div>
+  <div class="footer">
+    College of Technology Galle &nbsp;|&nbsp; Full Stack Software Development &nbsp;|&nbsp; OOP Module K72T004M03 &nbsp;|&nbsp; Assignment 02 Marking Scheme &nbsp;|&nbsp; Author: Jayashan Liyanage
+  </div>
+
+</body>
+</html>

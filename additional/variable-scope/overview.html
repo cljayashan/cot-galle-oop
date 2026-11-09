@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Additional A2 - Variable Scope (Full Notes)</title>
+  <link rel="stylesheet" href="../../style.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-logo">📚</div>
+    <div class="header-info">
+      <h1>Object Oriented Programming (Java)</h1>
+      <p>College of Technology Galle &nbsp;|&nbsp; Module K72T004M03 &ndash; Level 05</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span><strong>Additional A2</strong></span>
+    <span><strong>Topic:</strong> Variable Scope</span>
+    <span><strong>Duration:</strong> ~2 Hours (Integrated)</span>
+    <span><strong>Author:</strong> Jayashan Liyanage</span>
+  </div>
+</header>
+
+<nav class="lesson-nav no-print">
+  <a href="../../index.html">Home</a>
+  <a href="../index.html">Additional</a>
+  <a href="index.html" class="active">A2 Scope</a>
+</nav>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#0277bd,#01579b);">
+    <div class="lesson-num">Additional Lesson A2</div>
+    <h2>Variable Scope — Who Can See This Variable?</h2>
+    <p>A short, simple lesson: every variable lives in a “room.” Outside that room, the name does not exist. Learn the three rooms students meet most often — <strong>class fields</strong>, <strong>method parameters</strong>, and <strong>local variables</strong>.</p>
+    <div class="lesson-meta">
+      <span>⏱ ~2 Hours Integrated</span>
+      <span>📋 Session A2.1</span>
+      <span>🟢 Beginner-friendly</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes — After this lesson you will be able to:</h3>
+    <ul>
+      <li>Explain what “scope” means in plain English</li>
+      <li>Tell apart a field, a parameter, and a local variable</li>
+      <li>Predict whether a name is visible inside or outside a method / block</li>
+      <li>Use <code>this</code> when a parameter hides a field with the same name</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Quick Map</h2>
+    <table>
+      <thead><tr><th>Kind</th><th>Where declared</th><th>Who can use it</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Field</strong></td><td>Inside the class, outside methods</td><td>Any method of that object</td></tr>
+        <tr><td><strong>Parameter</strong></td><td>In the method’s ( … )</td><td>Only that method</td></tr>
+        <tr><td><strong>Local variable</strong></td><td>Inside a method or <code>{ }</code> block</td><td>Only from that point to the end of the block</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-box">
+    <h3>Lesson A2 Summary</h3>
+    <ul>
+      <li>Scope = the area of code where a name is known.</li>
+      <li>Fields live with the object; locals die when the method ends.</li>
+      <li>Same name in two places? The inner one “wins” (shadowing) — use <code>this.field</code> for the field.</li>
+    </ul>
+  </div>
+
+  <p style="margin-top:24px;"><a href="session-01.html" class="btn btn-primary no-print">Open Session A2.1 Full Notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p style="margin-top:6px;font-size:0.8rem;">Additional A2 Overview &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+</body>
+</html>

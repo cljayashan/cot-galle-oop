@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 20 - Library System Phase 6 - Final Assembly and Lendable Demo</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 20 of 23 &nbsp;&bull;&nbsp; Lesson 09 - Abstraction</div>
+  <h2>Library System – Phase 6: Final Assembly &amp; Lendable Demo</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type">Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 09 - Abstraction &#9656; Session 20</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="practical-header">
+    <div class="prac-num">Library System &nbsp;&bull;&nbsp; Phase 6 of 6 — FINAL</div>
+    <h3>All Four Pillars Assembled + Lendable Interface Demonstration</h3>
+    <div class="prac-meta">
+      <span>⏱ 3 Hours</span>
+      <span>📅 Session 20</span>
+      <span>📂 Opens Phase 5 Project</span>
+      <span>📝 Continuous Assessment Submission</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Convert a concrete base class to abstract with abstract members</li>
+      <li>Define and use the <code>Lendable</code> interface across unrelated classes</li>
+      <li>Process a mixed list of lendable items in one polymorphic loop</li>
+      <li>Identify all four OOP pillars working together in one codebase</li>
+      <li>Demonstrate and defend design decisions in your project</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Final Requirements</h2>
+
+    <div class="note-box">
+      <strong>The Client's Request — Phase 6 (final)</strong>
+      <p>"Two last things: (1) audit found staff accidentally created 'blank items' that were neither books nor magazines — please make that impossible; (2) at closing time we need one <strong>lending status report</strong> covering every lendable thing in the building — books, DVDs, <em>and</em> standalone equipment like projectors that aren't catalog items but can still be signed out."</p>
+    </div>
+
+    <p>Translation: (1) <code>LibraryItem</code> must become <strong>abstract</strong>. (2) We need a lending <strong>contract</strong> that both LibraryItem children <em>and</em> standalone <code>Equipment</code> can fulfil — but Equipment is not a LibraryItem! Unrelated classes sharing a capability = <strong>interface</strong> (<code>Lendable</code>).</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 260" role="img" aria-label="Lendable interface class diagram">
+        <defs>
+          <marker id="arr20" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#c62828"/></marker>
+          <marker id="dot20" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><circle cx="4" cy="4" r="3" fill="#6a1b9a"/></marker>
+        </defs>
+        <rect x="280" y="15" width="200" height="55" rx="8" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2" stroke-dasharray="5,3"/>
+        <text x="380" y="38" text-anchor="middle" font-size="12" font-weight="700" fill="#6a1b9a">&lt;&lt;interface&gt;&gt; Lendable</text>
+        <text x="380" y="55" text-anchor="middle" font-size="10">+ Title, + IsAvailable</text>
+        <text x="380" y="68" text-anchor="middle" font-size="10">+ lend(), + returnItem()</text>
+        <rect x="40" y="100" width="200" height="75" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="2" stroke-dasharray="6,3"/>
+        <text x="140" y="125" text-anchor="middle" font-size="12" font-weight="700" fill="#c62828">&lt;&lt;abstract&gt;&gt; LibraryItem</text>
+        <text x="140" y="145" text-anchor="middle" font-size="10">+ Borrow(), + Return()</text>
+        <text x="140" y="162" text-anchor="middle" font-size="10" fill="#c62828">+ printDetails() {abstract}</text>
+        <rect x="280" y="100" width="100" height="45" rx="6" fill="#eef4fb" stroke="#1565c0"/>
+        <text x="330" y="128" text-anchor="middle" font-size="11">Book</text>
+        <rect x="400" y="100" width="100" height="45" rx="6" fill="#eef4fb" stroke="#1565c0"/>
+        <text x="450" y="128" text-anchor="middle" font-size="11">DVD</text>
+        <rect x="520" y="100" width="100" height="45" rx="6" fill="#eef4fb" stroke="#1565c0"/>
+        <text x="570" y="128" text-anchor="middle" font-size="11">Magazine</text>
+        <rect x="580" y="180" width="150" height="55" rx="8" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="655" y="205" text-anchor="middle" font-size="12" font-weight="700" fill="#b28704">Equipment</text>
+        <text x="655" y="222" text-anchor="middle" font-size="10">Projector, Laptop…</text>
+        <line x1="140" y1="100" x2="330" y2="100" stroke="#c62828" stroke-width="2" marker-end="url(#arr20)"/>
+        <line x1="240" y1="122" x2="280" y2="122" stroke="#c62828" stroke-width="2" marker-end="url(#arr20)"/>
+        <line x1="240" y1="130" x2="450" y2="100" stroke="#c62828" stroke-width="2" marker-end="url(#arr20)"/>
+        <line x1="240" y1="138" x2="570" y2="100" stroke="#c62828" stroke-width="2" marker-end="url(#arr20)"/>
+        <line x1="380" y1="70" x2="140" y2="100" stroke="#6a1b9a" stroke-width="2" marker-end="url(#dot20)"/>
+        <line x1="420" y1="70" x2="655" y2="180" stroke="#6a1b9a" stroke-width="2" marker-end="url(#dot20)"/>
+        <text x="380" y="250" text-anchor="middle" font-size="11" fill="#5b6472">LibraryItem family implements Lendable; Equipment also implements Lendable — but is NOT a LibraryItem.</text>
+      </svg>
+      <div class="cap">Figure 20.1 — Phase 6 design: abstract LibraryItem hierarchy + Lendable contract spanning two unrelated families.</div>
+    </div>
+
+    <h3 class="sub-title">Step 1 — The Lendable Interface</h3>
+<pre><code>// File: Lendable.java  (NEW)
+package librarysystem;
+
+// The LENDING CONTRACT: anything lendable can be signed out and returned.
+interface Lendable {
+    String getTitle();
+    boolean isAvailable();
+    boolean lend();              // sign out — returns false if already out
+    void returnItem();           // sign back in
+}</code></pre>
+
+    <h3 class="sub-title">Step 2 — LibraryItem Becomes Abstract and Implements Lendable</h3>
+<pre><code>// File: LibraryItem.java  (Phase 6)
+package librarysystem;
+
+import java.time.LocalDate;
+
+// abstract: 'new LibraryItem(...)' is now a compiler error - concept only!
+abstract class LibraryItem implements Lendable {
+    private String title;
+    private boolean isAvailable = true;
+    protected int loanDays = 14;
+
+    public String getTitle() { return title; }
+    public boolean isAvailable() { return isAvailable; }
+    public int getLoanDays() { return loanDays; }
+
+    public LibraryItem(String title) {     // abstract classes CAN have constructors
+        this.title = title;
+    }
+
+    // Lendable.lend() — maps to our existing borrow logic
+    public boolean lend() {
+        if (!isAvailable) {
+            System.out.println("'" + title + "' is already on loan.");
+            return false;
+        }
+        isAvailable = false;
+        System.out.println("Lent '" + title + "' — due " + LocalDate.now().plusDays(loanDays));
+        return true;
+    }
+
+    public void returnItem() {
+        if (isAvailable) {
+            System.out.println("'" + title + "' was not on loan.");
+            return;
+        }
+        isAvailable = true;
+        System.out.println("'" + title + "' returned.");
+    }
+
+    // Keep borrow as a convenience alias if Phase 5 code uses it:
+    public boolean borrow() { return lend(); }
+
+    // ABSTRACT: every item type MUST describe itself
+    public abstract void printDetails();
+}</code></pre>
+
+    <h3 class="sub-title">Step 3 — Equipment (NOT a LibraryItem, but IS Lendable)</h3>
+<pre><code>// File: Equipment.java  (NEW — standalone class, no inheritance from LibraryItem)
+package librarysystem;
+
+class Equipment implements Lendable {
+    private String title;       // e.g. "Projector #3"
+    private boolean isAvailable = true;
+    private String location;
+
+    public String getTitle() { return title; }
+    public boolean isAvailable() { return isAvailable; }
+    public String getLocation() { return location; }
+
+    public Equipment(String title, String location) {
+        this.title = title;
+        this.location = location;
+    }
+
+    public boolean lend() {
+        if (!isAvailable) {
+            System.out.println("Equipment '" + title + "' is already signed out.");
+            return false;
+        }
+        isAvailable = false;
+        System.out.println("Equipment '" + title + "' signed out from " + location + ".");
+        return true;
+    }
+
+    public void returnItem() {
+        if (isAvailable) {
+            System.out.println("Equipment '" + title + "' was not signed out.");
+            return;
+        }
+        isAvailable = true;
+        System.out.println("Equipment '" + title + "' returned to " + location + ".");
+    }
+}</code></pre>
+
+    <h3 class="sub-title">Step 4 — The Lending Status Report in Library</h3>
+<pre><code>import java.util.*;
+import java.time.LocalDate;
+
+// In Library.java — add equipment list and report method:
+private List&lt;Equipment&gt; equipment = new ArrayList&lt;&gt;();
+
+public void addEquipment(Equipment e) {
+    equipment.add(e);
+}
+
+public void lendingStatusReport() {
+    System.out.println("======== LENDING STATUS REPORT ========");
+    System.out.println(LocalDate.now());
+
+    // One list of the CONTRACT type gathers catalog items AND equipment:
+    List&lt;Lendable&gt; allLendable = new ArrayList&lt;&gt;();
+    allLendable.addAll(catalog);       // all LibraryItems are Lendable
+    allLendable.addAll(equipment);     // Equipment is Lendable too!
+
+    for (Lendable item : allLendable) {
+        String status = item.isAvailable() ? "AVAILABLE" : "ON LOAN";
+        System.out.println("[" + status + "] " + item.getTitle());
+    }
+    System.out.println("========================================");
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Why abstract fixed the audit problem:</strong> "blank items" were possible because LibraryItem was a normal class. One keyword later, the compiler guarantees only real item types can be created.</li>
+        <li><strong>printDetails went abstract:</strong> in Phase 5 children <em>could</em> override it; now they <em>must</em>. Add a new item type and forget printDetails? The compiler stops you.</li>
+        <li><strong>Lendable bridged two families:</strong> Book and Projector share no ancestor, yet both appear in one report loop through <code>List&lt;Lendable&gt;</code>. This is exactly what interfaces are for.</li>
+        <li><strong>Equipment proves the point:</strong> you cannot put Equipment in <code>List&lt;LibraryItem&gt;</code> — it isn't one. But you CAN put it in <code>List&lt;Lendable&gt;</code> because it signed the lending contract.</li>
+      </ol>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 700 180" role="img" aria-label="Four pillars in library project">
+        <rect x="10" y="30" width="160" height="120" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="90" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">ENCAPSULATION</text>
+        <text x="90" y="75" text-anchor="middle" font-size="9">private set on</text>
+        <text x="90" y="88" text-anchor="middle" font-size="9">IsAvailable, Balance</text>
+        <text x="90" y="108" text-anchor="middle" font-size="9">Phase 2</text>
+        <rect x="185" y="30" width="160" height="120" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="265" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#1565c0">INHERITANCE</text>
+        <text x="265" y="75" text-anchor="middle" font-size="9">Book/DVD :</text>
+        <text x="265" y="88" text-anchor="middle" font-size="9">LibraryItem</text>
+        <text x="265" y="108" text-anchor="middle" font-size="9">Phase 4</text>
+        <rect x="360" y="30" width="160" height="120" rx="8" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="440" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#b28704">POLYMORPHISM</text>
+        <text x="440" y="75" text-anchor="middle" font-size="9">List&lt;LibraryItem&gt;</text>
+        <text x="440" y="88" text-anchor="middle" font-size="9">overridable printDetails</text>
+        <text x="440" y="108" text-anchor="middle" font-size="9">Phase 5</text>
+        <rect x="535" y="30" width="155" height="120" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="612" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#c62828">ABSTRACTION</text>
+        <text x="612" y="75" text-anchor="middle" font-size="9">abstract LibraryItem</text>
+        <text x="612" y="88" text-anchor="middle" font-size="9">Lendable interface</text>
+        <text x="612" y="108" text-anchor="middle" font-size="9">Phase 6 ← NOW</text>
+        <text x="350" y="165" text-anchor="middle" font-size="12" font-weight="600" fill="#1a1f2b">All four pillars live in one Library System you built across six phases.</text>
+      </svg>
+      <div class="cap">Figure 20.2 — Where each OOP pillar appears in the Library System project.</div>
+    </div>
+
+    <h3 class="sub-title">The Four Pillars — Where Each Lives in Your Final Project</h3>
+    <table>
+      <thead><tr><th>Pillar</th><th>Where You Built It</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Encapsulation</strong></td><td>private set on IsAvailable/Balance; validated properties; the compiler blocks corruption (Phase 2)</td></tr>
+        <tr><td><strong>Inheritance</strong></td><td>Book/Magazine/Dvd/BoardGame  extends LibraryItem; borrow/returnItem written once (Phase 4)</td></tr>
+        <tr><td><strong>Polymorphism</strong></td><td>One List&lt;LibraryItem&gt;; @Override / method overriding printDetails; dynamic dispatch in every loop (Phase 5)</td></tr>
+        <tr><td><strong>Abstraction</strong></td><td>abstract LibraryItem + abstract printDetails; Lendable contract across families (Phase 6)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Final Assembly &amp; Demo</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 20.1 — Complete Phase 6 (75 min)</strong>
+      <ol>
+        <li>Create <code>Lendable.java</code> and <code>Equipment.java</code>. Make LibraryItem abstract and implement Lendable.</li>
+        <li>Every existing item child must declare <code>@Override</code> on <code>printDetails</code> (confirm from Phase 5).</li>
+        <li>Try <code>new LibraryItem("blank")</code> in Main — record the compiler error, then remove the line.</li>
+        <li>Add 2 equipment items. Wire menu option <strong>0. Lending Status Report</strong> to <code>lib.lendingStatusReport()</code>.</li>
+        <li>Full regression test: list, search, lend (books + equipment), member limits, report.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 20.2 — Project Demonstration (assessed, 45 min)</strong>
+      <p>Each student demonstrates their Library System to the lecturer (10 min each). Be ready to:</p>
+      <ol>
+        <li>Run the full workflow live: register member → lend a book and sign out a projector → return both → lending status report.</li>
+        <li>Open the code and point to <strong>one example of each pillar</strong>, explaining it in your own words.</li>
+        <li>Explain why <code>Equipment</code> implements <code>Lendable</code> but does not inherit from <code>LibraryItem</code>.</li>
+        <li>Answer one "what if" question (e.g. "how would you add audiobooks?") using Open/Closed reasoning from Phase 5.</li>
+        <li>Submit the zipped project + a one-page summary listing your six phase checkpoints.</li>
+      </ol>
+      <p><em>Marks: working features (40%), pillar explanations (40%), the what-if answer (20%).</em></p>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 20</strong>
+      <ol>
+        <li>Why should a base class like LibraryItem be abstract? What does the compiler then prevent? (4 marks)</li>
+        <li>Show how Lendable allows unrelated classes to be processed in one loop. (6 marks)</li>
+        <li>For each of the four OOP pillars, give one concrete example from a library system. (8 marks)</li>
+        <li>A new item type must be added. List the steps and state which existing files change. (5 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 20 Summary — Library System COMPLETE</h3>
+    <ul>
+      <li>LibraryItem is abstract: blank items impossible; printDetails contractually enforced on every child.</li>
+      <li>Lendable bridges LibraryItems and Equipment into one lending status report loop.</li>
+      <li>All four pillars now demonstrably live in one coherent project you built yourself.</li>
+      <li>Next: Advanced Relationships — how objects connect (Lesson 09, the School project).</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-19.html" class="btn btn-secondary">&larr; S19 - Abstraction</a>
+    <a href="../lesson-10/session-21.html" class="btn btn-primary">S21 - Object Relationships &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 20 &ndash; Library System Phase 6 (Final) &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

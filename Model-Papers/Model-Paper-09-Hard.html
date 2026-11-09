@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Model Paper 09 - OOP - Hard</title>
+  <style>
+@page { size: A4; margin: 12mm 12mm 12mm 12mm; }
+* { box-sizing: border-box; }
+html { zoom: 0.94; }
+body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 10.5pt;
+  line-height: 1.35;
+  color: #111;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 0;
+}
+h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; margin: 0; }
+.header {
+  text-align: center;
+  border-bottom: 2.5px solid #1a3a5c;
+  padding-bottom: 7px;
+  margin-bottom: 8px;
+}
+.header .inst { font-size: 13pt; font-weight: 700; color: #1a3a5c; }
+.header .mod { font-size: 9.5pt; margin-top: 2px; }
+.header .paper-title {
+  font-size: 12.5pt;
+  font-weight: 700;
+  margin-top: 7px;
+  text-transform: uppercase;
+  color: #1a3a5c;
+}
+.header .sub { font-size: 9.5pt; margin-top: 3px; }
+.diff {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9pt;
+  font-weight: 700;
+}
+.diff-easy { background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; }
+.diff-easy-mod { background: #e3f2fd; color: #1565c0; border: 1px solid #1565c0; }
+.diff-mod { background: #fff8e1; color: #f57f17; border: 1px solid #f57f17; }
+.diff-mod-hard { background: #fff3e0; color: #e65100; border: 1px solid #e65100; }
+.diff-hard { background: #ffebee; color: #c62828; border: 1px solid #c62828; }
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 6px 0 8px;
+  font-size: 10pt;
+}
+.info strong { color: #1a3a5c; }
+.box {
+  border: 1.5px solid #1a3a5c;
+  padding: 7px 10px;
+  margin: 0 0 10px;
+  background: #f7f9fc;
+}
+.box h3 { font-size: 10pt; color: #1a3a5c; margin-bottom: 3px; }
+.box ol { margin: 2px 0 0 18px; padding: 0; }
+.box li { margin: 1px 0; }
+.q {
+  margin: 0 0 11px;
+  border-top: 1px solid #ccd;
+  padding-top: 7px;
+}
+.q-head {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 11pt;
+  color: #1a3a5c;
+  margin-bottom: 3px;
+}
+.q p { margin: 3px 0; }
+.q ol { margin: 4px 0 0 18px; }
+.q li { margin: 3px 0; }
+.code {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 9pt;
+  background: #f4f4f4;
+  border: 1px solid #ccc;
+  padding: 5px 8px;
+  margin: 4px 0;
+  white-space: pre;
+  line-height: 1.28;
+}
+.footer {
+  margin-top: 10px;
+  border-top: 1.5px solid #1a3a5c;
+  padding-top: 4px;
+  font-size: 8.5pt;
+  text-align: center;
+  color: #444;
+}
+.end {
+  text-align: center;
+  font-weight: 700;
+  margin: 10px 0 3px;
+  letter-spacing: 2px;
+  font-size: 10.5pt;
+}
+@media print {
+  body { padding: 0; }
+  .q, .box, .code { break-inside: avoid; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="inst">College of Technology Galle</div>
+    <div class="mod">Course: Full Stack Software Development &mdash; Object Oriented Programming &mdash; Module K72T004M03 &mdash; NVQ Level 05</div>
+    <div class="paper-title">Semester Model Paper 09</div>
+    <div class="sub">Focus: Integrated OOP design under constraints, tracing, trade-offs</div>
+    <div class="diff diff-hard">Difficulty: Hard</div>
+  </div>
+
+  <div class="info">
+    <div><strong>Duration:</strong> 3 Hours</div>
+    <div><strong>Total Marks:</strong> 100</div>
+    <div><strong>Questions:</strong> 7 structured questions (answer any <strong>5</strong>)</div>
+    <div><strong>Each question:</strong> 20 marks</div>
+  </div>
+
+  <div class="box">
+    <h3>Instructions to Candidates</h3>
+    <ol>
+      <li>Answer any <strong>five (5)</strong> questions out of the seven provided.</li>
+      <li>Each question carries <strong>20 marks</strong>. Maximum mark for this paper is <strong>100</strong>.</li>
+      <li>Write answers in the answer booklet. Do <strong>not</strong> write answers on this question paper.</li>
+      <li>Where Java code is required, write clear, syntactically correct Java as taught in this module (VS Code / JDK).</li>
+      <li>Show workings / short explanations where asked. Manage your time (about 35 minutes per question).</li>
+      <li>Mobile phones and programmable devices are not allowed.</li>
+    </ol>
+  </div>
+
+  <div class="q">
+    <div class="q-head">Question 1 &nbsp;[20 Marks]</div>
+    <p>Design under constraints.</p>
+<ol type="a">
+  <li>Design a <code>Course</code> registration helper: course code, capacity, enrolled count. Enforce capacity with exceptions. <strong>(8 marks)</strong></li>
+  <li>Implement enrol/drop methods with full validation. <strong>(8 marks)</strong></li>
+  <li>Discuss whether capacity checks belong in the UI, the domain class, or both. <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 2 &nbsp;[20 Marks]</div>
+    <p>Strategy via interfaces.</p>
+<ol type="a">
+  <li>Create interface <code>DiscountPolicy</code> with <code>double apply(double price)</code>. <strong>(4 marks)</strong></li>
+  <li>Implement <code>NoDiscount</code>, <code>PercentOff</code>, and <code>StudentDiscount</code>. <strong>(9 marks)</strong></li>
+  <li>Write class <code>Cart</code> that holds a policy and a price, and show switching policies without changing Cart's core code. <strong>(7 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 3 &nbsp;[20 Marks]</div>
+    <div class="code">class Box {
+    int n;
+    Box(int n) { this.n = n; }
+    void add(Box other) { this.n += other.n; }
+}
+// main:
+Box x = new Box(5);
+Box y = x;
+Box z = new Box(5);
+y.add(z);
+System.out.println(x.n + " " + y.n + " " + z.n);
+z = y;
+z.n = 1;
+System.out.println(x.n + " " + y.n + " " + z.n);</div>
+<p>Harder trace.</p>
+<ol type="a">
+  <li>Give both lines of output. <strong>(8 marks)</strong></li>
+  <li>Explain aliasing after <code>Box y = x</code> and after <code>z = y</code>. <strong>(8 marks)</strong></li>
+  <li>If <code>add</code> did <code>other = new Box(0)</code> inside the method, would <code>z</code> in <code>main</code> change? Why? <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 4 &nbsp;[20 Marks]</div>
+    <p>Abstract factory-lite (manual).</p>
+<ol type="a">
+  <li>Define abstract <code>Notification</code> with <code>deliver()</code> and concrete Email/SMS types. <strong>(8 marks)</strong></li>
+  <li>Write a method <code>Notification create(String type)</code> that returns the right subclass (or throws on unknown type). <strong>(8 marks)</strong></li>
+  <li>Explain how this supports open/closed thinking at beginner level. <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 5 &nbsp;[20 Marks]</div>
+    <p>School system consistency.</p>
+<ol type="a">
+  <li>Model Teacher, Classroom, and Student with a mix of association and composition - justify each link. <strong>(8 marks)</strong></li>
+  <li>Implement enough Java to add a student to a classroom and list names. <strong>(8 marks)</strong></li>
+  <li>What invariant should the model protect (e.g. student not in two seats)? How? <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 6 &nbsp;[20 Marks]</div>
+    <p>Error-handling architecture.</p>
+<ol type="a">
+  <li>Design a layered approach: domain throws, menu catches, logs a simple message. Illustrate with code sketches. <strong>(10 marks)</strong></li>
+  <li>Should <code>main</code> catch <code>Exception</code> broadly? Argue for or against for this module's apps. <strong>(6 marks)</strong></li>
+  <li>Name two unchecked and one checked exception category example (theory). <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 7 &nbsp;[20 Marks]</div>
+    <div class="code">class Bad {
+    public int[] marks = new int[3];
+    public String name;
+    public double avg() {
+        return (marks[0]+marks[1]+marks[2])/3.0;
+    }
+}</div>
+<p>Refactoring challenge.</p>
+<ol type="a">
+  <li>List four concrete problems in <code>Bad</code> (encapsulation, validation, API, misuse). <strong>(8 marks)</strong></li>
+  <li>Produce an improved class API and implementation. <strong>(8 marks)</strong></li>
+  <li>Show how client code must change and why that is healthier long-term. <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+
+  <div class="end">***** END OF QUESTION PAPER *****</div>
+  <div class="footer">
+    College of Technology Galle &nbsp;|&nbsp; OOP Module K72T004M03 &nbsp;|&nbsp; Model Paper 09 (Hard)
+  </div>
+</body>
+</html>

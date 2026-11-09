@@ -1,0 +1,577 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 26 - Revision â€” Classes, Encapsulation & Constructors</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 26 of 32 &nbsp;&bull;&nbsp; 2-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Revision â€” Classes, Encapsulation & Constructors</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 2 Hours</span>
+    <span class="stag stag-type" style="background:#f3e5f5;color:#6a1b9a;">Revision</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 26 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<div class="note-box">
+  <strong>Revision Session</strong>
+  <p>Re-read the sections below, redo lab tasks without looking at solutions, and test yourself using the summary boxes.</p>
+</div><!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Anatomy of a Method</h2>
+
+    <p>In Session 04 you called methods like <code>car.accelerate()</code> with no extra information. Real programs need methods that <strong>receive values</strong> and sometimes <strong>send answers back</strong> — exactly like a flowchart process box that reads inputs and produces an output.</p>
+
+    <div class="definition-box">
+      <strong>Definition — Method</strong>
+      <p>A <strong>method</strong> is a named block of code inside a class that performs a task. It may receive input values (<strong>parameters</strong>) and may send back a result (<strong>return value</strong>). A method is the OOP version of the "function" or "subroutine" you met in flowchart notation.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 190" role="img" aria-label="Method signature anatomy">
+        <text x="380" y="60" text-anchor="middle" font-family="monospace" font-size="20" fill="#1a1f2b">
+          <tspan fill="#c62828" font-weight="700">public</tspan>
+          <tspan fill="#1565c0" font-weight="700"> double</tspan>
+          <tspan fill="#2e7d32" font-weight="700"> CalculateInterest</tspan>
+          <tspan fill="#b9770e" font-weight="700">(double rate)</tspan>
+        </text>
+        <line x1="180" y1="75" x2="180" y2="105" stroke="#c62828" stroke-width="2"/>
+        <text x="180" y="125" text-anchor="middle" font-size="11" fill="#c62828">ACCESS MODIFIER</text>
+        <text x="180" y="141" text-anchor="middle" font-size="10" fill="#5b6472">who may call it</text>
+        <line x1="300" y1="75" x2="300" y2="105" stroke="#1565c0" stroke-width="2"/>
+        <text x="300" y="125" text-anchor="middle" font-size="11" fill="#1565c0">RETURN TYPE</text>
+        <text x="300" y="141" text-anchor="middle" font-size="10" fill="#5b6472">what comes back</text>
+        <text x="300" y="155" text-anchor="middle" font-size="10" fill="#5b6472">(void = nothing)</text>
+        <line x1="460" y1="75" x2="460" y2="105" stroke="#2e7d32" stroke-width="2"/>
+        <text x="460" y="125" text-anchor="middle" font-size="11" fill="#2e7d32">NAME</text>
+        <text x="460" y="141" text-anchor="middle" font-size="10" fill="#5b6472">verb, camelCase</text>
+        <line x1="600" y1="75" x2="600" y2="105" stroke="#b9770e" stroke-width="2"/>
+        <text x="600" y="125" text-anchor="middle" font-size="11" fill="#b9770e">PARAMETERS</text>
+        <text x="600" y="141" text-anchor="middle" font-size="10" fill="#5b6472">inputs the caller</text>
+        <text x="600" y="155" text-anchor="middle" font-size="10" fill="#5b6472">must supply</text>
+      </svg>
+      <div class="cap">Figure 2.3 — The four parts of every method signature.</div>
+    </div>
+
+    <p>Think of a method as a <strong>vending machine</strong>: parameters are the coins and button press you put in; the return value is the drink that comes out; the machine's internal work is the method body — invisible to the caller.</p>
+
+    <h3 class="sub-title">1.1 The Four Combinations</h3>
+    <table>
+      <thead><tr><th>Takes Input?</th><th>Returns Output?</th><th>Example Signature</th><th>Typical Use</th></tr></thead>
+      <tbody>
+        <tr><td>No</td><td>No</td><td><code>public void describe()</code></td><td>Print information</td></tr>
+        <tr><td>Yes</td><td>No</td><td><code>public void deposit(double amount)</code></td><td>Change state using input</td></tr>
+        <tr><td>No</td><td>Yes</td><td><code>public double getBalance()</code></td><td>Report state</td></tr>
+        <tr><td>Yes</td><td>Yes</td><td><code>public double calcInterest(double rate)</code></td><td>Compute using input + state</td></tr>
+      </tbody>
+    </table>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 240" role="img" aria-label="Parameter and return flow">
+        <defs>
+          <marker id="arrIn" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1565c0"/></marker>
+          <marker id="arrOut" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2e7d32"/></marker>
+        </defs>
+        <rect x="20" y="80" width="180" height="100" rx="8" fill="#eef4fb" stroke="#1565c0" stroke-width="2"/>
+        <text x="110" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">Main()</text>
+        <text x="110" y="128" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">acc.deposit(5000);</text>
+        <text x="110" y="148" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">boolean ok = acc.withdraw(1200);</text>
+        <text x="110" y="168" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">double i = acc.calcInterest(4.5);</text>
+        <line x1="200" y1="115" x2="280" y2="115" stroke="#1565c0" stroke-width="2" marker-end="url(#arrIn)"/>
+        <text x="240" y="105" text-anchor="middle" font-size="9" fill="#1565c0">5000 copied into amount</text>
+        <rect x="285" y="60" width="190" height="140" rx="8" fill="#fff8e1" stroke="#b9770e" stroke-width="2"/>
+        <text x="380" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#b9770e">deposit(double amount)</text>
+        <text x="380" y="110" text-anchor="middle" font-size="10" fill="#1a1f2b">if amount &lt;= 0 → reject</text>
+        <text x="380" y="128" text-anchor="middle" font-size="10" fill="#1a1f2b">Balance += amount</text>
+        <text x="380" y="146" text-anchor="middle" font-size="10" fill="#1a1f2b">print confirmation</text>
+        <text x="380" y="180" text-anchor="middle" font-size="9" fill="#5b6472">void → no value returns</text>
+        <line x1="475" y1="100" x2="555" y2="100" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrOut)"/>
+        <text x="515" y="90" text-anchor="middle" font-size="9" fill="#2e7d32">true / false</text>
+        <rect x="560" y="70" width="180" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="650" y="92" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">withdraw → boolean ok</text>
+        <text x="650" y="108" text-anchor="middle" font-size="9" fill="#5b6472">return lands in ok</text>
+        <line x1="475" y1="160" x2="555" y2="160" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrOut)"/>
+        <text x="515" y="150" text-anchor="middle" font-size="9" fill="#2e7d32">interest value</text>
+        <rect x="560" y="140" width="180" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="650" y="162" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">calcInterest → double i</text>
+        <text x="650" y="178" text-anchor="middle" font-size="9" fill="#5b6472">return lands in i</text>
+        <text x="380" y="225" text-anchor="middle" font-size="11" fill="#5b6472">Call goes in → method runs → return value (if any) travels back to the calling line</text>
+      </svg>
+      <div class="cap">Figure 2.4 — How arguments flow into parameters and return values flow back to Main.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. The BankAccount Class — Methods That Protect Data</h2>
+
+    <p>A bank account is the perfect example because its rules are familiar: you cannot withdraw more than you have, and you cannot deposit a negative amount. Notice how the <em>methods enforce the rules</em> — this previews encapsulation (Lesson 03).</p>
+
+    <div class="tip-box">
+      <strong>Money and floating point</strong>
+      <p><code>double</code> uses binary floating-point and can give tiny rounding errors (e.g. 0.1 + 0.2 ≠ 0.3 exactly). Real banks often use <code>BigDecimal</code>. In this module we use <code>double</code> for simplicity and format with <code>String.format("%.2f", value)</code>.</p>
+    </div>
+
+<pre><code>// File: BankAccount.java
+
+    class BankAccount
+    {
+        // ---------- FIELDS ----------
+        public String AccountNumber;
+        public String OwnerName;
+        public double Balance;        // double is THE type for money in Java
+
+        // ---------- METHODS ----------
+
+        // Takes input, returns nothing: changes the object's state safely
+        public void deposit(double amount)
+        {
+            if (amount &lt;= 0)                          // guard clause: reject bad input
+            {
+                System.out.println("deposit must be positive!");
+                return;                               // 'return' alone exits a void method early
+            }
+            Balance = Balance + amount;               // can also be written: Balance += amount;
+            System.out.println("deposited " + String.format("%.2f", amount) + ". New balance: " + String.format("%.2f", Balance));
+        }
+
+        // Takes input AND returns a result: true = success, false = refused
+        public boolean withdraw(double amount)
+        {
+            if (amount &lt;= 0)
+            {
+                System.out.println("withdrawal must be positive!");
+                return false;
+            }
+            if (amount &gt; Balance)                     // the golden rule of banking!
+            {
+                System.out.println("Insufficient funds. Balance is only " + String.format("%.2f", Balance));
+                return false;
+            }
+            Balance -= amount;
+            System.out.println("Withdrew " + String.format("%.2f", amount) + ". New balance: " + String.format("%.2f", Balance));
+            return true;
+        }
+
+        // Takes input and returns a computed value without changing Balance
+        public double calculateAnnualInterest(double ratePercent)
+        {
+            double interest = Balance * (double)ratePercent / 100;
+            return interest;                          // hand the answer to the caller
+        }
+
+        public void printStatement()
+        {
+            System.out.println("--------------------------------");
+            System.out.println("Account : " + AccountNumber);
+            System.out.println("Owner   : " + OwnerName);
+            System.out.println("Balance : " + String.format("%.2f", Balance));
+            System.out.println("--------------------------------");
+        }
+    }
+</code></pre>
+
+<pre><code>// File: Main.java
+
+    public class Main
+    {
+        public static void main(String[] args)
+        {
+            BankAccount acc = new BankAccount();
+            acc.AccountNumber = "ACC-1001";
+            acc.OwnerName = "Nimali Perera";
+            acc.Balance = 0;
+
+            acc.deposit(5000);           // OK — 5000 copied into amount parameter
+            acc.deposit(-50);            // rejected by the guard clause
+
+            boolean ok = acc.withdraw(1200);        // ok becomes true
+            boolean ok2 = acc.withdraw(99999);      // refused → ok2 is false
+            System.out.println("Second withdrawal succeeded? " + ok2);
+
+            // Use the returned value in a calculation
+            double interest = acc.calculateAnnualInterest(4.5);
+            System.out.println("Interest at 4.5% would be: " + String.format("%.2f", interest));
+
+            acc.printStatement();
+            // pause: new java.util.Scanner(System.in).nextLine();
+        }
+    }
+</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Parameter = a mailbox:</strong> when Main calls <code>acc.deposit(5000)</code>, the value 5000 is copied into the parameter <code>amount</code>. Inside the method, <code>amount</code> behaves like a normal variable that arrived pre-filled.</li>
+        <li><strong>Guard clauses are your flowchart's DECISION diamonds:</strong> <code>if (amount &lt;= 0) ... return;</code> is exactly the diamond "amount ≤ 0? → yes: reject / no: continue". Decisions you drew in flowcharts now protect real data.</li>
+        <li><strong>Return values travel back:</strong> <code>return interest;</code> sends the number back to the calling line, where it lands in <code>double interest = ...</code>. Trace it with your finger: Main → method → back to Main.</li>
+        <li><strong><code>{Balance:C}</code></strong> formats a number as currency (e.g. Rs. depending on region settings). Just formatting — no maths involved.</li>
+        <li><strong>Why <code>boolean</code> for withdraw?</strong> The caller may need to know whether it worked — e.g. an ATM must only dispense cash if the withdrawal succeeded.</li>
+      </ol>
+    </div>
+
+    <div class="note-box">
+      <strong>Key Point — Methods Guard the Data</strong>
+      <p>Nobody should change <code>Balance</code> directly with arbitrary values. All changes go <em>through</em> deposit and withdraw, which check the rules first. In Lesson 03 we make this bulletproof by marking fields <code>private</code> so direct access becomes impossible.</p>
+    </div>
+
+    <div class="warn-box">
+      <strong>Common Beginner Errors</strong>
+      <ul>
+        <li><strong>Missing return on non-void methods:</strong> every path through <code>withdraw</code> must hit a <code>return</code> — compiler error if one branch forgets.</li>
+        <li><strong>Using <code>double</code> for money:</strong> prefer <code>BigDecimal</code> in production; use <code>double</code> carefully in these labs.</li>
+        <li><strong>Confusing parameter and argument:</strong> the <em>parameter</em> is in the method header (<code>double amount</code>); the <em>argument</em> is the value you pass at the call site (<code>5000</code>).</li>
+        <li><strong>Expecting void to return:</strong> <code>deposit</code> changes state but gives nothing back — do not write <code>double x = acc.deposit(100);</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Lab Time</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 5.1 — Build the Bank (60 min)</strong>
+      <ol>
+        <li>Create project <code>BankDemo</code> with the two files above. Run and confirm the rejected deposit and refused withdrawal messages appear.</li>
+        <li>Add a method <code>public void transfer(BankAccount target, double amount)</code> that withdraws from this account and deposits into <code>target</code> — but only if the withdrawal succeeds (use the returned boolean!).</li>
+        <li>In Main, create a second account and transfer 1000 between them. Print both statements.</li>
+        <li><strong>Test like a bank auditor:</strong> try transferring more than the balance. Nothing should be lost or created from thin air — total money before = total money after.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 5.2 — JShell Warm-Down (20 min)</strong>
+      <p>In JShell (terminal: <code>jshell</code>), define this mini-class, then experiment:</p>
+<pre><code>class Counter
+{
+    public int value;
+    public void add(int n) { value += n; }
+    public int doubled() { return value * 2; }
+}</code></pre>
+      <ol>
+        <li><code>Counter c = new Counter();</code> then <code>c.add(5); c.add(3); c.value</code> — predict before pressing Enter.</li>
+        <li><code>c.doubled()</code> — does calling this change <code>c.value</code>? Verify.</li>
+        <li>Make a second Counter and prove the two are independent.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 05</strong>
+      <ol>
+        <li>Name and explain the four parts of a method signature. (4 marks)</li>
+        <li>Write a method that takes two int parameters and returns the larger one. (4 marks)</li>
+        <li>Why can <code>double</code> be risky for money, and what type do banks often use instead? (2 marks)</li>
+        <li>Write a <code>withdraw</code> method that refuses to overdraw an account, returning boolean. (6 marks)</li>
+        <li>Explain, with a diagram, how a value passed as an argument reaches a parameter, and how a return value travels back. (5 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 05 Summary</h3>
+    <ul>
+      <li>Method signature = access modifier + return type + name + parameter list.</li>
+      <li>Parameters carry values into a method; <code>return</code> carries one value back out.</li>
+      <li><code>void</code> methods return nothing; bare <code>return;</code> exits them early.</li>
+      <li>Guard clauses (if + return) are flowchart decision diamonds protecting object state.</li>
+      <li>Use <code>double</code> for money in labs; format with <code>String.format("%.2f", value)</code>.</li>
+      <li>Design principle: change fields only through methods that enforce the rules.</li>
+    </ul>
+  </div>
+
+<div class="section part-break"><h2 class="section-title">Constructors – Default &amp; Parameterized</h2></div>
+<div class="note-box">
+  <strong>Revision Session</strong>
+  <p>Re-read the sections below, redo lab tasks without looking at solutions, and test yourself using the summary boxes.</p>
+</div><div class="lesson-header" style="background:linear-gradient(135deg,#e65100,#bf360c);">
+    <div class="lesson-num">Lesson 05 of 10 — Constructors &amp; Overloading</div>
+    <h2>Constructors &amp; Overloading</h2>
+    <p>In Phase 2 of the Library System, creating a <code>Book</code> took five separate lines — and it was easy to forget the ISBN. <strong>Constructors</strong> fix that: every object is born complete and valid in a single <code>new</code> expression. This lesson teaches how to write default and parameterized constructors, when they run, and how the <code>this</code> keyword resolves name clashes.</p>
+    <div class="lesson-meta">
+      <span>&#9203; 10 Hours Integrated</span>
+      <span>&#128218; Sessions 10 – 12</span>
+      <span>&#128213; Library Project Phase 3</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. The Problem — Half-Built Objects</h2>
+
+    <p>After encapsulation (Lesson 03), your Library <code>Book</code> had getters and setters. Creation still looked fragile:</p>
+
+<pre><code>// Phase 2 style — five steps, easy to forget one:
+Book b = new Book();
+b.setTitle("Clean Code");
+b.setAuthor("Robert C. Martin");
+b.setIsbn("978-0132350884");
+b.setYearPublished(2008);
+catalog.add(b);   // what if setIsbn was skipped? A book with no ISBN enters the catalog.</code></pre>
+
+    <p>The object existed in an <em>invalid</em> state between line 1 and line 4. Nothing in the language forced us to finish the job. Constructors solve this: <strong>an object cannot be created without its essential data.</strong></p>
+
+    <div class="definition-box">
+      <strong>Definition — Constructor</strong>
+      <p>A <strong>constructor</strong> is a special method that runs <em>automatically, exactly once</em>, at the moment an object is created with <code>new</code>. Its job is to put the new object into a valid starting state. It has the <strong>same name as the class</strong> and <strong>no return type</strong> — not even <code>void</code>.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Default vs Parameterized Constructors</h2>
+
+    <h3 class="sub-title">2.1 Parameterized Constructor — Forces Complete Objects</h3>
+
+<pre><code>class Book
+{
+    private String title;
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    private String author;
+    public String getAuthor() { return author; }
+    public void setAuthor(String author) { this.author = author; }
+    private String isbn;
+    public String getIsbn() { return isbn; }
+    // no public setter — write only inside this class
+    private int yearPublished;
+    public int getYearPublished() { return yearPublished; }
+    public void setYearPublished(int yearPublished) { this.yearPublished = yearPublished; }
+        private boolean isAvailable = true;
+    public boolean isAvailable() { return isAvailable; }
+    private void setAvailable(boolean isAvailable) { this.isAvailable = isAvailable; }
+
+    // PARAMETERIZED constructor — requires title, author, isbn, year
+    public Book(String title, String author, String isbn, int yearPublished)
+    {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;              // constructor is inside the class — private set is allowed
+        this.yearPublished = yearPublished;
+        isAvailable = true;
+    }
+}
+
+// One line — complete and valid by definition:
+Book b = new Book("Clean Code", "Robert C. Martin", "978-0132350884", 2008);
+
+Book broken = new Book();   // COMPILER ERROR — no parameterless constructor exists</code></pre>
+
+    <h3 class="sub-title">2.2 Default Constructor — Sensible Empty Start</h3>
+
+    <p>A <strong>default constructor</strong> takes <em>no parameters</em>. Java provides one automatically for every class — but only until you write any constructor yourself.</p>
+
+<pre><code>class Vehicle
+{
+    private String brand;
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    private int speed;
+    public int getSpeed() { return speed; }
+    // no public setter — write only inside this class
+
+    // DEFAULT (parameterless) constructor
+    public Vehicle()
+    {
+        this.brand = "Unknown";
+        this.speed = 0;
+    }
+
+    // PARAMETERIZED constructor — both can coexist (different parameter lists)
+    public Vehicle(String brand)
+    {
+        this.brand = brand;
+        this.speed = 0;
+    }
+}
+
+Vehicle v1 = new Vehicle();           // uses default — brand = "Unknown"
+Vehicle v2 = new Vehicle("Toyota");     // uses parameterized — brand = "Toyota"</code></pre>
+
+    <div class="note-box">
+      <strong>Key Point — The Disappearing Default Constructor</strong>
+      <p>If you define <em>any</em> constructor (even a parameterized one), Java stops generating the free empty constructor. <code>new Book()</code> then fails unless you explicitly write <code>public Book() { }</code>. This is deliberate: it prevents accidental half-built objects.</p>
+    </div>
+
+    <table>
+      <thead><tr><th>Type</th><th>Signature</th><th>When Used</th><th>Example Call</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td><code>public ClassName()</code></td><td>Sensible starting values, optional data</td><td><code>new Vehicle()</code></td></tr>
+        <tr><td>Parameterized</td><td><code>public ClassName(type param, ...)</code></td><td>Required data must be supplied at birth</td><td><code>new Book("Title", "Author", "ISBN", 2020)</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. When Constructors Run &amp; the No-Return-Type Rule</h2>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 200" role="img" aria-label="Object birth timeline">
+        <defs><marker id="arr10" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#e65100"/></marker></defs>
+        <rect x="20" y="70" width="130" height="60" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="85" y="95" text-anchor="middle" font-size="11" font-weight="700" fill="#1565c0">1. new Book(...)</text>
+        <text x="85" y="115" text-anchor="middle" font-size="10" fill="#5b6472">caller requests object</text>
+        <line x1="150" y1="100" x2="185" y2="100" stroke="#e65100" stroke-width="2" marker-end="url(#arr10)"/>
+        <rect x="190" y="70" width="150" height="60" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="265" y="95" text-anchor="middle" font-size="11" font-weight="700" fill="#e65100">2. Memory allocated</text>
+        <text x="265" y="115" text-anchor="middle" font-size="10" fill="#5b6472">heap space reserved</text>
+        <line x1="340" y1="100" x2="375" y2="100" stroke="#e65100" stroke-width="2" marker-end="url(#arr10)"/>
+        <rect x="380" y="55" width="160" height="90" rx="8" fill="#fff8e1" stroke="#b28704" stroke-width="3"/>
+        <text x="460" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#b28704">3. Constructor runs</text>
+        <text x="460" y="100" text-anchor="middle" font-size="10" fill="#5b6472">fields/properties set</text>
+        <text x="460" y="118" text-anchor="middle" font-size="10" fill="#5b6472">runs ONCE, automatically</text>
+        <text x="460" y="136" text-anchor="middle" font-size="9" fill="#c62828">you never call it directly</text>
+        <line x1="540" y1="100" x2="575" y2="100" stroke="#e65100" stroke-width="2" marker-end="url(#arr10)"/>
+        <rect x="580" y="70" width="150" height="60" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="655" y="95" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">4. Object ready</text>
+        <text x="655" y="115" text-anchor="middle" font-size="10" fill="#5b6472">reference returned</text>
+        <text x="380" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1f2b">Timeline: what happens when you write new Book("Clean Code", ...)</text>
+      </svg>
+      <div class="cap">Figure 10.1 — Object birth timeline: <code>new</code> triggers memory allocation, then the constructor initialises the object, then the reference is handed back.</div>
+    </div>
+
+    <p><strong>When does the constructor run?</strong> The instant the <code>new</code> expression executes — after memory is allocated but before your code can use the variable. You never write <code>b.Book(...)</code>; the runtime calls it for you.</p>
+
+    <h3 class="sub-title">3.1 Constructor vs Ordinary Method</h3>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 220" role="img" aria-label="Constructor vs method comparison">
+        <text x="200" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="#e65100">Constructor</text>
+        <text x="560" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="#1565c0">Ordinary Method</text>
+        <rect x="30" y="45" width="340" height="160" rx="10" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="50" y="72" font-family="monospace" font-size="12" fill="#1a1f2b">public Book(String title)</text>
+        <line x1="50" y1="82" x2="350" y2="82" stroke="#e65100" stroke-width="1"/>
+        <text x="50" y="102" font-size="11" fill="#5b6472">&#10003; Same name as class</text>
+        <text x="50" y="122" font-size="11" fill="#5b6472">&#10003; NO return type (not even void)</text>
+        <text x="50" y="142" font-size="11" fill="#5b6472">&#10003; Runs automatically on new</text>
+        <text x="50" y="162" font-size="11" fill="#5b6472">&#10003; Runs exactly once per object</text>
+        <text x="50" y="192" font-size="10" fill="#c62828">public void Book(...) = NOT a constructor!</text>
+        <rect x="390" y="45" width="340" height="160" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="410" y="72" font-family="monospace" font-size="12" fill="#1a1f2b">public void printDetails()</text>
+        <line x1="410" y1="82" x2="710" y2="82" stroke="#1565c0" stroke-width="1"/>
+        <text x="410" y="102" font-size="11" fill="#5b6472">&#10003; Any valid method name</text>
+        <text x="410" y="122" font-size="11" fill="#5b6472">&#10003; Must declare return type (or void)</text>
+        <text x="410" y="142" font-size="11" fill="#5b6472">&#10003; Called explicitly: b.printDetails()</text>
+        <text x="410" y="162" font-size="11" fill="#5b6472">&#10003; Can be called many times</text>
+        <text x="410" y="192" font-size="10" fill="#2e7d32">Methods change or report state after birth</text>
+      </svg>
+      <div class="cap">Figure 10.2 — Constructor vs method: the no-return-type rule is the classic exam trap. <code>public void Book(...)</code> is an ordinary method that never runs on <code>new</code>.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. The <code>this</code> Keyword — Resolving Name Clashes</h2>
+
+    <p>When a constructor parameter has the <em>same name</em> as a field, Java picks the closest match — the parameter. Use <code>this</code> to mean "the current object being constructed".</p>
+
+<pre><code>class Student
+{
+    private String name;
+    private int age;
+    private String indexNumber;
+
+    public Student(String name, int age, String indexNumber)
+    {
+        this.name = name;               // this.name = FIELD;  name = PARAMETER
+        this.age = age;
+        this.indexNumber = indexNumber;
+        // Without 'this.' the line  name = name  would assign the parameter to itself!
+    }
+
+    public void printReport()
+    {
+        System.out.println(indexNumber + ": " + name + ", age " + age);
+    }
+}
+
+Student s = new Student("Kasun Perera", 20, "CTG/2024/001");
+s.printReport();   // CTG/2024/001: Kasun Perera, age 20</code></pre>
+
+    <p>The same pattern applies when parameters match property names in simple getter/setter pair style classes — though many developers prefer distinct names (<code>title</code> parameter, <code>Title</code> property) to avoid the clash entirely.</p>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Think of birth registration:</strong> the constructor is the clerk who fills in the newborn's identity card the moment they exist. No identity card, no valid citizen — no valid object.</li>
+        <li><strong>Arguments flow like any method:</strong> <code>new Student("Kasun", 20, "CTG/2024/001")</code> passes three values into three parameters, which are copied into the object's fields.</li>
+        <li><strong>The <code>this</code> disambiguator:</strong> inside the constructor body, bare <code>name</code> means the parameter. <code>this.name</code> explicitly targets the field belonging to the object being built.</li>
+        <li><strong>Read-only properties:</strong> a constructor can set <code>public getter / no public setter</code> or <code>getter only (no setter)</code> properties because it runs inside the class — external code still cannot change ISBN after creation.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2 class="section-title">5. Lab Tasks</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 10.1 — Student Registration (45 min)</strong>
+      <ol>
+        <li>Create project <code>ConstructorPractice</code>. Implement the <code>Student</code> class above with <code>this</code> for all three parameters.</li>
+        <li>Add a parameterized constructor that takes only <code>(String name, String indexNumber)</code> and sets age to 0 — you will learn a cleaner way to chain constructors in Session 11.</li>
+        <li>Create three students in <code>Main</code> and print all reports.</li>
+        <li><strong>Trap test:</strong> deliberately write <code>public void Student(String n)</code> with <code>void</code>. Run <code>new Student("Test")</code> and observe the compiler error or silent wrong behaviour. Remove the void.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 10.2 — Book Constructor Preview (45 min)</strong>
+      <ol>
+        <li>Open your Library Phase 2 project. Add the four-parameter <code>Book</code> constructor shown in Section 2.</li>
+        <li>Replace all five-line book creation in <code>Main.java</code> with one-line <code>new Book(...)</code> calls.</li>
+        <li>Confirm <code>new Book()</code> no longer compiles — this proves the default constructor was removed.</li>
+        <li>Add a <code>Member</code> constructor taking <code>(String name, String membershipNumber)</code> and use it for every member. Keep <code>setMembershipNumber</code> for now — Session 12 removes it.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 10 Summary</h3>
+    <ul>
+      <li>Constructor = special method; same name as class; <strong>no return type</strong>; runs once automatically at <code>new</code>.</li>
+      <li>Parameterized constructors force complete objects; default constructors provide sensible starting values.</li>
+      <li>Writing any constructor removes Java's free parameterless constructor unless you add one explicitly.</li>
+      <li><code>this.field</code> resolves parameter/field name clashes during construction.</li>
+      <li>Constructors may initialise read-only and private-set properties — external code cannot undo that work.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-25.html" class="btn btn-secondary">&larr; Session 25</a>
+    <a href="session-27.html" class="btn btn-primary">Session 27 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 26 &nbsp;|&nbsp; 2 Hours &nbsp;|&nbsp; Sequence position 26 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

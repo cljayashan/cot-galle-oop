@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 14 - Inheritance Basics - The extends Keyword and Code Reuse</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 14 of 23 &nbsp;&bull;&nbsp; Lesson 07 - Inheritance</div>
+  <h2>Inheritance Basics – The extends Keyword and Code Reuse</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 07 - Inheritance &#9656; Session 14</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#0277bd,#01579b);">
+    <div class="lesson-num">Lesson 07 of 10 — The Second Pillar of OOP</div>
+    <h2>Inheritance</h2>
+    <p>Look at any real system: a Car, a Bus and a Motorbike share 90% of their behaviour. Copy-pasting that 90% into three classes is a maintenance nightmare. <strong>Inheritance</strong> lets one class receive everything from another and add only what's different — the family tree of code.</p>
+    <div class="lesson-meta">
+      <span>⏱ 3 Hours Integrated</span>
+      <span>📋 Session 14 of 23</span>
+      <span>🏛 Pillar 2 of 4</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Define inheritance and identify "is-a" relationships</li>
+      <li>Create derived classes with the <code>extends</code> keyword</li>
+      <li>Explain what a child class inherits and what it does not</li>
+      <li>Add child-specific fields and methods on top of inherited ones</li>
+      <li>Draw and read simple class hierarchy diagrams</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. The Problem: Sibling Classes Repeating Themselves</h2>
+
+<pre><code>// WITHOUT inheritance — painful duplication:
+class Car {
+    private String brand;
+    protected int speed;
+    private int numberOfDoors;
+
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    public int getSpeed() { return speed; }
+    public int getNumberOfDoors() { return numberOfDoors; }
+    public void setNumberOfDoors(int numberOfDoors) { this.numberOfDoors = numberOfDoors; }
+
+    public void accelerate() { speed += 10; }          // identical
+    public void brake() { speed = 0; }                 // identical
+}
+
+class Motorbike {
+    private String brand;                              // copy-pasted!
+    protected int speed;                                 // copy-pasted!
+    private boolean hasSideCar;                        // bike-specific
+
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    public int getSpeed() { return speed; }
+    public boolean hasSideCar() { return hasSideCar; }
+    public void setHasSideCar(boolean hasSideCar) { this.hasSideCar = hasSideCar; }
+
+    public void accelerate() { speed += 10; }          // copy-pasted!
+    public void brake() { speed = 0; }                 // copy-pasted!
+}
+// A bug in accelerate must now be fixed TWICE. Add a Bus? THREE times. This does not scale.</code></pre>
+
+    <div class="definition-box">
+      <strong>Definition — Inheritance</strong>
+      <p><strong>Inheritance</strong> is a mechanism where a class (the <strong>derived/child class</strong>) automatically receives all non-private members of another class (the <strong>base/parent class</strong>), and can add its own members on top. In Java, the <code>extends</code> keyword declares it: <code>class Car extends Vehicle</code> reads as <em>"Car is a Vehicle"</em>.</p>
+    </div>
+
+    <div class="note-box">
+      <strong>The "is-a" Test</strong>
+      <p>Use inheritance only where the sentence "X <strong>is a</strong> Y" sounds naturally true. A Car <em>is a</em> Vehicle ✓. A Student <em>is a</em> Person ✓. An Engine is a Car? ✗ — an engine is <em>part of</em> a car; that's composition (Lesson 09), not inheritance.</p>
+    </div>
+
+    <h3 class="sub-title">1.1 The Solution — One Parent, Many Children</h3>
+
+<pre><code>// File: Vehicle.java — the BASE (parent) class holds everything common
+package garage;
+
+class Vehicle {
+    private String brand;
+    private int year;
+    protected int speed;
+
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    public int getYear() { return year; }
+    public void setYear(int year) { this.year = year; }
+    public int getSpeed() { return speed; }
+
+    public void accelerate() {
+        speed += 10;
+        System.out.println(brand + " is now going " + speed + " km/h");
+    }
+
+    public void brake() {
+        speed = 0;
+        System.out.println(brand + " stopped.");
+    }
+}</code></pre>
+
+<pre><code>// File: Car.java — "extends" means "Car inherits from Vehicle"
+package garage;
+
+class Car extends Vehicle {                     // Car IS A Vehicle
+    // Car adds ONLY what makes a car special:
+    private int numberOfDoors;
+
+    public int getNumberOfDoors() { return numberOfDoors; }
+    public void setNumberOfDoors(int numberOfDoors) { this.numberOfDoors = numberOfDoors; }
+
+    public void openBoot() {
+        System.out.println("The " + getBrand() + "'s boot is open.");   // brand is INHERITED
+    }
+}</code></pre>
+
+<pre><code>// File: Motorbike.java
+package garage;
+
+class Motorbike extends Vehicle {
+    private boolean hasSideCar;
+
+    public boolean hasSideCar() { return hasSideCar; }
+    public void setHasSideCar(boolean hasSideCar) { this.hasSideCar = hasSideCar; }
+
+    public void doWheelie() {
+        System.out.println("The " + getBrand() + " pops a wheelie! (Don't try this at home)");
+    }
+}</code></pre>
+
+<pre><code>// In main — children can use inherited AND own members:
+Car car = new Car();
+car.setBrand("Toyota");          // inherited — works!
+car.setNumberOfDoors(4);         // own field
+car.accelerate();                // inherited method  -> "Toyota is now going 10 km/h"
+car.openBoot();                  // own method
+
+Motorbike bike = new Motorbike();
+bike.setBrand("Bajaj");
+bike.accelerate();               // the SAME inherited code — written once, used by all children
+bike.doWheelie();
+
+// car.doWheelie();              // COMPILER ERROR — wheelie belongs to Motorbike only</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 260" role="img" aria-label="Vehicle hierarchy">
+        <defs><marker id="tri14" markerWidth="16" markerHeight="14" refX="8" refY="7" orient="auto"><path d="M0,0 L16,7 L0,14 Z" fill="white" stroke="#0277bd" stroke-width="1.5"/></marker></defs>
+        <rect x="280" y="20" width="200" height="90" rx="10" fill="#e3f2fd" stroke="#0277bd" stroke-width="3"/>
+        <text x="380" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#0277bd">Vehicle (base)</text>
+        <text x="380" y="66" text-anchor="middle" font-size="10" fill="#1a1f2b">Brand, Year, Speed</text>
+        <text x="380" y="84" text-anchor="middle" font-size="10" fill="#b9770e">accelerate(), Brake()</text>
+        <line x1="180" y1="170" x2="330" y2="115" stroke="#0277bd" stroke-width="2" marker-end="url(#tri14)"/>
+        <line x1="580" y1="170" x2="430" y2="115" stroke="#0277bd" stroke-width="2" marker-end="url(#tri14)"/>
+        <rect x="60" y="175" width="230" height="70" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="175" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">Car extends Vehicle</text>
+        <text x="175" y="220" text-anchor="middle" font-size="10" fill="#1a1f2b">+ NumberOfDoors</text>
+        <text x="175" y="236" text-anchor="middle" font-size="10" fill="#b9770e">+ openBoot()</text>
+        <rect x="470" y="175" width="230" height="70" rx="10" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="585" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#b28704">Motorbike extends Vehicle</text>
+        <text x="585" y="220" text-anchor="middle" font-size="10" fill="#1a1f2b">+ HasSideCar</text>
+        <text x="585" y="236" text-anchor="middle" font-size="10" fill="#b9770e">+ doWheelie()</text>
+      </svg>
+      <div class="cap">Figure 14.1 — A class hierarchy. The hollow arrow points from child to parent and reads "is a". Common code lives once, at the top.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Read <code>class Car extends Vehicle</code> aloud:</strong> "Car is a Vehicle." Everything a Vehicle has, a Car automatically has — without writing it again.</li>
+        <li><strong>Inside <code>openBoot()</code> we used <code>getBrand()</code></strong> even though Car never declared it — the field/getter arrived through inheritance, as if it were pasted in invisibly.</li>
+        <li><strong>Inheritance is one-directional:</strong> children get the parent's members; the parent knows nothing about its children. Vehicle cannot call <code>doWheelie()</code>.</li>
+        <li><strong>What is NOT inherited:</strong> <code>private</code> members exist inside the child object but are <em>inaccessible</em> to the child's code (Session 15 fixes this with <code>protected</code>), and constructors are not inherited (also Session 15).</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">1.2 Rules of Java Inheritance</h3>
+    <ul>
+      <li><strong>Single inheritance only:</strong> a class may have exactly <em>one</em> direct superclass (<code>class A extends B, C</code> with two classes is illegal in Java — use <code>implements</code> for interfaces).</li>
+      <li><strong>Chains are allowed:</strong> <code>ElectricCar extends Car extends Vehicle</code> — ElectricCar inherits from both, transitively.</li>
+      <li><strong>Everything ultimately inherits from <code>Object</code>:</strong> the built-in root class of all Java types — this is why every object has <code>toString()</code>.</li>
+    </ul>
+
+    <div class="fig">
+      <svg viewBox="0 0 700 120" role="img" aria-label="Inheritance chain to object">
+        <rect x="20" y="40" width="120" height="50" rx="8" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="80" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#b28704">ElectricCar</text>
+        <text x="155" y="70" font-size="18" fill="#0277bd">→</text>
+        <rect x="170" y="40" width="100" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="220" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">Car</text>
+        <text x="285" y="70" font-size="18" fill="#0277bd">→</text>
+        <rect x="300" y="40" width="110" height="50" rx="8" fill="#e3f2fd" stroke="#0277bd" stroke-width="2"/>
+        <text x="355" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#0277bd">Vehicle</text>
+        <text x="425" y="70" font-size="18" fill="#0277bd">→</text>
+        <rect x="440" y="40" width="100" height="50" rx="8" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2"/>
+        <text x="490" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#8e24aa">Object</text>
+        <text x="350" y="110" text-anchor="middle" font-size="10" fill="#5b6472">Every class in Java eventually inherits from Object — the universal ancestor</text>
+      </svg>
+      <div class="cap">Figure 14.2 — Inheritance chains are allowed. ElectricCar receives members from Car, Vehicle, and object.</div>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 14.1 — The Garage (50 min)</strong>
+      <ol>
+        <li>Create project <code>Garage</code> with Vehicle, Car and Motorbike as above (one file per class). Test all the calls in Main.</li>
+        <li>Add a third child: <code>class Bus extends Vehicle</code> with <code>PassengerCapacity</code> and a method <code>announceStop()</code>.</li>
+        <li>Prove single-source maintenance: change Accelerate to add 15 instead of 10 — run and observe all three children updated by editing <em>one line</em>.</li>
+        <li>Try <code>car.doWheelie();</code> — read and note the compiler error.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 14.2 — The Person Hierarchy (40 min)</strong>
+      <ol>
+        <li>Design on paper first: base <code>Person</code> (Name, DateOfBirth, <code>introduce()</code>), children <code>Student</code> (IndexNumber, <code>study()</code>) and <code>Lecturer</code> (Subject, <code>teach()</code>).</li>
+        <li>Apply the is-a test aloud for both children before coding.</li>
+        <li>Implement and test in a new project.</li>
+        <li><strong>Challenge:</strong> create <code>ClassRep extends Student</code> (a two-level chain) with a <code>CollectFeedback()</code> method.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 14</strong>
+      <ol>
+        <li>Define inheritance and state the Java syntax for deriving a class. (4 marks)</li>
+        <li>What is the "is-a" test? Give one example that passes and one that fails. (4 marks)</li>
+        <li>Given a base class, write a derived class that adds one field (with getters/setters) and one method. (6 marks)</li>
+        <li>State two rules of Java inheritance (single inheritance, transitive chains, object root). (4 marks)</li>
+        <li>Explain how inheritance eliminates code duplication, with an example. (5 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 14 Summary</h3>
+    <ul>
+      <li><code>class Child extends Parent</code> — the child receives all non-private members automatically.</li>
+      <li>Use inheritance only for true "is-a" relationships; "part-of" is composition (Lesson 09).</li>
+      <li>Common code lives once in the base; children add only their specialities.</li>
+      <li>Java allows one direct superclass; chains are fine; everything roots at <code>Object</code>.</li>
+      <li>Fix a base-class bug once — every child is fixed instantly.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="../lesson-06/session-13.html" class="btn btn-secondary">&larr; S13 - Memory &amp; GC</a>
+    <a href="session-15.html" class="btn btn-primary">S15 - protected &amp; base &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 14 &ndash; Inheritance Basics &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

@@ -1,0 +1,699 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 13 - Method Overloading & Library Phase 3</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 13 of 32 &nbsp;&bull;&nbsp; 3-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Method Overloading & Library Phase 3</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type" style="background:#fff8e1;color:#b28704;">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 13 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Method Overloading — One Name, Many Versions</h2>
+
+    <div class="definition-box">
+      <strong>Definition — Method Overloading</strong>
+      <p><strong>Method overloading</strong> means defining several methods in the same class with the <strong>same name</strong> but <strong>different parameter lists</strong> (different number, types, or order of parameters). The compiler selects the correct version by matching the arguments at the call site. This is <em>compile-time polymorphism</em>.</p>
+    </div>
+
+    <p>You have already used overloading: <code>System.out.println</code> is overloaded for String, int, double, and more — each is a different overload of one method name.</p>
+
+<pre><code>class Calculator
+{
+    // Overload 1: two ints
+    public int add(int a, int b)
+    {
+        return a + b;
+    }
+
+    // Overload 2: three ints — different COUNT
+    public int add(int a, int b, int c)
+    {
+        return a + b + c;
+    }
+
+    // Overload 3: two doubles — different TYPES
+    public double add(double a, double b)
+    {
+        return a + b;
+    }
+
+    // Overload 4: String + int — different types and meaning
+    public String add(String text, int number)
+    {
+        return text + number;    // "Room" + 5 → "Room5"
+    }
+
+    // ILLEGAL — only return type differs from Overload 1:
+    // public double add(int a, int b) { return a + b; }
+    // Error: already defines 'Add' with the same parameter types
+}
+
+Calculator calc = new Calculator();
+System.out.println(calc.add(2, 3));          // → Overload 1 → 5
+System.out.println(calc.add(2, 3, 4));       // → Overload 2 → 9
+System.out.println(calc.add(2.5, 3.5));      // → Overload 3 → 6.0
+System.out.println(calc.add("Room", 5));     // → Overload 4 → Room5</code></pre>
+
+    <h3 class="sub-title">1.1 Overloading Rules</h3>
+    <table>
+      <thead><tr><th>Rule</th><th>Valid?</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Different parameter <strong>count</strong></td><td>&#10003; Yes</td><td><code>add(int, int)</code> vs <code>Add(int, int, int)</code></td></tr>
+        <tr><td>Different parameter <strong>types</strong></td><td>&#10003; Yes</td><td><code>add(int, int)</code> vs <code>add(double, double)</code></td></tr>
+        <tr><td>Different parameter <strong>order</strong></td><td>&#10003; Yes</td><td><code>print(int, String)</code> vs <code>print(String, int)</code></td></tr>
+        <tr><td>Different <strong>return type only</strong></td><td>&#10007; No</td><td><code>int Get()</code> vs <code>double Get()</code> — compiler cannot choose from the call alone</td></tr>
+        <tr><td>Only parameter names differ</td><td>&#10007; No</td><td>Not a distinct overload in Java</td></tr>
+      </tbody>
+    </table>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 280" role="img" aria-label="Compiler overload resolution">
+        <text x="380" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1f2b">Compiler Overload Resolution at Compile Time</text>
+        <rect x="30" y="45" width="200" height="50" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="130" y="75" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">Call site</text>
+        <text x="130" y="88" text-anchor="middle" font-family="monospace" font-size="10" fill="#5b6472">calc.add(2, 3)</text>
+        <line x1="230" y1="70" x2="270" y2="70" stroke="#e65100" stroke-width="2" marker-end="url(#arr11)"/>
+        <rect x="275" y="40" width="210" height="60" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="380" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#e65100">Compiler inspects</text>
+        <text x="380" y="78" text-anchor="middle" font-size="10" fill="#5b6472">argument types &amp; count</text>
+        <text x="380" y="92" text-anchor="middle" font-size="10" fill="#5b6472">2 × int → match signature</text>
+        <defs><marker id="arr11" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#e65100"/></marker></defs>
+        <line x1="485" y1="70" x2="525" y2="70" stroke="#e65100" stroke-width="2" marker-end="url(#arr11)"/>
+        <rect x="530" y="45" width="200" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="630" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">Selected overload</text>
+        <text x="630" y="84" text-anchor="middle" font-family="monospace" font-size="10" fill="#5b6472">add(int, int)</text>
+        <rect x="50" y="130" width="150" height="55" rx="6" fill="#f5f5f5" stroke="#999" stroke-width="1" stroke-dasharray="4 2"/>
+        <text x="125" y="152" text-anchor="middle" font-size="10" fill="#999">add(int,int,int)</text>
+        <text x="125" y="168" text-anchor="middle" font-size="9" fill="#c62828">rejected — 3 params</text>
+        <rect x="220" y="130" width="150" height="55" rx="6" fill="#f5f5f5" stroke="#999" stroke-width="1" stroke-dasharray="4 2"/>
+        <text x="295" y="152" text-anchor="middle" font-size="10" fill="#999">add(double,double)</text>
+        <text x="295" y="168" text-anchor="middle" font-size="9" fill="#c62828">rejected — double</text>
+        <rect x="390" y="130" width="150" height="55" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="465" y="152" text-anchor="middle" font-size="10" font-weight="700" fill="#2e7d32">Add(int,int)</text>
+        <text x="465" y="168" text-anchor="middle" font-size="9" fill="#2e7d32">&#10003; exact match</text>
+        <rect x="560" y="130" width="150" height="55" rx="6" fill="#f5f5f5" stroke="#999" stroke-width="1" stroke-dasharray="4 2"/>
+        <text x="635" y="152" text-anchor="middle" font-size="10" fill="#999">add(String,int)</text>
+        <text x="635" y="168" text-anchor="middle" font-size="9" fill="#c62828">rejected — string</text>
+        <text x="380" y="220" text-anchor="middle" font-size="11" fill="#5b6472">Resolution happens before the program runs — no runtime guessing.</text>
+        <text x="380" y="240" text-anchor="middle" font-size="11" fill="#5b6472">If no match exists → compile error. If ambiguous → compile error.</text>
+      </svg>
+      <div class="cap">Figure 11.1 — The compiler routes each call to exactly one overload by comparing argument types and count against every candidate signature.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Receptionist analogy:</strong> four staff members all named "Add" sit at different desks. The receptionist (compiler) reads what the visitor carries — two ints go to desk 1, three ints to desk 2. Routing is decided when the code compiles, not when it runs.</li>
+        <li><strong>Why return type fails:</strong> in <code>calc.add(2, 3)</code> nothing tells the compiler whether you want an <code>int</code> or <code>double</code> back. Only the parameter list can distinguish overloads.</li>
+        <li><strong>Overload when meanings match:</strong> <code>Search</code>, <code>Print</code>, <code>Add</code> — same operation, different inputs. Use separate names when operations differ in purpose.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Constructor Overloading &amp; Chaining with <code>this</code></h2>
+
+    <p>Multiple constructors in one class follow the same overloading rules as methods. The class name is the method name; Java picks the constructor whose parameter list matches the <code>new</code> arguments.</p>
+
+<pre><code>class Book
+{
+    private String title;
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    private String author;
+    public String getAuthor() { return author; }
+    public void setAuthor(String author) { this.author = author; }
+    private String isbn;
+    public String getIsbn() { return isbn; }
+    // no public setter — write only inside this class
+    private int yearPublished;
+    public int getYearPublished() { return yearPublished; }
+    public void setYearPublished(int yearPublished) { this.yearPublished = yearPublished; }
+    private boolean isAvailable;
+    public boolean isAvailable() { return isAvailable; }
+    // no public setter — write only inside this class
+
+    // Primary constructor — all required data
+    public Book(String title, String author, String isbn, int yearPublished)
+    {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.yearPublished = yearPublished;
+        isAvailable = true;
+    }
+
+    // Overloaded constructor — year unknown; chains to primary with year = 0
+    public Book(String title, String author, String isbn) {
+        this(title, author, isbn, 0);
+        // Body runs AFTER the chained constructor finishes.
+        // Year 0 conventionally means "unknown publication year".
+    }
+}
+
+Book b1 = new Book("Clean Code", "Robert C. Martin", "978-0132350884", 2008);
+Book b2 = new Book("Head First Java", "Andrew Stellman", "978-1491976708");  // overload 2</code></pre>
+
+    <h3 class="sub-title">2.1 Constructor Chaining Diagram</h3>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 240" role="img" aria-label="Constructor chain diagram">
+        <text x="380" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1f2b">new Book("Head First Java", "Stellman", "978-1491976708")</text>
+        <rect x="250" y="45" width="260" height="55" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="380" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#e65100">Constructor #2 selected</text>
+        <text x="380" y="86" text-anchor="middle" font-family="monospace" font-size="10" fill="#5b6472">Book(String, String, String)</text>
+        <line x1="380" y1="100" x2="380" y2="125" stroke="#e65100" stroke-width="2" marker-end="url(#arr11b)"/>
+        <text x="400" y="118" font-size="10" fill="#e65100">this(title, author, isbn, 0)</text>
+        <defs><marker id="arr11b" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#e65100"/></marker></defs>
+        <rect x="220" y="130" width="320" height="55" rx="8" fill="#fff8e1" stroke="#b28704" stroke-width="3"/>
+        <text x="380" y="153" text-anchor="middle" font-size="11" font-weight="700" fill="#b28704">Constructor #1 runs first</text>
+        <text x="380" y="171" text-anchor="middle" font-family="monospace" font-size="10" fill="#5b6472">Book(String, String, String, int)</text>
+        <line x1="380" y1="185" x2="380" y2="205" stroke="#2e7d32" stroke-width="2" marker-end="url(#arr11b)"/>
+        <rect x="270" y="208" width="220" height="28" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="380" y="227" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">Object ready — all fields set once</text>
+        <text x="620" y="160" font-size="10" fill="#5b6472">Assignment logic</text>
+        <text x="620" y="175" font-size="10" fill="#5b6472">lives in ONE place</text>
+        <text x="120" y="160" font-size="10" fill="#5b6472">#2 body may be</text>
+        <text x="120" y="175" font-size="10" fill="#5b6472">empty or add extras</text>
+      </svg>
+      <div class="cap">Figure 11.2 — Constructor chaining: overload #2 delegates to #1 via <code>this(...)</code>. Fields are assigned in one place — no duplicated code.</div>
+    </div>
+
+    <h3 class="sub-title">2.2 <code>this</code> — Two Uses Recap</h3>
+    <table>
+      <thead><tr><th>Use</th><th>Syntax</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Name resolution</td><td><code>this.name = name;</code></td><td>Distinguish field from parameter with the same identifier</td></tr>
+        <tr><td>Constructor chaining</td><td><code>public Student(String n) { this(n, 18); }</code></td><td>One constructor calls another; avoids duplicate assignment logic</td></tr>
+      </tbody>
+    </table>
+
+<pre><code>class Student
+{
+    private String name;
+    private int age;
+
+    public Student(String name, int age)
+    {
+        this.name = name;     // Use 1: name resolution
+        this.age = age;
+    }
+
+    public Student(String name)
+    {
+        this(name, 18);   // Use 2: chaining — default age 18
+    }
+
+    public Student()
+    {
+        this("Unnamed", 18);   // chains through the one-param constructor
+    }
+}</code></pre>
+
+    <div class="note-box">
+      <strong>Chaining Rule</strong>
+      <p><code>this(...)</code> must be the <em>first</em> statement in the constructor body and must call another constructor in the <em>same</em> class. The chained constructor runs completely before any remaining statements in the current constructor.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Lab Tasks</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 11.1 — Calculator Overloads (40 min)</strong>
+      <ol>
+        <li>Create project <code>OverloadLab</code>. Implement the <code>Calculator</code> class from Section 1 with all four <code>add</code> overloads.</li>
+        <li>In <code>Main</code>, call each overload and print results. Uncomment the illegal fifth overload and read the compiler error message.</li>
+        <li>Add <code>multiply(int, int)</code> and <code>multiply(double, double)</code>. Predict which runs for <code>multiply(3, 4)</code> and <code>multiply(3.0, 4.0)</code> before running.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 11.2 — Chained Book Constructors (40 min)</strong>
+      <ol>
+        <li>Add the two overloaded <code>Book</code> constructors from Section 2 to your Library project.</li>
+        <li>Add a chained <code>Member</code> constructor: <code>Member(String name) { this(name, "PENDING"); }</code> for temporary membership numbers.</li>
+        <li>Trace on paper what happens for <code>new Book("X", "Y", "Z")</code> step by step before running.</li>
+        <li>Create at least one book via each constructor overload and list the catalog.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 11.3 — Overload Prediction Quiz (20 min, pairs)</strong>
+      <p>In a scratch file, define:</p>
+<pre><code>String Which(int a)       { return "int"; }
+String Which(double a)    { return "double"; }
+String Which(int a, int b){ return "two-int"; }</code></pre>
+      <ol>
+        <li>Predict then test: <code>Which(5)</code>, <code>Which(5.0)</code>, <code>Which(5, 3)</code>, <code>Which('A')</code>, <code>Which(5.0f)</code>.</li>
+        <li>Explain the char and float results — Java picks the closest convertible overload.</li>
+      </ol>
+    </div>
+
+    </div>
+
+  <!-- SUMMARY -->
+
+<div class="section part-break"><h2 class="section-title">Library System – Phase 3: Constructors in the Library</h2></div>
+<div class="practical-header">
+    <div class="prac-num">Library System &nbsp;&bull;&nbsp; Phase 3 of 6</div>
+    <h3>Constructors + Overloaded Search</h3>
+    <div class="prac-meta">
+      <span>&#9203; 4 Hours Practical</span>
+      <span>&#128193; Opens Phase 2 Project</span>
+      <span>&#128221; Assessed Checkpoint #3</span>
+    </div>
+  </div>
+
+  <!-- CLIENT REQUIREMENTS -->
+  <div class="section">
+    <h2 class="section-title">1. Client Requirements — Phase 3</h2>
+
+    <div class="note-box">
+      <strong>The Client's Request</strong>
+      <p>"Data-entry staff complain that adding a book takes too many steps and half-filled records keep appearing. Members should be registered in one action too. Also, they want to find books by <em>title</em>, by <em>author and year together</em>, or by <em>ISBN</em> — without memorising different menu codes for each search type."</p>
+    </div>
+
+    <p>Your job this session: upgrade the Phase 2 Library System so objects are born complete, setter hacks are removed, and search logic lives in a dedicated <code>Library</code> class with overloaded <code>Find</code> methods.</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 200" role="img" aria-label="Before and after object creation">
+        <text x="190" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="#c62828">BEFORE (Phase 2) — 5 lines</text>
+        <text x="570" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">AFTER (Phase 3) — 1 line</text>
+        <rect x="20" y="40" width="340" height="145" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="35" y="62" font-family="monospace" font-size="9" fill="#1a1f2b">Book b = new Book();</text>
+        <text x="35" y="78" font-family="monospace" font-size="9" fill="#1a1f2b">b.setTitle("Clean Code");</text>
+        <text x="35" y="94" font-family="monospace" font-size="9" fill="#1a1f2b">b.setAuthor("R. Martin");</text>
+        <text x="35" y="110" font-family="monospace" font-size="9" fill="#1a1f2b">b.setIsbn("978-...");</text>
+        <text x="35" y="126" font-family="monospace" font-size="9" fill="#1a1f2b">b.setYearPublished(2008);</text>
+        <text x="35" y="142" font-family="monospace" font-size="9" fill="#1a1f2b">catalog.add(b);</text>
+        <text x="190" y="175" text-anchor="middle" font-size="10" fill="#c62828">Easy to forget a line → invalid data</text>
+        <rect x="400" y="40" width="340" height="145" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="415" y="70" font-family="monospace" font-size="9" fill="#1a1f2b">lib.addBook(new Book(</text>
+        <text x="430" y="86" font-family="monospace" font-size="9" fill="#1a1f2b">"Clean Code",</text>
+        <text x="430" y="102" font-family="monospace" font-size="9" fill="#1a1f2b">"Robert C. Martin",</text>
+        <text x="430" y="118" font-family="monospace" font-size="9" fill="#1a1f2b">"978-0132350884", 2008));</text>
+        <text x="570" y="155" text-anchor="middle" font-size="10" fill="#2e7d32">Complete object guaranteed at birth</text>
+      </svg>
+      <div class="cap">Figure 12.1 — Phase 3 collapses fragile multi-line creation into a single constructor call.</div>
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="section">
+    <h2 class="section-title">2. Step 1 — Constructors for Book and Member</h2>
+
+    <p>Open your Phase 2 <code>LibrarySystem</code> solution. Add constructors to <code>Book.java</code> and <code>Member.java</code>, then delete the temporary methods that only existed because constructors were not yet taught.</p>
+
+    <h3 class="sub-title">2.1 Book.java — Full Implementation</h3>
+
+<pre><code>// File: Book.java
+
+    class Book
+    {
+        private String title;
+        public String getTitle() { return title; }
+        public void setTitle(String title) { this.title = title; }
+        private String author;
+        public String getAuthor() { return author; }
+        public void setAuthor(String author) { this.author = author; }
+        private String isbn;
+        public String getIsbn() { return isbn; }
+        // no public setter — write only inside this class
+        private int yearPublished;
+        public int getYearPublished() { return yearPublished; }
+        public void setYearPublished(int yearPublished) { this.yearPublished = yearPublished; }
+        private boolean isAvailable;
+        public boolean isAvailable() { return isAvailable; }
+        // no public setter — write only inside this class
+
+        // Primary constructor — all fields set at birth
+        public Book(String title, String author, String isbn, int yearPublished)
+        {
+            this.title = title;
+            this.author = author;
+            this.isbn = isbn;
+            this.yearPublished = yearPublished;
+            isAvailable = true;
+        }
+
+        // Overloaded constructor — year unknown; chains to primary
+        public Book(String title, String author, String isbn) {
+        this(title, author, isbn, 0);
+    }
+
+        public void printDetails()
+        {
+            String status = isAvailable ? "Available" : "On Loan";
+            String year = yearPublished == 0 ? "Unknown" : Integer.toString(yearPublished);
+            System.out.println("  [" + isbn + "] " + title + " by " + author + " (" + year + ") — " + status);
+        }
+
+        public void borrow()  { isAvailable = false; }
+        public void returnBook() { isAvailable = true; }
+
+        // DELETE setIsbn() — the constructor replaced it entirely.
+    }
+</code></pre>
+
+    <h3 class="sub-title">2.2 Member.java — Full Implementation</h3>
+
+<pre><code>// File: Member.java
+
+    class Member
+    {
+        private String name;
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+        private String membershipNumber;
+        public String getMembershipNumber() { return membershipNumber; }
+        // no public setter — write only inside this class
+        private int booksBorrowed;
+        public int getBooksBorrowed() { return booksBorrowed; }
+        // no public setter — write only inside this class
+
+        public Member(String name, String membershipNumber)
+        {
+            this.name = name;
+            this.membershipNumber = membershipNumber;
+            this.booksBorrowed = 0;
+        }
+
+        public void borrowBook()
+        {
+            booksBorrowed++;
+        }
+
+        public void returnBook()
+        {
+            if (booksBorrowed &gt; 0) booksBorrowed--;
+        }
+
+        public void printDetails()
+        {
+            System.out.println("  [" + membershipNumber + "] " + name + " — " + booksBorrowed + " book(s) out");
+        }
+
+        // DELETE setMembershipNumber() — constructor sets it once, correctly.
+    }
+</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Why delete setIsbn?</strong> It was a teaching bridge in Phase 2. Constructors set read-only data at birth — a separate setter would re-open the security hole encapsulation closed.</li>
+        <li><strong>Chaining for unknown year:</strong> <code>yearPublished = 0</code> is a convention meaning "not recorded". <code>printDetails</code> displays "Unknown" instead of 0.</li>
+        <li><strong>Membership numbers are permanent:</strong> like ISBN, they are set once in the constructor with <code>public getter / no public setter</code>.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="section">
+    <h2 class="section-title">3. Step 2 — Library Class with Overloaded Find</h2>
+
+    <p>Move the catalog out of <code>Main.java</code> into a <code>Library</code> class. Searching belongs with the data it searches — this is a preview of good class design.</p>
+
+<pre><code>import java.util.ArrayList;
+import java.util.List;
+
+// File: Library.java
+
+    class Library
+    {
+        private List&lt;Book&gt; catalog = new ArrayList&lt;&gt;();
+        private List&lt;Member&gt; members = new ArrayList&lt;&gt;();
+
+        public void addBook(Book book)   { catalog.add(book); }
+        public void AddMember(Member m)  { members.add(m); }
+
+        // ---- OVERLOADED FIND METHODS ----
+
+        // Overload 1: search by title (case-insensitive)
+        public Book find(String title)
+        {
+            for (Book b : catalog)
+            {
+                if (b.getTitle().equalsIgnoreCase(title))
+                    return b;
+            }
+            return null;
+        }
+
+        // Overload 2: search by author AND year — different parameter list
+        public Book find(String author, int year)
+        {
+            for (Book b : catalog)
+            {
+                if (b.getAuthor().equalsIgnoreCase(author)
+                    &amp;&amp; b.getYearPublished() == year)
+                    return b;
+            }
+            return null;
+        }
+
+        // ISBN search — separate name because Find(String) already uses one String
+        // (title and ISBN would have identical signatures — compiler cannot tell them apart)
+        public Book findByIsbn(String isbn)
+        {
+            for (Book b : catalog)
+            {
+                if (b.getIsbn().equals(isbn))
+                    return b;
+            }
+            return null;
+        }
+
+        public void listAllBooks()
+        {
+            System.out.println("--- Catalog (" + catalog.size() + " books) ---");
+            for (Book b : catalog) b.printDetails();
+        }
+
+        public void listAllMembers()
+        {
+            System.out.println("--- Members (" + members.size() + ") ---");
+            for (Member m : members) m.printDetails();
+        }
+    }
+</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 230" role="img" aria-label="Search overload routing">
+        <text x="380" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1f2b">Menu Call → Compiler Routes to Correct Search Method</text>
+        <rect x="30" y="50" width="180" height="45" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="120" y="72" text-anchor="middle" font-size="10" font-weight="700" fill="#1565c0">lib.find("Clean Code")</text>
+        <text x="120" y="86" text-anchor="middle" font-size="9" fill="#5b6472">one string arg</text>
+        <line x1="210" y1="72" x2="250" y2="72" stroke="#e65100" stroke-width="2" marker-end="url(#arr12)"/>
+        <rect x="255" y="50" width="200" height="45" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="355" y="77" text-anchor="middle" font-size="10" font-weight="700" fill="#e65100">find(String title)</text>
+        <rect x="30" y="115" width="180" height="45" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="120" y="135" text-anchor="middle" font-size="10" font-weight="700" fill="#1565c0">lib.find("Hunt", 1999)</text>
+        <text x="120" y="149" text-anchor="middle" font-size="9" fill="#5b6472">string + int args</text>
+        <line x1="210" y1="137" x2="250" y2="137" stroke="#e65100" stroke-width="2" marker-end="url(#arr12)"/>
+        <rect x="255" y="115" width="200" height="45" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="355" y="142" text-anchor="middle" font-size="10" font-weight="700" fill="#e65100">Find(string, int)</text>
+        <rect x="30" y="180" width="180" height="45" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="120" y="200" text-anchor="middle" font-size="10" font-weight="700" fill="#1565c0">lib.findByIsbn("978-...")</text>
+        <text x="120" y="214" text-anchor="middle" font-size="9" fill="#5b6472">distinct name — same sig as title</text>
+        <line x1="210" y1="202" x2="250" y2="202" stroke="#2e7d32" stroke-width="2" marker-end="url(#arr12)"/>
+        <rect x="255" y="180" width="200" height="45" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="355" y="207" text-anchor="middle" font-size="10" font-weight="700" fill="#2e7d32">findByIsbn(string)</text>
+        <defs><marker id="arr12" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#e65100"/></marker></defs>
+        <text x="560" y="100" font-size="10" fill="#5b6472">Title vs ISBN both</text>
+        <text x="560" y="115" font-size="10" fill="#5b6472">need one string —</text>
+        <text x="560" y="130" font-size="10" fill="#c62828">cannot overload Find</text>
+        <text x="560" y="145" font-size="10" fill="#5b6472">Use clear name instead</text>
+      </svg>
+      <div class="cap">Figure 12.2 — Search routing: two-parameter <code>Find</code> handles author+year; ISBN uses <code>findByIsbn</code> because <code>Find(string)</code> is already taken by title search.</div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="section">
+    <h2 class="section-title">4. Step 3 — Menu Integration in Main.java</h2>
+
+<pre><code>import java.util.Scanner;
+
+// File: Main.java (key excerpts — adapt your existing menu)
+
+    public class Main
+    {
+        static Library lib = new Library();
+
+        public static void main(String[] args)
+        {
+        Scanner scanner = new Scanner(System.in);
+            // Seed data — one line per object
+            lib.addBook(new Book("Clean Code", "Robert C. Martin", "978-0132350884", 2008));
+            lib.addBook(new Book("The Pragmatic Programmer", "Hunt &amp; Thomas", "978-0201616224", 1999));
+            lib.addBook(new Book("Head First Java", "Andrew Stellman", "978-1491976708"));
+            lib.AddMember(new Member("Kasun Perera", "MEM-001"));
+            lib.AddMember(new Member("Nadee Silva", "MEM-002"));
+
+            boolean running = true;
+            while (running)
+            {
+                System.out.println("\n=== Library System (Phase 3) ===");
+                System.out.println("1. List all books");
+                System.out.println("2. Search by title");
+                System.out.println("3. Search by author + year");
+                System.out.println("4. Search by ISBN");
+                System.out.println("5. Add new book");
+                System.out.println("6. List members");
+                System.out.println("0. Exit");
+                System.out.print("Choice: ");
+                String choice = scanner.nextLine();
+
+                switch (choice)
+                {
+                    case "1": lib.listAllBooks(); break;
+                    case "2": SearchByTitle(); break;
+                    case "3": SearchByAuthorYear(); break;
+                    case "4": SearchByIsbn(); break;
+                    case "5": AddNewBook(); break;
+                    case "6": lib.listAllMembers(); break;
+                    case "0": running = false; break;
+                    default: System.out.println("Invalid choice."); break;
+                }
+            }
+        }
+
+        static void SearchByTitle()
+        {
+            System.out.print("Enter title: ");
+            String title = scanner.nextLine();
+            Book found = lib.find(title);          // Overload 1
+            if (found != null) found.printDetails();
+            else System.out.println("Book not found.");
+        }
+
+        static void SearchByAuthorYear()
+        {
+            System.out.print("Enter author: ");
+            String author = scanner.nextLine();
+            System.out.print("Enter year: ");
+            int year = Integer.parseInt(scanner.nextLine());
+            Book found = lib.find(author, year);   // Overload 2
+            if (found != null) found.printDetails();
+            else System.out.println("Book not found.");
+        }
+
+        static void SearchByIsbn()
+        {
+            System.out.print("Enter ISBN: ");
+            String isbn = scanner.nextLine();
+            Book found = lib.findByIsbn(isbn);
+            if (found != null) found.printDetails();
+            else System.out.println("Book not found.");
+        }
+
+        static void AddNewBook()
+        {
+            System.out.print("Title: ");  String title = scanner.nextLine();
+            System.out.print("Author: "); String author = scanner.nextLine();
+            System.out.print("ISBN: ");   String isbn = scanner.nextLine();
+            System.out.print("Year (0 if unknown): ");
+            int year = Integer.parseInt(scanner.nextLine());
+            lib.addBook(new Book(title, author, isbn, year));
+            System.out.println("Book added.");
+        }
+    }
+</code></pre>
+  </div>
+
+  <!-- LAB -->
+  <div class="section">
+    <h2 class="section-title">5. Assessed Lab — Phase 3 Build</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 12.1 — Phase 3 Complete Build (2.5 hrs, assessed — Checkpoint #3)</strong>
+      <ol>
+        <li>Add both <code>Book</code> constructors and the <code>Member</code> constructor. Delete <code>setIsbn()</code> and <code>setMembershipNumber()</code>.</li>
+        <li>Create the <code>Library</code> class; move catalog and member lists into it; update all creation code to one-line constructor calls.</li>
+        <li>Implement all three search methods and wire menu options 2, 3, and 4.</li>
+        <li>Test: search <code>"clean code"</code> (lowercase title) — must find the book. Search a missing title — must print "not found" without crashing.</li>
+        <li>Test: <code>Find("Hunt &amp; Thomas", 1999)</code> returns the Pragmatic Programmer. Wrong year returns null.</li>
+        <li><strong>Checkpoint demo (10 min):</strong> show one-line book creation, title search, and author+year search to the lecturer. This is progress mark #3.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 12.2 — Extension Challenges (remaining time)</strong>
+      <ol>
+        <li>Add menu option to register a new member using the constructor in one step.</li>
+        <li>Add <code>findMember(String membershipNumber)</code> to <code>Library</code>.</li>
+        <li>Count how many lines of object-creation code you removed compared to Phase 2. Record the number in a comment at the top of <code>Main.java</code>.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Assessment Criteria — Checkpoint #3</strong>
+      <table>
+        <thead><tr><th>Criterion</th><th>Marks</th></tr></thead>
+        <tbody>
+          <tr><td>Book and Member constructors compile; setter methods removed</td><td>3</td></tr>
+          <tr><td>One-line creation used throughout Main.java</td><td>2</td></tr>
+          <tr><td>Library class owns catalog; Find overloads work correctly</td><td>3</td></tr>
+          <tr><td>Menu integrated; null results handled without crash</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 12 Summary — Library Phase 3 Complete</h3>
+    <ul>
+      <li>Constructors replaced multi-line creation and temporary <code>Set</code> methods — objects are valid from birth.</li>
+      <li>Constructor overloading with <code>this(...)</code> handles books with unknown publication year.</li>
+      <li><code>Library</code> class encapsulates the catalog and search logic — better than scattering it in the menu.</li>
+      <li><code>Find(string)</code> and <code>Find(string, int)</code> overload by parameter list; ISBN uses <code>findByIsbn</code> to avoid signature collision.</li>
+      <li>Phase 3 checkpoint demonstrates constructors and overloading working in a real project.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-12.html" class="btn btn-secondary">&larr; Session 12</a>
+    <a href="session-14.html" class="btn btn-primary">Session 14 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 13 &nbsp;|&nbsp; 3 Hours &nbsp;|&nbsp; Sequence position 13 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 16 - Library System Project - Phase 4 - The LibraryItem Hierarchy</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 16 of 23 &nbsp;&bull;&nbsp; Lesson 07 - Inheritance</div>
+  <h2>Library System Project – Phase 4: The LibraryItem Hierarchy</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 4 Hours</span>
+    <span class="stag stag-practical">Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 07 - Inheritance &#9656; Session 16</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="practical-header">
+    <div class="prac-num">Library System &nbsp;&bull;&nbsp; Phase 4 of 6</div>
+    <h3>Beyond Books — DVDs via Inheritance</h3>
+    <div class="prac-meta">
+      <span>⏱ 4 Hours</span>
+      <span>📋 Session 16 of 23</span>
+      <span>📂 Opens Phase 3 Project</span>
+      <span>📝 Continuous Assessment Project</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Extract a base class from an existing class (refactor to inheritance)</li>
+      <li>Create sibling classes (Book, Dvd) that reuse base behaviour</li>
+      <li>Use protected members and base constructors in a real project</li>
+      <li>Recognise the limitation that polymorphism will solve in Session 18</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. New Requirements from the Client</h2>
+
+    <div class="note-box">
+      <strong>The Client's Request — Phase 4</strong>
+      <p>"Our library also lends <strong>DVDs</strong> (title, director, duration — borrowable for 3 days). Borrowing and returning work the same way as books. Please don't make us maintain two copies of the same borrowing code!"</p>
+    </div>
+
+    <p>The client literally asked for inheritance. Both item types share: a title, availability, borrow/return logic. Each adds its own extras. Design:</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 240" role="img" aria-label="LibraryItem hierarchy">
+        <defs><marker id="tri16" markerWidth="16" markerHeight="14" refX="8" refY="7" orient="auto"><path d="M0,0 L16,7 L0,14 Z" fill="white" stroke="#0277bd" stroke-width="1.5"/></marker></defs>
+        <rect x="255" y="15" width="250" height="105" rx="10" fill="#e3f2fd" stroke="#0277bd" stroke-width="3"/>
+        <text x="380" y="40" text-anchor="middle" font-size="13" font-weight="700" fill="#0277bd">LibraryItem (base)</text>
+        <text x="380" y="60" text-anchor="middle" font-size="10" fill="#1a1f2b">Title, IsAvailable, LoanDays</text>
+        <text x="380" y="78" text-anchor="middle" font-size="10" fill="#b9770e">borrow(), returnItem()</text>
+        <text x="380" y="96" text-anchor="middle" font-size="10" fill="#b9770e">printDetails()</text>
+        <line x1="180" y1="175" x2="310" y2="125" stroke="#0277bd" stroke-width="2" marker-end="url(#tri16)"/>
+        <line x1="580" y1="175" x2="450" y2="125" stroke="#0277bd" stroke-width="2" marker-end="url(#tri16)"/>
+        <rect x="60" y="180" width="240" height="70" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="180" y="202" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">Book extends LibraryItem</text>
+        <text x="180" y="220" text-anchor="middle" font-size="10" fill="#1a1f2b">+ Author, ISBN, Year</text>
+        <text x="180" y="236" text-anchor="middle" font-size="10" fill="#5b6472">loan: 14 days</text>
+        <rect x="460" y="180" width="240" height="70" rx="10" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2"/>
+        <text x="580" y="202" text-anchor="middle" font-size="12" font-weight="700" fill="#8e24aa">Dvd extends LibraryItem</text>
+        <text x="580" y="220" text-anchor="middle" font-size="10" fill="#1a1f2b">+ Director, DurationMin</text>
+        <text x="580" y="236" text-anchor="middle" font-size="10" fill="#5b6472">loan: 3 days</text>
+      </svg>
+      <div class="cap">Figure 16.1 — The Phase 4 hierarchy. Borrowing logic lives once in LibraryItem; Book and Dvd add their specific data.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Step-by-Step Build</h2>
+
+    <h3 class="sub-title">Step 1 — Extract the Base Class</h3>
+<pre><code>// File: LibraryItem.java  (NEW)
+package librarysystem;
+
+class LibraryItem {
+    private String title;
+    private boolean isAvailable = true;
+    protected int loanDays = 14;   // children may adjust; outsiders use getter only
+
+    public String getTitle() { return title; }
+    public boolean isAvailable() { return isAvailable; }
+    public int getLoanDays() { return loanDays; }
+
+    public LibraryItem(String title) {
+        this.title = title;
+    }
+
+    public boolean borrow() {
+        if (!isAvailable) {
+            System.out.println("Sorry, '" + title + "' is already borrowed.");
+            return false;
+        }
+        isAvailable = false;
+        System.out.println("Borrowed '" + title + "' — return within " + loanDays + " days.");
+        return true;
+    }
+
+    public void returnItem() {
+        if (isAvailable) {
+            System.out.println("'" + title + "' was not borrowed.");
+            return;
+        }
+        isAvailable = true;
+        System.out.println("'" + title + "' returned. Thank you!");
+    }
+
+    public void printDetails() {
+        String status = isAvailable ? "Available" : "Borrowed";
+        System.out.println(title + " | loan " + loanDays + " days | " + status);
+    }
+}</code></pre>
+
+    <h3 class="sub-title">Step 2 — Book Becomes a Child</h3>
+<pre><code>// File: Book.java  (Phase 4 — now derived)
+package librarysystem;
+
+class Book extends LibraryItem {
+    private String author;
+    private String isbn;
+    private int yearPublished;
+
+    public String getAuthor() { return author; }
+    public String getIsbn() { return isbn; }
+    public int getYearPublished() { return yearPublished; }
+
+    public Book(String title, String author, String isbn, int year) {
+        super(title);                       // title travels up to LibraryItem
+        this.author = author;
+        this.isbn = isbn;
+        this.yearPublished = year;
+        // loanDays stays at the default 14 for books
+    }
+    // borrow, returnItem: DELETED here — inherited from LibraryItem. Less code than Phase 3!
+}</code></pre>
+
+    <h3 class="sub-title">Step 3 — Add the Dvd Sibling</h3>
+<pre><code>// File: Dvd.java
+package librarysystem;
+
+class Dvd extends LibraryItem {
+    private String director;
+    private int durationMinutes;
+
+    public String getDirector() { return director; }
+    public int getDurationMinutes() { return durationMinutes; }
+
+    public Dvd(String title, String director, int durationMinutes) {
+        super(title);
+        this.director = director;
+        this.durationMinutes = durationMinutes;
+        this.loanDays = 3;             // protected field lets the child change its own rule
+    }
+}</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 160" role="img" aria-label="Refactor direction">
+        <rect x="30" y="50" width="200" height="80" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="130" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#c62828">Phase 3 Book</text>
+        <text x="130" y="100" text-anchor="middle" font-size="9" fill="#5b6472">Title, Borrow, Return</text>
+        <text x="130" y="115" text-anchor="middle" font-size="9" fill="#5b6472">Author, ISBN — all in one</text>
+        <text x="260" y="95" font-size="24" fill="#0277bd">→</text>
+        <rect x="290" y="30" width="180" height="60" rx="8" fill="#e3f2fd" stroke="#0277bd" stroke-width="2"/>
+        <text x="380" y="55" text-anchor="middle" font-size="10" font-weight="700" fill="#0277bd">LibraryItem</text>
+        <text x="380" y="72" text-anchor="middle" font-size="9" fill="#5b6472">shared logic pulled UP</text>
+        <line x1="380" y1="90" x2="200" y2="130" stroke="#2e7d32" stroke-width="2"/>
+        <line x1="380" y1="90" x2="560" y2="130" stroke="#8e24aa" stroke-width="2"/>
+        <rect x="100" y="130" width="200" height="25" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="200" y="147" text-anchor="middle" font-size="10" fill="#2e7d32">Book (trimmed)</text>
+        <rect x="460" y="130" width="200" height="25" rx="6" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2"/>
+        <text x="560" y="147" text-anchor="middle" font-size="10" fill="#8e24aa">Dvd (new)</text>
+      </svg>
+      <div class="cap">Figure 16.2 — Refactor direction: pull shared members up into LibraryItem, trim Book, add Dvd as a sibling.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Refactor direction:</strong> we <em>pulled up</em> the members every item shares (Title, IsAvailable, Borrow, Return) into LibraryItem, then <em>trimmed</em> Book down to only its unique parts.</li>
+        <li><strong><code>protected setLoanDays(...) / getLoanDays()</code>:</strong> the perfect protected use case — each child adjusts its own loan rule in its constructor, but no outsider can tamper.</li>
+        <li><strong><code>super(title)</code></strong> in every child ships the title up to the LibraryItem constructor — construction runs top-down: LibraryItem part first, then the child's extras.</li>
+        <li><strong>Spot the remaining wart:</strong> <code>printDetails()</code> shows only the base data — a Dvd prints no director. Session 18 fixes this with <code>@Override</code> (methods overridable by default) and a single polymorphic catalog.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Your Phase 4 Assignment</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 16.1 — Refactor to the Hierarchy (90 min, assessed)</strong>
+      <ol>
+        <li>Open your Phase 3 <code>LibrarySystem</code>. Add LibraryItem.java; convert Book; add Dvd.java.</li>
+        <li>For now keep separate lists in Library: <code>List&lt;Book&gt;</code> and <code>List&lt;Dvd&gt;</code> with AddBook/AddDvd. (Feel the clumsiness — Session 18 fixes it beautifully.)</li>
+        <li>Seed data: at least 3 books and 2 DVDs.</li>
+        <li>Extend the menu to list and borrow each type. Verify: borrowing a DVD says "return within 3 days", a book "14 days".</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 16.2 — Prove the Inheritance Payoff (45 min)</strong>
+      <ol>
+        <li>Client change request: every borrow message must now also print today's date + LoanDays as the due date. Use <code>LocalDate.now().plusDays(loanDays).toString()</code>.</li>
+        <li>Count how many lines you changed. (Answer: one method in one file — LibraryItem.Borrow. Both item types updated instantly.)</li>
+        <li>Write two sentences in your lab book: how many places would this change have needed in the copy-paste design?</li>
+        <li><strong>Checkpoint:</strong> demo the hierarchy + due dates — progress mark #4.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 16</strong>
+      <ol>
+        <li>Given two similar classes, extract a base class and rewrite one child. (10 marks)</li>
+        <li>Show how a derived class changes a protected-set property in its constructor and explain why outsiders cannot. (5 marks)</li>
+        <li>Explain, with the Library example, how inheritance reduces maintenance cost. (5 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 16 Summary — Library Phase 4 Complete</h3>
+    <ul>
+      <li>LibraryItem base class owns Title, availability and all borrow/returnItem logic — written once.</li>
+      <li>Book and Dvd are thin children: own data + own LoanDays via protected set.</li>
+      <li><code>super(title)</code> feeds the base constructor; construction runs top-down.</li>
+      <li>One-line changes now update every item type — the inheritance payoff, measured.</li>
+      <li>Remaining wart (generic printDetails, two separate lists) sets up Lesson 07: Polymorphism.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-15.html" class="btn btn-secondary">&larr; S15 - protected &amp; base</a>
+    <a href="../lesson-08/session-17.html" class="btn btn-primary">S17 - Polymorphism &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 16 &ndash; Library System Phase 4 &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

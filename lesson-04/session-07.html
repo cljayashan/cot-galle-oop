@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 07 - Access Modifiers - public, private and Data Hiding</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 07 of 23 &nbsp;&bull;&nbsp; Lesson 04 - Encapsulation</div>
+  <h2>Access Modifiers &ndash; public, private and Data Hiding</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type">Theory + Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 04 - Encapsulation &#9656; Session 07</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#2e7d32,#1565c0);">
+    <div class="lesson-num">Lesson 04 of 10 &mdash; The First Pillar of OOP</div>
+    <h2>Encapsulation</h2>
+    <p>Until now our fields were <code>public</code> &mdash; anyone could write <code>account.balance = -999999;</code> and destroy the data. Encapsulation fixes this: we <strong>hide the data</strong> and expose only safe, controlled doors. This is the first and most fundamental of the four OOP pillars.</p>
+    <div class="lesson-meta">
+      <span>&#9203; 10 Hours Integrated</span>
+      <span>&#128218; Sessions 07 &ndash; 09</span>
+      <span>&#128274; Pillar 1 of 4</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes &ndash; After this session you will be able to:</h3>
+    <ul>
+      <li>Define encapsulation and explain why data hiding matters in real software</li>
+      <li>Use the <code>public</code> and <code>private</code> access modifiers correctly</li>
+      <li>Demonstrate what the compiler blocks when a member is private (error a compile-time access error)</li>
+      <li>Write getter and setter <em>methods</em> with validation in an encapsulated BankAccount class</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. The Problem: Naked Data</h2>
+
+    <p>Our Session 05 BankAccount had careful <code>deposit()</code> and <code>withdraw()</code> methods with rules&hellip; but the field was <code>public</code>, so this compiles and runs happily:</p>
+
+<pre><code>BankAccount acc = new BankAccount();
+acc.balance = -1000000;              // bypasses ALL our rules - total disaster, no error!
+acc.balance = acc.balance * 100;     // instant millionaire - the bank is ruined</code></pre>
+
+    <p>Our rules were only <em>suggestions</em>. Real protection means making it <strong>impossible</strong> to bypass the rules &mdash; the compiler itself must refuse such code.</p>
+
+    <div class="definition-box">
+      <strong>Definition &mdash; Encapsulation</strong>
+      <p><strong>Encapsulation</strong> is bundling data (fields) and the methods that operate on that data into one unit (the class), while <strong>hiding the data from direct outside access</strong>. Outsiders interact only through a controlled public interface. Also called <em>data hiding</em>.</p>
+    </div>
+
+    <p>Real-world analogies help us remember the idea:</p>
+    <ul>
+      <li><strong>ATM:</strong> the cash is locked inside the vault; you interact only through the keypad and card slot &mdash; the machine validates everything before money moves.</li>
+      <li><strong>Medicine capsule:</strong> the drug is sealed inside a shell &mdash; you take the capsule as a whole; you cannot touch the powder directly.</li>
+      <li><strong>Car pedals:</strong> you press the accelerator &mdash; you do not reach into the engine to squirt fuel into cylinders yourself.</li>
+    </ul>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 240" role="img" aria-label="ATM encapsulation analogy">
+        <defs><marker id="arr7" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1f4e79"/></marker></defs>
+        <!-- Customer -->
+        <rect x="20" y="80" width="120" height="70" rx="10" fill="#eef4fb" stroke="#1f4e79" stroke-width="2"/>
+        <text x="80" y="110" text-anchor="middle" font-size="13" font-weight="700" fill="#1f4e79">CUSTOMER</text>
+        <text x="80" y="128" text-anchor="middle" font-size="10" fill="#5b6472">(outside code)</text>
+        <!-- ATM shell -->
+        <rect x="200" y="30" width="360" height="180" rx="14" fill="#f4f7fb" stroke="#5b6472" stroke-width="2"/>
+        <text x="380" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1f2b">BankAccount CLASS (the ATM)</text>
+        <!-- Public interface -->
+        <rect x="230" y="75" width="140" height="55" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="300" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">public methods</text>
+        <text x="300" y="115" text-anchor="middle" font-size="10" fill="#5b6472">deposit(), withdraw()</text>
+        <text x="300" y="128" text-anchor="middle" font-size="10" fill="#5b6472">getBalance()</text>
+        <!-- Private vault -->
+        <rect x="400" y="75" width="140" height="55" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="470" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#c62828">private fields</text>
+        <text x="470" y="115" text-anchor="middle" font-size="10" fill="#5b6472">balance, ownerName</text>
+        <text x="470" y="128" text-anchor="middle" font-size="10" fill="#c62828">LOCKED VAULT</text>
+        <!-- Arrows -->
+        <line x1="140" y1="115" x2="225" y2="102" stroke="#2e7d32" stroke-width="2" marker-end="url(#arr7)"/>
+        <text x="175" y="95" font-size="9" fill="#2e7d32">allowed</text>
+        <line x1="140" y1="130" x2="395" y2="130" stroke="#c62828" stroke-width="2" stroke-dasharray="6,4"/>
+        <text x="250" y="148" font-size="9" fill="#c62828">BLOCKED &mdash; cannot reach private data directly</text>
+        <rect x="220" y="155" width="320" height="40" rx="6" fill="#1f4e79"/>
+        <text x="380" y="180" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Encapsulation = public doors + private vault</text>
+      </svg>
+      <div class="cap">Figure 7.1 &mdash; ATM analogy: outsiders use public methods (the keypad); private fields (the cash vault) stay hidden inside the class.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Access Modifiers &mdash; The Door Policy</h2>
+
+    <p>An <strong>access modifier</strong> is a keyword written before a field, method or class that controls who can use it:</p>
+
+    <table>
+      <thead><tr><th>Modifier</th><th>Who Can Access?</th><th>Typical Use</th></tr></thead>
+      <tbody>
+        <tr><td><code>public</code></td><td>Any code, anywhere</td><td>Methods meant for outside use; the class&rsquo;s &ldquo;control panel&rdquo;</td></tr>
+        <tr><td><code>private</code></td><td>Only code <em>inside the same class</em></td><td><strong>Fields &mdash; almost always!</strong> Also internal helper methods</td></tr>
+        <tr><td><code>protected</code></td><td>Same class + its child classes</td><td>Comes alive in Lesson 06 (Inheritance)</td></tr>
+        <tr><td><code>package-private</code> (default)</td><td>Any code in the same project</td><td>Advanced scenarios; Java classes default to this</td></tr>
+      </tbody>
+    </table>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 220" role="img" aria-label="Public versus private access diagram">
+        <rect x="10" y="20" width="340" height="180" rx="12" fill="#eef6ef" stroke="#2e7d32" stroke-width="2"/>
+        <text x="180" y="48" text-anchor="middle" font-size="14" font-weight="700" fill="#2e7d32">public</text>
+        <text x="180" y="68" text-anchor="middle" font-size="10" fill="#5b6472">Open door &mdash; anyone may enter</text>
+        <rect x="40" y="85" width="120" height="40" rx="6" fill="#fff" stroke="#2e7d32"/>
+        <text x="100" y="110" text-anchor="middle" font-size="11" fill="#1a1f2b">deposit()</text>
+        <rect x="190" y="85" width="120" height="40" rx="6" fill="#fff" stroke="#2e7d32"/>
+        <text x="250" y="110" text-anchor="middle" font-size="11" fill="#1a1f2b">getBalance()</text>
+        <text x="180" y="155" text-anchor="middle" font-size="10" fill="#2e7d32">Main, other classes, tests &mdash; all OK</text>
+        <rect x="410" y="20" width="340" height="180" rx="12" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="580" y="48" text-anchor="middle" font-size="14" font-weight="700" fill="#c62828">private</text>
+        <text x="580" y="68" text-anchor="middle" font-size="10" fill="#5b6472">Locked door &mdash; same class only</text>
+        <rect x="500" y="85" width="160" height="40" rx="6" fill="#fff" stroke="#c62828"/>
+        <text x="580" y="110" text-anchor="middle" font-size="11" fill="#1a1f2b">balance, ownerName</text>
+        <text x="580" y="155" text-anchor="middle" font-size="10" fill="#c62828">Main tries acc.balance &rarr; a compile-time access error error</text>
+        <rect x="10" y="195" width="740" height="22" rx="4" fill="#f4f7fb" stroke="#d7dce5"/>
+        <text x="380" y="210" text-anchor="middle" font-size="10" fill="#1a1f2b">Rule of thumb: fields private, methods public (unless internal helpers)</text>
+      </svg>
+      <div class="cap">Figure 7.2 &mdash; public vs private: public members form the safe interface; private members store and protect the real data.</div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Convention &mdash; Naming Private Fields</strong>
+      <p>Private fields use <strong>camelCase</strong> (<code>balance</code>, <code>ownerName</code>). Public methods use <strong>camelCase</strong> (<code>deposit</code>, <code>getBalance</code>). This instantly tells every reader what is hidden and what is the public control panel.</p>
+    </div>
+
+    <h3 class="sub-title">2.1 Encapsulated BankAccount with Getters and Setters</h3>
+
+<pre><code>// File: BankAccount.java  (version 2 - encapsulated)
+
+    class BankAccount
+    {
+        // PRIVATE fields - invisible from outside the class
+        private double balance;              // stores the account balance
+        private String ownerName;             // stores the account holder's name
+
+        // PUBLIC methods - the only doors into the object
+
+        public void deposit(double amount)
+        {
+            // Reject invalid deposits before touching the balance
+            if (amount &lt;= 0)
+            {
+                System.out.println("deposit must be positive!");
+                return;
+            }
+            balance += amount;                // inside the class we CAN touch balance
+        }
+
+        public boolean withdraw(double amount)
+        {
+            // Return false if the withdrawal is impossible
+            if (amount &lt;= 0 || amount &gt; balance)
+            {
+                return false;
+            }
+            balance -= amount;
+            return true;
+        }
+
+        // GETTER method: lets outsiders READ the balance without changing it
+        public double getBalance()
+        {
+            return balance;                   // hands out a copy of the value
+        }
+
+        // SETTER method with validation: controlled writing of owner name
+        public void setOwnerName(String name)
+        {
+            if (name == null || name.trim().isEmpty())   // empty or only spaces?
+            {
+                System.out.println("Owner name cannot be empty.");
+                return;
+            }
+            this.ownerName = name;
+        }
+
+        public String getOwnerName()
+        {
+            return ownerName;
+        }
+    }
+</code></pre>
+
+    <h3 class="sub-title">2.2 Seeing the Compiler Protect You (a compile-time access error)</h3>
+
+<pre><code>// In Main:
+BankAccount acc = new BankAccount();
+
+acc.deposit(5000);                        // OK - public door
+System.out.println(acc.getBalance());      // OK - reading through the getter: 5000
+
+acc.balance = -1000000;                   // COMPILER ERROR!
+// Error a compile-time access error: 'BankAccount.balance' is inaccessible due to its protection level
+// The hack from Section 1 is now IMPOSSIBLE. The compiler is our security guard.</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner&rsquo;s Logic Breakdown</strong>
+      <ol>
+        <li><strong>private = inside only.</strong> The methods of BankAccount (deposit, withdraw&hellip;) can read/write <code>balance</code> freely because they live inside the same class. Main lives in a different class, so its attempt fails at compile time &mdash; the program will not even build.</li>
+        <li><strong>Getter = read-only window.</strong> <code>getBalance()</code> hands out a <em>copy</em> of the value. The outsider can look, but not touch the field directly.</li>
+        <li><strong>Setter = guarded entrance.</strong> <code>setOwnerName()</code> checks the input first. Bad values bounce off. Every write goes through the checkpoint.</li>
+        <li><strong>a compile-time access error</strong> is the error code to remember in exams: &ldquo;inaccessible due to its protection level.&rdquo;</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">2.3 Deciding What to Expose</h3>
+    <p>Design rule of thumb for every member you write:</p>
+    <ol>
+      <li>Fields &rarr; <strong>private</strong>, practically always.</li>
+      <li>Methods that outsiders need &rarr; <strong>public</strong>.</li>
+      <li>Helper methods used only internally (e.g. a <code>ValidateAmount()</code>) &rarr; <strong>private</strong>.</li>
+      <li>When unsure &rarr; start private. You can always open a door later; closing a door that others already use breaks their code.</li>
+    </ol>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 7.1 &mdash; Break In, Get Caught (30 min)</strong>
+      <ol>
+        <li>Create project <code>BankDemo2</code> with the encapsulated BankAccount above.</li>
+        <li>In Main, deliberately write <code>acc.balance = 999;</code> &mdash; observe the red squiggle and read the full compiler error in the Error List. Write the error code (a compile-time access error) in your lab book.</li>
+        <li>Remove the illegal line. deposit 5000, withdraw 1200, print the balance via <code>getBalance()</code>.</li>
+        <li>Try <code>acc.setOwnerName("")</code> then <code>acc.setOwnerName("Ruwan Silva")</code> and print the owner each time.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 7.2 &mdash; Encapsulate the Student (45 min)</strong>
+      <p>Take your <code>Student</code> class from an earlier lab and upgrade it:</p>
+      <ol>
+        <li>Make all fields private.</li>
+        <li>Write setter methods for the marks that reject values outside 0&ndash;100 (print a warning and keep the old value).</li>
+        <li>Write getter methods for name and average.</li>
+        <li>In Main, prove that: (a) direct field access no longer compiles, (b) <code>SetMathMarks(150)</code> is rejected, (c) valid values work normally.</li>
+        <li><strong>Challenge:</strong> add a private helper <code>boolean isValidMark(int m)</code> and use it in both setters.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 07</strong>
+      <ol>
+        <li>Define encapsulation and give one real-world analogy. (4 marks)</li>
+        <li>Explain the difference between <code>public</code> and <code>private</code> access modifiers. (4 marks)</li>
+        <li>Why should fields normally be private? What can go wrong if they are public? (4 marks)</li>
+        <li>Write a private field with a public getter method and a public setter method that validates input. (6 marks)</li>
+        <li>What error does the compiler give when private members are accessed from outside? (2 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 07 Summary</h3>
+    <ul>
+      <li>Public fields let anyone bypass your rules; encapsulation makes bypassing impossible.</li>
+      <li><code>private</code> = same class only; <code>public</code> = everyone; <code>protected</code> waits for inheritance.</li>
+      <li>Getter methods give read access; setter methods validate before writing.</li>
+      <li>Convention: camelCase private fields, camelCase methods; PascalCase only for class names.</li>
+      <li>Compiler error a compile-time access error proves the protection level is enforced at build time.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="../lesson-03/session-06.html" class="btn btn-secondary">&larr; S06 - Library Phase 1</a>
+    <a href="session-08.html" class="btn btn-primary">S08 - Getters &amp; Setters &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 07 &ndash; Access Modifiers &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

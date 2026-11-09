@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 10 - Constructors – Default &amp; Parameterized</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 10 of 23 &nbsp;&bull;&nbsp; Lesson 05 – Constructors &amp; Overloading</div>
+  <h2>Constructors – Default &amp; Parameterized</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type">Theory + Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 05 – Constructors &amp; Overloading &#9656; Session 10</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#e65100,#bf360c);">
+    <div class="lesson-num">Lesson 05 of 10 — Constructors &amp; Overloading</div>
+    <h2>Constructors &amp; Overloading</h2>
+    <p>In Phase 2 of the Library System, creating a <code>Book</code> took five separate lines — and it was easy to forget the ISBN. <strong>Constructors</strong> fix that: every object is born complete and valid in a single <code>new</code> expression. This lesson teaches how to write default and parameterized constructors, when they run, and how the <code>this</code> keyword resolves name clashes.</p>
+    <div class="lesson-meta">
+      <span>&#9203; 10 Hours Integrated</span>
+      <span>&#128218; Sessions 10 – 12</span>
+      <span>&#128213; Library Project Phase 3</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Explain what a constructor is and exactly when it runs during object creation</li>
+      <li>Write default (parameterless) and parameterized constructors</li>
+      <li>State the two syntax rules that distinguish constructors from ordinary methods</li>
+      <li>Use the <code>this</code> keyword to resolve parameter/field name clashes</li>
+      <li>Explain what happens to the automatic default constructor when you add your own</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. The Problem — Half-Built Objects</h2>
+
+    <p>After encapsulation (Lesson 03), your Library <code>Book</code> had getters and setters. Creation still looked fragile:</p>
+
+<pre><code>// Phase 2 style — five steps, easy to forget one:
+Book b = new Book();
+b.setTitle("Clean Code");
+b.setAuthor("Robert C. Martin");
+b.setIsbn("978-0132350884");
+b.setYearPublished(2008);
+catalog.add(b);   // what if setIsbn was skipped? A book with no ISBN enters the catalog.</code></pre>
+
+    <p>The object existed in an <em>invalid</em> state between line 1 and line 4. Nothing in the language forced us to finish the job. Constructors solve this: <strong>an object cannot be created without its essential data.</strong></p>
+
+    <div class="definition-box">
+      <strong>Definition — Constructor</strong>
+      <p>A <strong>constructor</strong> is a special method that runs <em>automatically, exactly once</em>, at the moment an object is created with <code>new</code>. Its job is to put the new object into a valid starting state. It has the <strong>same name as the class</strong> and <strong>no return type</strong> — not even <code>void</code>.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Default vs Parameterized Constructors</h2>
+
+    <h3 class="sub-title">2.1 Parameterized Constructor — Forces Complete Objects</h3>
+
+<pre><code>class Book
+{
+    private String title;
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    private String author;
+    public String getAuthor() { return author; }
+    public void setAuthor(String author) { this.author = author; }
+    private String isbn;
+    public String getIsbn() { return isbn; }
+    // no public setter — write only inside this class
+    private int yearPublished;
+    public int getYearPublished() { return yearPublished; }
+    public void setYearPublished(int yearPublished) { this.yearPublished = yearPublished; }
+        private boolean isAvailable = true;
+    public boolean isAvailable() { return isAvailable; }
+    private void setAvailable(boolean isAvailable) { this.isAvailable = isAvailable; }
+
+    // PARAMETERIZED constructor — requires title, author, isbn, year
+    public Book(String title, String author, String isbn, int yearPublished)
+    {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;              // constructor is inside the class — private set is allowed
+        this.yearPublished = yearPublished;
+        isAvailable = true;
+    }
+}
+
+// One line — complete and valid by definition:
+Book b = new Book("Clean Code", "Robert C. Martin", "978-0132350884", 2008);
+
+Book broken = new Book();   // COMPILER ERROR — no parameterless constructor exists</code></pre>
+
+    <h3 class="sub-title">2.2 Default Constructor — Sensible Empty Start</h3>
+
+    <p>A <strong>default constructor</strong> takes <em>no parameters</em>. Java provides one automatically for every class — but only until you write any constructor yourself.</p>
+
+<pre><code>class Vehicle
+{
+    private String brand;
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    private int speed;
+    public int getSpeed() { return speed; }
+    // no public setter — write only inside this class
+
+    // DEFAULT (parameterless) constructor
+    public Vehicle()
+    {
+        this.brand = "Unknown";
+        this.speed = 0;
+    }
+
+    // PARAMETERIZED constructor — both can coexist (different parameter lists)
+    public Vehicle(String brand)
+    {
+        this.brand = brand;
+        this.speed = 0;
+    }
+}
+
+Vehicle v1 = new Vehicle();           // uses default — brand = "Unknown"
+Vehicle v2 = new Vehicle("Toyota");     // uses parameterized — brand = "Toyota"</code></pre>
+
+    <div class="note-box">
+      <strong>Key Point — The Disappearing Default Constructor</strong>
+      <p>If you define <em>any</em> constructor (even a parameterized one), Java stops generating the free empty constructor. <code>new Book()</code> then fails unless you explicitly write <code>public Book() { }</code>. This is deliberate: it prevents accidental half-built objects.</p>
+    </div>
+
+    <table>
+      <thead><tr><th>Type</th><th>Signature</th><th>When Used</th><th>Example Call</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td><code>public ClassName()</code></td><td>Sensible starting values, optional data</td><td><code>new Vehicle()</code></td></tr>
+        <tr><td>Parameterized</td><td><code>public ClassName(type param, ...)</code></td><td>Required data must be supplied at birth</td><td><code>new Book("Title", "Author", "ISBN", 2020)</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. When Constructors Run &amp; the No-Return-Type Rule</h2>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 200" role="img" aria-label="Object birth timeline">
+        <defs><marker id="arr10" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#e65100"/></marker></defs>
+        <rect x="20" y="70" width="130" height="60" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="85" y="95" text-anchor="middle" font-size="11" font-weight="700" fill="#1565c0">1. new Book(...)</text>
+        <text x="85" y="115" text-anchor="middle" font-size="10" fill="#5b6472">caller requests object</text>
+        <line x1="150" y1="100" x2="185" y2="100" stroke="#e65100" stroke-width="2" marker-end="url(#arr10)"/>
+        <rect x="190" y="70" width="150" height="60" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="265" y="95" text-anchor="middle" font-size="11" font-weight="700" fill="#e65100">2. Memory allocated</text>
+        <text x="265" y="115" text-anchor="middle" font-size="10" fill="#5b6472">heap space reserved</text>
+        <line x1="340" y1="100" x2="375" y2="100" stroke="#e65100" stroke-width="2" marker-end="url(#arr10)"/>
+        <rect x="380" y="55" width="160" height="90" rx="8" fill="#fff8e1" stroke="#b28704" stroke-width="3"/>
+        <text x="460" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#b28704">3. Constructor runs</text>
+        <text x="460" y="100" text-anchor="middle" font-size="10" fill="#5b6472">fields/properties set</text>
+        <text x="460" y="118" text-anchor="middle" font-size="10" fill="#5b6472">runs ONCE, automatically</text>
+        <text x="460" y="136" text-anchor="middle" font-size="9" fill="#c62828">you never call it directly</text>
+        <line x1="540" y1="100" x2="575" y2="100" stroke="#e65100" stroke-width="2" marker-end="url(#arr10)"/>
+        <rect x="580" y="70" width="150" height="60" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="655" y="95" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">4. Object ready</text>
+        <text x="655" y="115" text-anchor="middle" font-size="10" fill="#5b6472">reference returned</text>
+        <text x="380" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1f2b">Timeline: what happens when you write new Book("Clean Code", ...)</text>
+      </svg>
+      <div class="cap">Figure 10.1 — Object birth timeline: <code>new</code> triggers memory allocation, then the constructor initialises the object, then the reference is handed back.</div>
+    </div>
+
+    <p><strong>When does the constructor run?</strong> The instant the <code>new</code> expression executes — after memory is allocated but before your code can use the variable. You never write <code>b.Book(...)</code>; the runtime calls it for you.</p>
+
+    <h3 class="sub-title">3.1 Constructor vs Ordinary Method</h3>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 220" role="img" aria-label="Constructor vs method comparison">
+        <text x="200" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="#e65100">Constructor</text>
+        <text x="560" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="#1565c0">Ordinary Method</text>
+        <rect x="30" y="45" width="340" height="160" rx="10" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="50" y="72" font-family="monospace" font-size="12" fill="#1a1f2b">public Book(String title)</text>
+        <line x1="50" y1="82" x2="350" y2="82" stroke="#e65100" stroke-width="1"/>
+        <text x="50" y="102" font-size="11" fill="#5b6472">&#10003; Same name as class</text>
+        <text x="50" y="122" font-size="11" fill="#5b6472">&#10003; NO return type (not even void)</text>
+        <text x="50" y="142" font-size="11" fill="#5b6472">&#10003; Runs automatically on new</text>
+        <text x="50" y="162" font-size="11" fill="#5b6472">&#10003; Runs exactly once per object</text>
+        <text x="50" y="192" font-size="10" fill="#c62828">public void Book(...) = NOT a constructor!</text>
+        <rect x="390" y="45" width="340" height="160" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="410" y="72" font-family="monospace" font-size="12" fill="#1a1f2b">public void printDetails()</text>
+        <line x1="410" y1="82" x2="710" y2="82" stroke="#1565c0" stroke-width="1"/>
+        <text x="410" y="102" font-size="11" fill="#5b6472">&#10003; Any valid method name</text>
+        <text x="410" y="122" font-size="11" fill="#5b6472">&#10003; Must declare return type (or void)</text>
+        <text x="410" y="142" font-size="11" fill="#5b6472">&#10003; Called explicitly: b.printDetails()</text>
+        <text x="410" y="162" font-size="11" fill="#5b6472">&#10003; Can be called many times</text>
+        <text x="410" y="192" font-size="10" fill="#2e7d32">Methods change or report state after birth</text>
+      </svg>
+      <div class="cap">Figure 10.2 — Constructor vs method: the no-return-type rule is the classic exam trap. <code>public void Book(...)</code> is an ordinary method that never runs on <code>new</code>.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. The <code>this</code> Keyword — Resolving Name Clashes</h2>
+
+    <p>When a constructor parameter has the <em>same name</em> as a field, Java picks the closest match — the parameter. Use <code>this</code> to mean "the current object being constructed".</p>
+
+<pre><code>class Student
+{
+    private String name;
+    private int age;
+    private String indexNumber;
+
+    public Student(String name, int age, String indexNumber)
+    {
+        this.name = name;               // this.name = FIELD;  name = PARAMETER
+        this.age = age;
+        this.indexNumber = indexNumber;
+        // Without 'this.' the line  name = name  would assign the parameter to itself!
+    }
+
+    public void printReport()
+    {
+        System.out.println(indexNumber + ": " + name + ", age " + age);
+    }
+}
+
+Student s = new Student("Kasun Perera", 20, "CTG/2024/001");
+s.printReport();   // CTG/2024/001: Kasun Perera, age 20</code></pre>
+
+    <p>The same pattern applies when parameters match property names in simple getter/setter pair style classes — though many developers prefer distinct names (<code>title</code> parameter, <code>Title</code> property) to avoid the clash entirely.</p>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Think of birth registration:</strong> the constructor is the clerk who fills in the newborn's identity card the moment they exist. No identity card, no valid citizen — no valid object.</li>
+        <li><strong>Arguments flow like any method:</strong> <code>new Student("Kasun", 20, "CTG/2024/001")</code> passes three values into three parameters, which are copied into the object's fields.</li>
+        <li><strong>The <code>this</code> disambiguator:</strong> inside the constructor body, bare <code>name</code> means the parameter. <code>this.name</code> explicitly targets the field belonging to the object being built.</li>
+        <li><strong>Read-only properties:</strong> a constructor can set <code>public getter / no public setter</code> or <code>getter only (no setter)</code> properties because it runs inside the class — external code still cannot change ISBN after creation.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2 class="section-title">5. Lab Tasks</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 10.1 — Student Registration (45 min)</strong>
+      <ol>
+        <li>Create project <code>ConstructorPractice</code>. Implement the <code>Student</code> class above with <code>this</code> for all three parameters.</li>
+        <li>Add a parameterized constructor that takes only <code>(String name, String indexNumber)</code> and sets age to 0 — you will learn a cleaner way to chain constructors in Session 11.</li>
+        <li>Create three students in <code>Main</code> and print all reports.</li>
+        <li><strong>Trap test:</strong> deliberately write <code>public void Student(String n)</code> with <code>void</code>. Run <code>new Student("Test")</code> and observe the compiler error or silent wrong behaviour. Remove the void.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 10.2 — Book Constructor Preview (45 min)</strong>
+      <ol>
+        <li>Open your Library Phase 2 project. Add the four-parameter <code>Book</code> constructor shown in Section 2.</li>
+        <li>Replace all five-line book creation in <code>Main.java</code> with one-line <code>new Book(...)</code> calls.</li>
+        <li>Confirm <code>new Book()</code> no longer compiles — this proves the default constructor was removed.</li>
+        <li>Add a <code>Member</code> constructor taking <code>(String name, String membershipNumber)</code> and use it for every member. Keep <code>setMembershipNumber</code> for now — Session 12 removes it.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 10 Summary</h3>
+    <ul>
+      <li>Constructor = special method; same name as class; <strong>no return type</strong>; runs once automatically at <code>new</code>.</li>
+      <li>Parameterized constructors force complete objects; default constructors provide sensible starting values.</li>
+      <li>Writing any constructor removes Java's free parameterless constructor unless you add one explicitly.</li>
+      <li><code>this.field</code> resolves parameter/field name clashes during construction.</li>
+      <li>Constructors may initialise read-only and private-set properties — external code cannot undo that work.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="../lesson-04/session-09.html" class="btn btn-secondary">&larr; S09 – Library Phase 2</a>
+    <a href="session-11.html" class="btn btn-primary">S11 – Method Overloading &amp; this &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 10 &ndash; Constructors: Default &amp; Parameterized &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

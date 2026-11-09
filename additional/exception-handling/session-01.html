@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session A1.1 - Exception Handling in Java</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session A1.1 &nbsp;&bull;&nbsp; Additional Lesson A1 - Exception Handling</div>
+  <h2>Exception Handling &ndash; Crashes, try/catch, Common Exceptions &amp; Safe Input</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; ~3 Hours</span>
+    <span class="stag stag-type">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Additional &#9656; A1 Exception Handling &#9656; Session A1.1</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#c62828,#8b0000);">
+    <div class="lesson-num">Additional Lesson A1</div>
+    <h2>Exception Handling</h2>
+    <p>In Session 02 you saw that typing <code>abc</code> when a number is expected crashes the program with a <em>NumberFormatException</em>. Today we stop treating that as “don’t type badly” and learn to <strong>catch</strong> the problem, show a clear message, and keep the program alive — just like real console apps do.</p>
+    <div class="lesson-meta">
+      <span>⏱ ~3 Hours Integrated</span>
+      <span>📋 Session A1.1</span>
+      <span>🔧 Optional enrichment (not in L01–L10 sequence)</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Define an exception and explain what happens when it is not caught</li>
+      <li>Write <code>try</code>, <code>catch</code>, and <code>finally</code> blocks correctly</li>
+      <li>Identify common Java exceptions used in console programs</li>
+      <li>Use <code>throw</code> inside methods to refuse illegal arguments</li>
+      <li>Build a small menu that survives bad keyboard input</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. What Is an Exception?</h2>
+
+    <p>An <strong>exception</strong> is an object that represents a problem that occurred while the program was running. The JVM creates it and “throws” it up the call stack. If nobody catches it, the program prints a stack trace and stops.</p>
+
+    <div class="definition-box">
+      <strong>Definition — Exception</strong>
+      <p>An <strong>exception</strong> is a runtime event that disrupts the normal flow of a program. Java represents it with a class that inherits from <code>Throwable</code> (usually via <code>Exception</code> or <code>RuntimeException</code>). Handling means catching that object and deciding what to do next.</p>
+    </div>
+
+    <p>Real-world analogy: you are following a recipe (normal flow). Suddenly the oven will not heat (unexpected problem). You do not abandon cooking forever — you notice the problem, decide a fix (use the microwave, or wait), then continue. That “notice and recover” step is exception handling.</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 220" role="img" aria-label="Exception flow without and with catch">
+        <rect x="20" y="30" width="340" height="160" rx="12" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="190" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#c62828">WITHOUT catch</text>
+        <text x="190" y="90" text-anchor="middle" font-size="12" fill="#1a1f2b">1. Risky line runs</text>
+        <text x="190" y="112" text-anchor="middle" font-size="12" fill="#1a1f2b">2. Exception is thrown</text>
+        <text x="190" y="134" text-anchor="middle" font-size="12" fill="#1a1f2b">3. Nobody catches it</text>
+        <text x="190" y="156" text-anchor="middle" font-size="12" font-weight="700" fill="#c62828">4. Program CRASHES</text>
+        <rect x="400" y="30" width="340" height="160" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="570" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#2e7d32">WITH try / catch</text>
+        <text x="570" y="90" text-anchor="middle" font-size="12" fill="#1a1f2b">1. Risky line in try</text>
+        <text x="570" y="112" text-anchor="middle" font-size="12" fill="#1a1f2b">2. Exception is thrown</text>
+        <text x="570" y="134" text-anchor="middle" font-size="12" fill="#1a1f2b">3. Matching catch runs</text>
+        <text x="570" y="156" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">4. Program CONTINUES</text>
+      </svg>
+      <div class="cap">Figure A1.1 — Uncaught exceptions end the program; caught exceptions let you recover.</div>
+    </div>
+
+    <h3 class="sub-title">1.1 Crash Demo (Do This First)</h3>
+<pre><code>public class CrashDemo {
+    public static void main(String[] args) {
+        String text = "abc";
+        int n = Integer.parseInt(text);   // NumberFormatException!
+        System.out.println("This line never runs: " + n);
+    }
+}</code></pre>
+
+    <div class="tip-box">
+      <strong>Tip — Read the stack trace</strong>
+      <p>The red error names the exception type, the message, and the line number (e.g. <code>CrashDemo.java:4</code>). In exams and labs, always say <em>which</em> exception and <em>which</em> line — that is half the mark.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. try / catch / finally</h2>
+
+    <p>Wrap the risky code in <code>try</code>. Write one or more <code>catch</code> blocks for the exception types you expect. Optionally add <code>finally</code> for cleanup that must run whether or not an exception occurred.</p>
+
+<pre><code>public class SafeParse {
+    public static void main(String[] args) {
+        String text = "abc";
+        try {
+            int n = Integer.parseInt(text);
+            System.out.println("Number = " + n);
+        } catch (NumberFormatException ex) {
+            System.out.println("That was not a valid integer.");
+            System.out.println("Details: " + ex.getMessage());
+        } finally {
+            System.out.println("Parse attempt finished.");
+        }
+        System.out.println("Program still running — success!");
+    }
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner’s Logic Breakdown</strong>
+      <ol>
+        <li><strong>try</strong> = “attempt this; it might fail.”</li>
+        <li><strong>catch (Type name)</strong> = “if that failure is Type, run this recovery.” The variable <code>ex</code> holds the exception object (<code>getMessage()</code>, stack info).</li>
+        <li><strong>finally</strong> = “always do this next” — useful later for closing files/scanners. For now, think of it as a guaranteed epilogue.</li>
+        <li>After a handled exception, execution continues <em>after</em> the whole try/catch/finally structure — your <code>main</code> does not die.</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">2.1 Multiple catch Blocks</h3>
+    <p>Different problems need different messages. List <strong>specific</strong> types first; a general <code>Exception</code> catch may come last.</p>
+
+<pre><code>try {
+    int a = Integer.parseInt(args[0]);
+    int b = Integer.parseInt(args[1]);
+    System.out.println("Quotient = " + (a / b));
+} catch (ArrayIndexOutOfBoundsException ex) {
+    System.out.println("Please provide two numbers as arguments.");
+} catch (NumberFormatException ex) {
+    System.out.println("Both arguments must be integers.");
+} catch (ArithmeticException ex) {
+    System.out.println("Cannot divide by zero.");
+}</code></pre>
+
+    <div class="note-box">
+      <strong>Note — Order matters</strong>
+      <p>If you catch <code>Exception</code> first, the more specific catches below it become unreachable (compiler error). Always go from narrow → broad.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Exceptions You Will Meet Often</h2>
+
+    <table>
+      <thead>
+        <tr><th>Exception</th><th>When it appears</th><th>Typical fix / catch action</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>NumberFormatException</code></td>
+          <td><code>Integer.parseInt</code> / <code>Double.parseDouble</code> on bad text</td>
+          <td>Ask user to re-enter; show “enter a number”</td>
+        </tr>
+        <tr>
+          <td><code>NullPointerException</code></td>
+          <td>Calling a method on a <code>null</code> reference</td>
+          <td>Check <code>if (obj != null)</code> before use (prefer prevention)</td>
+        </tr>
+        <tr>
+          <td><code>ArithmeticException</code></td>
+          <td>Integer division by zero (<code>10 / 0</code>)</td>
+          <td>Validate divisor ≠ 0 before dividing</td>
+        </tr>
+        <tr>
+          <td><code>ArrayIndexOutOfBoundsException</code></td>
+          <td>Index &lt; 0 or ≥ length</td>
+          <td>Check bounds; use loop limits carefully</td>
+        </tr>
+        <tr>
+          <td><code>InputMismatchException</code></td>
+          <td><code>Scanner.nextInt()</code> when user types letters</td>
+          <td>Catch, clear scanner buffer, ask again</td>
+        </tr>
+        <tr>
+          <td><code>IllegalArgumentException</code></td>
+          <td>You (or a library) rejected a bad argument</td>
+          <td>Catch at UI layer; fix the call site</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <strong>Tip — Prefer prevention for null</strong>
+      <p>For <code>NullPointerException</code>, catching is possible but usually worse than a clear <code>if (found == null)</code> check (as in the Library search). Use exceptions for truly exceptional input/state, not as a substitute for normal if-logic.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. throw — Signalling Problems from Your Methods</h2>
+
+    <p>Encapsulation already rejects bad data inside setters. Another professional pattern is to <strong>throw</strong> an exception so the caller must notice. This is useful when silent “print and return” is not enough.</p>
+
+<pre><code>public class BankAccount {
+    private double balance;
+
+    public void withdraw(double amount) {
+        if (amount &lt;= 0) {
+            throw new IllegalArgumentException("Amount must be positive.");
+        }
+        if (amount &gt; balance) {
+            throw new IllegalArgumentException("Insufficient funds.");
+        }
+        balance -= amount;
+    }
+
+    public double getBalance() { return balance; }
+
+    public void deposit(double amount) {
+        if (amount &lt;= 0) {
+            throw new IllegalArgumentException("Deposit must be positive.");
+        }
+        balance += amount;
+    }
+}</code></pre>
+
+<pre><code>public class BankApp {
+    public static void main(String[] args) {
+        BankAccount acc = new BankAccount();
+        acc.deposit(1000);
+        try {
+            acc.withdraw(1500);   // will throw
+            System.out.println("Withdraw OK");
+        } catch (IllegalArgumentException ex) {
+            System.out.println("Withdraw failed: " + ex.getMessage());
+        }
+        System.out.println("Balance still: " + acc.getBalance());
+    }
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner’s Logic Breakdown</strong>
+      <ol>
+        <li><code>throw new …</code> immediately leaves the method — later lines in that method do not run.</li>
+        <li>The exception travels to the nearest matching <code>catch</code>. If <code>main</code> has none, the program still crashes.</li>
+        <li>Message text in the constructor becomes <code>ex.getMessage()</code> — write clear, exam-friendly sentences.</li>
+        <li>This pairs with OOP: the class protects its rules; the UI layer decides how to tell the user.</li>
+      </ol>
+    </div>
+
+    <div class="note-box">
+      <strong>Note — Checked vs unchecked (exam awareness)</strong>
+      <p>Most exceptions in this module are <strong>unchecked</strong> (<code>RuntimeException</code> family): you are not forced to declare them. <strong>Checked</strong> exceptions (e.g. some file I/O types) must be caught or declared with <code>throws</code> on the method. File I/O is outside the core console focus here — remember the names for theory questions.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2 class="section-title">5. Practical Pattern — Safe Menu Input Loop</h2>
+
+    <p>Menus die when users type letters into a number prompt. A small helper method keeps the loop alive:</p>
+
+<pre><code>import java.util.Scanner;
+
+public class SafeMenu {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("1. Say hello");
+            System.out.println("2. Divide two numbers");
+            System.out.println("0. Exit");
+            System.out.print("Choice: ");
+
+            int choice = readInt(sc);
+            switch (choice) {
+                case 1:
+                    System.out.println("Hello, COT Galle!");
+                    break;
+                case 2:
+                    System.out.print("Numerator: ");
+                    int a = readInt(sc);
+                    System.out.print("Denominator: ");
+                    int b = readInt(sc);
+                    try {
+                        System.out.println("Result = " + (a / b));
+                    } catch (ArithmeticException ex) {
+                        System.out.println("Cannot divide by zero.");
+                    }
+                    break;
+                case 0:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Unknown option.");
+            }
+        }
+        sc.close();
+        System.out.println("Goodbye.");
+    }
+
+    /** Keeps asking until the user types a valid integer. */
+    private static int readInt(Scanner sc) {
+        while (true) {
+            String line = sc.nextLine();
+            try {
+                return Integer.parseInt(line.trim());
+            } catch (NumberFormatException ex) {
+                System.out.print("Please enter a whole number: ");
+            }
+        }
+    }
+}</code></pre>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task A1.1 — Crash Then Catch (40 min)</strong>
+      <ol>
+        <li>Create project/folder <code>ExceptionLab</code> with <code>CrashDemo</code> from Section 1. Run it; copy the exception name and line into your lab book.</li>
+        <li>Change it into <code>SafeParse</code> with try/catch/finally. Confirm the final “still running” message appears.</li>
+        <li>Add a second catch for a deliberate <code>int x = 10 / 0;</code> inside another try — print a friendly divide-by-zero message.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task A1.2 — Safe Bank Withdraw (45 min)</strong>
+      <ol>
+        <li>Implement <code>BankAccount</code> with <code>deposit</code> / <code>withdraw</code> that <code>throw new IllegalArgumentException(...)</code> on bad amounts.</li>
+        <li>In <code>main</code>, deposit 2000, then try withdraw 500 (OK) and withdraw 5000 (caught).</li>
+        <li>Print the balance after each attempt to prove failed withdraws do not change the balance.</li>
+        <li><strong>Challenge:</strong> wrap a console menu around the account using the <code>readInt</code> helper from Section 5.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task A1.3 — Harden Library Input (30 min)</strong>
+      <p>Open your Library System menu. Wherever you parse integers (menu choice, year, …), replace raw <code>parseInt</code> / <code>nextInt</code> with a safe loop so typing <code>xyz</code> never kills the app.</p>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Additional A1</strong>
+      <ol>
+        <li>What is an exception? What happens if it is not caught? (4 marks)</li>
+        <li>Explain the purpose of <code>try</code>, <code>catch</code>, and <code>finally</code>. (6 marks)</li>
+        <li>Name three common Java exceptions and give one cause for each. (6 marks)</li>
+        <li>Write a short method that throws <code>IllegalArgumentException</code> when a parameter is negative, and show how <code>main</code> catches it. (8 marks)</li>
+        <li>Why is catching <code>NullPointerException</code> usually worse than checking for <code>null</code>? (3 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>Session A1.1 Summary</h3>
+    <ul>
+      <li>Exceptions interrupt normal flow; uncaught ones end the program with a stack trace.</li>
+      <li><code>try</code> / <code>catch</code> / <code>finally</code> let you recover and continue.</li>
+      <li>Know <code>NumberFormatException</code>, <code>NullPointerException</code>, <code>ArithmeticException</code>, and friends.</li>
+      <li><code>throw</code> enforces method rules; callers catch and display messages.</li>
+      <li>Safe input loops turn fragile menus into student-proof console apps.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="../index.html" class="btn btn-secondary">&larr; Additional Lessons</a>
+    <a href="overview.html" class="btn btn-primary">Lesson Overview &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session A1.1 &ndash; Exception Handling &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../../js/vendor/pdfmake.min.js"></script>
+<script src="../../js/vendor/vfs_fonts.js"></script>
+<script src="../../js/export-pdf.js"></script>
+</body>
+</html>

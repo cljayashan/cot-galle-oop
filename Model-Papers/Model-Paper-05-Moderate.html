@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Model Paper 05 - OOP - Moderate</title>
+  <style>
+@page { size: A4; margin: 12mm 12mm 12mm 12mm; }
+* { box-sizing: border-box; }
+html { zoom: 0.94; }
+body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 10.5pt;
+  line-height: 1.35;
+  color: #111;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 0;
+}
+h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; margin: 0; }
+.header {
+  text-align: center;
+  border-bottom: 2.5px solid #1a3a5c;
+  padding-bottom: 7px;
+  margin-bottom: 8px;
+}
+.header .inst { font-size: 13pt; font-weight: 700; color: #1a3a5c; }
+.header .mod { font-size: 9.5pt; margin-top: 2px; }
+.header .paper-title {
+  font-size: 12.5pt;
+  font-weight: 700;
+  margin-top: 7px;
+  text-transform: uppercase;
+  color: #1a3a5c;
+}
+.header .sub { font-size: 9.5pt; margin-top: 3px; }
+.diff {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9pt;
+  font-weight: 700;
+}
+.diff-easy { background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; }
+.diff-easy-mod { background: #e3f2fd; color: #1565c0; border: 1px solid #1565c0; }
+.diff-mod { background: #fff8e1; color: #f57f17; border: 1px solid #f57f17; }
+.diff-mod-hard { background: #fff3e0; color: #e65100; border: 1px solid #e65100; }
+.diff-hard { background: #ffebee; color: #c62828; border: 1px solid #c62828; }
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 6px 0 8px;
+  font-size: 10pt;
+}
+.info strong { color: #1a3a5c; }
+.box {
+  border: 1.5px solid #1a3a5c;
+  padding: 7px 10px;
+  margin: 0 0 10px;
+  background: #f7f9fc;
+}
+.box h3 { font-size: 10pt; color: #1a3a5c; margin-bottom: 3px; }
+.box ol { margin: 2px 0 0 18px; padding: 0; }
+.box li { margin: 1px 0; }
+.q {
+  margin: 0 0 11px;
+  border-top: 1px solid #ccd;
+  padding-top: 7px;
+}
+.q-head {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 11pt;
+  color: #1a3a5c;
+  margin-bottom: 3px;
+}
+.q p { margin: 3px 0; }
+.q ol { margin: 4px 0 0 18px; }
+.q li { margin: 3px 0; }
+.code {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 9pt;
+  background: #f4f4f4;
+  border: 1px solid #ccc;
+  padding: 5px 8px;
+  margin: 4px 0;
+  white-space: pre;
+  line-height: 1.28;
+}
+.footer {
+  margin-top: 10px;
+  border-top: 1.5px solid #1a3a5c;
+  padding-top: 4px;
+  font-size: 8.5pt;
+  text-align: center;
+  color: #444;
+}
+.end {
+  text-align: center;
+  font-weight: 700;
+  margin: 10px 0 3px;
+  letter-spacing: 2px;
+  font-size: 10.5pt;
+}
+@media print {
+  body { padding: 0; }
+  .q, .box, .code { break-inside: avoid; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="inst">College of Technology Galle</div>
+    <div class="mod">Course: Full Stack Software Development &mdash; Object Oriented Programming &mdash; Module K72T004M03 &mdash; NVQ Level 05</div>
+    <div class="paper-title">Semester Model Paper 05</div>
+    <div class="sub">Focus: Inheritance, super, protected, polymorphism intro</div>
+    <div class="diff diff-mod">Difficulty: Moderate</div>
+  </div>
+
+  <div class="info">
+    <div><strong>Duration:</strong> 3 Hours</div>
+    <div><strong>Total Marks:</strong> 100</div>
+    <div><strong>Questions:</strong> 7 structured questions (answer any <strong>5</strong>)</div>
+    <div><strong>Each question:</strong> 20 marks</div>
+  </div>
+
+  <div class="box">
+    <h3>Instructions to Candidates</h3>
+    <ol>
+      <li>Answer any <strong>five (5)</strong> questions out of the seven provided.</li>
+      <li>Each question carries <strong>20 marks</strong>. Maximum mark for this paper is <strong>100</strong>.</li>
+      <li>Write answers in the answer booklet. Do <strong>not</strong> write answers on this question paper.</li>
+      <li>Where Java code is required, write clear, syntactically correct Java as taught in this module (VS Code / JDK).</li>
+      <li>Show workings / short explanations where asked. Manage your time (about 35 minutes per question).</li>
+      <li>Mobile phones and programmable devices are not allowed.</li>
+    </ol>
+  </div>
+
+  <div class="q">
+    <div class="q-head">Question 1 &nbsp;[20 Marks]</div>
+    <p>Building an inheritance tree.</p>
+<ol type="a">
+  <li>Write class <code>Person</code> with private <code>name</code>, a constructor, and <code>getName()</code>. <strong>(6 marks)</strong></li>
+  <li>Write class <code>Teacher extends Person</code> with private <code>subject</code>, constructor calling <code>super</code>, and <code>display()</code>. <strong>(10 marks)</strong></li>
+  <li>Explain what <code>super(name)</code> does in the subclass constructor. <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 2 &nbsp;[20 Marks]</div>
+    <p>Protected access.</p>
+<ol type="a">
+  <li>How does <code>protected</code> differ from <code>private</code> and <code>public</code>? <strong>(6 marks)</strong></li>
+  <li>Give a short example where a subclass method reads a protected superclass field. <strong>(8 marks)</strong></li>
+  <li>When would you still prefer private fields + getters over protected fields? <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 3 &nbsp;[20 Marks]</div>
+    <p>Method overriding.</p>
+<ol type="a">
+  <li>What is overriding? How is it different from overloading? <strong>(6 marks)</strong></li>
+  <li>Write superclass method <code>speak()</code> and a subclass override that prints a different message. Include <code>@Override</code>. <strong>(8 marks)</strong></li>
+  <li>What is printed by <code>Animal a = new Dog(); a.speak();</code> if <code>Dog</code> overrides <code>speak</code>? Why? <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 4 &nbsp;[20 Marks]</div>
+    <p>Polymorphism - first ideas.</p>
+<ol type="a">
+  <li>Define polymorphism in the context of OOP. <strong>(4 marks)</strong></li>
+  <li>Explain why a list of <code>Vehicle</code> references can hold <code>Car</code> and <code>Bike</code> objects. <strong>(6 marks)</strong></li>
+  <li>Write a small demo: array or list of superclass type, two subclasses, loop calling an overridden method. <strong>(10 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 5 &nbsp;[20 Marks]</div>
+    <div class="code">class Shape {
+    public double area() { return 0; }
+}
+class Circle extends Shape {
+    private double r;
+    public Circle(double r) { this.r = r; }
+    public double area() { return 3.14 * r * r; }
+}</div>
+<p>Study the code.</p>
+<ol type="a">
+  <li>Identify the superclass, subclass, and overridden method. <strong>(6 marks)</strong></li>
+  <li>What does <code>Shape s = new Circle(2); System.out.println(s.area());</code> print (approx)? <strong>(4 marks)</strong></li>
+  <li>Rewrite <code>Shape.area</code> as <code>abstract</code> and make <code>Shape</code> an abstract class. Adjust <code>Circle</code> if needed. <strong>(10 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 6 &nbsp;[20 Marks]</div>
+    <p>Library Phase 4/5 style thinking.</p>
+<ol type="a">
+  <li>Suggest a superclass for different library items (book, DVD) and two subclasses with one extra field each. <strong>(8 marks)</strong></li>
+  <li>Which behaviours belong in the superclass and which in subclasses? Justify briefly. <strong>(6 marks)</strong></li>
+  <li>How does inheritance reduce duplicated code in borrow/return logic? <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 7 &nbsp;[20 Marks]</div>
+    <p>Exceptions - awareness (additional topic).</p>
+<ol type="a">
+  <li>What is an exception? What happens if it is not caught? <strong>(4 marks)</strong></li>
+  <li>Write a <code>try/catch</code> around <code>Integer.parseInt</code> that prints a friendly message on failure. <strong>(8 marks)</strong></li>
+  <li>Name three common exception types and one cause for each. <strong>(6 marks)</strong></li>
+  <li>Why is checking <code>if (obj != null)</code> often better than catching <code>NullPointerException</code>? <strong>(2 marks)</strong></li>
+</ol>
+
+  </div>
+
+  <div class="end">***** END OF QUESTION PAPER *****</div>
+  <div class="footer">
+    College of Technology Galle &nbsp;|&nbsp; OOP Module K72T004M03 &nbsp;|&nbsp; Model Paper 05 (Moderate)
+  </div>
+</body>
+</html>

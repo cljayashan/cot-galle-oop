@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 09 – Abstraction (Full Notes)</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-logo">📘</div>
+    <div class="header-info">
+      <h1>Object Oriented Programming (Java)</h1>
+      <p>College of Technology Galle &nbsp;|&nbsp; Module K72T004M03 – Level 05</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span><strong>Lesson 09</strong></span>
+    <span><strong>Topic:</strong> Abstraction – Abstract Classes &amp; Interfaces</span>
+    <span><strong>Duration:</strong> 6 Hours (Theory + Practical)</span>
+    <span><strong>Lecturer:</strong> Jayashan Liyanage</span>
+  </div>
+</header>
+
+<nav class="lesson-nav no-print">
+  <a href="../index.html">Home</a>
+  <a href="../lesson-01/index.html">L01</a>
+  <a href="../lesson-02/index.html">L02</a>
+  <a href="../lesson-03/index.html">L03</a>
+  <a href="../lesson-04/index.html">L04</a>
+  <a href="../lesson-05/index.html">L05</a>
+  <a href="../lesson-06/index.html">L06</a>
+  <a href="../lesson-07/index.html">L07</a>
+  <a href="../lesson-08/index.html">L08</a>
+  <a href="index.html" class="active">L09</a>
+  <a href="../lesson-10/index.html">L10</a>
+</nav>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#c62828,#8e0000);">
+    <div class="lesson-num">Lesson 09 of 10</div>
+    <h2>Abstraction – Abstract Classes vs Interfaces</h2>
+    <p>The fourth OOP pillar: classes that exist only as concepts, and pure contracts unrelated classes can sign. Concludes with the Library System's final assembly using the <code>Lendable</code> interface.</p>
+    <div class="lesson-meta">
+      <span>⏱ 6 Hours Integrated</span>
+      <span>📅 Sessions 19 – 20</span>
+      <span>📚 Library Project Phase 6 (Final)</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this lesson you will be able to:</h3>
+    <ul>
+      <li>Write abstract classes with abstract and concrete members</li>
+      <li>Define and implement interfaces; use them as variable types</li>
+      <li>Choose between abstract class and interface correctly</li>
+      <li>Identify all four pillars in one coherent codebase</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1. Abstract Classes (Session 19)</h2>
+<pre><code>abstract class Shape                       // cannot be instantiated - concept only
+{
+    public Shape(String name) { ... }      // constructors allowed - children call super(...)
+
+    public abstract double area();         // NO body - every child MUST override
+
+    public void describe()                 // concrete method may call the abstract one:
+    {
+        System.out.println(name + " has area " + area());   // template pattern
+    }
+}</code></pre>
+    <ul>
+      <li>Concrete overridable method = optional replacement with a default; <code>abstract</code> = mandatory, no default. Compiler-enforced. Use <code>@Override</code>.</li>
+      <li>Abstract classes model "is-a" families where the base is incomplete (Shape, LibraryItem).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. Interfaces (Session 19)</h2>
+<pre><code>import java.util.*;
+
+interface Playable                        // pure contract - no fields, no bodies
+{
+    void play();
+    void stop();
+    int getDurationMinutes();
+}
+
+class Song implements Playable, Downloadable { ... }   // many interfaces - legal
+class Movie implements Playable { ... }                  // unrelated to Song - still playable
+
+void playAll(List&lt;Playable&gt; playlist) { ... }   // interface as a type</code></pre>
+    <table>
+      <thead><tr><th></th><th>Abstract Class</th><th>Interface</th></tr></thead>
+      <tbody>
+        <tr><td>Fields/constructors</td><td>Yes</td><td>No</td></tr>
+        <tr><td>Implemented methods</td><td>Yes</td><td>No (contract only)</td></tr>
+        <tr><td>How many per class</td><td>One</td><td>Any number</td></tr>
+        <tr><td>Models</td><td>"is-a" + shared code</td><td>"can-do" capability</td></tr>
+      </tbody>
+    </table>
+    <p>Rule of thumb: family + shared code → abstract class; capability across unrelated classes → interface. Syntax: <code>class Book extends LibraryItem implements Lendable</code>.</p>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">3. Library Phase 6 – Final (Session 20)</h2>
+    <ul>
+      <li><code>LibraryItem</code> becomes <code>abstract</code> (blank items impossible); <code>printDetails</code> becomes abstract (every child forced to describe itself).</li>
+      <li>New <code>Lendable</code> interface — implemented by all library items <em>and</em> by standalone <code>Equipment</code> (projectors, laptops) that are not LibraryItems.</li>
+      <li><code>processAllLendable</code> / lending status report builds one <code>List&lt;Lendable&gt;</code> from catalog + equipment — one loop across two family trees.</li>
+      <li>Assessed demo: run the workflow, point to each pillar in code, answer one "what if" design question.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Lab Tasks in This Lesson</h2>
+    <table>
+      <thead><tr><th>Task</th><th>Session</th><th>Deliverable</th></tr></thead>
+      <tbody>
+        <tr><td>19.1 Abstract Shapes</td><td>S19</td><td>Compiler-enforced Perimeter on all children</td></tr>
+        <tr><td>19.2 The Media Center</td><td>S19</td><td>Multi-interface Song + capability lists</td></tr>
+        <tr><td>20.1 Complete Phase 6</td><td>S20</td><td>Abstract base + Lendable demo working</td></tr>
+        <tr><td>20.2 Project Demonstration (assessed)</td><td>S20</td><td>Live demo + pillar walk-through + submission</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exam-box">
+    <strong>Likely Exam Questions from Lesson 09</strong>
+    <ol>
+      <li>What is an abstract class? Why can it not be instantiated? (4 marks)</li>
+      <li>Explain the difference between an abstract method and an overridable concrete method. (4 marks)</li>
+      <li>What is an interface? How does it differ from an abstract class? State three differences. (6 marks)</li>
+      <li>Write an interface <code>Lendable</code> and a class that implements it. (6 marks)</li>
+      <li>When would you choose an abstract class over an interface, and vice versa? (5 marks)</li>
+      <li>Given a class design, identify which members must be implemented by derived classes. (5 marks)</li>
+    </ol>
+  </div>
+
+  <div class="summary-box">
+    <h3>Lesson 09 Summary</h3>
+    <ul>
+      <li>Abstract classes model incomplete concepts; abstract members are mandatory contracts for children.</li>
+      <li>Interfaces are pure capability contracts stacking freely across families.</li>
+      <li>The Library System now demonstrates all four pillars — encapsulation, inheritance, polymorphism, abstraction — in one project.</li>
+    </ul>
+  </div>
+
+  <div class="nav-buttons no-print">
+    <a href="../lesson-08/overview.html" class="btn btn-secondary">&larr; Lesson 08 – Polymorphism</a>
+    <a href="../lesson-10/overview.html" class="btn btn-primary">Lesson 10 – Object Relationships &rarr;</a>
+  </div>
+
+</main>
+
+<p style="margin-top:6px;font-size:0.8rem;">Lesson 09 – Abstraction &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 20 - Object Relationships â€” Theory (Part 1)</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 20 of 32 &nbsp;&bull;&nbsp; 2-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Object Relationships â€” Theory (Part 1)</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 2 Hours</span>
+    <span class="stag stag-type" style="background:#fff8e1;color:#b28704;">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 20 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<div class="lesson-header" style="background:linear-gradient(135deg,#ad6800,#7a4a00);">
+    <div class="lesson-num">Lesson 10 of 10 — Block 3: Advanced Relationships</div>
+    <h2>Association, Aggregation &amp; Composition</h2>
+    <p>Inheritance ("is-a") is only one way objects relate. Far more common in real systems is <strong>"has-a"</strong> and <strong>"uses-a"</strong>: a Teacher <em>teaches in</em> a Classroom, a Classroom <em>has</em> Students, a Classroom <em>contains</em> Desks that are destroyed when the room is demolished. This lesson gives you the vocabulary — and the Java patterns — for connecting objects correctly.</p>
+    <div class="lesson-meta">
+      <span>⏱ 5 Hours Theory + Practical</span>
+      <span>📅 Sessions 21 – 23</span>
+      <span>🏫 The School Project</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Beyond Inheritance — Why Relationships Matter</h2>
+
+    <p>In Lessons 06–08 you mastered <strong>inheritance</strong> — the "is-a" relationship. A Book <em>is a</em> LibraryItem. But not every connection is inheritance. A Teacher is <em>not</em> a Classroom. A Desk is <em>not</em> a Student. These are <strong>has-a</strong> and <strong>uses-a</strong> connections — and getting them wrong leads to bugs that inheritance cannot fix.</p>
+
+    <div class="definition-box">
+      <strong>Definition — Object Relationship</strong>
+      <p>An <strong>object relationship</strong> exists when one class holds a reference to an object of another class (a field or property pointing at another object). The three standard types — association, aggregation, composition — differ in <strong>strength</strong>, <strong>ownership</strong>, and <strong>lifetime</strong>.</p>
+    </div>
+
+    <div class="note-box">
+      <strong>The "is-a" vs "has-a" Test</strong>
+      <p>Before writing code, ask: "Is X a type of Y?" → inheritance. "Does X use/have/contain Y?" → association, aggregation, or composition. Never inherit just to reuse a field — that is a relationship mistake.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  
+
+  <div class="botnav no-print">
+    <a href="session-19.html" class="btn btn-secondary">&larr; Session 19</a>
+    <a href="session-21.html" class="btn btn-primary">Session 21 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 20 &nbsp;|&nbsp; 2 Hours &nbsp;|&nbsp; Sequence position 20 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

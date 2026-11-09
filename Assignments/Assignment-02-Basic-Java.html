@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assignment 02 – Basic Java (Sessions 01–02)</title>
+  <style>
+    @page { size: A4; margin: 14mm 14mm 12mm 14mm; }
+    * { box-sizing: border-box; }
+    html { zoom: 0.91; }
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 11.5pt;
+      line-height: 1.45;
+      color: #111;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 0;
+    }
+    h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; margin: 0; }
+    .header {
+      text-align: center;
+      border-bottom: 2.5px solid #1a3a5c;
+      padding-bottom: 9px;
+      margin-bottom: 10px;
+    }
+    .header .inst { font-size: 14pt; font-weight: 700; color: #1a3a5c; letter-spacing: 0.3px; }
+    .header .mod { font-size: 11pt; margin-top: 3px; }
+    .header .paper-title {
+      font-size: 14.5pt;
+      font-weight: 700;
+      margin-top: 9px;
+      text-transform: uppercase;
+      color: #1a3a5c;
+    }
+    .header .sub { font-size: 10.5pt; margin-top: 4px; }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 26px;
+      margin: 10px 0 10px;
+      font-size: 11pt;
+    }
+    .info strong { color: #1a3a5c; }
+    .box {
+      border: 1.5px solid #1a3a5c;
+      padding: 9px 13px;
+      margin: 0 0 13px;
+      background: #f7f9fc;
+    }
+    .box h3 { font-size: 11pt; color: #1a3a5c; margin-bottom: 5px; }
+    .box ol { margin: 4px 0 0 18px; padding: 0; }
+    .box li { margin: 3px 0; }
+    .part {
+      margin-top: 14px;
+      border-top: 2px solid #1a3a5c;
+      padding-top: 9px;
+    }
+    .part-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .part-head h2 { font-size: 12.5pt; color: #1a3a5c; }
+    .part-head .marks { font-size: 10.5pt; font-weight: 700; }
+    .q { margin: 0 0 13px; }
+    .q-head { font-weight: 700; margin-bottom: 4px; font-size: 11.5pt; }
+    .q p { margin: 4px 0; }
+    .q ol, .q ul { margin: 5px 0 0 22px; }
+    .q li { margin: 5px 0; }
+    .code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 10pt;
+      background: #f4f4f4;
+      border: 1px solid #ccc;
+      padding: 8px 11px;
+      margin: 7px 0;
+      white-space: pre;
+      line-height: 1.35;
+    }
+    table.qtable {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 7px 0;
+      font-size: 11pt;
+    }
+    table.qtable th, table.qtable td {
+      border: 1px solid #444;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.qtable th { background: #eef2f7; }
+    .footer {
+      margin-top: 14px;
+      border-top: 1.5px solid #1a3a5c;
+      padding-top: 6px;
+      font-size: 10pt;
+      text-align: center;
+      color: #444;
+    }
+    .end { text-align: center; font-weight: 700; margin: 14px 0 4px; letter-spacing: 2px; font-size: 11.5pt; }
+    @media print {
+      body { padding: 0; }
+      .q, .box, .code { break-inside: avoid; }
+      .part-head { break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="inst">College of Technology Galle</div>
+    <div class="mod">Course: Full Stack Software Development &mdash; Object Oriented Programming &mdash; Module K72T004M03 &mdash; NVQ Level 05</div>
+    <div class="paper-title">Assignment 02 &mdash; Written Question Paper</div>
+    <div class="sub">Lessons Covered: (01) Hello World, JDK &amp; Java Program Anatomy &nbsp;|&nbsp; (02) Variables, Data Types &amp; Console I/O</div>
+  </div>
+
+  <div class="info">
+    <div><strong>Duration:</strong> 1 Hour</div>
+    <div><strong>Total Marks:</strong> 40</div>
+    <div><strong>Answer all questions</strong> in your own answer booklet / sheets.</div>
+  </div>
+
+  <div class="box">
+    <h3>Instructions to Candidates</h3>
+    <ol>
+      <li>This is a <strong>written paper</strong>. Answer <strong>all</strong> questions in the answer sheets provided by you.</li>
+      <li>Do <strong>not</strong> write answers on this question paper.</li>
+      <li>Write clearly using blue or black pen. Number your answers to match the question numbers.</li>
+      <li>Where Java code is required, write syntactically correct code as taught in class (VS Code / JDK).</li>
+      <li>Marks for each question are shown in brackets. Manage your time carefully.</li>
+      <li>Mobile phones and programmable devices are not allowed.</li>
+    </ol>
+  </div>
+
+  <!-- PART A -->
+  <div class="part">
+    <div class="part-head">
+      <h2>Part A &mdash; Short Answers (JDK, Tools &amp; Program Anatomy)</h2>
+      <span class="marks">[12 Marks]</span>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 1</div>
+      <ol type="a">
+        <li>What does <strong>JDK</strong> stand for? State one reason why the JDK is required to write and run Java programs. <strong>(2 marks)</strong></li>
+        <li>Name the <strong>IDE</strong> that students are allowed to use in this module, and name the Microsoft extension pack required for Java. <strong>(2 marks)</strong></li>
+        <li>Write the two terminal commands used to <em>compile</em> and then <em>run</em> a file named <code>Hello.java</code> (class name <code>Hello</code>). <strong>(2 marks)</strong></li>
+      </ol>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 2</div>
+      <p>Study the incomplete Java program below.</p>
+      <div class="code">________ class Welcome
+{
+    public static void ________(String[] args)
+    {
+        System.out.________("Hello, World!");
+    }
+}</div>
+      <ol type="a">
+        <li>Fill in the three blanks so the program is a valid Hello World program. <strong>(3 marks)</strong></li>
+        <li>What is the purpose of the <code>main</code> method in a Java application? <strong>(1 mark)</strong></li>
+        <li>State the difference between <code>//</code> and <code>;</code> in Java. <strong>(2 marks)</strong></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- PART B -->
+  <div class="part">
+    <div class="part-head">
+      <h2>Part B &mdash; Variables, Data Types &amp; Console I/O</h2>
+      <span class="marks">[14 Marks]</span>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 3</div>
+      <p>For each situation below, state the most suitable Java data type and write one example <b>declaration</b> and <b>initialization</b> as two steps. Present your answer as a numbered list (1–5) or a neat table in your answer sheet. <strong>(5 marks)</strong></p>
+      <ol>
+        <li>A student’s age in whole years</li>
+        <li>Course fee with cents (e.g. 15000.50)</li>
+        <li>Student’s full name</li>
+        <li>Whether the student has paid (yes/no)</li>
+        <li>A single letter grade (e.g. A)</li>
+      </ol>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 4</div>
+      <ol type="a">
+        <li>Which quotes are used for a <code>String</code> value, and which for a <code>char</code> value? Give one example of each. <strong>(2 marks)</strong></li>
+        <li>Write the syntax of creating an object of the <code>Calculator</code> class. <strong>(2 marks)</strong></li>
+        <li>Write the two code lines that create an object in Scanner Class and reads a line from terminal in scanner object. <strong>(3 marks)</strong></li>
+        <li>Write one Java statement that prints: <em>Hello Kasun, you are 20</em> using variables <code>name</code> and <code>age</code> with string concatenation. <strong>(2 marks)</strong></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- PART C -->
+  <div class="part">
+    <div class="part-head">
+      <h2>Part C &mdash; Code Writing &amp; Tracing</h2>
+      <span class="marks">[14 Marks]</span>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 5 &mdash; Trace the output</div>
+      <p>What is printed by the following program? Show the final console output clearly. <strong>(4 marks)</strong></p>
+      <div class="code">public class Trace01 {
+    public static void main(String[] args) {
+        int qty = 3;
+        double price = 25.50;
+        String item = "Pen";
+        double total = qty * price;
+        System.out.println(item + " x " + qty);
+        System.out.println("Total = " + total);
+    }
+}</div>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 6 &mdash; Find and correct errors</div>
+      <p>The program below has <strong>four</strong> errors. For each error, state what is wrong and write the corrected line. <strong>(4 marks)</strong></p>
+      <div class="code">public class Broken
+{
+    public static void Main(String args)
+    {
+        string name = 'Nimal';
+        System.out.println("Hi " + name)
+    }
+}</div>
+    </div>
+
+    <div class="q">
+      <div class="q-head">Question 7 &mdash; Write a complete program</div>
+      <p>Write a complete Java program named <code>StudentCard</code> that: <strong>(6 marks)</strong></p>
+      <ol>
+        <li>Creates a <code>Scanner</code> and reads the student’s <strong>name</strong> (text) and <strong>mark</strong> (whole number) from the keyboard.</li>
+        <li>Stores them in suitable variables.</li>
+        <li>Prints a line in the form: <code>Student: &lt;name&gt; | Mark: &lt;mark&gt;</code></li>
+      </ol>
+      <p>Include the class, <code>main</code> method, and any required <code>import</code>. A package declaration is optional.</p>
+    </div>
+  </div>
+
+  <div class="end">***** END OF QUESTION PAPER *****</div>
+  <div class="footer">
+    College of Technology Galle &nbsp;|&nbsp; Full Stack Software Development &nbsp;|&nbsp; OOP Module K72T004M03 &nbsp;|&nbsp; Assignment 02 (Sessions 01–02) &nbsp;|&nbsp; Author: Jayashan Liyanage
+  </div>
+
+</body>
+</html>

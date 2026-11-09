@@ -1,0 +1,451 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 15 - Inheritance Basics + Inheritance in Depth</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 15 of 32 &nbsp;&bull;&nbsp; 3-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Inheritance Basics + Inheritance in Depth</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type" style="background:#fff8e1;color:#b28704;">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 15 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<div class="lesson-header" style="background:linear-gradient(135deg,#0277bd,#01579b);">
+    <div class="lesson-num">Lesson 07 of 10 — The Second Pillar of OOP</div>
+    <h2>Inheritance</h2>
+    <p>Look at any real system: a Car, a Bus and a Motorbike share 90% of their behaviour. Copy-pasting that 90% into three classes is a maintenance nightmare. <strong>Inheritance</strong> lets one class receive everything from another and add only what's different — the family tree of code.</p>
+    <div class="lesson-meta">
+      <span>⏱ 3 Hours Integrated</span>
+      <span>📋 Session 14 of 23</span>
+      <span>🏛 Pillar 2 of 4</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. The Problem: Sibling Classes Repeating Themselves</h2>
+
+<pre><code>// WITHOUT inheritance — painful duplication:
+class Car {
+    private String brand;
+    protected int speed;
+    private int numberOfDoors;
+
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    public int getSpeed() { return speed; }
+    public int getNumberOfDoors() { return numberOfDoors; }
+    public void setNumberOfDoors(int numberOfDoors) { this.numberOfDoors = numberOfDoors; }
+
+    public void accelerate() { speed += 10; }          // identical
+    public void brake() { speed = 0; }                 // identical
+}
+
+class Motorbike {
+    private String brand;                              // copy-pasted!
+    protected int speed;                                 // copy-pasted!
+    private boolean hasSideCar;                        // bike-specific
+
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    public int getSpeed() { return speed; }
+    public boolean hasSideCar() { return hasSideCar; }
+    public void setHasSideCar(boolean hasSideCar) { this.hasSideCar = hasSideCar; }
+
+    public void accelerate() { speed += 10; }          // copy-pasted!
+    public void brake() { speed = 0; }                 // copy-pasted!
+}
+// A bug in accelerate must now be fixed TWICE. Add a Bus? THREE times. This does not scale.</code></pre>
+
+    <div class="definition-box">
+      <strong>Definition — Inheritance</strong>
+      <p><strong>Inheritance</strong> is a mechanism where a class (the <strong>derived/child class</strong>) automatically receives all non-private members of another class (the <strong>base/parent class</strong>), and can add its own members on top. In Java, the <code>extends</code> keyword declares it: <code>class Car extends Vehicle</code> reads as <em>"Car is a Vehicle"</em>.</p>
+    </div>
+
+    <div class="note-box">
+      <strong>The "is-a" Test</strong>
+      <p>Use inheritance only where the sentence "X <strong>is a</strong> Y" sounds naturally true. A Car <em>is a</em> Vehicle ✓. A Student <em>is a</em> Person ✓. An Engine is a Car? ✗ — an engine is <em>part of</em> a car; that's composition (Lesson 09), not inheritance.</p>
+    </div>
+
+    <h3 class="sub-title">1.1 The Solution — One Parent, Many Children</h3>
+
+<pre><code>// File: Vehicle.java — the BASE (parent) class holds everything common
+package garage;
+
+class Vehicle {
+    private String brand;
+    private int year;
+    protected int speed;
+
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    public int getYear() { return year; }
+    public void setYear(int year) { this.year = year; }
+    public int getSpeed() { return speed; }
+
+    public void accelerate() {
+        speed += 10;
+        System.out.println(brand + " is now going " + speed + " km/h");
+    }
+
+    public void brake() {
+        speed = 0;
+        System.out.println(brand + " stopped.");
+    }
+}</code></pre>
+
+<pre><code>// File: Car.java — "extends" means "Car inherits from Vehicle"
+package garage;
+
+class Car extends Vehicle {                     // Car IS A Vehicle
+    // Car adds ONLY what makes a car special:
+    private int numberOfDoors;
+
+    public int getNumberOfDoors() { return numberOfDoors; }
+    public void setNumberOfDoors(int numberOfDoors) { this.numberOfDoors = numberOfDoors; }
+
+    public void openBoot() {
+        System.out.println("The " + getBrand() + "'s boot is open.");   // brand is INHERITED
+    }
+}</code></pre>
+
+<pre><code>// File: Motorbike.java
+package garage;
+
+class Motorbike extends Vehicle {
+    private boolean hasSideCar;
+
+    public boolean hasSideCar() { return hasSideCar; }
+    public void setHasSideCar(boolean hasSideCar) { this.hasSideCar = hasSideCar; }
+
+    public void doWheelie() {
+        System.out.println("The " + getBrand() + " pops a wheelie! (Don't try this at home)");
+    }
+}</code></pre>
+
+<pre><code>// In main — children can use inherited AND own members:
+Car car = new Car();
+car.setBrand("Toyota");          // inherited — works!
+car.setNumberOfDoors(4);         // own field
+car.accelerate();                // inherited method  -> "Toyota is now going 10 km/h"
+car.openBoot();                  // own method
+
+Motorbike bike = new Motorbike();
+bike.setBrand("Bajaj");
+bike.accelerate();               // the SAME inherited code — written once, used by all children
+bike.doWheelie();
+
+// car.doWheelie();              // COMPILER ERROR — wheelie belongs to Motorbike only</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 260" role="img" aria-label="Vehicle hierarchy">
+        <defs><marker id="tri14" markerWidth="16" markerHeight="14" refX="8" refY="7" orient="auto"><path d="M0,0 L16,7 L0,14 Z" fill="white" stroke="#0277bd" stroke-width="1.5"/></marker></defs>
+        <rect x="280" y="20" width="200" height="90" rx="10" fill="#e3f2fd" stroke="#0277bd" stroke-width="3"/>
+        <text x="380" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#0277bd">Vehicle (base)</text>
+        <text x="380" y="66" text-anchor="middle" font-size="10" fill="#1a1f2b">Brand, Year, Speed</text>
+        <text x="380" y="84" text-anchor="middle" font-size="10" fill="#b9770e">accelerate(), Brake()</text>
+        <line x1="180" y1="170" x2="330" y2="115" stroke="#0277bd" stroke-width="2" marker-end="url(#tri14)"/>
+        <line x1="580" y1="170" x2="430" y2="115" stroke="#0277bd" stroke-width="2" marker-end="url(#tri14)"/>
+        <rect x="60" y="175" width="230" height="70" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="175" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">Car extends Vehicle</text>
+        <text x="175" y="220" text-anchor="middle" font-size="10" fill="#1a1f2b">+ NumberOfDoors</text>
+        <text x="175" y="236" text-anchor="middle" font-size="10" fill="#b9770e">+ openBoot()</text>
+        <rect x="470" y="175" width="230" height="70" rx="10" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="585" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#b28704">Motorbike extends Vehicle</text>
+        <text x="585" y="220" text-anchor="middle" font-size="10" fill="#1a1f2b">+ HasSideCar</text>
+        <text x="585" y="236" text-anchor="middle" font-size="10" fill="#b9770e">+ doWheelie()</text>
+      </svg>
+      <div class="cap">Figure 14.1 — A class hierarchy. The hollow arrow points from child to parent and reads "is a". Common code lives once, at the top.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Read <code>class Car extends Vehicle</code> aloud:</strong> "Car is a Vehicle." Everything a Vehicle has, a Car automatically has — without writing it again.</li>
+        <li><strong>Inside <code>openBoot()</code> we used <code>getBrand()</code></strong> even though Car never declared it — the field/getter arrived through inheritance, as if it were pasted in invisibly.</li>
+        <li><strong>Inheritance is one-directional:</strong> children get the parent's members; the parent knows nothing about its children. Vehicle cannot call <code>doWheelie()</code>.</li>
+        <li><strong>What is NOT inherited:</strong> <code>private</code> members exist inside the child object but are <em>inaccessible</em> to the child's code (Session 15 fixes this with <code>protected</code>), and constructors are not inherited (also Session 15).</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">1.2 Rules of Java Inheritance</h3>
+    <ul>
+      <li><strong>Single inheritance only:</strong> a class may have exactly <em>one</em> direct superclass (<code>class A extends B, C</code> with two classes is illegal in Java — use <code>implements</code> for interfaces).</li>
+      <li><strong>Chains are allowed:</strong> <code>ElectricCar extends Car extends Vehicle</code> — ElectricCar inherits from both, transitively.</li>
+      <li><strong>Everything ultimately inherits from <code>Object</code>:</strong> the built-in root class of all Java types — this is why every object has <code>toString()</code>.</li>
+    </ul>
+
+    <div class="fig">
+      <svg viewBox="0 0 700 120" role="img" aria-label="Inheritance chain to object">
+        <rect x="20" y="40" width="120" height="50" rx="8" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="80" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#b28704">ElectricCar</text>
+        <text x="155" y="70" font-size="18" fill="#0277bd">→</text>
+        <rect x="170" y="40" width="100" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="220" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">Car</text>
+        <text x="285" y="70" font-size="18" fill="#0277bd">→</text>
+        <rect x="300" y="40" width="110" height="50" rx="8" fill="#e3f2fd" stroke="#0277bd" stroke-width="2"/>
+        <text x="355" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#0277bd">Vehicle</text>
+        <text x="425" y="70" font-size="18" fill="#0277bd">→</text>
+        <rect x="440" y="40" width="100" height="50" rx="8" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2"/>
+        <text x="490" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#8e24aa">Object</text>
+        <text x="350" y="110" text-anchor="middle" font-size="10" fill="#5b6472">Every class in Java eventually inherits from Object — the universal ancestor</text>
+      </svg>
+      <div class="cap">Figure 14.2 — Inheritance chains are allowed. ElectricCar receives members from Car, Vehicle, and object.</div>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 14.1 — The Garage (50 min)</strong>
+      <ol>
+        <li>Create project <code>Garage</code> with Vehicle, Car and Motorbike as above (one file per class). Test all the calls in Main.</li>
+        <li>Add a third child: <code>class Bus extends Vehicle</code> with <code>PassengerCapacity</code> and a method <code>announceStop()</code>.</li>
+        <li>Prove single-source maintenance: change Accelerate to add 15 instead of 10 — run and observe all three children updated by editing <em>one line</em>.</li>
+        <li>Try <code>car.doWheelie();</code> — read and note the compiler error.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 14.2 — The Person Hierarchy (40 min)</strong>
+      <ol>
+        <li>Design on paper first: base <code>Person</code> (Name, DateOfBirth, <code>introduce()</code>), children <code>Student</code> (IndexNumber, <code>study()</code>) and <code>Lecturer</code> (Subject, <code>teach()</code>).</li>
+        <li>Apply the is-a test aloud for both children before coding.</li>
+        <li>Implement and test in a new project.</li>
+        <li><strong>Challenge:</strong> create <code>ClassRep extends Student</code> (a two-level chain) with a <code>CollectFeedback()</code> method.</li>
+      </ol>
+    </div>
+
+    </div>
+
+  <!-- SUMMARY -->
+
+<div class="section part-break"><h2 class="section-title">Inheritance in Depth – protected, base Constructors</h2></div>
+<!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. <code>protected</code> — The Family-Only Modifier</h2>
+
+    <p>Session 14 left a problem: if Vehicle's <code>Speed</code> has a <code>private set</code>, how can a child like <code>SportsCar</code> implement its own <code>turboBoost()</code> that changes the speed? <code>private</code> locks children out too. Making it <code>public</code> exposes it to <em>everyone</em>. The middle ground:</p>
+
+    <div class="definition-box">
+      <strong>Definition — protected</strong>
+      <p>A <code>protected</code> member is accessible <strong>inside its own class and inside any derived class</strong>, but not from outside the family. It sits between private (self only) and public (everyone).</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 200" role="img" aria-label="Access modifier circles">
+        <circle cx="360" cy="100" r="90" fill="none" stroke="#1565c0" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="360" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="#1565c0">public — the street</text>
+        <circle cx="360" cy="100" r="60" fill="none" stroke="#2e7d32" stroke-width="2"/>
+        <text x="360" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">protected — family house</text>
+        <circle cx="360" cy="100" r="30" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2"/>
+        <text x="360" y="105" text-anchor="middle" font-size="10" font-weight="700" fill="#8e24aa">private</text>
+        <text x="120" y="170" font-size="10" fill="#5b6472">Main() is outside — can use public only</text>
+        <text x="480" y="170" font-size="10" fill="#5b6472">Derived class is inside — can use protected + public</text>
+      </svg>
+      <div class="cap">Figure 15.1 — Three circles of trust: private (my room), protected (family), public (street).</div>
+    </div>
+
+<pre><code>class Vehicle {
+    private String brand;
+    protected int speed;                 // protected: children may touch it, outsiders may not
+
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    public int getSpeed() { return speed; }   // public read-only window for outsiders
+
+    public void accelerate() {
+        speed += 10;
+    }
+}
+
+class SportsCar extends Vehicle {
+    public void turboBoost() {
+        speed += 50;                         // LEGAL — SportsCar is family
+        System.out.println(getBrand() + " turbo! Now at " + speed + " km/h");
+    }
+}
+
+// In main:
+SportsCar f = new SportsCar();
+f.setBrand("Ferrari");
+f.turboBoost();          // works — the child manipulated the protected field
+// f.speed = 999;        // COMPILER ERROR — main is not part of the family</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Three circles of trust:</strong> private = my room only; protected = family house; public = the street. <code>speed</code> lives in the family house: Vehicle and all its descendants may enter, strangers (Main) may not.</li>
+        <li><strong>Encapsulation is preserved:</strong> outsiders still cannot corrupt speed — they read it through the public getter but change it only via public methods (accelerate) or family logic (turboBoost).</li>
+        <li><strong>Use sparingly:</strong> protected is a bigger door than private. Prefer <code>private</code> + protected <em>methods</em> when only behaviour (not raw data) needs sharing.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Constructors in a Hierarchy — <code>super(...)</code></h2>
+
+    <p>Constructors are <strong>not inherited</strong>. If Vehicle demands (brand, year) at birth, each child must arrange for those values to reach Vehicle's constructor. The keyword <code>super</code> does it:</p>
+
+<pre><code>class Vehicle {
+    private String brand;
+    private int year;
+
+    public String getBrand() { return brand; }
+    public int getYear() { return year; }
+
+    public Vehicle(String brand, int year) {          // parent constructor demands the essentials
+        this.brand = brand;
+        this.year = year;
+        System.out.println("1) Vehicle constructor ran");
+    }
+}
+
+class Car extends Vehicle {
+    private int numberOfDoors;
+
+    public int getNumberOfDoors() { return numberOfDoors; }
+
+    // super(brand, year) forwards values UP to the Vehicle constructor
+    public Car(String brand, int year, int doors) {
+        super(brand, year);
+        this.numberOfDoors = doors;                       // then the child adds its own part
+        System.out.println("2) Car constructor ran");
+    }
+}
+
+// In main:
+Car c = new Car("Toyota", 2022, 4);
+// Output order:
+// 1) Vehicle constructor ran      <- parent part built FIRST
+// 2) Car constructor ran          <- then the child part</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Bottom floor first:</strong> a Car object contains a complete Vehicle "inside" it. Construction is like building a house: foundation (Vehicle) before walls (Car). Hence the output order — always parent first.</li>
+        <li><strong><code>super(brand, year)</code></strong> is the delivery van carrying the child's constructor arguments up to the parent's constructor. Compare with <code>this(...)</code> from Session 11 which chains <em>sideways</em> within the same class; <code>super(...)</code> chains <em>upwards</em>.</li>
+        <li><strong>When can you omit it?</strong> Only if the parent has a parameterless constructor — Java then calls it silently. If the parent demands parameters, forgetting <code>super(...)</code> is a compiler error.</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">2.1 A Three-Level Chain</h3>
+<pre><code>class ElectricCar extends Car {
+    private int batteryCapacity;
+
+    public int getBatteryCapacity() { return batteryCapacity; }
+
+    public ElectricCar(String brand, int year, int doors, int battery) {
+        super(brand, year, doors);                 // passes to Car, which passes to Vehicle
+        this.batteryCapacity = battery;
+        System.out.println("3) ElectricCar constructor ran");
+    }
+}
+
+// new ElectricCar("Tesla", 2024, 4, 75) prints 1) then 2) then 3) — the full chain, top down.</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 700 180" role="img" aria-label="Constructor chain order">
+        <rect x="250" y="20" width="200" height="45" rx="8" fill="#e3f2fd" stroke="#0277bd" stroke-width="2"/>
+        <text x="350" y="48" text-anchor="middle" font-size="11" font-weight="700" fill="#0277bd">1. Vehicle constructor</text>
+        <line x1="350" y1="65" x2="350" y2="85" stroke="#0277bd" stroke-width="2" marker-end="url(#none)"/>
+        <polygon points="345,85 355,85 350,95" fill="#0277bd"/>
+        <rect x="250" y="100" width="200" height="45" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="350" y="128" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">2. Car constructor</text>
+        <line x1="350" y1="145" x2="350" y2="165" stroke="#2e7d32" stroke-width="2"/>
+        <polygon points="345,165 355,165 350,175" fill="#2e7d32"/>
+        <rect x="230" y="155" width="240" height="20" rx="4" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="350" y="170" text-anchor="middle" font-size="10" font-weight="700" fill="#b28704">3. ElectricCar constructor</text>
+        <text x="560" y="50" font-size="10" fill="#5b6472">super(brand, year)</text>
+        <text x="560" y="130" font-size="10" fill="#5b6472">super(brand, year, doors)</text>
+      </svg>
+      <div class="cap">Figure 15.2 — Constructor execution order: always parent first, then child, down the chain.</div>
+    </div>
+
+    <h3 class="sub-title">2.2 Hierarchy Design Guidelines</h3>
+    <ul>
+      <li><strong>Pull up what is shared</strong> by <em>all</em> children; keep down what only some have.</li>
+      <li><strong>Keep it shallow:</strong> 2–3 levels is usually plenty. Deep towers become impossible to reason about.</li>
+      <li><strong>Re-run the is-a test at every level:</strong> ElectricCar is a Car ✓, Car is a Vehicle ✓.</li>
+      <li><strong>Don't inherit for convenience:</strong> shared <em>data shape</em> is not shared <em>identity</em>.</li>
+    </ul>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 15.1 — Constructor Chains (45 min)</strong>
+      <ol>
+        <li>Build the Vehicle → Car → ElectricCar chain above with the numbered System.out.println messages. Run and verify the 1-2-3 order.</li>
+        <li>Remove <code>super(brand, year)</code> from Car temporarily — read the compiler error, then restore it.</li>
+        <li>Add <code>Motorbike(String brand, int year) { super(brand, year); ... }</code> and a read-only getter <code>getWheels()</code> fixed at 2.</li>
+        <li>In Main create one of each and print all details.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 15.2 — Bank Accounts, Properly (45 min)</strong>
+      <ol>
+        <li>Design: base <code>BankAccount</code> (AccountNumber, Owner, protected balance, Deposit, Withdraw) with a constructor demanding (accountNumber, owner).</li>
+        <li>Child <code>SavingsAccount extends BankAccount</code> adds InterestRate and <code>AddMonthlyInterest()</code> which uses the <em>protected</em> balance directly.</li>
+        <li>Child <code>CurrentAccount extends BankAccount</code> adds OverdraftLimit and <code>WithdrawWithOverdraft</code> allowing balance down to -OverdraftLimit.</li>
+        <li>Test: interest accrues on savings; overdraft works on current; base Withdraw still refuses overdrawing a savings account.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 15</strong>
+      <ol>
+        <li>Compare private, protected and public with one-line descriptions. (3 marks)</li>
+        <li>Why are constructors not inherited? How does a derived class initialise its base part? (4 marks)</li>
+        <li>Write a base class with a parameterized constructor and a derived class that chains to it with <code>super(...)</code>. (6 marks)</li>
+        <li>In what order do constructors run when a derived object is created? Show with output. (4 marks)</li>
+        <li>State two guidelines for designing good class hierarchies. (4 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 15 Summary</h3>
+    <ul>
+      <li><code>protected</code> = family-only access: the class and all its descendants.</li>
+      <li>Constructors are not inherited; <code>super(args)</code> forwards values to the parent constructor.</li>
+      <li>Construction order: always parent first, down the chain to the newest child.</li>
+      <li>Pull shared members up, keep hierarchies shallow, verify is-a at each level.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-14.html" class="btn btn-secondary">&larr; Session 14</a>
+    <a href="session-16.html" class="btn btn-primary">Session 16 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 15 &nbsp;|&nbsp; 3 Hours &nbsp;|&nbsp; Sequence position 15 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

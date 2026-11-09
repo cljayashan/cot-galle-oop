@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session A2.1 - Variable Scope (Simplified)</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session A2.1 &nbsp;&bull;&nbsp; Additional Lesson A2 - Variable Scope</div>
+  <h2>Variable Scope &ndash; Local Variables, Fields, Parameters &amp; Blocks (Simplified)</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; ~2 Hours</span>
+    <span class="stag stag-type">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Additional &#9656; A2 Variable Scope &#9656; Session A2.1</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#0277bd,#01579b);">
+    <div class="lesson-num">Additional Lesson A2</div>
+    <h2>Variable Scope (Simplified)</h2>
+    <p>One idea only: <strong>where</strong> you write a variable decides <strong>where</strong> you may use its name. Think of rooms in a house — a book left in the kitchen is not on the bedroom shelf.</p>
+    <div class="lesson-meta">
+      <span>⏱ ~2 Hours Integrated</span>
+      <span>📋 Session A2.1</span>
+      <span>🟢 Short &amp; simple</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Say what “scope” means in one sentence</li>
+      <li>Point to fields, parameters, and local variables in a short class</li>
+      <li>Spot a compile error when a name is used outside its room</li>
+      <li>Use <code>this.name</code> when a parameter has the same name as a field</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Scope in One Sentence</h2>
+
+    <div class="definition-box">
+      <strong>Definition — Scope</strong>
+      <p><strong>Scope</strong> is the part of the program where a variable’s name is known and can be used. Outside that part, the name does not exist (the compiler will complain).</p>
+    </div>
+
+    <p>House analogy:</p>
+    <ul>
+      <li><strong>Field</strong> = furniture that belongs to the whole house (the object). Every room (method) can use it.</li>
+      <li><strong>Local variable</strong> = a shopping bag you carry into one room only. When you leave the room, the bag is gone.</li>
+      <li><strong>Parameter</strong> = a gift handed to you at the door of a method. You may use it only inside that method.</li>
+    </ul>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 260" role="img" aria-label="Scope rooms diagram">
+        <rect x="40" y="20" width="680" height="220" rx="14" fill="#e3f2fd" stroke="#0277bd" stroke-width="3"/>
+        <text x="380" y="48" text-anchor="middle" font-size="14" font-weight="700" fill="#01579b">CLASS = the house (object)</text>
+        <text x="380" y="70" text-anchor="middle" font-size="12" fill="#1a1f2b">Field: String name;  ← visible in every method of this class</text>
+        <rect x="70" y="95" width="280" height="120" rx="10" fill="#fff" stroke="#2e7d32" stroke-width="2"/>
+        <text x="210" y="120" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">METHOD deposit(amount)</text>
+        <text x="210" y="145" text-anchor="middle" font-size="11" fill="#1a1f2b">parameter: amount</text>
+        <text x="210" y="168" text-anchor="middle" font-size="11" fill="#1a1f2b">local: double tax;</text>
+        <text x="210" y="195" text-anchor="middle" font-size="10" fill="#5b6472">These two names end when method ends</text>
+        <rect x="400" y="95" width="280" height="120" rx="10" fill="#fff" stroke="#e65100" stroke-width="2"/>
+        <text x="540" y="120" text-anchor="middle" font-size="12" font-weight="700" fill="#e65100">METHOD getBalance()</text>
+        <text x="540" y="155" text-anchor="middle" font-size="11" fill="#1a1f2b">Can use field name / balance</text>
+        <text x="540" y="180" text-anchor="middle" font-size="11" fill="#c62828">Cannot use amount or tax</text>
+        <text x="540" y="200" text-anchor="middle" font-size="10" fill="#5b6472">(those live in the other room)</text>
+      </svg>
+      <div class="cap">Figure A2.1 — Fields belong to the class; parameters and locals belong to one method only.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Three Places to Declare a Variable</h2>
+
+    <h3 class="sub-title">2.1 Field (instance variable)</h3>
+    <p>Declared <strong>inside the class</strong>, but <strong>outside</strong> any method. Lives as long as the object lives.</p>
+<pre><code>public class Student {
+    private String name;   // FIELD — whole class can use this (via methods)
+    private int marks;     // FIELD
+}</code></pre>
+
+    <h3 class="sub-title">2.2 Parameter</h3>
+    <p>Declared in the method’s parentheses. Exists only while that method runs.</p>
+<pre><code>public void setMarks(int marks) {   // "marks" is a PARAMETER
+    // use marks here only
+}</code></pre>
+
+    <h3 class="sub-title">2.3 Local variable</h3>
+    <p>Declared inside a method body (or inside <code>{ }</code>). Exists from that line until the closing <code>}</code>.</p>
+<pre><code>public void printGrade() {
+    int total = marks;        // LOCAL
+    String grade = "Pass";    // LOCAL
+    System.out.println(grade + " " + total);
+}   // total and grade disappear here</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner’s Logic Breakdown</strong>
+      <ol>
+        <li>Ask: “Where did I write the name?” → class body, method ( … ), or inside { }.</li>
+        <li>Fields = object memory. Locals/parameters = temporary notes for one method call.</li>
+        <li>If the compiler says “cannot find symbol”, you are probably outside the variable’s room.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. A Mistake You Must Recognise</h2>
+
+<pre><code>public class Demo {
+    public void show() {
+        int x = 10;
+        System.out.println(x);   // OK
+    }
+
+    public void other() {
+        System.out.println(x);   // ERROR — x is not in this room
+    }
+}</code></pre>
+
+    <div class="note-box">
+      <strong>Note</strong>
+      <p><code>x</code> was born inside <code>show()</code>. Method <code>other()</code> is a different room. Fix: make <code>x</code> a field if both methods need it, or pass it as a parameter.</p>
+    </div>
+
+    <h3 class="sub-title">3.1 Block scope (if / for)</h3>
+    <p>A variable declared inside <code>if</code>, <code>for</code>, or any <code>{ }</code> is local to that block only.</p>
+<pre><code>if (marks &gt;= 50) {
+    String msg = "Pass";
+    System.out.println(msg);   // OK
+}
+// System.out.println(msg);    // ERROR — msg ended with the if-block</code></pre>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. Same Name Twice? Use <code>this</code></h2>
+
+    <p>Sometimes a parameter has the same name as a field. Inside the method, the <strong>parameter wins</strong> (it “hides” the field). Use <code>this</code> to mean the field.</p>
+
+<pre><code>public class Book {
+    private String title;           // FIELD
+
+    public void setTitle(String title) {   // PARAMETER — same name
+        this.title = title;         // this.title = field, title = parameter
+    }
+}</code></pre>
+
+    <div class="tip-box">
+      <strong>Tip — Remember</strong>
+      <p><code>this</code> = “this object.” So <code>this.title</code> means “the field belonging to this object,” not the parameter.</p>
+    </div>
+
+    <table>
+      <thead><tr><th>Name</th><th>Meaning inside setTitle</th></tr></thead>
+      <tbody>
+        <tr><td><code>title</code></td><td>The parameter (the value you passed in)</td></tr>
+        <tr><td><code>this.title</code></td><td>The field on the Book object</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2 class="section-title">5. Tiny Worked Example</h2>
+
+<pre><code>public class Counter {
+    private int count;                 // field — shared by all methods of this object
+
+    public void add(int value) {       // value = parameter
+        int next = count + value;      // next = local
+        count = next;
+    }
+
+    public int getCount() {
+        return count;                  // uses field; cannot see "value" or "next"
+    }
+}</code></pre>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task A2.1 — Label the Names (30 min)</strong>
+      <ol>
+        <li>Type the <code>Counter</code> class above into VS Code and run a small <code>main</code> that calls <code>add(5)</code> twice, then prints <code>getCount()</code>.</li>
+        <li>In your lab book, draw three boxes: Field / Parameter / Local. Write each name (<code>count</code>, <code>value</code>, <code>next</code>) in the correct box.</li>
+        <li>Deliberately add <code>System.out.println(next);</code> inside <code>getCount()</code>. Read the compiler error. Fix it by removing that line.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task A2.2 — Fix the Scope Bug (30 min)</strong>
+      <ol>
+        <li>Write a <code>Student</code> class with a private field <code>name</code>.</li>
+        <li>Write <code>setName(String name)</code> that correctly stores the parameter into the field using <code>this.name = name;</code>.</li>
+        <li>Write <code>greet()</code> that prints <code>"Hello, " + name</code>.</li>
+        <li><strong>Challenge:</strong> inside <code>greet()</code>, declare a local <code>String name = "Guest";</code> and print both the local and the field (<code>this.name</code>). Explain the two different values to a classmate.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Additional A2</strong>
+      <ol>
+        <li>What is variable scope? Give one simple example. (3 marks)</li>
+        <li>Difference between a field and a local variable. (4 marks)</li>
+        <li>Why does using a local variable from another method cause a compile error? (3 marks)</li>
+        <li>Explain why we write <code>this.name = name;</code> in a setter. (4 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>Session A2.1 Summary</h3>
+    <ul>
+      <li>Scope = where a name is visible.</li>
+      <li>Field → whole object. Parameter / local → one method (or one block).</li>
+      <li>Leaving the room destroys locals; fields stay with the object.</li>
+      <li>Same names? Inner wins; use <code>this.field</code> for the field.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="../index.html" class="btn btn-secondary">&larr; Additional Lessons</a>
+    <a href="overview.html" class="btn btn-primary">Lesson Overview &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session A2.1 &ndash; Variable Scope &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../../js/vendor/pdfmake.min.js"></script>
+<script src="../../js/vendor/vfs_fonts.js"></script>
+<script src="../../js/export-pdf.js"></script>
+</body>
+</html>

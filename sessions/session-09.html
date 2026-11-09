@@ -1,0 +1,633 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 09 - Methods (BankAccount) & Library Phase 1: Book Class</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 09 of 32 &nbsp;&bull;&nbsp; 3-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Methods (BankAccount) & Library Phase 1: Book Class</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type" style="background:#fff8e1;color:#b28704;">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 09 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Anatomy of a Method</h2>
+
+    <p>In Session 04 you called methods like <code>car.accelerate()</code> with no extra information. Real programs need methods that <strong>receive values</strong> and sometimes <strong>send answers back</strong> — exactly like a flowchart process box that reads inputs and produces an output.</p>
+
+    <div class="definition-box">
+      <strong>Definition — Method</strong>
+      <p>A <strong>method</strong> is a named block of code inside a class that performs a task. It may receive input values (<strong>parameters</strong>) and may send back a result (<strong>return value</strong>). A method is the OOP version of the "function" or "subroutine" you met in flowchart notation.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 190" role="img" aria-label="Method signature anatomy">
+        <text x="380" y="60" text-anchor="middle" font-family="monospace" font-size="20" fill="#1a1f2b">
+          <tspan fill="#c62828" font-weight="700">public</tspan>
+          <tspan fill="#1565c0" font-weight="700"> double</tspan>
+          <tspan fill="#2e7d32" font-weight="700"> CalculateInterest</tspan>
+          <tspan fill="#b9770e" font-weight="700">(double rate)</tspan>
+        </text>
+        <line x1="180" y1="75" x2="180" y2="105" stroke="#c62828" stroke-width="2"/>
+        <text x="180" y="125" text-anchor="middle" font-size="11" fill="#c62828">ACCESS MODIFIER</text>
+        <text x="180" y="141" text-anchor="middle" font-size="10" fill="#5b6472">who may call it</text>
+        <line x1="300" y1="75" x2="300" y2="105" stroke="#1565c0" stroke-width="2"/>
+        <text x="300" y="125" text-anchor="middle" font-size="11" fill="#1565c0">RETURN TYPE</text>
+        <text x="300" y="141" text-anchor="middle" font-size="10" fill="#5b6472">what comes back</text>
+        <text x="300" y="155" text-anchor="middle" font-size="10" fill="#5b6472">(void = nothing)</text>
+        <line x1="460" y1="75" x2="460" y2="105" stroke="#2e7d32" stroke-width="2"/>
+        <text x="460" y="125" text-anchor="middle" font-size="11" fill="#2e7d32">NAME</text>
+        <text x="460" y="141" text-anchor="middle" font-size="10" fill="#5b6472">verb, camelCase</text>
+        <line x1="600" y1="75" x2="600" y2="105" stroke="#b9770e" stroke-width="2"/>
+        <text x="600" y="125" text-anchor="middle" font-size="11" fill="#b9770e">PARAMETERS</text>
+        <text x="600" y="141" text-anchor="middle" font-size="10" fill="#5b6472">inputs the caller</text>
+        <text x="600" y="155" text-anchor="middle" font-size="10" fill="#5b6472">must supply</text>
+      </svg>
+      <div class="cap">Figure 2.3 — The four parts of every method signature.</div>
+    </div>
+
+    <p>Think of a method as a <strong>vending machine</strong>: parameters are the coins and button press you put in; the return value is the drink that comes out; the machine's internal work is the method body — invisible to the caller.</p>
+
+    <h3 class="sub-title">1.1 The Four Combinations</h3>
+    <table>
+      <thead><tr><th>Takes Input?</th><th>Returns Output?</th><th>Example Signature</th><th>Typical Use</th></tr></thead>
+      <tbody>
+        <tr><td>No</td><td>No</td><td><code>public void describe()</code></td><td>Print information</td></tr>
+        <tr><td>Yes</td><td>No</td><td><code>public void deposit(double amount)</code></td><td>Change state using input</td></tr>
+        <tr><td>No</td><td>Yes</td><td><code>public double getBalance()</code></td><td>Report state</td></tr>
+        <tr><td>Yes</td><td>Yes</td><td><code>public double calcInterest(double rate)</code></td><td>Compute using input + state</td></tr>
+      </tbody>
+    </table>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 240" role="img" aria-label="Parameter and return flow">
+        <defs>
+          <marker id="arrIn" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1565c0"/></marker>
+          <marker id="arrOut" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2e7d32"/></marker>
+        </defs>
+        <rect x="20" y="80" width="180" height="100" rx="8" fill="#eef4fb" stroke="#1565c0" stroke-width="2"/>
+        <text x="110" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">Main()</text>
+        <text x="110" y="128" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">acc.deposit(5000);</text>
+        <text x="110" y="148" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">boolean ok = acc.withdraw(1200);</text>
+        <text x="110" y="168" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">double i = acc.calcInterest(4.5);</text>
+        <line x1="200" y1="115" x2="280" y2="115" stroke="#1565c0" stroke-width="2" marker-end="url(#arrIn)"/>
+        <text x="240" y="105" text-anchor="middle" font-size="9" fill="#1565c0">5000 copied into amount</text>
+        <rect x="285" y="60" width="190" height="140" rx="8" fill="#fff8e1" stroke="#b9770e" stroke-width="2"/>
+        <text x="380" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#b9770e">deposit(double amount)</text>
+        <text x="380" y="110" text-anchor="middle" font-size="10" fill="#1a1f2b">if amount &lt;= 0 → reject</text>
+        <text x="380" y="128" text-anchor="middle" font-size="10" fill="#1a1f2b">Balance += amount</text>
+        <text x="380" y="146" text-anchor="middle" font-size="10" fill="#1a1f2b">print confirmation</text>
+        <text x="380" y="180" text-anchor="middle" font-size="9" fill="#5b6472">void → no value returns</text>
+        <line x1="475" y1="100" x2="555" y2="100" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrOut)"/>
+        <text x="515" y="90" text-anchor="middle" font-size="9" fill="#2e7d32">true / false</text>
+        <rect x="560" y="70" width="180" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="650" y="92" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">withdraw → boolean ok</text>
+        <text x="650" y="108" text-anchor="middle" font-size="9" fill="#5b6472">return lands in ok</text>
+        <line x1="475" y1="160" x2="555" y2="160" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrOut)"/>
+        <text x="515" y="150" text-anchor="middle" font-size="9" fill="#2e7d32">interest value</text>
+        <rect x="560" y="140" width="180" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="650" y="162" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">calcInterest → double i</text>
+        <text x="650" y="178" text-anchor="middle" font-size="9" fill="#5b6472">return lands in i</text>
+        <text x="380" y="225" text-anchor="middle" font-size="11" fill="#5b6472">Call goes in → method runs → return value (if any) travels back to the calling line</text>
+      </svg>
+      <div class="cap">Figure 2.4 — How arguments flow into parameters and return values flow back to Main.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. The BankAccount Class — Methods That Protect Data</h2>
+
+    <p>A bank account is the perfect example because its rules are familiar: you cannot withdraw more than you have, and you cannot deposit a negative amount. Notice how the <em>methods enforce the rules</em> — this previews encapsulation (Lesson 03).</p>
+
+    <div class="tip-box">
+      <strong>Money and floating point</strong>
+      <p><code>double</code> uses binary floating-point and can give tiny rounding errors (e.g. 0.1 + 0.2 ≠ 0.3 exactly). Real banks often use <code>BigDecimal</code>. In this module we use <code>double</code> for simplicity and format with <code>String.format("%.2f", value)</code>.</p>
+    </div>
+
+<pre><code>// File: BankAccount.java
+
+    class BankAccount
+    {
+        // ---------- FIELDS ----------
+        public String AccountNumber;
+        public String OwnerName;
+        public double Balance;        // double is THE type for money in Java
+
+        // ---------- METHODS ----------
+
+        // Takes input, returns nothing: changes the object's state safely
+        public void deposit(double amount)
+        {
+            if (amount &lt;= 0)                          // guard clause: reject bad input
+            {
+                System.out.println("deposit must be positive!");
+                return;                               // 'return' alone exits a void method early
+            }
+            Balance = Balance + amount;               // can also be written: Balance += amount;
+            System.out.println("deposited " + String.format("%.2f", amount) + ". New balance: " + String.format("%.2f", Balance));
+        }
+
+        // Takes input AND returns a result: true = success, false = refused
+        public boolean withdraw(double amount)
+        {
+            if (amount &lt;= 0)
+            {
+                System.out.println("withdrawal must be positive!");
+                return false;
+            }
+            if (amount &gt; Balance)                     // the golden rule of banking!
+            {
+                System.out.println("Insufficient funds. Balance is only " + String.format("%.2f", Balance));
+                return false;
+            }
+            Balance -= amount;
+            System.out.println("Withdrew " + String.format("%.2f", amount) + ". New balance: " + String.format("%.2f", Balance));
+            return true;
+        }
+
+        // Takes input and returns a computed value without changing Balance
+        public double calculateAnnualInterest(double ratePercent)
+        {
+            double interest = Balance * (double)ratePercent / 100;
+            return interest;                          // hand the answer to the caller
+        }
+
+        public void printStatement()
+        {
+            System.out.println("--------------------------------");
+            System.out.println("Account : " + AccountNumber);
+            System.out.println("Owner   : " + OwnerName);
+            System.out.println("Balance : " + String.format("%.2f", Balance));
+            System.out.println("--------------------------------");
+        }
+    }
+</code></pre>
+
+<pre><code>// File: Main.java
+
+    public class Main
+    {
+        public static void main(String[] args)
+        {
+            BankAccount acc = new BankAccount();
+            acc.AccountNumber = "ACC-1001";
+            acc.OwnerName = "Nimali Perera";
+            acc.Balance = 0;
+
+            acc.deposit(5000);           // OK — 5000 copied into amount parameter
+            acc.deposit(-50);            // rejected by the guard clause
+
+            boolean ok = acc.withdraw(1200);        // ok becomes true
+            boolean ok2 = acc.withdraw(99999);      // refused → ok2 is false
+            System.out.println("Second withdrawal succeeded? " + ok2);
+
+            // Use the returned value in a calculation
+            double interest = acc.calculateAnnualInterest(4.5);
+            System.out.println("Interest at 4.5% would be: " + String.format("%.2f", interest));
+
+            acc.printStatement();
+            // pause: new java.util.Scanner(System.in).nextLine();
+        }
+    }
+</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Parameter = a mailbox:</strong> when Main calls <code>acc.deposit(5000)</code>, the value 5000 is copied into the parameter <code>amount</code>. Inside the method, <code>amount</code> behaves like a normal variable that arrived pre-filled.</li>
+        <li><strong>Guard clauses are your flowchart's DECISION diamonds:</strong> <code>if (amount &lt;= 0) ... return;</code> is exactly the diamond "amount ≤ 0? → yes: reject / no: continue". Decisions you drew in flowcharts now protect real data.</li>
+        <li><strong>Return values travel back:</strong> <code>return interest;</code> sends the number back to the calling line, where it lands in <code>double interest = ...</code>. Trace it with your finger: Main → method → back to Main.</li>
+        <li><strong><code>{Balance:C}</code></strong> formats a number as currency (e.g. Rs. depending on region settings). Just formatting — no maths involved.</li>
+        <li><strong>Why <code>boolean</code> for withdraw?</strong> The caller may need to know whether it worked — e.g. an ATM must only dispense cash if the withdrawal succeeded.</li>
+      </ol>
+    </div>
+
+    <div class="note-box">
+      <strong>Key Point — Methods Guard the Data</strong>
+      <p>Nobody should change <code>Balance</code> directly with arbitrary values. All changes go <em>through</em> deposit and withdraw, which check the rules first. In Lesson 03 we make this bulletproof by marking fields <code>private</code> so direct access becomes impossible.</p>
+    </div>
+
+    <div class="warn-box">
+      <strong>Common Beginner Errors</strong>
+      <ul>
+        <li><strong>Missing return on non-void methods:</strong> every path through <code>withdraw</code> must hit a <code>return</code> — compiler error if one branch forgets.</li>
+        <li><strong>Using <code>double</code> for money:</strong> prefer <code>BigDecimal</code> in production; use <code>double</code> carefully in these labs.</li>
+        <li><strong>Confusing parameter and argument:</strong> the <em>parameter</em> is in the method header (<code>double amount</code>); the <em>argument</em> is the value you pass at the call site (<code>5000</code>).</li>
+        <li><strong>Expecting void to return:</strong> <code>deposit</code> changes state but gives nothing back — do not write <code>double x = acc.deposit(100);</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Lab Time</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 5.1 — Build the Bank (60 min)</strong>
+      <ol>
+        <li>Create project <code>BankDemo</code> with the two files above. Run and confirm the rejected deposit and refused withdrawal messages appear.</li>
+        <li>Add a method <code>public void transfer(BankAccount target, double amount)</code> that withdraws from this account and deposits into <code>target</code> — but only if the withdrawal succeeds (use the returned boolean!).</li>
+        <li>In Main, create a second account and transfer 1000 between them. Print both statements.</li>
+        <li><strong>Test like a bank auditor:</strong> try transferring more than the balance. Nothing should be lost or created from thin air — total money before = total money after.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 5.2 — JShell Warm-Down (20 min)</strong>
+      <p>In JShell (terminal: <code>jshell</code>), define this mini-class, then experiment:</p>
+<pre><code>class Counter
+{
+    public int value;
+    public void add(int n) { value += n; }
+    public int doubled() { return value * 2; }
+}</code></pre>
+      <ol>
+        <li><code>Counter c = new Counter();</code> then <code>c.add(5); c.add(3); c.value</code> — predict before pressing Enter.</li>
+        <li><code>c.doubled()</code> — does calling this change <code>c.value</code>? Verify.</li>
+        <li>Make a second Counter and prove the two are independent.</li>
+      </ol>
+    </div>
+
+    </div>
+
+  <!-- SUMMARY -->
+
+<div class="section part-break"><h2 class="section-title">Library System Project – Phase 1: The Book Class</h2></div>
+<div class="practical-header">
+    <div class="prac-num">Library System &nbsp;&bull;&nbsp; Phase 1 of 6</div>
+    <h3>The Book Class — First Brick of Our Module Project</h3>
+    <div class="prac-meta">
+      <span>&#9203; 4 Hours</span>
+      <span>&#128736; Session 06</span>
+      <span>&#128187; VS Code</span>
+      <span>&#128221; Continuous Assessment Project</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. The Project Brief (Read Carefully — This Runs for 6 Phases)</h2>
+
+    <div class="note-box">
+      <strong>The Client's Request</strong>
+      <p>"Our college library needs a small program. It must keep track of <strong>books</strong> — each book has a title, an author, an ISBN, and can be either available or borrowed. Staff should be able to list all books, borrow a book, and return a book."</p>
+    </div>
+
+    <p>Apply the noun/verb method from Session 04:</p>
+    <table>
+      <thead><tr><th>Analysis</th><th>Findings</th></tr></thead>
+      <tbody>
+        <tr><td>Nouns → classes</td><td><strong>Book</strong> (today), Member (Phase 2), Library, Magazine, DVD (later phases)</td></tr>
+        <tr><td>Book must remember → fields</td><td>Title, Author, ISBN, isAvailable</td></tr>
+        <tr><td>Verbs → methods</td><td>borrow(), returnItem(), printDetails()</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">Project Phases Roadmap</h3>
+    <table>
+      <thead><tr><th>Phase</th><th>Session</th><th>What We Add</th><th>Concept Practised</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>S06 (today)</td><td>Book class + menu</td><td>Classes, objects, methods, List</td></tr>
+        <tr><td>2</td><td>S09</td><td>Member class, private fields</td><td>Encapsulation, properties</td></tr>
+        <tr><td>3</td><td>S12</td><td>Constructors everywhere</td><td>Constructors, overloading</td></tr>
+        <tr><td>4</td><td>S16</td><td>LibraryItem base class, Magazine &amp; DVD</td><td>Inheritance</td></tr>
+        <tr><td>5</td><td>S18</td><td>One list of mixed items</td><td>Polymorphism</td></tr>
+        <tr><td>6</td><td>S20</td><td>Interfaces + final demo</td><td>Abstraction</td></tr>
+      </tbody>
+    </table>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 200" role="img" aria-label="Library catalog structure">
+        <rect x="280" y="20" width="200" height="50" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="380" y="42" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">List&lt;Book&gt; catalog</text>
+        <text x="380" y="58" text-anchor="middle" font-size="10" fill="#5b6472">resizable container</text>
+        <line x1="380" y1="70" x2="380" y2="90" stroke="#1a1f2b" stroke-width="2"/>
+        <line x1="130" y1="90" x2="630" y2="90" stroke="#1a1f2b" stroke-width="2"/>
+        <line x1="130" y1="90" x2="130" y2="110" stroke="#1a1f2b" stroke-width="2"/>
+        <line x1="380" y1="90" x2="380" y2="110" stroke="#1a1f2b" stroke-width="2"/>
+        <line x1="630" y1="90" x2="630" y2="110" stroke="#1a1f2b" stroke-width="2"/>
+        <rect x="30" y="110" width="200" height="75" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="130" y="132" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">Book b1</text>
+        <text x="130" y="150" text-anchor="middle" font-size="9" fill="#1a1f2b">"Clean Code"</text>
+        <text x="130" y="165" text-anchor="middle" font-size="9" fill="#1a1f2b">Available</text>
+        <rect x="280" y="110" width="200" height="75" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="380" y="132" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">Book b2</text>
+        <text x="380" y="150" text-anchor="middle" font-size="9" fill="#1a1f2b">"Head First Java"</text>
+        <text x="380" y="165" text-anchor="middle" font-size="9" fill="#1a1f2b">Borrowed</text>
+        <rect x="530" y="110" width="200" height="75" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="630" y="132" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">Book b3</text>
+        <text x="630" y="150" text-anchor="middle" font-size="9" fill="#1a1f2b">"Pragmatic Programmer"</text>
+        <text x="630" y="165" text-anchor="middle" font-size="9" fill="#1a1f2b">Available</text>
+        <text x="380" y="195" text-anchor="middle" font-size="10" fill="#5b6472">catalog.add(b1) puts each object in the list; foreach visits every Book</text>
+      </svg>
+      <div class="cap">Figure 2.5 — The catalog is a List holding Book objects. Each Book owns its own field values.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Step-by-Step Build</h2>
+
+    <h3 class="sub-title">Step 1 — Create the Solution</h3>
+    <ol class="step-list">
+      <li>Create a folder named <code>LibrarySystem</code>, open it with <strong>File → Open Folder...</strong> in VS Code, and create your <code>.java</code> files there. Save it somewhere safe — you will open this same folder for the next several weeks!</li>
+      <li>In Explorer → <strong>New File</strong> → name it <code>Book.java</code>.</li>
+    </ol>
+
+    <h3 class="sub-title">Step 2 — The Book Class (Phase 1 Style — Public Fields)</h3>
+    <p>In Phase 1 we use <code>public</code> fields for simplicity. In Session 09 (Phase 2) we refactor to private fields and properties — the same Book, better protected.</p>
+
+<pre><code>// File: Book.java
+
+    class Book
+    {
+        // ---------- FIELDS: what every book remembers ----------
+        public String Title;
+        public String Author;
+        public String ISBN;
+        public boolean isAvailable = true;   // new books start available
+
+        // ---------- METHODS: what every book can do ----------
+
+        public void borrow()
+        {
+            if (isAvailable == false)                 // guard: already borrowed?
+            {
+                System.out.println("Sorry, '" + title + "' is already borrowed.");
+                return;                               // stop — rule was broken
+            }
+            isAvailable = false;                      // mark as taken
+            System.out.println("You have borrowed '" + title + "'. Enjoy!");
+        }
+
+        public void returnBook()
+        {
+            if (isAvailable)                          // returning a book never borrowed?
+            {
+                System.out.println("'" + title + "' was not borrowed — nothing to return.");
+                return;
+            }
+            isAvailable = true;
+            System.out.println("'" + title + "' has been returned. Thank you!");
+        }
+
+        public void printDetails()
+        {
+            // Conditional operator: compact if/else that picks a value
+            String status = isAvailable ? "Available" : "Borrowed";
+            System.out.println(title + " by " + author + " | ISBN: " + isbn + " | " + status);
+        }
+    }
+</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong><code>isAvailable = true</code> at the field:</strong> every new Book starts life available — sensible defaults save setup code in Main.</li>
+        <li><strong>Borrow's guard clause:</strong> flowchart thinking — diamond: "available? no → print sorry, stop; yes → mark borrowed, print success." The method makes an illegal state (borrowing twice) impossible.</li>
+        <li><strong><code>condition ? valueIfTrue : valueIfFalse</code></strong> chooses a value in one line. Longer equivalent: <code>if (isAvailable) status = "Available"; else status = "Borrowed";</code></li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">Step 3 — Many Books: List and Menu Loop</h3>
+    <p>A library has hundreds of books — we cannot write <code>book1, book2, book3…</code> forever. Java gives us <code>List&lt;Book&gt;</code>: a resizable container that holds any number of Book objects.</p>
+
+<pre><code>import java.util.ArrayList;
+import java.util.List;
+
+import java.util.Scanner;
+
+// File: Main.java
+// needed for List&lt;T&gt;
+
+
+    public class Main
+    {
+        public static void main(String[] args)
+        {
+        Scanner scanner = new Scanner(System.in);
+            // A List that can hold ONLY Book objects (type-safe container)
+            List&lt;Book&gt; catalog = new ArrayList&lt;&gt;();
+
+            // Create books and add them to the catalog
+            Book b1 = new Book();
+            b1.setTitle("Clean Code");  b1.Author = "Robert C. Martin";  b1.ISBN = "978-0132350884";
+            catalog.add(b1);
+
+            Book b2 = new Book();
+            b2.Title = "The Pragmatic Programmer";  b2.Author = "Hunt &amp; Thomas";  b2.ISBN = "978-0201616224";
+            catalog.add(b2);
+
+            Book b3 = new Book();
+            b3.Title = "Head First Java";  b3.Author = "Andrew Stellman";  b3.ISBN = "978-1491976708";
+            catalog.add(b3);
+
+            // ---------- THE MENU LOOP ----------
+            boolean running = true;
+            while (running)                            // repeat until user chooses Exit
+            {
+                System.out.println("\n===== COT LIBRARY =====");
+                System.out.println("1. List all books");
+                System.out.println("2. Borrow a book");
+                System.out.println("3. Return a book");
+                System.out.println("4. Exit");
+                System.out.print("Choose: ");
+                String choice = scanner.nextLine();
+
+                if (choice == "1")
+                {
+                    for (Book b : catalog)        // visit every Book, one at a time
+                    {
+                        b.printDetails();
+                    }
+                }
+                else if (choice == "2" || choice == "3")
+                {
+                    System.out.print("Enter the exact title: ");
+                    String title = scanner.nextLine();
+
+                    Book found = null;                 // null = "no object yet"
+                    for (Book b : catalog)
+                    {
+                        if (b.setTitle(= title)
+                        {
+                            found = b;                 // remember which book matched
+                        }
+                    }
+
+                    if (found == null)
+                    {
+                        System.out.println("No book with that title.");
+                    }
+                    else if (choice == "2")
+                    {
+                        found.borrow();
+                    }
+                    else
+                    {
+                        found.returnBook();
+                    }
+                }
+                else if (choice == "4")
+                {
+                    running = false;                   // ends the while loop
+                }
+                else
+                {
+                    System.out.println("Please choose 1-4.");
+                }
+            }
+            System.out.println("Goodbye!");
+        }
+    }
+</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 520 420" role="img" aria-label="Menu flowchart">
+        <defs><marker id="mf" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1f4e79"/></marker></defs>
+        <ellipse cx="260" cy="30" rx="70" ry="22" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="260" y="35" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">START</text>
+        <line x1="260" y1="52" x2="260" y2="72" stroke="#1f4e79" stroke-width="2" marker-end="url(#mf)"/>
+        <rect x="160" y="72" width="200" height="36" rx="6" fill="#eef4fb" stroke="#1f4e79" stroke-width="2"/>
+        <text x="260" y="95" text-anchor="middle" font-size="10" fill="#1a1f2b">Show menu, read choice</text>
+        <line x1="260" y1="108" x2="260" y2="128" stroke="#1f4e79" stroke-width="2" marker-end="url(#mf)"/>
+        <polygon points="260,128 320,158 260,188 200,158" fill="#fff8e1" stroke="#b9770e" stroke-width="2"/>
+        <text x="260" y="155" text-anchor="middle" font-size="10" fill="#1a1f2b">choice?</text>
+        <line x1="200" y1="158" x2="80" y2="158" stroke="#1f4e79" stroke-width="2"/>
+        <line x1="80" y1="158" x2="80" y2="210" stroke="#1f4e79" stroke-width="2" marker-end="url(#mf)"/>
+        <text x="130" y="150" font-size="9" fill="#5b6472">1</text>
+        <rect x="20" y="210" width="120" height="36" rx="6" fill="#eef4fb" stroke="#1f4e79" stroke-width="2"/>
+        <text x="80" y="228" text-anchor="middle" font-size="9" fill="#1a1f2b">foreach printDetails</text>
+        <line x1="260" y1="188" x2="260" y2="210" stroke="#1f4e79" stroke-width="2" marker-end="url(#mf)"/>
+        <text x="268" y="200" font-size="9" fill="#5b6472">2/3</text>
+        <rect x="200" y="210" width="120" height="50" rx="6" fill="#eef4fb" stroke="#1f4e79" stroke-width="2"/>
+        <text x="260" y="230" text-anchor="middle" font-size="9" fill="#1a1f2b">Search by title</text>
+        <text x="260" y="248" text-anchor="middle" font-size="9" fill="#1a1f2b">Borrow or Return</text>
+        <line x1="320" y1="158" x2="440" y2="158" stroke="#1f4e79" stroke-width="2"/>
+        <line x1="440" y1="158" x2="440" y2="320" stroke="#1f4e79" stroke-width="2" marker-end="url(#mf)"/>
+        <text x="370" y="150" font-size="9" fill="#5b6472">4</text>
+        <rect x="380" y="320" width="120" height="36" rx="6" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="440" y="342" text-anchor="middle" font-size="10" fill="#c62828">running = false</text>
+        <line x1="80" y1="246" x2="80" y2="290" stroke="#1f4e79" stroke-width="2"/>
+        <line x1="260" y1="260" x2="260" y2="290" stroke="#1f4e79" stroke-width="2"/>
+        <line x1="80" y1="290" x2="260" y2="290" stroke="#1f4e79" stroke-width="2"/>
+        <line x1="260" y1="290" x2="260" y2="310" stroke="#1f4e79" stroke-width="2" marker-end="url(#mf)"/>
+        <rect x="180" y="310" width="160" height="30" rx="6" fill="#f4f7fb" stroke="#5b6472" stroke-width="2"/>
+        <text x="260" y="330" text-anchor="middle" font-size="10" fill="#1a1f2b">Loop back to menu</text>
+        <line x1="260" y1="340" x2="260" y2="72" stroke="#1f4e79" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <ellipse cx="440" cy="390" rx="50" ry="20" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="440" y="395" text-anchor="middle" font-size="11" font-weight="700" fill="#c62828">END</text>
+        <line x1="440" y1="356" x2="440" y2="370" stroke="#1f4e79" stroke-width="2" marker-end="url(#mf)"/>
+      </svg>
+      <div class="cap">Figure 2.6 — Menu flowchart: while loop with decision diamonds — the same pattern you drew before writing code.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong><code>List&lt;Book&gt;</code></strong> reads as "a List of Book". <code>catalog.add(b1)</code> puts an object in; <code>for (Book b : catalog)</code> takes each one out in turn.</li>
+        <li><strong>The menu is a loop + decisions</strong> — exactly the "repeat until user exits" pattern from flowcharts, with a diamond for each menu option.</li>
+        <li><strong><code>null</code> means "no object here yet".</strong> We start search with <code>found = null</code>; if still null after the loop, no title matched. Checking before use prevents <em>NullReferenceException</em>.</li>
+        <li><strong>Trace one round:</strong> user picks 2, types "Clean Code" → loop matches b1 → <code>found.borrow()</code> → isAvailable true → marks false → back to menu.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Your Phase 1 Assignment</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 6.1 — Build &amp; Verify (60 min)</strong>
+      <ol>
+        <li>Build the project exactly as above. Test this script and tick each expected result:
+          <ul>
+            <li>List → all 3 books show "Available"</li>
+            <li>Borrow "Clean Code" → success message</li>
+            <li>Borrow "Clean Code" again → "already borrowed"</li>
+            <li>Return "Clean Code" → success; Return it again → "nothing to return"</li>
+            <li>Borrow "No Such Book" → "No book with that title"</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 6.2 — Extend the System (75 min, assessed)</strong>
+      <ol>
+        <li>Add a field <code>public int YearPublished;</code> and show it in <code>printDetails()</code>.</li>
+        <li>Add menu option <strong>5. Add a new book</strong> — ask the user for title, author, ISBN and year, create the Book, add it to the catalog.</li>
+        <li>Add menu option <strong>6. Show only available books</strong> — loop with an if inside.</li>
+        <li>Add a method <code>public boolean matchesSearch(String keyword)</code> in Book that returns true if the keyword appears in the title <em>or</em> author (use <code>title.toLowerCase().contains(keyword.toLowerCase())</code> or similar). Add menu option <strong>7. Search</strong> using it.</li>
+        <li><strong>Checkpoint:</strong> demonstrate options 5–7 to the lecturer. This is Library System progress mark #1.</li>
+      </ol>
+    </div>
+
+    <div class="tip-box">
+      <strong>Save Your Work Properly</strong>
+      <p>Close VS Code and copy the whole <code>LibrarySystem</code> folder to your USB or cloud storage. You will need this exact project in Session 09. Losing it means redoing Phase 1!</p>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 06</strong>
+      <ol>
+        <li>Write a class <code>Book</code> with fields for title, author and availability, plus a <code>Borrow()</code> method that prevents double-borrowing. (8 marks)</li>
+        <li>Show how to declare a <code>List</code> of objects, add two items, and print them with foreach. (6 marks)</li>
+        <li>What does <code>null</code> represent? Why must we check for it after a search? (4 marks)</li>
+        <li>Explain what the conditional operator <code>? :</code> does, with an example. (3 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 06 Summary — Library Phase 1 Complete</h3>
+    <ul>
+      <li>Requirements paragraph → nouns/verbs → Book class with 4 fields and 3 methods.</li>
+      <li>Phase 1 uses public fields; Phase 2 (Session 09) refactors to encapsulation.</li>
+      <li><code>List&lt;Book&gt;</code> holds any number of objects; enhanced-for visits each one.</li>
+      <li>Menu = while loop + if/else decisions; search = loop + null check.</li>
+      <li>The Book's own methods enforce borrowing rules — data protected by behaviour.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-08.html" class="btn btn-secondary">&larr; Session 8</a>
+    <a href="session-10.html" class="btn btn-primary">Session 10 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 09 &nbsp;|&nbsp; 3 Hours &nbsp;|&nbsp; Sequence position 09 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

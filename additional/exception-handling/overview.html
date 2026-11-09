@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Additional A1 - Exception Handling (Full Notes)</title>
+  <link rel="stylesheet" href="../../style.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-logo">📚</div>
+    <div class="header-info">
+      <h1>Object Oriented Programming (Java)</h1>
+      <p>College of Technology Galle &nbsp;|&nbsp; Module K72T004M03 &ndash; Level 05</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span><strong>Additional A1</strong></span>
+    <span><strong>Topic:</strong> Exception Handling</span>
+    <span><strong>Duration:</strong> ~3 Hours (Integrated)</span>
+    <span><strong>Author:</strong> Jayashan Liyanage</span>
+  </div>
+</header>
+
+<nav class="lesson-nav no-print">
+  <a href="../../index.html">Home</a>
+  <a href="../index.html">Additional</a>
+  <a href="index.html" class="active">A1 Exceptions</a>
+</nav>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#c62828,#8b0000);">
+    <div class="lesson-num">Additional Lesson A1</div>
+    <h2>Exception Handling — When Things Go Wrong</h2>
+    <p>Your earlier notes warned that <code>Integer.parseInt("abc")</code> crashes the program. This lesson shows how to <strong>catch</strong> that crash, recover gracefully, and keep the console program running — the professional way to handle unexpected situations in Java.</p>
+    <div class="lesson-meta">
+      <span>⏱ ~3 Hours Integrated</span>
+      <span>📋 Session A1.1</span>
+      <span>🔧 try / catch / finally / throw</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes — After this lesson you will be able to:</h3>
+    <ul>
+      <li>Explain what an exception is and why uncaught exceptions stop a program</li>
+      <li>Write <code>try</code> / <code>catch</code> / <code>finally</code> blocks for risky operations</li>
+      <li>Recognise common runtime exceptions (<code>NumberFormatException</code>, <code>NullPointerException</code>, <code>ArithmeticException</code>, …)</li>
+      <li>Use <code>throw</code> to signal invalid situations from your own methods</li>
+      <li>Build safer console input that does not crash on bad user typing</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1. Why Exceptions Exist</h2>
+    <ul>
+      <li>Normal <code>if</code> checks handle expected cases; exceptions handle <em>unexpected</em> failures (bad input, missing object, divide by zero).</li>
+      <li>Without handling, the JVM prints a stack trace and ends <code>main</code>.</li>
+      <li>With handling, you show a friendly message and continue (e.g. ask the user to type again).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. Core Syntax</h2>
+<pre><code>try {
+    // risky code
+} catch (NumberFormatException ex) {
+    // recovery for this exception type
+} finally {
+    // always runs (cleanup) — optional
+}</code></pre>
+    <p>You may stack several <code>catch</code> blocks (most specific first). A broad <code>catch (Exception ex)</code> is a last resort, not the first choice.</p>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">3. Common Exceptions in This Module</h2>
+    <table>
+      <thead><tr><th>Exception</th><th>Typical cause</th></tr></thead>
+      <tbody>
+        <tr><td><code>NumberFormatException</code></td><td><code>Integer.parseInt("abc")</code></td></tr>
+        <tr><td><code>NullPointerException</code></td><td>Calling a method on <code>null</code></td></tr>
+        <tr><td><code>ArithmeticException</code></td><td>Integer divide by zero</td></tr>
+        <tr><td><code>ArrayIndexOutOfBoundsException</code></td><td>Bad array index</td></tr>
+        <tr><td><code>InputMismatchException</code></td><td>Wrong type with <code>Scanner.nextInt()</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">4. throw from Your Methods</h2>
+    <p>Encapsulation often pairs with exceptions: a setter or <code>withdraw</code> can <code>throw new IllegalArgumentException("...")</code> instead of silently ignoring bad data. Callers then decide whether to catch and recover.</p>
+  </div>
+
+  <div class="summary-box">
+    <h3>Lesson A1 Summary</h3>
+    <ul>
+      <li>Exceptions = unexpected runtime problems; uncaught → program ends.</li>
+      <li><code>try</code> wraps risk; <code>catch</code> recovers; <code>finally</code> always runs.</li>
+      <li>Know the common exception names for exams and debugging.</li>
+      <li><code>throw</code> lets your methods refuse illegal states clearly.</li>
+    </ul>
+  </div>
+
+  <p style="margin-top:24px;"><a href="session-01.html" class="btn btn-primary no-print">Open Session A1.1 Full Notes &rarr;</a></p>
+
+</main>
+
+<footer>
+  <p style="margin-top:6px;font-size:0.8rem;">Additional A1 Overview &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+</body>
+</html>

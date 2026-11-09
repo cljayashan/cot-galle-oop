@@ -1,0 +1,580 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 01 - Hello World, JDK & Java Program Anatomy</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 01 of 32 &nbsp;&bull;&nbsp; 3-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Hello World, JDK & Java Program Anatomy</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type" style="background:#fff8e1;color:#b28704;">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 01 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<h2>Basic Java Programming</h2>
+    <p>You have spent weeks drawing flowcharts and writing algorithms. Today, those diagrams become <strong>real, running programs</strong>. In this lesson we learn the Java language from scratch — how to install <strong>VS Code</strong>, write your first program, and connect every line of code back to the INPUT, PROCESS, and OUTPUT boxes you already know. <strong>Only VS Code is allowed in this module.</strong></p>
+    <div class="lesson-meta">
+      <span>&#9203; 18 Hours Integrated</span>
+      <span>&#128218; 7 Sessions</span>
+      <span>&#127919; Foundation for the Whole Module</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. From Flowcharts to Code — The Same Thinking, a New Language</h2>
+
+    <p>Until now you have solved problems using <strong>algorithms</strong> (numbered steps) and <strong>flowcharts</strong> (diagrams with boxes and arrows). A flowchart is not just a drawing — it is a precise description of what a computer should do. When you write Java code, you are writing that same description in a language the computer can execute directly.</p>
+
+    <p>Consider a simple problem: display a welcome message on screen. As a flowchart:</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 520 160" role="img" aria-label="Simple Hello World flowchart">
+        <defs><marker id="a1" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1f4e79"/></marker></defs>
+        <ellipse cx="70" cy="80" rx="50" ry="26" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="70" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">START</text>
+        <line x1="120" y1="80" x2="155" y2="80" stroke="#1f4e79" stroke-width="2" marker-end="url(#a1)"/>
+        <path d="M170,55 L340,55 L325,105 L155,105 Z" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2"/>
+        <text x="240" y="78" text-anchor="middle" font-size="11" fill="#8e24aa">OUTPUT</text>
+        <text x="240" y="95" text-anchor="middle" font-size="11" fill="#8e24aa">"Hello, World!"</text>
+        <line x1="340" y1="80" x2="375" y2="80" stroke="#1f4e79" stroke-width="2" marker-end="url(#a1)"/>
+        <ellipse cx="430" cy="80" rx="45" ry="26" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="430" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#c62828">END</text>
+      </svg>
+      <div class="cap">Figure 1.1 — The simplest possible flowchart: START &rarr; OUTPUT &rarr; END. Every Java program follows this same top-to-bottom flow.</div>
+    </div>
+
+    <p>Now look at a slightly richer example — the rectangle area problem you already know:</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 200" role="img" aria-label="Flowchart for rectangle area">
+        <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1f4e79"/></marker></defs>
+        <ellipse cx="90" cy="100" rx="55" ry="28" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="90" y="105" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">START</text>
+        <line x1="145" y1="100" x2="180" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#a2)"/>
+        <path d="M195,72 L310,72 L295,128 L180,128 Z" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="245" y="95" text-anchor="middle" font-size="11" fill="#1565c0">INPUT</text>
+        <text x="245" y="112" text-anchor="middle" font-size="11" fill="#1565c0">length, width</text>
+        <line x1="310" y1="100" x2="345" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#a2)"/>
+        <rect x="350" y="72" width="150" height="56" rx="4" fill="#fff7e6" stroke="#b9770e" stroke-width="2"/>
+        <text x="425" y="95" text-anchor="middle" font-size="11" fill="#b9770e">PROCESS</text>
+        <text x="425" y="112" text-anchor="middle" font-size="11" fill="#b9770e">area = length × width</text>
+        <line x1="500" y1="100" x2="535" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#a2)"/>
+        <path d="M555,72 L670,72 L655,128 L540,128 Z" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2"/>
+        <text x="605" y="95" text-anchor="middle" font-size="11" fill="#8e24aa">OUTPUT</text>
+        <text x="605" y="112" text-anchor="middle" font-size="11" fill="#8e24aa">area</text>
+        <line x1="670" y1="100" x2="695" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#a2)"/>
+        <ellipse cx="730" cy="100" rx="30" ry="24" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="730" y="105" text-anchor="middle" font-size="11" font-weight="700" fill="#c62828">END</text>
+      </svg>
+      <div class="cap">Figure 1.2 — INPUT, PROCESS, OUTPUT. You will write programs exactly like this — one box at a time — starting in Session 03.</div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Flowchart Shape</th><th>What It Means</th><th>Java Equivalent (you will learn these soon)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>START / END</strong> (ovals)</td><td>Where the program begins and stops</td><td>The <code>main</code> method — your entry point</td></tr>
+        <tr><td><strong>INPUT</strong> (parallelogram)</td><td>Read data from the user or a file</td><td><code>Scanner</code> / <code>sc.nextLine()</code></td></tr>
+        <tr><td><strong>PROCESS</strong> (rectangle)</td><td>Calculate or transform data</td><td>Assignment statements like <code>area = length * width;</code></td></tr>
+        <tr><td><strong>OUTPUT</strong> (parallelogram)</td><td>Display a result on screen</td><td><code>System.out.println(...)</code></td></tr>
+        <tr><td><strong>DECISION</strong> (diamond)</td><td>Choose between two paths</td><td><code>if</code> statements (Session 05)</td></tr>
+        <tr><td><strong>LOOP</strong> (arrow back)</td><td>Repeat steps</td><td><code>for</code> and <code>while</code> loops (Session 06)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <strong>Key Point</strong>
+      <p>Coding is not a different way of thinking — it is the <em>same</em> logical thinking you already practise with flowcharts, expressed in a stricter language. The computer cannot guess what you mean; every step must be written precisely, in order, with correct spelling and punctuation.</p>
+    </div>
+
+    <div class="tip-box">
+      <strong>Logic First, Syntax Second</strong>
+      <p>Always draw or write your algorithm <em>before</em> touching the keyboard. If you cannot explain the steps on paper, you cannot write the code. The syntax (semicolons, braces, capital letters) is learnable — the logic is what makes you a programmer.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Meet Your Toolbox: VS Code</h2>
+
+    <p>To write and run Java programs we need an <strong>IDE (Integrated Development Environment)</strong> — one application that combines a code editor, a compiler, and a debugger. Our IDE for this module is <strong>Visual Studio Code (VS Code)</strong>, which is free. <strong>Only VS Code is allowed in this module.</strong></p>
+
+    <div class="definition-box">
+      <strong>Definition — IDE</strong>
+      <p>An <strong>Integrated Development Environment (IDE)</strong> is a software application that provides everything a programmer needs in one place: a smart text editor (with colour-coding and auto-complete), a <strong>compiler</strong> (translates your human-readable code into a runnable program), and a <strong>debugger</strong> (helps you find and fix mistakes step by step).</p>
+    </div>
+
+    <div class="warn-box">
+      <strong>Module rule</strong>
+      <p>Use <strong>VS Code</strong> with the <strong>Extension Pack for Java</strong>. Lab work, demos and assessments assume this setup.</p>
+    </div>
+
+    <h3 class="sub-title">2.1 Install VS Code</h3>
+    <ol class="step-list">
+      <li>Go to <a href="https://code.visualstudio.com/" target="_blank">https://code.visualstudio.com/</a> and download VS Code for Windows.</li>
+      <li>Run the installer and complete the setup (accept defaults is fine).</li>
+      <li>Launch <strong>Visual Studio Code</strong>.</li>
+    </ol>
+
+    <h3 class="sub-title">2.2 Install JDK 17+</h3>
+    <ol class="step-list">
+      <li>Install a <strong>JDK 17+</strong> (Temurin/Adoptium) if one is not already on the lab PCs — download from <a href="https://adoptium.net/" target="_blank">adoptium.net</a>.</li>
+      <li>During install, ensure the option to add the JDK to <strong>PATH</strong> is selected (or ask the lab instructor).</li>
+      <li>Confirm in a terminal later with <code>java -version</code> and <code>javac -version</code>.</li>
+    </ol>
+
+    <h3 class="sub-title">2.3 Install Extension Pack for Java</h3>
+    <ol class="step-list">
+      <li>In VS Code open <strong>Extensions</strong>: click the Extensions icon in the Activity Bar, or press <strong>Ctrl + Shift + X</strong>.</li>
+      <li>Search for <strong>Extension Pack for Java</strong> by <strong>Microsoft</strong>.</li>
+      <li>Click <strong>Install</strong>. This pack includes Language Support for Java, Debugger, Test Runner, Maven, and Project Manager.</li>
+      <li>Wait until installation finishes. VS Code may reload.</li>
+    </ol>
+
+    <h3 class="sub-title">2.4 Open Your Student Folder and Create Hello.java</h3>
+    <p>In VS Code, work lives in a <strong>folder</strong> you open. Console programs (text in / text out) are perfect for learning — no buttons or graphics to distract us from the logic.</p>
+    <ol class="step-list">
+      <li>In File Explorer (Windows), create a student folder, e.g. <code>D:\Students\YourName\MyFirstProgram</code>.</li>
+      <li>In VS Code: <strong>File &rarr; Open Folder...</strong> and select <code>MyFirstProgram</code>.</li>
+      <li>In Explorer (left), click <strong>New File</strong> and name it <code>Hello.java</code>. The class name must match the file name.</li>
+      <li>Type (or paste) the Hello World code from section 3. Save with <strong>Ctrl + S</strong>.</li>
+    </ol>
+
+    <h3 class="sub-title">2.5 Run Your Program</h3>
+    <ol class="step-list">
+      <li>With <code>Hello.java</code> open, click the green <strong>Run</strong> link / play button that appears above <code>main</code>, <strong>or</strong></li>
+      <li>Press <strong>F5</strong> to Debug, or <strong>Ctrl + F5</strong> to Run without debugging.</li>
+      <li>Output appears in the <strong>Terminal</strong> / Debug Console panel at the bottom.</li>
+    </ol>
+
+    <h3 class="sub-title">2.6 A Tour of the VS Code Panels</h3>
+    <p>Before writing more code, learn where things live. You will use these every day:</p>
+
+    <table>
+      <thead>
+        <tr><th>Panel</th><th>How to Open It</th><th>What It Does</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Explorer</strong></td>
+          <td>Activity Bar (top icon) or Ctrl + Shift + E</td>
+          <td>Shows your folder files as a tree. <code>Hello.java</code> is where your code lives — the filing cabinet for your work.</td>
+        </tr>
+        <tr>
+          <td><strong>Editor</strong></td>
+          <td>Double-click <code>Hello.java</code> in Explorer</td>
+          <td>The main area where you type Java code. Keywords are colour-coded; matching braces are highlighted when you click one.</td>
+        </tr>
+        <tr>
+          <td><strong>Terminal</strong></td>
+          <td>View &rarr; Terminal, or Ctrl + ` (backtick)</td>
+          <td>Runs your program output, and optional <code>javac</code> / <code>java</code> / <code>jshell</code> commands — all inside VS Code.</td>
+        </tr>
+        <tr>
+          <td><strong>PROBLEMS</strong></td>
+          <td>View &rarr; Problems, or Ctrl + Shift + M</td>
+          <td>Lists every mistake the language tools found, with a description and the line number. <strong>Always read this first</strong> when something goes wrong.</td>
+        </tr>
+        <tr>
+          <td><strong>Line Numbers</strong></td>
+          <td>File &rarr; Preferences &rarr; Settings &rarr; search "line numbers" &rarr; set to <em>on</em></td>
+          <td>Turn these on immediately. When PROBLEMS says "line 12", you need to see line 12.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <strong>Essential Keyboard Shortcuts</strong>
+      <ul>
+        <li><strong>Ctrl + S</strong> — Save your file (do this constantly!)</li>
+        <li><strong>F5</strong> — Start Debugging</li>
+        <li><strong>Ctrl + F5</strong> — Run without debugging (recommended for now)</li>
+        <li><strong>Shift + Alt + F</strong> — Format Document (auto-format your code neatly)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Your First Java Program — Hello World</h2>
+
+    <p>Replace the contents of <code>Hello.java</code> with this and study every line — the comments (text after <code>//</code>) explain each part. Do not worry if some words look strange; we unpack them fully in Session 02.</p>
+
+<pre><code>// This is a comment. The computer ignores everything after "//".
+// Comments are notes for humans reading the code.
+
+public class Hello                      // A class - a container that holds our program's code
+{                                       // Class name must match the file name: Hello.java
+    public static void main(String[] args) // main = the ENTRY POINT. The program starts here
+    {
+        // System.out.println prints one line of text on the screen
+        System.out.println("Hello, College of Technology Galle!");
+    }                                   // End of the main method
+}                                       // End of the Hello class</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <p>Map this code to the flowchart thinking you already know:</p>
+      <ol>
+        <li><strong>START</strong> = the program begins at the first line <em>inside</em> <code>main</code>. The JVM always looks for a method called <code>main</code> to know where to start — like the START oval in your flowchart.</li>
+        <li><strong>OUTPUT box</strong> = <code>System.out.println("...")</code>. Whatever is inside the quotes gets displayed. This is exactly your flowchart's OUTPUT parallelogram.</li>
+        <li><strong>END</strong> = when the program reaches the closing brace <code>}</code> of <code>main</code>, it stops. When <code>main</code> ends, the program stops — in VS Code the Terminal keeps the output visible.</li>
+        <li>The other lines (<code>import</code>, <code>package</code>, <code>class</code>) are the <em>packaging</em> — like the envelope around a letter. We study them properly in Session 02. For now: your instructions go inside <code>main</code>.</li>
+      </ol>
+    </div>
+
+    <p>To run the program click <strong>Run</strong> above <code>main</code>, or press <strong>Ctrl + F5</strong> (Run without debugging). Output appears in the Terminal. Congratulations — you are officially a programmer!</p>
+
+    <h3 class="sub-title">3.1 Optional — Run from the Terminal in VS Code (<code>javac</code> / <code>java</code>)</h3>
+    <p>VS Code is our main tool. You can also compile and run a single Java file from the <strong>integrated Terminal</strong> (View &rarr; Terminal). This is useful for a quick check with the JDK tools.</p>
+<pre><code>// Save this as Hello.java in any folder
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello from the command line!");
+    }
+}</code></pre>
+<pre><code>javac Hello.java && java Hello</code></pre>
+    <div class="tip-box">
+      <strong>CLI vs VS Code Run</strong>
+      <ul>
+        <li><strong>VS Code</strong> — Explorer, Editor, Terminal, PROBLEMS panel, debugger, code completion. Use this for all module labs.</li>
+        <li><strong><code>javac Hello.java && java Hello</code></strong> — optional one-file experiments from the VS Code Terminal (requires the JDK on PATH). Same language; different launcher.</li>
+        <li>If <code>javac</code> is not recognised, install the JDK from <a href="https://adoptium.net/" target="_blank">adoptium.net</a> and ensure it is on PATH, then reopen the Terminal.</li>
+      </ul>
+    </div>
+
+    <div class="warn-box">
+      <strong>Common Beginner Errors</strong>
+      <ul>
+        <li><strong>Missing semicolon ;</strong> — every Java statement ends with <code>;</code>. Forgetting it gives the error <em>"; expected"</em>.</li>
+        <li><strong>Wrong quotes</strong> — text must be inside straight double quotes <code>"like this"</code>.</li>
+        <li><strong>Case sensitivity</strong> — Java is case-sensitive. It must be <code>System.out.println</code> — capital <code>S</code> on <code>System</code>.</li>
+        <li><strong>Unmatched braces { }</strong> — every opening <code>{</code> needs a closing <code>}</code>. VS Code highlights the matching pair when you click one.</li>
+      </ul>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 1.1 — Hello, You! (45 min)</strong>
+      <ol>
+        <li>Create the <code>MyFirstProgram</code> folder and <code>Hello.java</code> exactly as in section 2.4 and run it with <strong>Ctrl + F5</strong> (or Run above <code>main</code>).</li>
+        <li>Turn on <strong>line numbers</strong> (section 2.6) and locate <strong>Explorer</strong>, <strong>Editor</strong>, <strong>Terminal</strong>, and the <strong>PROBLEMS</strong> panel. Sketch a quick labelled diagram of your screen in your lab book.</li>
+        <li>Change the message to print <strong>your own name</strong> and run it again.</li>
+        <li>Add <strong>three more</strong> <code>System.out.println</code> lines that print: your course name, your favourite subject, and today's date. Each on its own line.</li>
+        <li>Deliberately delete one semicolon, press Ctrl + F5, and <strong>read the error message</strong> in the PROBLEMS panel. Note down: the error text, the line number, and what you did to fix it. (Learning to read errors is a superpower!)</li>
+        <li>Deliberately change <code>System</code> to <code>system</code> (lowercase). Run again and read the new error. Fix it.</li>
+        <li><strong>Challenge:</strong> Find out what <code>System.out.print</code> (without "Line") does differently from <code>System.out.println</code>. Test both and write one sentence explaining the difference.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. What Comes Next in This Lesson</h2>
+    <p>Session 01 gave you the big picture: flowcharts become code, and <strong>VS Code</strong> is your workshop. The remaining sessions in Lesson 01 build your Java toolkit step by step:</p>
+    <table>
+      <thead>
+        <tr><th>Session</th><th>Topic</th><th>Hours</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>02</td><td>Program structure, keywords, jshell</td><td>3</td></tr>
+        <tr><td>03</td><td>Variables, data types, console input/output</td><td>3</td></tr>
+        <tr><td>04</td><td>Operators and formatted output</td><td>2</td></tr>
+        <tr><td>05</td><td>Decision structures — if, else, switch</td><td>3</td></tr>
+        <tr><td>06</td><td>Loops — for, while, do-while</td><td>3</td></tr>
+        <tr><td>07</td><td>Methods and functions</td><td>2</td></tr>
+      </tbody>
+    </table>
+
+    </div>
+
+  <!-- SUMMARY -->
+
+<div class="section part-break"><h2 class="section-title">Anatomy of a Java Program – Keywords, Structure &amp; jshell</h2></div>
+<!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. The Full Program Skeleton — Revisiting Session 01</h2>
+
+    <p>In Session 01 you ran a program without fully understanding its "packaging". Now let's open up that packaging layer by layer. Here is the complete skeleton again — this time, every part labelled:</p>
+
+<pre><code>// --------------- LINE 1: A COMMENT ---------------
+// Comments start with // and are ignored by the compiler.
+
+// Optional: import libraries you need (e.g. Scanner for keyboard input)
+// import java.util.Scanner;
+
+package myfirstprogram;          // -- PACKAGE: a labelled container for our code (optional for first labs)
+
+public class Hello               // -- CLASS: a container that holds related code (file: Hello.java)
+{                                // -- OPENING BRACE: starts the class block
+    public static void main(String[] args)  // -- main: the entry point
+    {                            // -- OPENING BRACE: starts the main method block
+        System.out.println("Hello!");  // -- SEMICOLON: every statement ends with ;
+    }                            // -- CLOSING BRACE: ends main
+}                                // -- CLOSING BRACE: ends class Hello</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 300" role="img" aria-label="Nested structure of a Java program">
+        <rect x="30" y="20" width="700" height="260" rx="10" fill="#f3e5f5" stroke="#8e24aa" stroke-width="3"/>
+        <text x="60" y="48" font-size="13" font-weight="700" fill="#8e24aa">package myfirstprogram;</text>
+        <text x="380" y="48" font-size="11" fill="#5b6472">? the big labelled container (like a filing cabinet)</text>
+        <rect x="60" y="62" width="640" height="195" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="3"/>
+        <text x="90" y="90" font-size="13" font-weight="700" fill="#1565c0">public class Hello</text>
+        <text x="380" y="90" font-size="11" fill="#5b6472">? a drawer inside the cabinet (holds related code)</text>
+        <rect x="90" y="104" width="580" height="130" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3"/>
+        <text x="120" y="132" font-size="13" font-weight="700" fill="#2e7d32">public static void main(String[] args)</text>
+        <text x="520" y="132" font-size="11" fill="#5b6472">? THE ENTRY POINT</text>
+        <rect x="120" y="146" width="520" height="70" rx="8" fill="#fffde7" stroke="#f9a825" stroke-width="2"/>
+        <text x="380" y="175" text-anchor="middle" font-size="12" fill="#7a5c00">Your statements go here, one per line, each ending with ;</text>
+        <text x="380" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#7a5c00">System.out.println("Hello!");</text>
+      </svg>
+      <div class="cap">Figure 2.1 — Package &rarr; Class &rarr; main method &rarr; your statements. Every Java console program has this skeleton.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. The Building Blocks Explained</h2>
+
+    <h3 class="sub-title">2.1 Comments — Notes for Humans</h3>
+    <p>A <strong>comment</strong> is text the compiler completely ignores. It exists only to help you (and other programmers) understand the code.</p>
+    <table>
+      <thead><tr><th>Style</th><th>Syntax</th><th>When to Use</th></tr></thead>
+      <tbody>
+        <tr><td>Single-line</td><td><code>// anything after these two slashes</code></td><td>Short explanations above a line or block</td></tr>
+        <tr><td>Multi-line</td><td><code>/* text spanning several lines */</code></td><td>Longer explanations (use sparingly)</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">2.2 Semicolons — Full Stops for Statements</h3>
+    <p>Every Java <strong>statement</strong> (one complete instruction) must end with a <strong>semicolon</strong> <code>;</code>. Think of it as a full stop at the end of a sentence. Without it, the compiler does not know where one instruction ends and the next begins.</p>
+<pre><code>System.out.println("Hello");   // &rarr; correct — ends with ;
+System.out.println("Hello")    // &rarr; error — '; expected</code></pre>
+
+    <h3 class="sub-title">2.3 Braces — Defining Blocks of Code</h3>
+    <p>Curly braces <code>{ }</code> group related lines together into a <strong>block</strong>. Every opening <code>{</code> must have a matching closing <code>}</code>. VS Code highlights matching pairs when you click on one brace — use this feature constantly.</p>
+    <p>Indentation (the spaces before each line) is not required by Java but makes blocks readable. Press <strong>Shift + Alt + F</strong> (Format Document) to auto-format your code at any time.</p>
+
+    <h3 class="sub-title">2.4 import — Importing Libraries</h3>
+    <p>The line <code>import java.util.Scanner;</code> at the top means: <em>"I want to use the Scanner class without typing java.util.Scanner every time."</em> For keyboard input you write <code>import java.util.Scanner;</code> so you can use <code>Scanner</code> without the full package path. <code>System.out.println</code> needs no import — <code>System</code> is always available. The JDK also gives you <code>Math</code>, <code>Integer</code>, and many other tools.</p>
+
+    <h3 class="sub-title">2.5 package — The Filing Cabinet</h3>
+    <p>A <strong>package</strong> is a named container that groups related classes together and prevents name collisions. Two different projects can both have a class called <code>Program</code>, and as long as they are in different packages there is no confusion — just like two students named "Kasun" in different classes are identified by their class name.</p>
+
+    <h3 class="sub-title">2.6 class — The Code Container</h3>
+    <p>A <strong>class</strong> is a container that holds related code. In Java, <em>all</em> code must live inside a class — you cannot write loose instructions floating on their own. For Lesson 01, our class is simply called <code>Program</code> and holds our <code>main</code> method. Later lessons introduce classes that model real things (students, books, bank accounts); for now, treat <code>class</code> as the required packaging around your instructions.</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 700 180" role="img" aria-label="VS Code panels overview">
+        <rect x="10" y="10" width="680" height="160" rx="8" fill="#1e1e2e" stroke="#444"/>
+        <rect x="20" y="25" width="200" height="130" rx="4" fill="#252526" stroke="#007acc"/>
+        <text x="120" y="50" text-anchor="middle" font-size="11" fill="#9cdcfe">Explorer</text>
+        <text x="120" y="75" text-anchor="middle" font-size="10" fill="#ccc">MyFirstProgram</text>
+        <text x="120" y="95" text-anchor="middle" font-size="10" fill="#ccc">Hello.java</text>
+        <rect x="240" y="25" width="440" height="95" rx="4" fill="#1e1e2e" stroke="#007acc"/>
+        <text x="260" y="50" font-size="11" fill="#569cd6">class</text>
+        <text x="310" y="50" font-size="11" fill="#4ec9b0">Hello</text>
+        <text x="260" y="75" font-size="11" fill="#dcdcaa">public static void main</text>
+        <text x="260" y="100" font-size="11" fill="#ce9178">"Hello, World!"</text>
+        <rect x="240" y="130" width="440" height="25" rx="2" fill="#007acc"/>
+        <text x="460" y="147" text-anchor="middle" font-size="10" fill="#fff">Terminal / PROBLEMS</text>
+      </svg>
+      <div class="cap">Figure 2.2 — Reminder from Session 01: Explorer (files), Editor (code), Terminal / PROBLEMS (results and errors).</div>
+    </div>
+
+    <h3 class="sub-title">2.7 The main Method — The Entry Point</h3>
+    <p>When you press <strong>Ctrl + F5</strong> (or click Run above <code>main</code>), the JVM looks for exactly one method named <code>main</code> and starts executing from its first line. Let's decode its signature:</p>
+    <table>
+      <thead><tr><th>Part</th><th>Meaning (simple version)</th></tr></thead>
+      <tbody>
+        <tr><td><code>static</code></td><td>"Belongs to the class itself." For now, always write <code>static</code> on <code>main</code>.</td></tr>
+        <tr><td><code>void</code></td><td>"This method gives nothing back when it finishes." (Methods that return a value use a type name here instead — Session 07.)</td></tr>
+        <tr><td><code>main</code></td><td>The special name JDK searches for. lowercase <code>main</code> matters!</td></tr>
+        <tr><td><code>(String[] args)</code></td><td>A box for extra text the operating system can pass in. We will not use it in this lesson, but it must be written.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Think of an envelope:</strong> <code>package</code> (optional) is the outer label, <code>class</code> is the letter inside, and <code>main</code> is where your actual message (the instructions) is written.</li>
+        <li><strong>Only Main runs automatically.</strong> Everything else is just structure. Your job as a beginner: put your instructions inside <code>main</code>, between its <code>{</code> and <code>}</code>.</li>
+        <li><strong>Order of execution:</strong> lines inside <code>main</code> run top to bottom, exactly like following arrows in a flowchart.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Java Keywords — Words You Will Meet</h2>
+
+    <p>Java has about 100 <strong>keywords</strong> — words reserved by the language with special meaning. You cannot use them as variable names. The table below lists the most important ones you will encounter in the first few weeks. Do not memorise them all today — just recognise them when they appear.</p>
+
+    <table>
+      <thead>
+        <tr><th>Keyword</th><th>What It Means (beginner level)</th><th>Example Context</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>class</code></td><td>Declares a container for code</td><td><code>class Program { }</code></td></tr>
+        <tr><td><code>static</code></td><td>Belongs to the class, not an instance</td><td><code>public static void main(...)</code></td></tr>
+        <tr><td><code>void</code></td><td>This method returns nothing</td><td><code>void Main(...)</code></td></tr>
+        <tr><td><code>int</code></td><td>A whole number (no decimals)</td><td><code>int age = 25;</code></td></tr>
+        <tr><td><code>double</code></td><td>A decimal number</td><td><code>double price = 19.99;</code></td></tr>
+        <tr><td><code>String</code></td><td>Text (a sequence of characters)</td><td><code>String name = "Kasun";</code></td></tr>
+        <tr><td><code>boolean</code></td><td>True or false only</td><td><code>boolean passed = true;</code></td></tr>
+        <tr><td><code>if</code></td><td>Make a decision — do something only when a condition is true</td><td><code>if (age &gt;= 18) { ... }</code></td></tr>
+        <tr><td><code>for</code></td><td>Repeat a block of code a set number of times</td><td><code>for (int i = 0; i &lt; 10; i++) { ... }</code></td></tr>
+        <tr><td><code>return</code></td><td>Send a value back from a method and stop</td><td><code>return area;</code></td></tr>
+        <tr><td><code>new</code></td><td>Create a new instance of something</td><td><code>new String[5]</code></td></tr>
+        <tr><td><code>public</code></td><td>Visible from anywhere in the program</td><td><code>public int Age;</code></td></tr>
+        <tr><td><code>private</code></td><td>Visible only inside its own class</td><td><code>private String password;</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <strong>Keywords vs. Identifiers</strong>
+      <p><strong>Keywords</strong> (like <code>int</code>, <code>class</code>) are reserved — you cannot rename them. <strong>Identifiers</strong> are names <em>you</em> choose: variable names (<code>age</code>), project names (<code>MyFirstProgram</code>), method names (<code>CalculateArea</code>). Choose identifiers that describe what they hold: <code>studentName</code> is better than <code>x</code>.</p>
+    </div>
+
+    <div class="warn-box">
+      <strong>Case Sensitivity</strong>
+      <p>Java is case-sensitive. <code>System</code>, <code>system</code>, and <code>SYSTEM</code> are three different identifiers. Keywords like <code>class</code> and <code>Class</code> are also different — only the lowercase version is valid.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. Instant Experiments with jshell</h2>
+
+    <p>Creating a whole project just to test one line of code is slow. The JDK includes a wonderful tool for instant experiments: <strong>jshell</strong>. You type one line, press Enter, and see the result immediately — no project, no main method, no compiling. In this module we run jshell from the <strong>VS Code Terminal</strong>.</p>
+
+    <ol class="step-list">
+      <li>In VS Code open the Terminal: <strong>View &rarr; Terminal</strong> (or Ctrl + `).</li>
+      <li>Type <code>jshell</code> and press Enter. A <code>jshell&gt;</code> prompt appears.</li>
+      <li>Type <code>2 + 3</code> and press Enter — it replies <code>5</code>.</li>
+      <li>Type <code>int x = 10;</code> and press Enter. Now type just <code>x</code> (no semicolon) and press Enter — it replies <code>10</code>. The variable is alive in the session's memory!</li>
+      <li>Try <code>x * 2 + 1</code> &rarr; it instantly shows <code>21</code>.</li>
+      <li>Try <code>"Hello" + " World"</code> &rarr; it shows <code>"Hello World"</code>. The <code>+</code> joins strings together.</li>
+      <li>Try <code>System.out.println("Test from jshell!");</code> — output appears in the jshell session.</li>
+      <li>Type <code>/exit</code> when you are finished.</li>
+    </ol>
+
+    <div class="tip-box">
+      <strong>Why This Matters</strong>
+      <p><code>jshell</code> is your <em>sandbox</em>. Whenever you are unsure what a line of code does — test it here in five seconds instead of guessing. We will use it throughout the module to explore new concepts before writing full programs.</p>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 2.1 — jshell Explorer (45 min)</strong>
+      <p>Open <code>jshell</code> and evaluate each of the following. <strong>Predict the result first</strong>, write your prediction in your lab book, then check:</p>
+      <ol>
+        <li><code>10 + 5</code></li>
+        <li><code>10 - 5</code></li>
+        <li><code>10 * 5</code></li>
+        <li><code>10 / 5</code></li>
+        <li><code>10 / 3</code> &nbsp;(whole-number division — what happens to the remainder?)</li>
+        <li><code>10 % 3</code> &nbsp;(the <code>%</code> "modulo" operator gives the remainder)</li>
+        <li><code>10.0 / 3</code> &nbsp;(now with a decimal — compare with #5)</li>
+        <li><code>"5" + "3"</code> &nbsp;(what happens when you + two strings of digits?)</li>
+        <li><code>Math.sqrt(144)</code> and <code>Math.pow(2, 10)</code></li>
+        <li><code>75 &gt;= 50</code> &nbsp;(this gives <code>true</code> or <code>false</code> — a preview of Session 04)</li>
+      </ol>
+      <p>Write one sentence in your lab book for each: what did you learn?</p>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 2.2 — Simple Calculations in a Java Application (45 min)</strong>
+      <p>Create a new folder called <code>SimpleCalc</code> (File &rarr; Open Folder in VS Code). Using the program skeleton from Session 01, write a program that:</p>
+      <ol>
+        <li>Prints a title line: <code>=== Simple Calculator ===</code></li>
+        <li>Declares two whole numbers directly in code (no user input yet — that comes in Session 03): <code>int a = 15;</code> and <code>int b = 4;</code></li>
+        <li>Prints the sum, difference, product, and quotient of <code>a</code> and <code>b</code>, each on its own line with a label.</li>
+        <li>Prints the remainder when <code>a</code> is divided by <code>b</code> using the <code>%</code> operator.</li>
+        <li>Add a comment above every calculation explaining what it does.</li>
+        <li>Run with <strong>Ctrl + F5</strong> (or Run above <code>main</code>) and verify: 15 + 4 = 19, 15 / 4 = 3 (whole-number division!), 15 % 4 = 3.</li>
+      </ol>
+      <p><em>First write the steps as a numbered algorithm on paper, then code it. Logic first, syntax second — always.</em></p>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2 class="section-title">5. Quick Reference: The Program Skeleton</h2>
+    <table>
+      <thead><tr><th>Element</th><th>Purpose</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td><code>// comment</code></td><td>Notes for humans</td><td>Ignored by compiler</td></tr>
+        <tr><td><code>import java.util.Scanner;</code></td><td>Import Scanner for keyboard input</td><td>At the top, after package (if any)</td></tr>
+        <tr><td><code>package name;</code></td><td>Group related classes</td><td>Optional first line; no braces</td></tr>
+        <tr><td><code>public class Name { }</code></td><td>Hold related code</td><td>One public class per .java file</td></tr>
+        <tr><td><code>public static void main(...) { }</code></td><td>Entry point — program starts here</td><td>Inside class; your code goes inside Main</td></tr>
+        <tr><td><code>;</code></td><td>End every statement</td><td>After every instruction</td></tr>
+        <tr><td><code>{ }</code></td><td>Define a block</td><td>Every <code>{</code> needs a matching <code>}</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 02</strong>
+      <ol>
+        <li>Describe the purpose of the package, class, and main method in a Java program. (6 marks)</li>
+        <li>What is the purpose of the <code>import</code> statement? Give an example. (3 marks)</li>
+        <li>Explain the difference between a comment, a semicolon, and a brace in Java. (3 marks)</li>
+        <li>Define the term "keyword" and give five examples with a one-line explanation of each. (5 marks)</li>
+        <li>What is <code>jshell</code> used for? How do you open it in VS Code? (2 marks)</li>
+        <li>Write the complete skeleton of a Java Application (package, class, main) with one System.out.println statement inside main. (6 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 02 Summary</h3>
+    <ul>
+      <li>Structure: optional <code>package</code> &rarr; <code>import</code> &rarr; class &rarr; main &rarr; your statements.</li>
+      <li>Comments (<code>//</code>) are for humans; semicolons (<code>;</code>) end statements; braces (<code>{ }</code>) define blocks.</li>
+      <li><code>import java.util.Scanner;</code> lets us write <code>Scanner</code> instead of <code>java.util.Scanner</code>.</li>
+      <li>Keywords are reserved words with special meaning — recognise them, don't use them as variable names.</li>
+      <li><code>jshell</code> = instant one-line experiments from the VS Code Terminal.</li>
+      <li>Your instructions always go inside <code>main</code>, running top to bottom like a flowchart.</li>
+      <li>Next session: variables, data types, and reading keyboard input.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <span></span>
+    <a href="session-02.html" class="btn btn-primary">Session 2 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 01 &nbsp;|&nbsp; 3 Hours &nbsp;|&nbsp; Sequence position 01 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

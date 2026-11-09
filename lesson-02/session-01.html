@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 01 - The Paradigm Shift</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>@media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }</style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 01 of 23 &nbsp;&bull;&nbsp; Lesson 02 - Paradigm Shift &amp; Java Bridge</div>
+  <h2>The Paradigm Shift — Procedural vs Object-Oriented Thinking</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 2.5 Hours</span>
+    <span class="stag stag-type">Theory + Discussion</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Session 01</span>
+  <a href="overview.html">Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="lesson-header">
+    <div class="lesson-num">Block 2 — Session 01</div>
+    <h2>Why We Need a New Way to Think About Programs</h2>
+    <p>You can draw a perfect flowchart for "borrow a book from the library." But when the system grows — members, fines, DVDs, staff logins — a single long list of steps becomes impossible to maintain. Object-Oriented Programming (OOP) organises code the way we organise the <em>real world</em>: as interacting <strong>objects</strong>.</p>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>After this session you will be able to:</h3>
+    <ul>
+      <li>Define <strong>procedural programming</strong> and <strong>object-oriented programming</strong></li>
+      <li>Compare both approaches using the same real-world scenario</li>
+      <li>Name the four pillars of OOP (preview for the rest of the module)</li>
+      <li>Explain why Java is used for OOP in industry</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1. What You Already Know — Procedural Thinking</h2>
+    <p>In your Programming Logic module you solved problems as a <strong>sequence of steps</strong>:</p>
+    <ol>
+      <li>Get input from the user</li>
+      <li>Process (calculate, decide)</li>
+      <li>Output the result</li>
+    </ol>
+    <p>This is called <strong>procedural programming</strong>. The program is one long recipe. Data (variables) and actions (steps) are separate. For small problems — calculate rectangle area, check vowels — this works beautifully.</p>
+
+    <div class="definition-box">
+      <strong>Definition</strong>
+      <p><strong>Procedural programming</strong> focuses on <em>what happens step by step</em>. You write functions or blocks of code that operate on data stored in variables. The flowchart is the blueprint.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 200" role="img" aria-label="Procedural view of a library">
+        <text x="360" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#1a3a5c">Procedural view — one program, many loose variables</text>
+        <rect x="40" y="40" width="640" height="140" rx="10" fill="#f5f7fa" stroke="#1a3a5c" stroke-width="2"/>
+        <rect x="60" y="60" width="120" height="40" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+        <text x="120" y="85" text-anchor="middle" font-size="11" fill="#1565c0">String title</text>
+        <rect x="200" y="60" width="120" height="40" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+        <text x="260" y="85" text-anchor="middle" font-size="11" fill="#1565c0">String member</text>
+        <rect x="340" y="60" width="120" height="40" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+        <text x="400" y="85" text-anchor="middle" font-size="11" fill="#1565c0">int dueDays</text>
+        <rect x="480" y="60" width="120" height="40" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+        <text x="540" y="85" text-anchor="middle" font-size="11" fill="#1565c0">double fine</text>
+        <rect x="100" y="120" width="500" height="44" rx="6" fill="#fff3e0" stroke="#e65100"/>
+        <text x="350" y="138" text-anchor="middle" font-size="11" font-weight="700" fill="#e65100">borrowBook()  returnBook()  calcFine()  printCatalog()</text>
+        <text x="350" y="155" text-anchor="middle" font-size="10" fill="#666">All functions share and modify the same variables — hard to track who changed what</text>
+      </svg>
+      <div class="cap">Figure 1.1 — In procedural style, data floats in one big program and many functions touch it.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. The Object-Oriented View</h2>
+    <p>Look around your classroom. You see <strong>objects</strong>: desks, students, teachers, whiteboards. Each object has:</p>
+    <ul>
+      <li><strong>Properties</strong> (attributes) — a desk has four legs, a colour</li>
+      <li><strong>Behaviours</strong> (methods) — a student can sit, read, answer a question</li>
+    </ul>
+    <p>OOP models software the same way. A <code>Book</code> object knows its own title and ISBN. A <code>Member</code> object knows its name and can borrow a book. Programs become a <strong>society of objects sending messages to each other</strong>, not one giant list of steps.</p>
+
+    <div class="definition-box">
+      <strong>Definition</strong>
+      <p><strong>Object-Oriented Programming (OOP)</strong> organises software as <em>objects</em> that combine data and behaviour. Objects interact by calling each other's methods. Large systems are built by combining many small, focused objects.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 240" role="img" aria-label="Object-oriented view">
+        <text x="360" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#1a3a5c">Object-oriented view — each object owns its data</text>
+        <rect x="50" y="50" width="180" height="160" rx="12" fill="#eef4fb" stroke="#1a3a5c" stroke-width="2"/>
+        <text x="140" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#1a3a5c">Book</text>
+        <text x="70" y="105" font-size="11" fill="#333">- title</text>
+        <text x="70" y="125" font-size="11" fill="#333">- isbn</text>
+        <text x="70" y="155" font-size="11" fill="#2e7d32">+ getInfo()</text>
+        <text x="70" y="175" font-size="11" fill="#2e7d32">+ isAvailable()</text>
+        <rect x="270" y="50" width="180" height="160" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="360" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#2e7d32">Member</text>
+        <text x="290" y="105" font-size="11" fill="#333">- name</text>
+        <text x="290" y="125" font-size="11" fill="#333">- memberId</text>
+        <text x="290" y="155" font-size="11" fill="#2e7d32">+ borrow(book)</text>
+        <text x="290" y="175" font-size="11" fill="#2e7d32">+ returnBook(book)</text>
+        <rect x="490" y="50" width="180" height="160" rx="12" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="580" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#e65100">Library</text>
+        <text x="510" y="105" font-size="11" fill="#333">- catalog</text>
+        <text x="510" y="155" font-size="11" fill="#2e7d32">+ registerMember()</text>
+        <text x="510" y="175" font-size="11" fill="#2e7d32">+ search(title)</text>
+        <line x1="230" y1="130" x2="268" y2="130" stroke="#666" stroke-width="2" marker-end="url(#arr)"/>
+        <line x1="450" y1="130" x2="488" y2="130" stroke="#666" stroke-width="2"/>
+        <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#666"/></marker></defs>
+        <text x="360" y="230" text-anchor="middle" font-size="11" fill="#555">member.borrow(book) — objects collaborate, each guarding its own data</text>
+      </svg>
+      <div class="cap">Figure 1.2 — OOP: data lives inside the object that owns it. Methods define what each object can do.</div>
+    </div>
+
+    <h3 class="sub-title">2.1 Side-by-Side Comparison</h3>
+    <table>
+      <thead><tr><th>Aspect</th><th>Procedural</th><th>Object-Oriented</th></tr></thead>
+      <tbody>
+        <tr><td>Main focus</td><td>Steps and functions</td><td>Objects and interactions</td></tr>
+        <tr><td>Data</td><td>Shared variables</td><td>Inside objects (encapsulated)</td></tr>
+        <tr><td>Growth</td><td>Harder as program grows</td><td>Easier — add new classes</td></tr>
+        <tr><td>Real-world fit</td><td>Good for tiny scripts</td><td>Good for apps (bank, library, school)</td></tr>
+        <tr><td>Your prior skill</td><td>Flowcharts map directly</td><td>Flowchart becomes methods inside objects</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">3. The Four Pillars of OOP (Roadmap)</h2>
+    <p>You will study each pillar in depth later. For now, know the names and one-line meanings:</p>
+    <div class="card-grid">
+      <div class="card blue"><h4>1. Encapsulation</h4><p>Hide internal data; expose only safe methods (like an ATM — you cannot open the vault).</p></div>
+      <div class="card green"><h4>2. Inheritance</h4><p>Reuse code — a <code>Dvd</code> <em>is a</em> <code>LibraryItem</code> and inherits common fields.</p></div>
+      <div class="card orange"><h4>3. Polymorphism</h4><p>One method name, many behaviours — <code>getInfo()</code> prints different text for Book vs Dvd.</p></div>
+      <div class="card yellow"><h4>4. Abstraction</h4><p>Hide complexity — define <code>Lendable</code> without caring whether it is a book or equipment.</p></div>
+    </div>
+    <div class="tip-box">
+      <strong>Exam tip</strong>
+      <p>Memorise the four pillars with the mnemonic <strong>E-I-P-A</strong>. Every pillar will appear in the Library System project across Block 2.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">4. Why Java?</h2>
+    <p><strong>Java</strong> was designed for Object-Oriented Programming and runs on the <strong>JVM (Java Virtual Machine)</strong>. It is used in:</p>
+    <ul>
+      <li>Enterprise business software (banks, hospitals)</li>
+      <li>Web applications (Spring / Jakarta EE)</li>
+      <li>Android mobile apps</li>
+      <li>Desktop and server tools across many industries</li>
+    </ul>
+    <p>In this module we use <strong>console applications</strong> — text-based programs in the terminal — so you focus on OOP concepts without UI complexity.</p>
+  </div>
+
+  <div class="lab-box">
+    <strong>Discussion Lab (No Code Yet)</strong>
+    <ol class="step-list">
+      <li>Pick a system you know: school canteen, online shop, or hospital reception.</li>
+      <li>List <strong>five objects</strong> you would model (nouns).</li>
+      <li>For each object, write two properties and one behaviour.</li>
+      <li>Draw arrows: which object talks to which? (e.g. Student orders from Canteen)</li>
+      <li>Compare with a partner: did you choose the same objects?</li>
+    </ol>
+  </div>
+
+  <div class="summary-box">
+    <h3>Session Summary</h3>
+    <ul>
+      <li>Procedural = steps + shared variables; OOP = objects with data + behaviour</li>
+      <li>OOP matches real-world entities and scales to large systems</li>
+      <li>Four pillars: Encapsulation, Inheritance, Polymorphism, Abstraction</li>
+      <li>Next session: write your first Java program in VS Code</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <span></span>
+    <a href="session-02.html" class="btn btn-primary">Session 02 &rarr;</a>
+  </div>
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 01 &nbsp;|&nbsp; <strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

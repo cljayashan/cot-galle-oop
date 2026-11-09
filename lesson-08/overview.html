@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 08 - Polymorphism (Full Notes)</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-logo">📚</div>
+    <div class="header-info">
+      <h1>Object Oriented Programming (Java)</h1>
+      <p>College of Technology Galle &nbsp;|&nbsp; Module K72T004M03 &ndash; Level 05</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span><strong>Lesson 08</strong></span>
+    <span><strong>Topic:</strong> Polymorphism</span>
+    <span><strong>Duration:</strong> 8 Hours (2 Sessions)</span>
+    <span><strong>Author:</strong> Jayashan Liyanage</span>
+  </div>
+</header>
+
+<nav class="lesson-nav no-print">
+  <a href="../index.html">Home</a>
+  <a href="../lesson-01/index.html">L01</a>
+  <a href="../lesson-02/index.html">L02</a>
+  <a href="../lesson-03/index.html">L03</a>
+  <a href="../lesson-04/index.html">L04</a>
+  <a href="../lesson-05/index.html">L05</a>
+  <a href="../lesson-06/index.html">L06</a>
+  <a href="../lesson-07/index.html">L07</a>
+  <a href="index.html" class="active">L08</a>
+  <a href="../lesson-09/index.html">L09</a>
+  <a href="../lesson-10/index.html">L10</a>
+</nav>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#558b2f,#33691e);">
+    <div class="lesson-num">Lesson 08 of 10 — The Third Pillar of OOP</div>
+    <h2>Polymorphism — One Method, Many Forms</h2>
+    <p>Greek: <em>poly</em> = many, <em>morph</em> = form. The same method call produces different behaviour depending on the <em>actual</em> object at runtime — powered by method overriding with <code>@Override</code>.</p>
+    <div class="lesson-meta">
+      <span>⏱ 8 Hours Integrated</span>
+      <span>📋 Sessions 17 – 18</span>
+      <span>🏛 Pillar 3 of 4</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes — After this lesson you will be able to:</h3>
+    <ul>
+      <li>Use method overriding with <code>@Override</code> for runtime polymorphism</li>
+      <li>Store child objects in parent-typed variables and predict which method runs</li>
+      <li>Build a polymorphic <code>List&lt;LibraryItem&gt;</code> catalog (Phase 5)</li>
+      <li>Distinguish overriding from method overloading and method hiding</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Session Map</h2>
+    <table>
+      <thead><tr><th>Session</th><th>Hours</th><th>Focus</th></tr></thead>
+      <tbody>
+        <tr><td><a href="session-17.html">17</a></td><td>4</td><td><code>@Override</code> (methods overridable by default), dynamic dispatch, <code>super.method()</code></td></tr>
+        <tr><td><a href="session-18.html">18</a></td><td>4</td><td><code>List&lt;LibraryItem&gt;</code>, Phase 5 polymorphic catalog</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Key Syntax</h2>
+<pre><code>import java.util.*;
+
+public void printDetails() { ... }     // parent permits override
+@Override
+public void printDetails() { ... }    // child replaces
+
+List&lt;LibraryItem&gt; catalog = new ArrayList<>();
+catalog.add(new Book(...));
+catalog.add(new Dvd(...));
+for (LibraryItem item : catalog)
+    item.printDetails();   // each Object runs its own version</code></pre>
+  </div>
+
+  <div class="summary-box">
+    <h3>Lesson 08 Summary</h3>
+    <ul>
+      <li><code>@Override</code> + dynamic dispatch = runtime polymorphism via dynamic dispatch.</li>
+      <li>Child objects fit in parent-typed variables because of is-a.</li>
+      <li>One <code>List&lt;BaseType&gt;</code> handles every derived type in a single loop.</li>
+      <li>Library Phase 5: one catalog, one add, per-type printDetails overrides.</li>
+    </ul>
+  </div>
+
+  <p style="margin-top:24px;"><a href="session-17.html" class="btn btn-primary no-print">Start Session 17 &rarr;</a></p>
+
+</main>
+
+<p style="margin-top:6px;font-size:0.8rem;">Lesson 08 Overview &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,82 @@
+﻿[
+    {
+        "Num":  1,
+        "Difficulty":  "Easy",
+        "Slug":  "Easy",
+        "Focus":  "Basic Java, variables, decisions, simple methods \u0026 classes",
+        "Pdf":  "Model-Paper-01-Easy.pdf",
+        "Html":  "Model-Paper-01-Easy.html"
+    },
+    {
+        "Num":  2,
+        "Difficulty":  "Easy",
+        "Slug":  "Easy",
+        "Focus":  "Scanner I/O, operators, methods, fields, getters/setters intro",
+        "Pdf":  "Model-Paper-02-Easy.pdf",
+        "Html":  "Model-Paper-02-Easy.html"
+    },
+    {
+        "Num":  3,
+        "Difficulty":  "Easy-Moderate",
+        "Slug":  "Easy-Moderate",
+        "Focus":  "Classes, encapsulation, constructors intro, simple validation",
+        "Pdf":  "Model-Paper-03-Easy-Moderate.pdf",
+        "Html":  "Model-Paper-03-Easy-Moderate.html"
+    },
+    {
+        "Num":  4,
+        "Difficulty":  "Easy-Moderate",
+        "Slug":  "Easy-Moderate",
+        "Focus":  "Encapsulation practice, overloading intro, memory basics, inheritance vocab",
+        "Pdf":  "Model-Paper-04-Easy-Moderate.pdf",
+        "Html":  "Model-Paper-04-Easy-Moderate.html"
+    },
+    {
+        "Num":  5,
+        "Difficulty":  "Moderate",
+        "Slug":  "Moderate",
+        "Focus":  "Inheritance, super, protected, polymorphism intro",
+        "Pdf":  "Model-Paper-05-Moderate.pdf",
+        "Html":  "Model-Paper-05-Moderate.html"
+    },
+    {
+        "Num":  6,
+        "Difficulty":  "Moderate",
+        "Slug":  "Moderate",
+        "Focus":  "Abstraction, interfaces, object relationships intro",
+        "Pdf":  "Model-Paper-06-Moderate.pdf",
+        "Html":  "Model-Paper-06-Moderate.html"
+    },
+    {
+        "Num":  7,
+        "Difficulty":  "Moderate-Hard",
+        "Slug":  "Moderate-Hard",
+        "Focus":  "Integrated class design, polymorphism, validation \u0026 exceptions",
+        "Pdf":  "Model-Paper-07-Moderate-Hard.pdf",
+        "Html":  "Model-Paper-07-Moderate-Hard.html"
+    },
+    {
+        "Num":  8,
+        "Difficulty":  "Moderate-Hard",
+        "Slug":  "Moderate-Hard",
+        "Focus":  "Library/school style systems, interfaces, exam-style design",
+        "Pdf":  "Model-Paper-08-Moderate-Hard.pdf",
+        "Html":  "Model-Paper-08-Moderate-Hard.html"
+    },
+    {
+        "Num":  9,
+        "Difficulty":  "Hard",
+        "Slug":  "Hard",
+        "Focus":  "Integrated OOP design under constraints, tracing, trade-offs",
+        "Pdf":  "Model-Paper-09-Hard.pdf",
+        "Html":  "Model-Paper-09-Hard.html"
+    },
+    {
+        "Num":  10,
+        "Difficulty":  "Hard",
+        "Slug":  "Hard",
+        "Focus":  "Capstone-style design, polymorphism mastery, critique \u0026 extension",
+        "Pdf":  "Model-Paper-10-Hard.pdf",
+        "Html":  "Model-Paper-10-Hard.html"
+    }
+]

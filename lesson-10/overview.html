@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 10 – Object Relationships (Full Notes)</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-logo">📘</div>
+    <div class="header-info">
+      <h1>Object Oriented Programming (Java)</h1>
+      <p>College of Technology Galle &nbsp;|&nbsp; Module K72T004M03 – Level 05</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span><strong>Lesson 10</strong></span>
+    <span><strong>Topic:</strong> Association, Aggregation &amp; Composition</span>
+    <span><strong>Duration:</strong> 15 Hours (Theory + Practical)</span>
+    <span><strong>Lecturer:</strong> Jayashan Liyanage</span>
+  </div>
+</header>
+
+<nav class="lesson-nav no-print">
+  <a href="../index.html">Home</a>
+  <a href="../lesson-01/index.html">L01</a>
+  <a href="../lesson-02/index.html">L02</a>
+  <a href="../lesson-03/index.html">L03</a>
+  <a href="../lesson-04/index.html">L04</a>
+  <a href="../lesson-05/index.html">L05</a>
+  <a href="../lesson-06/index.html">L06</a>
+  <a href="../lesson-07/index.html">L07</a>
+  <a href="../lesson-08/index.html">L08</a>
+  <a href="../lesson-09/index.html">L09</a>
+  <a href="index.html" class="active">L10</a>
+</nav>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#ad6800,#7a4a00);">
+    <div class="lesson-num">Lesson 10 of 10 — Block 3 Finale</div>
+    <h2>Association, Aggregation &amp; Composition</h2>
+    <p>Beyond inheritance ("is-a"), real systems connect objects through "uses-a", "has-a", and "part-of". The School project (Teacher, Classroom, Desk) puts every relationship type into one working console application.</p>
+    <div class="lesson-meta">
+      <span>⏱ 15 Hours Integrated</span>
+      <span>📅 Sessions 21 – 23</span>
+      <span>🏫 School System Project</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this lesson you will be able to:</h3>
+    <ul>
+      <li>Define association, aggregation and composition with UML-style diagrams</li>
+      <li>Implement each relationship in Java and explain lifetime rules</li>
+      <li>Build a multi-class School system with Teacher–Classroom association</li>
+      <li>Model Classroom–Desk composition where desks are destroyed with the classroom</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1. The Three Relationships (Session 21)</h2>
+    <table>
+      <thead><tr><th>Relationship</th><th>Phrase</th><th>Lifetime</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Association</strong></td><td>uses-a / knows</td><td>Both independent</td><td>Teacher → Classroom</td></tr>
+        <tr><td><strong>Aggregation</strong></td><td>has-a (detachable)</td><td>Part outlives whole</td><td>Classroom ◇ Student</td></tr>
+        <tr><td><strong>Composition</strong></td><td>part-of (owned)</td><td>Part dies with whole</td><td>Classroom ◆ Desk</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Key giveaway:</strong> where is the part object created? Outside and handed in → aggregation. Inside the whole's constructor → composition.</p>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. School Project Part 1 (Session 22)</h2>
+    <ul>
+      <li><strong>Teacher uses Classroom</strong> — association with two-way linking via <code>AssignTo</code>.</li>
+      <li><strong>Classroom has Students</strong> — aggregation; students transfer between rooms.</li>
+      <li>Business rules: one teacher per room, one room per student (guard clauses).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">3. School Project Part 2 (Session 23)</h2>
+    <ul>
+      <li><strong>Classroom composed of Desks</strong> — desks created in constructor; capacity = desk count.</li>
+      <li><strong>School composes Classrooms</strong> — <code>BuildClassroom</code> creates rooms inside the school.</li>
+      <li>Final demo: enrol, transfer, fill rooms, print summary — module complete.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Lab Tasks in This Lesson</h2>
+    <table>
+      <thead><tr><th>Task</th><th>Session</th><th>Deliverable</th></tr></thead>
+      <tbody>
+        <tr><td>21.1 Relationship Classifier</td><td>S21</td><td>Classify 8 real-world pairs with justification</td></tr>
+        <tr><td>21.2 Code All Three</td><td>S21</td><td>Mini Relationships console project</td></tr>
+        <tr><td>22.1 Build Part 1</td><td>S22</td><td>Teacher, Classroom, Student with rules</td></tr>
+        <tr><td>23.1 Complete School</td><td>S23</td><td>Desks, School class, menu-driven demo</td></tr>
+        <tr><td>23.2 Design Defence</td><td>S23</td><td>Written relationship analysis + submission</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exam-box">
+    <strong>Likely Exam Questions from Lesson 10</strong>
+    <ol>
+      <li>Define association, aggregation and composition with one example each. (6 marks)</li>
+      <li>State the lifetime and sharing rules that distinguish aggregation from composition. (4 marks)</li>
+      <li>Given code, identify which relationship it implements and justify. (6 marks)</li>
+      <li>Implement composition in Java where parts are created in the constructor. (8 marks)</li>
+      <li>Draw UML symbols for the three relationships. (3 marks)</li>
+      <li>Synthesis: for each OOP pillar and relationship type, give one school-system example. (10 marks)</li>
+    </ol>
+  </div>
+
+  <div class="summary-box">
+    <h3>Lesson 10 Summary</h3>
+    <ul>
+      <li>Association = loose link; aggregation = shared parts; composition = owned parts that die with the whole.</li>
+      <li>Teacher uses Classroom; Classroom has Students; Classroom has Desks (composition — desks destroyed with classroom).</li>
+      <li>Encapsulation guards relationship boundaries — private collections, public Enroll/Build methods.</li>
+      <li>You have now used all four OOP pillars and all three relationship types in working Java systems.</li>
+    </ul>
+  </div>
+
+  <div class="nav-buttons no-print">
+    <a href="../lesson-09/overview.html" class="btn btn-secondary">&larr; Lesson 09 – Abstraction</a>
+    <a href="../index.html" class="btn btn-primary">🏠 Course Home</a>
+  </div>
+
+</main>
+
+<p style="margin-top:6px;font-size:0.8rem;">Lesson 10 – Object Relationships &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+</body>
+</html>

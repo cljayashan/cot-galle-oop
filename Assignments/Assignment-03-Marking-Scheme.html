@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assignment 03 – Marking Scheme</title>
+  <style>
+    @page { size: A4; margin: 11mm 11mm 11mm 11mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 10pt;
+      line-height: 1.32;
+      color: #111;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 0;
+    }
+    h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; margin: 0; }
+    .header {
+      text-align: center;
+      border-bottom: 2.5px solid #1a3a5c;
+      padding-bottom: 7px;
+      margin-bottom: 7px;
+    }
+    .header .inst { font-size: 12.5pt; font-weight: 700; color: #1a3a5c; }
+    .header .mod { font-size: 9pt; margin-top: 2px; }
+    .header .paper-title {
+      font-size: 12.5pt;
+      font-weight: 700;
+      margin-top: 7px;
+      text-transform: uppercase;
+      color: #8b1a1a;
+    }
+    .header .sub { font-size: 9pt; margin-top: 3px; }
+    .banner {
+      border: 1.5px solid #8b1a1a;
+      background: #fff5f5;
+      color: #8b1a1a;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: 9.5pt;
+      padding: 4px 7px;
+      margin: 0 0 8px;
+    }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px 18px;
+      margin: 0 0 7px;
+      font-size: 9.5pt;
+    }
+    .info strong { color: #1a3a5c; }
+    .note {
+      border: 1px solid #1a3a5c;
+      background: #f7f9fc;
+      padding: 7px 9px;
+      margin: 0 0 10px;
+      font-size: 9.5pt;
+    }
+    .summary {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 0 10px;
+      font-size: 9.5pt;
+    }
+    .summary th, .summary td {
+      border: 1px solid #444;
+      padding: 3px 6px;
+      text-align: left;
+    }
+    .summary th { background: #eef2f7; }
+    .summary td.num, .summary th.num { text-align: center; width: 70px; }
+    table.ans {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 0 10px;
+      font-size: 9.5pt;
+    }
+    table.ans th, table.ans td {
+      border: 1px solid #444;
+      padding: 4px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.ans th { background: #eef2f7; }
+    table.ans td.qnum { width: 36px; text-align: center; font-weight: 700; }
+    table.ans td.key {
+      width: 42px;
+      text-align: center;
+      font-weight: 700;
+      color: #1a3a5c;
+      font-size: 11pt;
+    }
+    .section {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #1a3a5c;
+      margin: 10px 0 5px;
+    }
+    .mark-note { color: #555; font-size: 9pt; font-style: italic; }
+    .footer {
+      margin-top: 10px;
+      border-top: 1.5px solid #1a3a5c;
+      padding-top: 4px;
+      font-size: 8pt;
+      text-align: center;
+      color: #444;
+    }
+    .end {
+      text-align: center;
+      font-weight: 700;
+      margin: 10px 0 3px;
+      letter-spacing: 1.5px;
+      font-size: 10pt;
+    }
+    @media print {
+      body { padding: 0; }
+      table.ans { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="inst">College of Technology Galle</div>
+    <div class="mod">Course: Full Stack Software Development &mdash; Object Oriented Programming &mdash; Module K72T004M03 &mdash; NVQ Level 05</div>
+    <div class="paper-title">Assignment 03 &mdash; Marking Scheme</div>
+    <div class="sub">Sessions Covered: 05–12 and 15 &nbsp;|&nbsp; 40 MCQs &times; 1 mark = 40 marks &nbsp;|&nbsp; Excluded: 13, 14</div>
+  </div>
+
+  <div class="banner">FOR EXAMINERS ONLY &mdash; DO NOT DISTRIBUTE TO STUDENTS</div>
+
+  <div class="info">
+    <div><strong>Duration:</strong> 80 Minutes</div>
+    <div><strong>Total Marks:</strong> 40</div>
+    <div><strong>Marking:</strong> 1 mark per correct answer. No negative marking.</div>
+  </div>
+
+  <div class="note">
+    <strong>Quick key (Question → Answer):</strong><br />
+    1C &nbsp; 2B &nbsp; 3B &nbsp; 4B &nbsp; 5B &nbsp; 6B &nbsp; 7C &nbsp; 8A &nbsp; 9B &nbsp; 10C<br />
+    11B &nbsp; 12B &nbsp; 13B &nbsp; 14B &nbsp; 15B &nbsp; 16C &nbsp; 17B &nbsp; 18B &nbsp; 19B &nbsp; 20B<br />
+    21B &nbsp; 22B &nbsp; 23B &nbsp; 24B &nbsp; 25A &nbsp; 26B &nbsp; 27A &nbsp; 28B &nbsp; 29C &nbsp; 30C<br />
+    31B &nbsp; 32B &nbsp; 33B &nbsp; 34B &nbsp; 35B &nbsp; 36B &nbsp; 37B &nbsp; 38B &nbsp; 39B &nbsp; 40B
+  </div>
+
+  <table class="summary">
+    <thead>
+      <tr>
+        <th>Section</th>
+        <th>Topics / Sessions</th>
+        <th class="num">Marks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>A</td><td>Methods, Paradigm &amp; Classes (05–09) — Q1–Q14</td><td class="num">14</td></tr>
+      <tr><td>B</td><td>Encapsulation &amp; Access (10–11) — Q15–Q27</td><td class="num">13</td></tr>
+      <tr><td>C</td><td>Constructors &amp; Inheritance (12, 15) — Q28–Q40</td><td class="num">13</td></tr>
+      <tr><th colspan="2">Total</th><th class="num">40</th></tr>
+    </tbody>
+  </table>
+
+  <div class="section">Section A — Methods, Paradigm &amp; Classes (Q1–Q14)</div>
+  <table class="ans">
+    <thead>
+      <tr><th class="qnum">Q</th><th class="key">Ans</th><th>Expected answer / justification</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="qnum">1</td><td class="key">C</td><td><code>void</code> means the method returns no value.</td></tr>
+      <tr><td class="qnum">2</td><td class="key">B</td><td>Procedural style = step-by-step functions on shared data.</td></tr>
+      <tr><td class="qnum">3</td><td class="key">B</td><td>Four pillars: Encapsulation, Inheritance, Polymorphism, Abstraction.</td></tr>
+      <tr><td class="qnum">4</td><td class="key">B</td><td>A class is a blueprint/template for objects.</td></tr>
+      <tr><td class="qnum">5</td><td class="key">B</td><td><code>Rectangle rect = new Rectangle();</code> instantiates an object.</td></tr>
+      <tr><td class="qnum">6</td><td class="key">B</td><td>A field is class-level data belonging to the object.</td></tr>
+      <tr><td class="qnum">7</td><td class="key">C</td><td>Instance methods are called on the object: <code>car.accelerate();</code></td></tr>
+      <tr><td class="qnum">8</td><td class="key">A</td><td>Parameters are inputs passed into a method when it is called.</td></tr>
+      <tr><td class="qnum">9</td><td class="key">B</td><td><code>return</code> ends the method and sends the value to the caller.</td></tr>
+      <tr><td class="qnum">10</td><td class="key">C</td><td>Return type comes before the name: <code>public double getArea()</code>.</td></tr>
+      <tr><td class="qnum">11</td><td class="key">B</td><td>Each object has its own separate field values.</td></tr>
+      <tr><td class="qnum">12</td><td class="key">B</td><td>Variables inside a method are local variables.</td></tr>
+      <tr><td class="qnum">13</td><td class="key">B</td><td>OOP bundles fields and methods together in a class.</td></tr>
+      <tr><td class="qnum">14</td><td class="key">B</td><td>Call must supply the required <code>double</code> argument.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section">Section B — Encapsulation &amp; Access (Q15–Q27)</div>
+  <table class="ans">
+    <thead>
+      <tr><th class="qnum">Q</th><th class="key">Ans</th><th>Expected answer / justification</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="qnum">15</td><td class="key">B</td><td>Encapsulation = hide data; expose controlled methods.</td></tr>
+      <tr><td class="qnum">16</td><td class="key">C</td><td><code>private</code> = visible only inside the same class.</td></tr>
+      <tr><td class="qnum">17</td><td class="key">B</td><td>Public fields can be changed illegally (e.g. negative balance).</td></tr>
+      <tr><td class="qnum">18</td><td class="key">B</td><td>A getter returns/reads a private field safely.</td></tr>
+      <tr><td class="qnum">19</td><td class="key">B</td><td>A setter can validate before assigning to a private field.</td></tr>
+      <tr><td class="qnum">20</td><td class="key">B</td><td>JavaBeans naming: <code>getTitle()</code> for field <code>title</code>.</td></tr>
+      <tr><td class="qnum">21</td><td class="key">B</td><td>Only the public getter is accessible from outside; not <code>balance</code>.</td></tr>
+      <tr><td class="qnum">22</td><td class="key">B</td><td>Validation blocks invalid states when data is changed.</td></tr>
+      <tr><td class="qnum">23</td><td class="key">B</td><td><code>this.balance</code> refers to the current object’s field.</td></tr>
+      <tr><td class="qnum">24</td><td class="key">B</td><td><code>protected</code> allows subclass and same-package access.</td></tr>
+      <tr><td class="qnum">25</td><td class="key">A</td><td>Getters/setters control how data is read and changed.</td></tr>
+      <tr><td class="qnum">26</td><td class="key">B</td><td>Condition fails; field is not set to −5.</td></tr>
+      <tr><td class="qnum">27</td><td class="key">A</td><td>Boolean getters commonly use <code>getX()</code> or <code>isX()</code>.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section">Section C — Constructors &amp; Inheritance (Q28–Q40)</div>
+  <table class="ans">
+    <thead>
+      <tr><th class="qnum">Q</th><th class="key">Ans</th><th>Expected answer / justification</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="qnum">28</td><td class="key">B</td><td>Constructor name = class name; no return type.</td></tr>
+      <tr><td class="qnum">29</td><td class="key">C</td><td>Constructor runs when the object is created with <code>new</code>.</td></tr>
+      <tr><td class="qnum">30</td><td class="key">C</td><td>Child class uses <code>extends</code> Parent.</td></tr>
+      <tr><td class="qnum">31</td><td class="key">B</td><td>Inheritance models an <strong>is-a</strong> relationship.</td></tr>
+      <tr><td class="qnum">32</td><td class="key">B</td><td><code>Car extends Vehicle</code> → inherits non-private members.</td></tr>
+      <tr><td class="qnum">33</td><td class="key">B</td><td><code>super(...)</code> calls the parent constructor.</td></tr>
+      <tr><td class="qnum">34</td><td class="key">B</td><td>Java supplies a default no-arg constructor if none is written.</td></tr>
+      <tr><td class="qnum">35</td><td class="key">B</td><td>Valid constructor: same name as class, no return type (not even <code>void</code>).</td></tr>
+      <tr><td class="qnum">36</td><td class="key">B</td><td>Access private parent data via getters/setters or protected members.</td></tr>
+      <tr><td class="qnum">37</td><td class="key">B</td><td>Java allows single class inheritance only.</td></tr>
+      <tr><td class="qnum">38</td><td class="key">B</td><td>A <code>Car</code> is-a <code>Vehicle</code>, so <code>Vehicle v = new Car();</code> is valid.</td></tr>
+      <tr><td class="qnum">39</td><td class="key">B</td><td><code>super(...)</code> must be the first statement in the constructor.</td></tr>
+      <tr><td class="qnum">40</td><td class="key">B</td><td><code>Dog</code>’s <code>speak()</code> runs → prints Woof.</td></tr>
+    </tbody>
+  </table>
+
+  <p class="mark-note">Accept only the single best option shown. If a student marks two options for one question, award 0 for that question.</p>
+
+  <div class="end">***** END OF MARKING SCHEME *****</div>
+  <div class="footer">
+    College of Technology Galle &nbsp;|&nbsp; Full Stack Software Development &nbsp;|&nbsp; OOP Module K72T004M03 &nbsp;|&nbsp; Assignment 03 Marking Scheme &nbsp;|&nbsp; Author: Jayashan Liyanage
+  </div>
+
+</body>
+</html>

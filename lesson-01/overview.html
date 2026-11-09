@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 01 – Basic Java Programming (Full Notes)</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-logo">&#128187;</div>
+    <div class="header-info">
+      <h1>Object Oriented Programming</h1>
+      <p>College of Technology Galle &nbsp;|&nbsp; Module K72T004M03 – Level 05</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span><strong>Lesson 01</strong></span>
+    <span><strong>Topic:</strong> Basic Java Programming</span>
+    <span><strong>Duration:</strong> 18 Hours (Theory + Practical)</span>
+    <span><strong>Author:</strong> Jayashan Liyanage</span>
+  </div>
+</header>
+
+<nav class="lesson-nav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="../lesson-01/index.html" class="active">L01</a>
+  <a href="../lesson-02/index.html">L02</a>
+  <a href="../lesson-03/index.html">L03</a>
+  <a href="../lesson-04/index.html">L04</a>
+  <a href="../lesson-05/index.html">L05</a>
+  <a href="../lesson-06/index.html">L06</a>
+  <a href="../lesson-07/index.html">L07</a>
+  <a href="../lesson-08/index.html">L08</a>
+  <a href="../lesson-09/index.html">L09</a>
+  <a href="../lesson-10/index.html">L10</a>
+</nav>
+
+<main>
+
+  <div class="lesson-header">
+    <div class="lesson-num">Lesson 01 of 10 &nbsp;&bull;&nbsp; Phase 1: Java Foundations</div>
+    <h2>Basic Java Programming</h2>
+    <p>Before any Object-Oriented concepts, you learn to <strong>write, run and debug real Java programs</strong>. This overview condenses the whole lesson; open each session for detailed notes, figures and lab walk-throughs. Every topic maps back to the flowcharts and algorithms you already know.</p>
+    <div class="lesson-meta">
+      <span>&#9203; 18 Hours Integrated</span>
+      <span>&#128218; Sessions 01 – 07</span>
+      <span>&#128187; VS Code / JDK</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this lesson you will be able to:</h3>
+    <ul>
+      <li>Install VS Code with the Extension Pack for Java and create your first Java folder/project</li>
+      <li>Describe the structure of a Java program: package, class, main method, comments and braces</li>
+      <li>Declare variables, read input, convert types and print formatted output</li>
+      <li>Use arithmetic, relational and logical operators in expressions</li>
+      <li>Translate flowchart decisions into <code>if</code>, <code>else if</code>, <code>else</code> and <code>switch</code> statements</li>
+      <li>Translate flowchart loops into <code>while</code>, <code>do-while</code> and <code>for</code> loops</li>
+      <li>Define and call procedural methods with parameters and return values</li>
+      <li>Build a complete procedural program from a flowchart (Rectangle capstone)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Session Map</h2>
+    <table>
+      <thead><tr><th>Session</th><th>Hours</th><th>Topic</th><th>Key deliverable</th></tr></thead>
+      <tbody>
+        <tr><td><a href="session-01.html">01</a></td><td>2</td><td>Flowcharts &rarr; first Java + VS Code</td><td>Hello World; IDE tour; <code>javac Hello.java && java Hello</code></td></tr>
+        <tr><td><a href="session-02.html">02</a></td><td>3</td><td>Program anatomy &amp; jshell</td><td>package / class / main; jshell labs</td></tr>
+        <tr><td><a href="session-03.html">03</a></td><td>3</td><td>Variables, types &amp; Console I/O</td><td>Age calculator; parseInt/parseDouble; TempConverter</td></tr>
+        <tr><td><a href="session-04.html">04</a></td><td>2</td><td>Operators &amp; formatted output</td><td>Arithmetic, relational, logical; calculator lab</td></tr>
+        <tr><td><a href="session-05.html">05</a></td><td>3</td><td>Decisions — if / else / switch</td><td>Grade classifier; menu with switch</td></tr>
+        <tr><td><a href="session-06.html">06</a></td><td>3</td><td>Loops — while, do-while, for</td><td>Factorial; guessing game</td></tr>
+        <tr><td><a href="session-07.html">07</a></td><td>2</td><td>Methods &amp; Rectangle capstone</td><td>Procedural rectangle with methods</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1. From Flowcharts to Your First Java Program (Session 01)</h2>
+    <p>You already think in INPUT, PROCESS and OUTPUT boxes. Session 01 connects that mental model to <strong>VS Code</strong>: open a student folder, create <code>Hello.java</code>, locate Explorer, Editor, Terminal and the PROBLEMS panel, then run your first program. <strong>Only VS Code is allowed in this module.</strong></p>
+    <ul>
+      <li>Flowchart shapes map to Java: OUTPUT &rarr; <code>System.out.println</code>, INPUT &rarr; <code>sc.nextLine</code>.</li>
+      <li>An <strong>IDE</strong> (Integrated Development Environment) combines editor, compiler and debugger in one tool.</li>
+      <li>Tools: <strong>VS Code</strong> + JDK 17+ (Temurin/Adoptium) + <strong>Extension Pack for Java</strong> by Microsoft. Open a folder (e.g. <code>MyFirstProgram</code>) and write <code>.java</code> files.</li>
+      <li>Every program starts in <code>main</code> — execution flows top to bottom, just like a flowchart.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. Anatomy of a Java Program (Session 02)</h2>
+<pre><code>// Optional package declaration
+package myapp;
+
+public class Hello                 // container for related code (file: Hello.java)
+{
+    public static void main(String[] args)   // entry point
+    {
+        System.out.println("Hello!");  // every statement ends with ;
+    }
+}</code></pre>
+    <ul>
+      <li><strong>Comments</strong> (<code>//</code>) are ignored by the compiler — notes for humans.</li>
+      <li><strong>Semicolons</strong> mark the end of each statement; missing one causes '; expected.</li>
+      <li><strong>Braces</strong> <code>{ }</code> group code into blocks; indentation aids readability.</li>
+      <li><strong>jshell</strong> from the VS Code Terminal (<code>jshell</code>): test single lines instantly.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">3. Variables, Data Types &amp; Console I/O (Session 03)</h2>
+    <p>Every piece of data lives in a typed variable. Input always arrives as <code>String</code> and must be converted for maths.</p>
+    <table>
+      <thead><tr><th>Type</th><th>Stores</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><code>int</code></td><td>Whole numbers</td><td><code>int age = 25;</code></td></tr>
+        <tr><td><code>double</code></td><td>Decimal numbers / money (this module)</td><td><code>double fee = 15000.00;</code></td></tr>
+        <tr><td><code>String</code></td><td>Text</td><td><code>String name = "Kasun";</code></td></tr>
+        <tr><td><code>boolean</code></td><td>true / false</td><td><code>boolean passed = true;</code></td></tr>
+        <tr><td><code>char</code></td><td>Single character</td><td><code>char grade = 'A';</code></td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Read input: <code>sc.nextLine()</code>; convert: <code>Integer.parseInt(...)</code>, <code>Double.parseDouble(...)</code>.</li>
+      <li>Format output with concatenation: <code>"Hello " + name + " is " + age</code> or <code>String.format</code>.</li>
+      <li>Flowchart mapping: INPUT = Scanner + parse, PROCESS = assignment, OUTPUT = System.out.println.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">4. Operators &amp; Formatted Output (Session 04)</h2>
+    <ul>
+      <li><strong>Arithmetic:</strong> <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code> — watch integer vs floating-point division.</li>
+      <li><strong>Relational:</strong> <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code> — compare values, return <code>boolean</code>.</li>
+      <li><strong>Logical:</strong> <code>&amp;&amp;</code> (AND), <code>||</code> (OR), <code>!</code> (NOT) — combine conditions.</li>
+      <li><strong>Precedence:</strong> parentheses first, then <code>*</code>/<code>%</code>, then <code>+</code>/<code>-</code>.</li>
+      <li>Format numbers: <code>String.format("%.2f", value)</code> for two decimal places; <code>printf</code> for column alignment.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">5. Decision Structures (Session 05)</h2>
+    <p>Flowchart decision diamonds become Java branching statements.</p>
+<pre><code>if (mark >= 50)
+    System.out.println("Pass");
+else
+    System.out.println("Fail");
+
+switch (choice)
+{
+    case 1: System.out.println("Add"); break;
+    case 2: System.out.println("Subtract"); break;
+    default: System.out.println("Invalid"); break;
+}</code></pre>
+    <ul>
+      <li><code>if / else if / else</code> chains handle multi-level decisions (grade bands, eligibility checks).</li>
+      <li><code>switch</code> with <code>break</code> suits menu-driven programs with fixed options.</li>
+      <li>Nested <code>if</code> statements handle decisions inside decisions.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">6. Loops (Session 06)</h2>
+    <table>
+      <thead><tr><th>Java Loop</th><th>Flowchart Pattern</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td><code>while</code></td><td>Pre-test loop (check first)</td><td>Repeat until condition changes</td></tr>
+        <tr><td><code>do-while</code></td><td>Post-test loop (check after)</td><td>At least one iteration (menus, validation)</td></tr>
+        <tr><td><code>for</code></td><td>Counter loop</td><td>Known number of repetitions (tables, sums)</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><code>break</code> exits a loop early; <code>continue</code> skips to the next iteration.</li>
+      <li>Combine loops with decisions from Session 05 for interactive programs.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">7. Methods &amp; Capstone (Session 07)</h2>
+    <p>Methods are named, reusable blocks of code — the procedural equivalent of breaking a flowchart into sub-processes. OOP classes come in Lesson 02; here methods live inside the <code>Program</code> class as <code>static</code> helpers.</p>
+<pre><code>static double calculateArea(double length, double width)
+{
+    return length * width;
+}
+
+// In Main:
+double area = calculateArea(5, 3);   // area = 15</code></pre>
+    <div class="note-box">
+      <strong>Capstone — RectangleProcedural</strong>
+      <p>Translate the rectangle flowchart into a complete procedural program with separate methods for area, perimeter and diagonal length. This is the bridge to Lesson 02, where the same problem becomes an object.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Lab Tasks in This Lesson</h2>
+    <table>
+      <thead><tr><th>Task</th><th>Session</th><th>Deliverable</th></tr></thead>
+      <tbody>
+        <tr><td>1.1 Hello, You!</td><td>S01</td><td>First Java application + deliberate error reading</td></tr>
+        <tr><td>2.1 jshell labs</td><td>S02</td><td>Predictions vs results for 6 expressions</td></tr>
+        <tr><td>2.2 Simple Calculations</td><td>S02</td><td>Java application with basic arithmetic</td></tr>
+        <tr><td>3.1 Age Calculator</td><td>S03</td><td>INPUT/PROCESS/OUTPUT with type conversion</td></tr>
+        <tr><td>3.2 Temperature Converter</td><td>S03</td><td>Working converter with Kelvin challenge</td></tr>
+        <tr><td>4.1 Simple Calculator</td><td>S04</td><td>Two-number calculator with all operators</td></tr>
+        <tr><td>4.2 Grade Checker</td><td>S04</td><td>Pass/fail using relational operators</td></tr>
+        <tr><td>5.1 Student Grade Classifier</td><td>S05</td><td>Multi-band grading with if/else if/else</td></tr>
+        <tr><td>5.2 Simple Menu Program</td><td>S05</td><td>switch-driven menu with loop</td></tr>
+        <tr><td>6.1 Factorial Calculator</td><td>S06</td><td>Product 1 to N using a for loop</td></tr>
+        <tr><td>6.2 Number Guessing Game</td><td>S06</td><td>while loop + decisions combined</td></tr>
+        <tr><td>7.1 RectangleProcedural Capstone</td><td>S07</td><td>Full procedural rectangle with methods + diagonal</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exam-box">
+    <strong>Likely Exam Questions from Lesson 01</strong>
+    <ol>
+      <li>What is an IDE? Name the IDE used in this module (VS Code). (3 marks)</li>
+      <li>Describe the purpose of the package, the class and the main method in a Java program. (6 marks)</li>
+      <li>Declare a variable for each of the following: a student's name, their average mark, and whether they passed. (3 marks)</li>
+      <li>Why must the value returned by <code>sc.nextLine()</code> be parsed before doing arithmetic? Show the conversion code. (4 marks)</li>
+      <li>State the output of a given code fragment using arithmetic and relational operators. (4 marks)</li>
+      <li>Write an if / else if / else ladder that classifies a mark into grades A, B, C and F. (6 marks)</li>
+      <li>Rewrite a given <code>while</code> loop as a <code>for</code> loop producing the same output. (4 marks)</li>
+      <li>Write a static method that accepts two numbers and returns their average, then call it from main. (6 marks)</li>
+    </ol>
+  </div>
+
+  <div class="summary-box">
+    <h3>Lesson 01 Summary</h3>
+    <ul>
+      <li><strong>VS Code</strong> + JDK 17+ + Extension Pack for Java is our toolchain for the entire module.</li>
+      <li>Every Java program: optional package &rarr; class &rarr; main &rarr; statements ending in semicolons.</li>
+      <li>Variables are typed; input arrives as string and must be converted for maths.</li>
+      <li>Operators, decisions and loops translate flowchart logic directly into Java.</li>
+      <li>Methods organise procedural code into reusable steps with parameters and return values.</li>
+      <li>Lesson 02 introduces the OOP paradigm — the same rectangle problem, now as a class.</li>
+    </ul>
+  </div>
+
+  <div class="nav-buttons no-print">
+    <a href="../index.html" class="btn btn-secondary">&larr; Course Home</a>
+    <a href="session-01.html" class="btn btn-primary">Start Session 01 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming – Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Lesson 01 – Basic Java Programming &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+</body>
+</html>

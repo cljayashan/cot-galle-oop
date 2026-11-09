@@ -1,0 +1,531 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 25 - Revision â€” Basic Java & OOP Pillars Overview</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 25 of 32 &nbsp;&bull;&nbsp; 3-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Revision â€” Basic Java & OOP Pillars Overview</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type" style="background:#f3e5f5;color:#6a1b9a;">Revision</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 25 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<div class="note-box">
+  <strong>Revision Session</strong>
+  <p>Re-read the sections below, redo lab tasks without looking at solutions, and test yourself using the summary boxes.</p>
+</div><!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. From Flowchart Diamond to Java if/else</h2>
+
+    <p>In your Programming Logic module you drew <strong>decision diamonds</strong> — shapes that ask a yes/no question and send the flow down different paths. In Java, that diamond becomes an <code>if</code> statement. The condition inside the diamond becomes the expression in parentheses; the "Yes" and "No" branches become blocks of code inside curly braces.</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 280" role="img" aria-label="Flowchart diamond mapped to if else">
+        <defs><marker id="a5" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1f4e79"/></marker></defs>
+        <text x="180" y="22" font-size="13" font-weight="700" fill="#1565c0">Flowchart (what you know)</text>
+        <text x="560" y="22" font-size="13" font-weight="700" fill="#2e7d32">Java (what you write)</text>
+        <line x1="380" y1="30" x2="380" y2="260" stroke="#ccc" stroke-width="2" stroke-dasharray="6 4"/>
+        <polygon points="180,70 260,110 180,150 100,110" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="180" y="108" text-anchor="middle" font-size="11" fill="#e65100">mark &gt;= 50?</text>
+        <text x="180" y="122" text-anchor="middle" font-size="10" fill="#e65100">(decision diamond)</text>
+        <line x1="260" y1="110" x2="310" y2="110" stroke="#1f4e79" stroke-width="2" marker-end="url(#a5)"/>
+        <text x="285" y="100" font-size="10" fill="#2e7d32">Yes</text>
+        <rect x="310" y="90" width="60" height="40" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="340" y="115" text-anchor="middle" font-size="10" fill="#2e7d32">Pass</text>
+        <line x1="100" y1="110" x2="50" y2="110" stroke="#1f4e79" stroke-width="2" marker-end="url(#a5)"/>
+        <text x="75" y="100" font-size="10" fill="#c62828">No</text>
+        <rect x="20" y="90" width="60" height="40" rx="4" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="50" y="115" text-anchor="middle" font-size="10" fill="#c62828">Fail</text>
+        <rect x="420" y="55" width="320" height="190" rx="8" fill="#f5f5f5" stroke="#2e7d32" stroke-width="2"/>
+        <text x="440" y="82" font-size="11" fill="#333" font-family="monospace">if (mark &gt;= 50)</text>
+        <text x="460" y="102" font-size="11" fill="#333" font-family="monospace">{</text>
+        <text x="480" y="122" font-size="11" fill="#333" font-family="monospace">System.out.println("Pass");</text>
+        <text x="460" y="142" font-size="11" fill="#333" font-family="monospace">}</text>
+        <text x="440" y="162" font-size="11" fill="#333" font-family="monospace">else</text>
+        <text x="460" y="182" font-size="11" fill="#333" font-family="monospace">{</text>
+        <text x="480" y="202" font-size="11" fill="#333" font-family="monospace">System.out.println("Fail");</text>
+        <text x="460" y="222" font-size="11" fill="#333" font-family="monospace">}</text>
+      </svg>
+      <div class="cap">Figure 5.1 — One decision diamond = one if/else pair. The condition must evaluate to true or false (a boolean).</div>
+    </div>
+
+    <div class="definition-box">
+      <strong>Definition — if Statement</strong>
+      <p>An <strong>if statement</strong> runs a block of code <em>only when</em> its condition is true. Optional <code>else if</code> chains handle additional conditions; a final <code>else</code> catches everything that did not match.</p>
+    </div>
+
+    <h3 class="sub-title">1.1 Comparison Operators — The Questions You Can Ask</h3>
+    <table>
+      <thead><tr><th>Operator</th><th>Meaning</th><th>Example (mark = 75)</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td><code>==</code></td><td>Equal to</td><td><code>mark == 75</code></td><td>true</td></tr>
+        <tr><td><code>!=</code></td><td>Not equal to</td><td><code>mark != 50</code></td><td>true</td></tr>
+        <tr><td><code>&gt;</code></td><td>Greater than</td><td><code>mark &gt; 80</code></td><td>false</td></tr>
+        <tr><td><code>&lt;</code></td><td>Less than</td><td><code>mark &lt; 50</code></td><td>false</td></tr>
+        <tr><td><code>&gt;=</code></td><td>Greater or equal</td><td><code>mark &gt;= 50</code></td><td>true</td></tr>
+        <tr><td><code>&lt;=</code></td><td>Less or equal</td><td><code>mark &lt;= 100</code></td><td>true</td></tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <strong>Common Beginner Mistake</strong>
+      <p>Use <code>==</code> (double equals) to <em>compare</em> values. A single <code>=</code> is an <em>assignment</em> ("put this value into the variable"). Writing <code>if (mark = 50)</code> is illegal in Java when used as an if condition — the compiler will stop you.</p>
+    </div>
+
+    <h3 class="sub-title">1.2 Example — Pass or Fail (Fully Commented)</h3>
+    <p>This program reads a student's mark and prints whether they passed. The pass mark is 50 — exactly the kind of decision you drew as a diamond in flowcharts.</p>
+
+<pre><code>import java.util.Scanner;
+
+public class PassFailChecker
+{
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+
+        // ---------- INPUT ----------
+        System.out.print("Enter your exam mark (0-100): ");
+        int mark = Integer.parseInt(sc.nextLine());
+
+        // ---------- DECISION (flowchart diamond) ----------
+        // Condition: mark >= 50  →  "Is the mark at least 50?"
+        if (mark >= 50)
+        {
+            // YES branch — the "True" arrow from the diamond
+            System.out.println("Congratulations! You PASSED.");
+        }
+        else
+        {
+            // NO branch — the "False" arrow from the diamond
+            System.out.println("Sorry. You FAILED. Keep studying!");
+        }
+
+        // ---------- OUTPUT (extra detail using else if) ----------
+        if (mark >= 75)
+        {
+            System.out.println("Grade band: A (Distinction)");
+        }
+        else if (mark >= 65)          // only checked if mark < 75
+        {
+            System.out.println("Grade band: B (Credit)");
+        }
+        else if (mark >= 50)          // only checked if mark < 65
+        {
+            System.out.println("Grade band: C (Pass)");
+        }
+        else                          // mark < 50
+        {
+            System.out.println("Grade band: F (Fail)");
+        }
+    }
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown — Pass/Fail</strong>
+      <ol>
+        <li><strong>The diamond question:</strong> <code>mark &gt;= 50</code> produces a <code>boolean</code> — either <code>true</code> or <code>false</code>. Java only enters the block when the answer is true.</li>
+        <li><strong>if / else if chain:</strong> Java checks conditions top to bottom and runs the <em>first</em> block whose condition is true, then skips the rest. This mirrors a flowchart with multiple diamonds chained together.</li>
+        <li><strong>Order matters:</strong> put the strictest test first (<code>&gt;= 75</code> before <code>&gt;= 50</code>). If you reversed them, a mark of 80 would match <code>&gt;= 50</code> first and never reach the A grade block.</li>
+        <li><strong>Curly braces { }:</strong> group multiple statements into one branch. If a branch has only one line, braces are optional — but always use them while learning; they prevent bugs when you add a second line later.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Nested if — Decisions Inside Decisions</h2>
+
+    <p>Sometimes one decision depends on another. In a flowchart you draw one diamond, and the "Yes" path leads to a <em>second</em> diamond. In Java, you place an <code>if</code> inside another <code>if</code>'s block — this is called a <strong>nested if</strong>.</p>
+
+    <p><strong>Scenario:</strong> A student passes only if their mark is at least 50 <em>and</em> they attended at least 80% of classes.</p>
+
+<pre><code>import java.util.Scanner;
+
+public class NestedIfDemo
+{
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter exam mark: ");
+        int mark = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Enter attendance %: ");
+        int attendance = Integer.parseInt(sc.nextLine());
+
+        // OUTER diamond: did they pass the exam?
+        if (mark >= 50)
+        {
+            // INNER diamond: did they attend enough?
+            if (attendance >= 80)
+            {
+                System.out.println("FULL PASS — mark and attendance both OK.");
+            }
+            else
+            {
+                System.out.println("MARK PASS but ATTENDANCE FAIL — must repeat.");
+            }
+        }
+        else
+        {
+            System.out.println("EXAM FAIL — attendance does not matter.");
+        }
+    }
+}</code></pre>
+
+    <h3 class="sub-title">2.1 Combining Conditions with &amp;&amp; and ||</h3>
+    <p>Two simple diamonds can often be merged into one using logical operators:</p>
+    <table>
+      <thead><tr><th>Operator</th><th>Name</th><th>True when...</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><code>&amp;&amp;</code></td><td>AND</td><td>Both sides are true</td><td><code>mark &gt;= 50 &amp;&amp; attendance &gt;= 80</code></td></tr>
+        <tr><td><code>||</code></td><td>OR</td><td>At least one side is true</td><td><code>mark &gt;= 75 || attendance == 100</code></td></tr>
+      </tbody>
+    </table>
+
+<pre><code>// Same logic as nested if, written as ONE diamond:
+if (mark >= 50 && attendance >= 80)
+{
+    System.out.println("FULL PASS");
+}
+else if (mark >= 50)
+{
+    System.out.println("MARK PASS but ATTENDANCE FAIL");
+}
+else
+{
+    System.out.println("EXAM FAIL");
+}</code></pre>
+
+    <div class="tip-box">
+      <strong>When to Nest vs Combine</strong>
+      <p>Use <code>&amp;&amp;</code> when both conditions must be true at the same level. Use nested if when the inner question only makes sense <em>after</em> the outer one is true (as in our attendance example — we only ask about attendance if the mark already passed).</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. The switch Statement — Perfect for Menus</h2>
+
+    <p>When you have many fixed choices (1, 2, 3 or 'A', 'B', 'C'), a long chain of <code>if / else if</code> works but gets messy. The <code>switch</code> statement is cleaner: you give it one variable, and Java jumps to the matching <code>case</code>. Every case must end with <code>break;</code> — this tells Java "stop here; do not fall into the next case".</p>
+
+    <h3 class="sub-title">3.1 Example — Simple Menu Program (Fully Commented)</h3>
+
+<pre><code>import java.util.Scanner;
+
+public class SimpleMenu
+{
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+
+        // Display the menu (OUTPUT)
+        System.out.println("=== COT Canteen Menu ===");
+        System.out.println("1. Rice & Curry  (Rs. 250)");
+        System.out.println("2. Kottu         (Rs. 350)");
+        System.out.println("3. Short Eats    (Rs. 120)");
+        System.out.println("4. Exit");
+        System.out.print("Enter your choice (1-4): ");
+
+        // INPUT — read the user's choice as text, then parse to int
+        int choice = Integer.parseInt(sc.nextLine());
+
+        // DECISION — switch on the value of choice
+        switch (choice)
+        {
+            case 1:
+                System.out.println("You ordered Rice & Curry. Please pay Rs. 250.");
+                break;          // REQUIRED — exits the switch
+
+            case 2:
+                System.out.println("You ordered Kottu. Please pay Rs. 350.");
+                break;
+
+            case 3:
+                System.out.println("You ordered Short Eats. Please pay Rs. 120.");
+                break;
+
+            case 4:
+                System.out.println("Goodbye!");
+                break;
+
+            default:            // catches any value that did not match 1, 2, 3 or 4
+                System.out.println("Invalid choice. Please run again and pick 1-4.");
+                break;
+        }
+    }
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown — switch</strong>
+      <ol>
+        <li><strong>One variable, many paths:</strong> <code>switch (choice)</code> compares <code>choice</code> against each <code>case</code> value. It is like a row of diamonds asking "is it 1? is it 2? is it 3?"</li>
+        <li><strong>break is mandatory:</strong> without <code>break;</code>, execution "falls through" into the next case and runs that code too — almost never what you want. Always write <code>break;</code> after each case block.</li>
+        <li><strong>default = the else branch:</strong> catches unexpected input (user typed 9 or -1). Every good menu program needs a <code>default</code> case.</li>
+        <li><strong>switch vs if/else if:</strong> use switch when comparing one variable against several exact values (integers, chars, strings). Use if/else when conditions involve ranges (<code>mark &gt;= 50</code>) or complex logic.</li>
+      </ol>
+    </div>
+
+    <div class="warn-box">
+      <strong>switch with Ranges?</strong>
+      <p>Java switch matches exact values, not ranges. For "mark between 65 and 74" you still need <code>if / else if</code>. (Later Java versions add richer switch forms — we stay with classic switch + break for now.)</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. Quick Reference — Flowchart to Java Decisions</h2>
+    <table>
+      <thead><tr><th>Flowchart Element</th><th>Java Construct</th><th>When to Use</th></tr></thead>
+      <tbody>
+        <tr><td>Single diamond (yes/no)</td><td><code>if ... else</code></td><td>Two paths based on one condition</td></tr>
+        <tr><td>Multiple diamonds in a chain</td><td><code>if ... else if ... else</code></td><td>Grade bands, tiered pricing</td></tr>
+        <tr><td>Diamond inside another diamond</td><td>Nested <code>if</code></td><td>Condition B only matters if A is true</td></tr>
+        <tr><td>Menu with fixed options 1, 2, 3...</td><td><code>switch ... case ... break</code></td><td>Exact-value matching</td></tr>
+        <tr><td>Two conditions both required</td><td><code>if (a &amp;&amp; b)</code></td><td>AND logic in one diamond</td></tr>
+        <tr><td>Either condition enough</td><td><code>if (a || b)</code></td><td>OR logic in one diamond</td></tr>
+      </tbody>
+    </table>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 5.1 — Student Grade Classifier (60 min)</strong>
+      <p>Create a Java Application called <code>GradeClassifier</code>. The program must:</p>
+      <ol>
+        <li>Ask the user for a student name and mark (0–100).</li>
+        <li>Use <code>if / else if / else</code> to assign a letter grade:
+          <ul>
+            <li>A: 75–100</li>
+            <li>B: 65–74</li>
+            <li>C: 50–64</li>
+            <li>F: below 50</li>
+          </ul>
+        </li>
+        <li>Print: <code>Kasun scored 78 — Grade: A</code> (use string concatenation / formatted output).</li>
+        <li><strong>Challenge:</strong> if mark &gt; 100 or mark &lt; 0, print "Invalid mark" and do not assign a grade (nested if or combined condition).</li>
+      </ol>
+      <p><em>Draw the decision flowchart on paper first, then translate each diamond to Java.</em></p>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 5.2 — Simple Menu Program (60 min)</strong>
+      <p>Create a Java Application called <code>CalculatorMenu</code>. Display a menu:</p>
+      <ol>
+        <li>Add two numbers</li>
+        <li>Subtract two numbers</li>
+        <li>Multiply two numbers</li>
+        <li>Divide two numbers</li>
+        <li>Exit</li>
+      </ol>
+      <p>Use a <code>switch</code> statement on the user's choice. For options 1–4, read two numbers and perform the operation. For option 5, print "Exiting...". Include a <code>default</code> case for invalid input.</p>
+      <p><strong>Challenge:</strong> for division, use nested if to check if the divisor is zero and print "Cannot divide by zero" instead of crashing.</p>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 05</strong>
+      <ol>
+        <li>Draw a flowchart for "read age, print Adult if age ≥ 18 else Minor". Write the equivalent Java code. (8 marks)</li>
+        <li>Explain the difference between <code>=</code> and <code>==</code> in Java. (3 marks)</li>
+        <li>What does the <code>break</code> statement do inside a <code>switch</code>? What happens if you omit it? (4 marks)</li>
+        <li>Rewrite this nested if using <code>&amp;&amp;</code>: <code>if (x &gt; 0) { if (y &gt; 0) { ... } }</code> (3 marks)</li>
+        <li>Write a <code>switch</code> that prints a day name given 1=Monday through 7=Sunday, with a default for invalid input. (6 marks)</li>
+        <li>Trace this code with <code>mark = 68</code> and state the output: an if/else if chain for A/B/C/F grades. (4 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 05 Summary</h3>
+    <ul>
+      <li>Flowchart decision diamonds map directly to <code>if</code>, <code>else if</code> and <code>else</code>.</li>
+      <li>Conditions use comparison operators and produce a <code>boolean</code> (true/false).</li>
+      <li>Nested if handles decisions that depend on earlier decisions; <code>&amp;&amp;</code> and <code>||</code> combine conditions.</li>
+      <li><code>switch / case / break / default</code> is ideal for menu programs with fixed numeric or character choices.</li>
+      <li>Always validate input and handle invalid choices with <code>else</code> or <code>default</code>.</li>
+    </ul>
+  </div>
+
+<div class="section part-break"><h2 class="section-title">The Paradigm Shift — Procedural vs Object-Oriented Thinking</h2></div>
+<div class="note-box">
+  <strong>Revision Session</strong>
+  <p>Re-read the sections below, redo lab tasks without looking at solutions, and test yourself using the summary boxes.</p>
+</div><h2>Why We Need a New Way to Think About Programs</h2>
+    <p>You can draw a perfect flowchart for "borrow a book from the library." But when the system grows — members, fines, DVDs, staff logins — a single long list of steps becomes impossible to maintain. Object-Oriented Programming (OOP) organises code the way we organise the <em>real world</em>: as interacting <strong>objects</strong>.</p>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1. What You Already Know — Procedural Thinking</h2>
+    <p>In your Programming Logic module you solved problems as a <strong>sequence of steps</strong>:</p>
+    <ol>
+      <li>Get input from the user</li>
+      <li>Process (calculate, decide)</li>
+      <li>Output the result</li>
+    </ol>
+    <p>This is called <strong>procedural programming</strong>. The program is one long recipe. Data (variables) and actions (steps) are separate. For small problems — calculate rectangle area, check vowels — this works beautifully.</p>
+
+    <div class="definition-box">
+      <strong>Definition</strong>
+      <p><strong>Procedural programming</strong> focuses on <em>what happens step by step</em>. You write functions or blocks of code that operate on data stored in variables. The flowchart is the blueprint.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 200" role="img" aria-label="Procedural view of a library">
+        <text x="360" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#1a3a5c">Procedural view — one program, many loose variables</text>
+        <rect x="40" y="40" width="640" height="140" rx="10" fill="#f5f7fa" stroke="#1a3a5c" stroke-width="2"/>
+        <rect x="60" y="60" width="120" height="40" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+        <text x="120" y="85" text-anchor="middle" font-size="11" fill="#1565c0">String title</text>
+        <rect x="200" y="60" width="120" height="40" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+        <text x="260" y="85" text-anchor="middle" font-size="11" fill="#1565c0">String member</text>
+        <rect x="340" y="60" width="120" height="40" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+        <text x="400" y="85" text-anchor="middle" font-size="11" fill="#1565c0">int dueDays</text>
+        <rect x="480" y="60" width="120" height="40" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+        <text x="540" y="85" text-anchor="middle" font-size="11" fill="#1565c0">double fine</text>
+        <rect x="100" y="120" width="500" height="44" rx="6" fill="#fff3e0" stroke="#e65100"/>
+        <text x="350" y="138" text-anchor="middle" font-size="11" font-weight="700" fill="#e65100">borrowBook()  returnBook()  calcFine()  printCatalog()</text>
+        <text x="350" y="155" text-anchor="middle" font-size="10" fill="#666">All functions share and modify the same variables — hard to track who changed what</text>
+      </svg>
+      <div class="cap">Figure 1.1 — In procedural style, data floats in one big program and many functions touch it.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. The Object-Oriented View</h2>
+    <p>Look around your classroom. You see <strong>objects</strong>: desks, students, teachers, whiteboards. Each object has:</p>
+    <ul>
+      <li><strong>Properties</strong> (attributes) — a desk has four legs, a colour</li>
+      <li><strong>Behaviours</strong> (methods) — a student can sit, read, answer a question</li>
+    </ul>
+    <p>OOP models software the same way. A <code>Book</code> object knows its own title and ISBN. A <code>Member</code> object knows its name and can borrow a book. Programs become a <strong>society of objects sending messages to each other</strong>, not one giant list of steps.</p>
+
+    <div class="definition-box">
+      <strong>Definition</strong>
+      <p><strong>Object-Oriented Programming (OOP)</strong> organises software as <em>objects</em> that combine data and behaviour. Objects interact by calling each other's methods. Large systems are built by combining many small, focused objects.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 240" role="img" aria-label="Object-oriented view">
+        <text x="360" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#1a3a5c">Object-oriented view — each object owns its data</text>
+        <rect x="50" y="50" width="180" height="160" rx="12" fill="#eef4fb" stroke="#1a3a5c" stroke-width="2"/>
+        <text x="140" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#1a3a5c">Book</text>
+        <text x="70" y="105" font-size="11" fill="#333">- title</text>
+        <text x="70" y="125" font-size="11" fill="#333">- isbn</text>
+        <text x="70" y="155" font-size="11" fill="#2e7d32">+ getInfo()</text>
+        <text x="70" y="175" font-size="11" fill="#2e7d32">+ isAvailable()</text>
+        <rect x="270" y="50" width="180" height="160" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="360" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#2e7d32">Member</text>
+        <text x="290" y="105" font-size="11" fill="#333">- name</text>
+        <text x="290" y="125" font-size="11" fill="#333">- memberId</text>
+        <text x="290" y="155" font-size="11" fill="#2e7d32">+ borrow(book)</text>
+        <text x="290" y="175" font-size="11" fill="#2e7d32">+ returnBook(book)</text>
+        <rect x="490" y="50" width="180" height="160" rx="12" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="580" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#e65100">Library</text>
+        <text x="510" y="105" font-size="11" fill="#333">- catalog</text>
+        <text x="510" y="155" font-size="11" fill="#2e7d32">+ registerMember()</text>
+        <text x="510" y="175" font-size="11" fill="#2e7d32">+ search(title)</text>
+        <line x1="230" y1="130" x2="268" y2="130" stroke="#666" stroke-width="2" marker-end="url(#arr)"/>
+        <line x1="450" y1="130" x2="488" y2="130" stroke="#666" stroke-width="2"/>
+        <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#666"/></marker></defs>
+        <text x="360" y="230" text-anchor="middle" font-size="11" fill="#555">member.borrow(book) — objects collaborate, each guarding its own data</text>
+      </svg>
+      <div class="cap">Figure 1.2 — OOP: data lives inside the object that owns it. Methods define what each object can do.</div>
+    </div>
+
+    <h3 class="sub-title">2.1 Side-by-Side Comparison</h3>
+    <table>
+      <thead><tr><th>Aspect</th><th>Procedural</th><th>Object-Oriented</th></tr></thead>
+      <tbody>
+        <tr><td>Main focus</td><td>Steps and functions</td><td>Objects and interactions</td></tr>
+        <tr><td>Data</td><td>Shared variables</td><td>Inside objects (encapsulated)</td></tr>
+        <tr><td>Growth</td><td>Harder as program grows</td><td>Easier — add new classes</td></tr>
+        <tr><td>Real-world fit</td><td>Good for tiny scripts</td><td>Good for apps (bank, library, school)</td></tr>
+        <tr><td>Your prior skill</td><td>Flowcharts map directly</td><td>Flowchart becomes methods inside objects</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">3. The Four Pillars of OOP (Roadmap)</h2>
+    <p>You will study each pillar in depth later. For now, know the names and one-line meanings:</p>
+    <div class="card-grid">
+      <div class="card blue"><h4>1. Encapsulation</h4><p>Hide internal data; expose only safe methods (like an ATM — you cannot open the vault).</p></div>
+      <div class="card green"><h4>2. Inheritance</h4><p>Reuse code — a <code>Dvd</code> <em>is a</em> <code>LibraryItem</code> and inherits common fields.</p></div>
+      <div class="card orange"><h4>3. Polymorphism</h4><p>One method name, many behaviours — <code>getInfo()</code> prints different text for Book vs Dvd.</p></div>
+      <div class="card yellow"><h4>4. Abstraction</h4><p>Hide complexity — define <code>Lendable</code> without caring whether it is a book or equipment.</p></div>
+    </div>
+    <div class="tip-box">
+      <strong>Exam tip</strong>
+      <p>Memorise the four pillars with the mnemonic <strong>E-I-P-A</strong>. Every pillar will appear in the Library System project across Block 2.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">4. Why Java?</h2>
+    <p><strong>Java</strong> was designed for Object-Oriented Programming and runs on the <strong>JVM (Java Virtual Machine)</strong>. It is used in:</p>
+    <ul>
+      <li>Enterprise business software (banks, hospitals)</li>
+      <li>Web applications (Spring / Jakarta EE)</li>
+      <li>Android mobile apps</li>
+      <li>Desktop and server tools across many industries</li>
+    </ul>
+    <p>In this module we use <strong>console applications</strong> — text-based programs in the terminal — so you focus on OOP concepts without UI complexity.</p>
+  </div>
+
+  <div class="lab-box">
+    <strong>Discussion Lab (No Code Yet)</strong>
+    <ol class="step-list">
+      <li>Pick a system you know: school canteen, online shop, or hospital reception.</li>
+      <li>List <strong>five objects</strong> you would model (nouns).</li>
+      <li>For each object, write two properties and one behaviour.</li>
+      <li>Draw arrows: which object talks to which? (e.g. Student orders from Canteen)</li>
+      <li>Compare with a partner: did you choose the same objects?</li>
+    </ol>
+  </div>
+
+  <div class="summary-box">
+    <h3>Session Summary</h3>
+    <ul>
+      <li>Procedural = steps + shared variables; OOP = objects with data + behaviour</li>
+      <li>OOP matches real-world entities and scales to large systems</li>
+      <li>Four pillars: Encapsulation, Inheritance, Polymorphism, Abstraction</li>
+      <li>Next session: write your first Java program in VS Code</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-24.html" class="btn btn-secondary">&larr; Session 24</a>
+    <a href="session-26.html" class="btn btn-primary">Session 26 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 25 &nbsp;|&nbsp; 3 Hours &nbsp;|&nbsp; Sequence position 25 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

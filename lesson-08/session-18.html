@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 18 - Polymorphic Collections + Library System Phase 5</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 18 of 23 &nbsp;&bull;&nbsp; Lesson 08 - Polymorphism</div>
+  <h2>Library System Project – Phase 5: Polymorphic Catalog</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 4 Hours</span>
+    <span class="stag stag-practical">Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 08 - Polymorphism &#9656; Session 18</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="practical-header">
+    <div class="prac-num">Library System &nbsp;&bull;&nbsp; Phase 5 of 6</div>
+    <h3>One Catalog to Rule Them All</h3>
+    <div class="prac-meta">
+      <span>⏱ 4 Hours</span>
+      <span>📋 Session 18 of 23</span>
+      <span>📂 Opens Phase 4 Project</span>
+      <span>📝 Continuous Assessment Project</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Store mixed derived objects in one base-typed <code>List&lt;LibraryItem&gt;</code> and process them uniformly</li>
+      <li>Override <code>printDetails()</code> with <code>@Override</code> (methods overridable by default) for type-specific output</li>
+      <li>Override <code>toString()</code> — the most-used method in Java (Object)</li>
+      <li>Test an object's actual type with <code>is</code> and cast safely with <code>as</code></li>
+      <li>Merge the Library's separate lists into one polymorphic catalog</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. The Power Move: One List, Many Types</h2>
+
+    <p>Because every Book and Dvd <em>is a</em> LibraryItem, they can all live in a <code>List&lt;LibraryItem&gt;</code>:</p>
+
+<pre><code>import java.util.*;
+
+List&lt;LibraryItem&gt; catalog = new ArrayList<>();
+catalog.add(new Book("Clean Code", "Robert C. Martin", "978-0132350884", 2008));
+catalog.add(new Dvd("Inception", "Christopher Nolan", 148));
+
+// ONE loop handles every item — present and FUTURE:
+for (LibraryItem item : catalog)
+{
+    item.printDetails();      // each Object answers with ITS OWN version — dynamic dispatch
+}</code></pre>
+
+    <div class="note-box">
+      <strong>Key Point — Why Professionals Love This</strong>
+      <p>Add a new class <code>Magazine extends LibraryItem</code> tomorrow and this loop already works with it — <em>zero changes</em> to existing code. Systems designed around polymorphic collections grow by <em>adding</em> classes, not by <em>editing</em> old ones.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 200" role="img" aria-label="Polymorphic list">
+        <rect x="40" y="30" width="200" height="140" rx="10" fill="#e3f2fd" stroke="#0277bd" stroke-width="2"/>
+        <text x="140" y="55" text-anchor="middle" font-size="12" font-weight="700" fill="#0277bd">List&lt;LibraryItem&gt;</text>
+        <rect x="60" y="70" width="160" height="28" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+        <text x="140" y="88" text-anchor="middle" font-size="10" fill="#2e7d32">Book object</text>
+        <rect x="60" y="105" width="160" height="28" rx="4" fill="#f3e5f5" stroke="#8e24aa" stroke-width="1.5"/>
+        <text x="140" y="123" text-anchor="middle" font-size="10" fill="#8e24aa">Dvd object</text>
+        <rect x="60" y="140" width="160" height="28" rx="4" fill="#fff8e1" stroke="#f9a825" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="140" y="158" text-anchor="middle" font-size="10" fill="#b28704">future types...</text>
+        <rect x="300" y="60" width="420" height="80" rx="8" fill="#f4f7fb" stroke="#5b6472" stroke-width="2"/>
+        <text x="510" y="85" text-anchor="middle" font-size="11" font-family="monospace" fill="#1a1f2b">for (LibraryItem item : catalog)</text>
+        <text x="510" y="105" text-anchor="middle" font-size="11" font-family="monospace" fill="#1a1f2b">    item.printDetails();</text>
+        <text x="510" y="125" text-anchor="middle" font-size="10" fill="#2e7d32">→ Book prints author, Dvd prints director</text>
+        <line x1="240" y1="100" x2="295" y2="100" stroke="#0277bd" stroke-width="2" marker-end="url(#none)"/>
+        <polygon points="290,95 300,100 290,105" fill="#0277bd"/>
+      </svg>
+      <div class="cap">Figure 18.1 — One polymorphic list holds every item type; one loop dispatches to each object's override.</div>
+    </div>
+
+    <h3 class="sub-title">1.1 Overriding <code>toString()</code> — Every Object's Business Card</h3>
+    <p>All classes secretly inherit from <code>Object</code>, which has an overridable method <code>toString()</code>. By default it prints the class name — useless. Override it and your objects describe themselves everywhere:</p>
+
+<pre><code>class Book extends LibraryItem
+{
+    // ... existing code ...
+
+    @Override
+    public String toString()          // Object.toString() is overridable — we override it
+    {
+        return "Book: " + title + " by " + author;
+    }
+}
+
+Book b = new Book("Clean Code", "Robert C. Martin", "978-0132350884", 2008);
+System.out.println(b);          // prints "Book: Clean Code by Robert C. Martin"
+                               // println called toString() for us!</code></pre>
+
+    <h3 class="sub-title">1.2 Peeking Inside the Box: <code>instanceof</code></h3>
+    <p>Occasionally you genuinely need to know what's inside a base-typed variable:</p>
+
+<pre><code>for (LibraryItem item : catalog) {
+    if (item instanceof Dvd) {
+        Dvd d = (Dvd) item;
+        System.out.println("  DVD runtime: " + d.getDurationMinutes() + " minutes");
+    }
+
+    if (item instanceof Book) {
+        Book b = (Book) item;
+        System.out.println("  isbn: " + b.getIsbn());
+    }
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong><code>instanceof</code> asks, cast converts:</strong> check the actual type first, then cast. (Modern Java also allows pattern matching: <code>if (item instanceof Dvd d)</code>.)</li>
+        <li><strong>Use sparingly!</strong> If your loop is full of <code>instanceof</code>-checks, you're fighting polymorphism instead of using it. Better: move the varying behaviour into an overridable method and let dispatch do the work.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Library System — Phase 5 Build</h2>
+
+    <div class="note-box">
+      <strong>The Client's Request — Phase 5</strong>
+      <p>"The staff hate the separate menus for books and DVDs. One list, one search, one borrow flow please. And listings should show the right details for each item type."</p>
+    </div>
+
+    <h3 class="sub-title">Step 1 — Override printDetails Per Child</h3>
+<pre><code>// In LibraryItem.java — overridable by default; children may @Override
+public void printDetails()
+{
+    String status = isAvailable ? "Available" : "Borrowed";
+    System.out.println(title + " | loan " + loanDays + " days | " + status);
+}</code></pre>
+
+<pre><code>// In Book.java — extend the base output with book specifics
+@Override
+public void printDetails()
+{
+    super.printDetails();                                  // reuse the common line...
+    System.out.println("   Book: by " + author + " (" + yearPublished + ") isbn " + isbn);
+}
+
+// In Dvd.java
+@Override
+public void printDetails()
+{
+    super.printDetails();
+    System.out.println("   DVD: directed by " + director + ", " + durationMinutes + " min");
+}</code></pre>
+
+    <h3 class="sub-title">Step 2 — Collapse Two Lists into One</h3>
+<pre><code>// File: Library.java  (Phase 5)
+package librarysystem;
+
+import java.util.*;
+
+class Library {
+    // ONE list holds Books AND Dvds — they are all LibraryItems
+    private List&lt;LibraryItem&gt; catalog = new ArrayList<>();
+
+    public void add(LibraryItem item) {          // one add replaces addBook/addDvd
+        catalog.add(item);
+    }
+
+    public LibraryItem find(String title) {      // one find works for every type
+        for (LibraryItem item : catalog) {
+            if (item.getTitle().equalsIgnoreCase(title)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public void listAll() {
+        System.out.println("--- Catalog (" + catalog.size() + " items) ---");
+        for (LibraryItem item : catalog) {
+            item.printDetails();     // each item prints ITS OWN details — polymorphism!
+        }
+    }
+
+    public void listAvailable() {
+        for (LibraryItem item : catalog) {
+            if (item.isAvailable()) {
+                item.printDetails();
+            }
+        }
+    }
+}</code></pre>
+
+<pre><code>// In Main — seeding is beautifully uniform now:
+Library lib = new Library();
+lib.add(new Book("Clean Code", "Robert C. Martin", "978-0132350884", 2008));
+lib.add(new Dvd("Inception", "Christopher Nolan", 148));
+
+lib.listAll();
+// Clean Code | loan 14 days | Available
+//    Book: by Robert C. Martin (2008) isbn 978-0132350884
+// Inception | loan 3 days | Available
+//    DVD: directed by Christopher Nolan, 148 min</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 180" role="img" aria-label="Phase 4 vs Phase 5">
+        <text x="190" y="25" text-anchor="middle" font-size="12" font-weight="700" fill="#c62828">Phase 4 (before)</text>
+        <rect x="40" y="40" width="140" height="50" rx="6" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="110" y="70" text-anchor="middle" font-size="10" fill="#c62828">List&lt;Book&gt;</text>
+        <rect x="200" y="40" width="140" height="50" rx="6" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="270" y="70" text-anchor="middle" font-size="10" fill="#c62828">List&lt;Dvd&gt;</text>
+        <text x="190" y="110" text-anchor="middle" font-size="9" fill="#5b6472">AddBook, AddDvd, FindBook, FindDvd...</text>
+        <text x="380" y="70" font-size="28" fill="#2e7d32">→</text>
+        <text x="570" y="25" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">Phase 5 (after)</text>
+        <rect x="430" y="40" width="280" height="50" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="570" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">List&lt;LibraryItem&gt; catalog</text>
+        <text x="570" y="110" text-anchor="middle" font-size="9" fill="#5b6472">add, find, listAll — one of each</text>
+        <text x="570" y="155" text-anchor="middle" font-size="10" fill="#2e7d32">~40% less Library.java code</text>
+      </svg>
+      <div class="cap">Figure 18.2 — Phase 5 collapses duplicate lists and methods into one polymorphic catalog.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Count what disappeared:</strong> two lists → one; two Add methods → one; two Find methods → one; two list-menu branches → one. Polymorphism deleted duplicate code while <em>adding</em> the per-type detail printing the client wanted.</li>
+        <li><strong>The @Override / method overriding pair at work:</strong> <code>item.printDetails()</code> in the loop — the variable is LibraryItem-typed, but each actual object (Book/Dvd) supplies its own override. Same line, two behaviours.</li>
+        <li><strong><code>super.printDetails()</code> in every override:</strong> children extend rather than duplicate the common status line — one source of truth preserved.</li>
+        <li><strong>Borrowing needed no change at all:</strong> Borrow/Return live in the base and work through the base-typed variable — inherited behaviour and polymorphism cooperating.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 18.1 — Phase 5 Build (90 min, assessed)</strong>
+      <ol>
+        <li>Apply all Phase 5 changes: overridable printDetails + two overrides, single <code>List&lt;LibraryItem&gt;</code>, unified menu.</li>
+        <li>Verify the listing output shows type-specific detail lines for books and DVDs.</li>
+        <li>Borrow one of each type through the single Borrow menu; verify loan periods differ correctly.</li>
+        <li>Override <code>toString()</code> in LibraryItem to return the title and status, and use it somewhere in the menu.</li>
+        <li><strong>Checkpoint:</strong> demo one-list operation — progress mark #5.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 18.2 — Open/Closed in Action (45 min)</strong>
+      <ol>
+        <li>Client surprise: the library now lends <strong>magazines</strong> (title, issue number, month, loan 7 days).</li>
+        <li>Add <code>Magazine extends LibraryItem</code> with its printDetails override — and change <em>nothing else</em> in Library.java.</li>
+        <li>Add one to the catalog in Main. Run: listing, search, borrow all just work.</li>
+        <li>Record the time it took. This is the payoff of the whole OOP journey so far.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 18</strong>
+      <ol>
+        <li>Show how objects of derived classes can be stored in one <code>List&lt;LibraryItem&gt;</code> and processed in one loop. (6 marks)</li>
+        <li>Why does <code>System.out.println(myObject)</code> print custom text after overriding toString()? (3 marks)</li>
+        <li>Explain <code>is</code> and <code>as</code> with examples. When should type-checking be avoided? (5 marks)</li>
+        <li>Describe, with the Library example, how polymorphism lets a system grow by adding classes rather than editing existing code. (6 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 18 Summary — Library Phase 5 Complete</h3>
+    <ul>
+      <li><code>List&lt;LibraryItem&gt;</code> holds every derived type; one loop dispatches to each object's override.</li>
+      <li>overridable printDetails + per-child <code>@Override</code> gives type-specific listings through one call.</li>
+      <li>Override <code>toString()</code> for automatic, meaningful printing everywhere.</li>
+      <li><code>is</code> (test + capture) and <code>as</code> (null-on-fail cast) exist for rare type-specific needs.</li>
+      <li>Library: one catalog, one add, one Find — and new types plug in with zero edits to Library.java.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-17.html" class="btn btn-secondary">&larr; S17 - Polymorphism</a>
+    <a href="../lesson-09/session-19.html" class="btn btn-primary">S19 - Abstraction &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 18 &ndash; Polymorphic Catalog + Library Phase 5 &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

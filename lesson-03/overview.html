@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 03 – Classes &amp; Objects (Full Notes)</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-logo">📚</div>
+    <div class="header-info">
+      <h1>Object Oriented Programming (Java)</h1>
+      <p>College of Technology Galle &nbsp;|&nbsp; Module K72T004M03 – Level 05</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span><strong>Lesson 03</strong></span>
+    <span><strong>Topic:</strong> Classes &amp; Objects</span>
+    <span><strong>Duration:</strong> 10 Hours (Theory + Practical)</span>
+    <span><strong>Author:</strong> Jayashan Liyanage</span>
+  </div>
+</header>
+
+<nav class="lesson-nav no-print">
+  <a href="../index.html">Home</a>
+  <a href="../lesson-01/index.html">L01</a>
+  <a href="../lesson-02/index.html">L02</a>
+  <a href="index.html" class="active">L03</a>
+  <a href="../lesson-04/index.html">L04</a>
+  <a href="../lesson-05/index.html">L05</a>
+  <a href="../lesson-06/index.html">L06</a>
+  <a href="../lesson-07/index.html">L07</a>
+  <a href="../lesson-08/index.html">L08</a>
+  <a href="../lesson-09/index.html">L09</a>
+  <a href="../lesson-10/index.html">L10</a>
+</nav>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#1565c0,#0d47a1);">
+    <div class="lesson-num">Lesson 03 of 10</div>
+    <h2>Classes &amp; Objects – Fields and Methods</h2>
+    <p>The core skill of the whole module: designing classes with fields and methods, creating independent objects, and driving them from a menu program. Examples: Vehicle, BankAccount — and the start of the Library System project.</p>
+    <div class="lesson-meta">
+      <span>⏱ 10 Hours Integrated</span>
+      <span>📋 Sessions 04 – 06</span>
+      <span>📚 Library Project Phase 1</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this lesson you will be able to:</h3>
+    <ul>
+      <li>Define class, object, instantiation, field and method</li>
+      <li>Create multiple independent objects and explain per-object field copies</li>
+      <li>Write methods with parameters and return values, including guard clauses</li>
+      <li>Store objects in a <code>List</code> and process them with <code>foreach</code></li>
+      <li>Build a menu-driven console application around a class</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1. Class vs Object (Session 04)</h2>
+    <div class="definition-box">
+      <strong>Definitions</strong>
+      <p><strong>Class</strong> = blueprint describing fields + methods (no data memory itself). <strong>Object</strong> = a concrete instance created with <code>new</code>; each object owns its own copy of every field. Creating an object = <strong>instantiation</strong>.</p>
+    </div>
+<pre><code>class Vehicle
+{
+    public String Brand;      // FIELD – declared in the class, outside methods
+    public int Speed;
+
+    public void accelerate()  // METHOD – behaviour on this object's fields
+    {
+        Speed += 10;
+    }
+}
+
+Vehicle car = new Vehicle();  // instantiation
+car.Brand = "Toyota";         // dot operator: member belonging to car
+car.accelerate();             // changes ONLY car.Speed, not any other vehicle</code></pre>
+    <ul>
+      <li>Noun/verb design: nouns → classes; what each must remember → fields; verbs → methods.</li>
+      <li>One class per .java file (Explorer → New File → <code>ClassName.java</code>).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. Methods in Depth – BankAccount (Session 05)</h2>
+    <p>Signature = access modifier + return type + name + parameters: <code>public boolean withdraw(double amount)</code>.</p>
+<pre><code>public boolean withdraw(double amount)
+{
+    if (amount &gt; Balance)        // guard clause = flowchart decision diamond
+    {
+        return false;            // refuse and tell the caller
+    }
+    Balance -= amount;
+    return true;                 // success travels back to the calling line
+}</code></pre>
+    <ul>
+      <li>Parameters copy values in; <code>return</code> sends one value out; <code>void</code> = nothing returned.</li>
+      <li>Use <code>double</code> for money in labs; <code>String.format("%.2f", value)</code> formats currency.</li>
+      <li>Design rule: fields change only through methods that enforce the business rules.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">3. Library System Phase 1 (Session 06)</h2>
+    <p><code>Book</code> class (Title, Author, ISBN, isAvailable) with borrow/returnItem/printDetails, plus:</p>
+<pre><code>import java.util.ArrayList;
+import java.util.List;
+
+List&lt;Book&gt; catalog = new ArrayList&lt;&gt;();   // resizable, type-safe container
+catalog.add(b1);
+
+for (Book b : catalog)               // visit every object
+{
+    b.printDetails();
+}
+
+Book found = null;                         // null = "no object"; check before use!</code></pre>
+    <ul>
+      <li>Menu pattern: <code>while (running)</code> + if/else on the user's choice.</li>
+      <li>Search pattern: loop, remember the match, check for null afterwards.</li>
+    </ul>
+  </div>
+
+  <div class="summary-box">
+    <h3>Lesson 03 Summary</h3>
+    <ul>
+      <li>Class = blueprint; object = instance with its own field copies; <code>new</code> instantiates.</li>
+      <li>Method signature has four parts; parameters in, return value out, guard clauses protect state.</li>
+      <li><code>List&lt;T&gt;</code> + enhanced-for manage many objects; null must be checked after searching.</li>
+      <li>Library System Phase 1 delivered: Book class + working menu program.</li>
+    </ul>
+  </div>
+
+  <p style="margin-top:24px;" class="no-print">
+    <a href="session-04.html" class="btn btn-primary">Session 04 – Class vs Object &rarr;</a>
+    <a href="session-05.html" class="btn btn-secondary" style="margin-left:8px;">Session 05 – Methods &rarr;</a>
+    <a href="session-06.html" class="btn btn-secondary" style="margin-left:8px;">Session 06 – Library Phase 1 &rarr;</a>
+  </p>
+
+  <div class="nav-buttons no-print">
+    <a href="../lesson-02/overview.html" class="btn btn-secondary">&larr; Lesson 02 – Paradigm Shift</a>
+    <a href="../lesson-04/overview.html" class="btn btn-primary">Lesson 04 – Encapsulation &rarr;</a>
+  </div>
+
+</main>
+
+<p style="margin-top:6px;font-size:0.8rem;">Lesson 03 – Classes &amp; Objects &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+</body>
+</html>

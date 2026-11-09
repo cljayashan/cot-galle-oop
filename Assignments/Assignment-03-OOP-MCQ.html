@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assignment 03 – OOP MCQ (Sessions 05–12, 15)</title>
+  <style>
+    @page { size: A4; margin: 11mm 11mm 11mm 11mm; }
+    * { box-sizing: border-box; }
+    html { zoom: 0.92; }
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 10.5pt;
+      line-height: 1.35;
+      color: #111;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 0;
+    }
+    h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; margin: 0; }
+    .header {
+      text-align: center;
+      border-bottom: 2.5px solid #1a3a5c;
+      padding-bottom: 7px;
+      margin-bottom: 8px;
+    }
+    .header .inst { font-size: 13pt; font-weight: 700; color: #1a3a5c; letter-spacing: 0.3px; }
+    .header .mod { font-size: 10pt; margin-top: 2px; }
+    .header .paper-title {
+      font-size: 13pt;
+      font-weight: 700;
+      margin-top: 7px;
+      text-transform: uppercase;
+      color: #1a3a5c;
+    }
+    .header .sub { font-size: 9.5pt; margin-top: 3px; }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 18px;
+      margin: 6px 0 8px;
+      font-size: 10pt;
+    }
+    .info strong { color: #1a3a5c; }
+    .box {
+      border: 1.5px solid #1a3a5c;
+      padding: 7px 10px;
+      margin: 0 0 10px;
+      background: #f7f9fc;
+    }
+    .box h3 { font-size: 10pt; color: #1a3a5c; margin-bottom: 3px; }
+    .box ol { margin: 2px 0 0 18px; padding: 0; }
+    .box li { margin: 1px 0; }
+    .section-label {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #1a3a5c;
+      border-top: 2px solid #1a3a5c;
+      margin: 10px 0 6px;
+      padding-top: 5px;
+    }
+    .q { margin: 0 0 8px; }
+    .q-head { font-weight: 700; margin-bottom: 2px; }
+    .q p { margin: 3px 0; }
+    .choices {
+      list-style: none;
+      margin: 2px 0 0 10px;
+      padding: 0;
+    }
+    .choices li { margin: 0; }
+    .choices .lab {
+      font-weight: 700;
+      display: inline-block;
+      width: 1.35em;
+    }
+    .code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 9pt;
+      background: #f4f4f4;
+      border: 1px solid #ccc;
+      padding: 5px 8px;
+      margin: 4px 0;
+      white-space: pre;
+      line-height: 1.28;
+    }
+    .footer {
+      margin-top: 10px;
+      border-top: 1.5px solid #1a3a5c;
+      padding-top: 4px;
+      font-size: 8.5pt;
+      text-align: center;
+      color: #444;
+    }
+    .end {
+      text-align: center;
+      font-weight: 700;
+      margin: 10px 0 3px;
+      letter-spacing: 2px;
+      font-size: 10.5pt;
+    }
+    @media print {
+      body { padding: 0; }
+      .q, .box, .code { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="inst">College of Technology Galle</div>
+    <div class="mod">Course: Full Stack Software Development &mdash; Object Oriented Programming &mdash; Module K72T004M03 &mdash; NVQ Level 05</div>
+    <div class="paper-title">Assignment 03 &mdash; Multiple Choice Question Paper</div>
+    <div class="sub">Sessions Covered: 05–12 and 15 (Methods, OOP Basics, Encapsulation, Constructors, Inheritance) &nbsp;|&nbsp; Excluded: 13, 14</div>
+  </div>
+
+  <div class="info">
+    <div><strong>Duration:</strong> 80 Minutes</div>
+    <div><strong>Total Marks:</strong> 40</div>
+    <div><strong>Questions:</strong> 40 (1 mark each)</div>
+    <div><strong>Answer all questions</strong> on your own answer sheet.</div>
+  </div>
+
+  <div class="box">
+    <h3>Instructions to Candidates</h3>
+    <ol>
+      <li>This is a <strong>multiple-choice paper</strong>. Each question has <strong>five</strong> choices (A–E). Select the <strong>one best</strong> answer.</li>
+      <li>Answer <strong>all</strong> questions in the answer sheets provided by you.</li>
+      <li>Do <strong>not</strong> write answers on this question paper.</li>
+      <li>Write clearly using blue or black pen. Number your answers to match the question numbers.</li>
+      <li>Some questions are moderately difficult and may include short code fragments — read carefully.</li>
+      <li>Mobile phones and programmable devices are not allowed.</li>
+    </ol>
+  </div>
+
+  <div class="section-label">Section A — Methods, Paradigm &amp; Classes (Sessions 05–09) &nbsp;[14 Marks]</div>
+
+  <div class="q">
+    <div class="q-head">1. In Java, a method that performs an action but does <em>not</em> return a value to the caller should use which return type?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> int</li>
+      <li><span class="lab">B)</span> String</li>
+      <li><span class="lab">C)</span> void</li>
+      <li><span class="lab">D)</span> boolean</li>
+      <li><span class="lab">E)</span> double</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">2. Which statement best describes a <strong>procedural</strong> program?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Software is built as objects that own both data and behaviour</li>
+      <li><span class="lab">B)</span> The program is mainly a sequence of steps/functions working on shared data</li>
+      <li><span class="lab">C)</span> Every variable must be private</li>
+      <li><span class="lab">D)</span> Inheritance is required in every program</li>
+      <li><span class="lab">E)</span> Only constructors are allowed</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">3. The four pillars of OOP are:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Variables, Loops, Arrays, Methods</li>
+      <li><span class="lab">B)</span> Encapsulation, Inheritance, Polymorphism, Abstraction</li>
+      <li><span class="lab">C)</span> Class, Object, Package, Import</li>
+      <li><span class="lab">D)</span> public, private, protected, default</li>
+      <li><span class="lab">E)</span> JDK, JVM, JRE, IDE</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">4. In OOP, a <strong>class</strong> is best described as:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> A running program in memory</li>
+      <li><span class="lab">B)</span> A blueprint/template for creating objects</li>
+      <li><span class="lab">C)</span> A single variable of type int</li>
+      <li><span class="lab">D)</span> The main method only</li>
+      <li><span class="lab">E)</span> A package name</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">5. Which line correctly creates an object of class <code>Rectangle</code>?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> <code>Rectangle rect;</code></li>
+      <li><span class="lab">B)</span> <code>Rectangle rect = new Rectangle();</code></li>
+      <li><span class="lab">C)</span> <code>new = Rectangle();</code></li>
+      <li><span class="lab">D)</span> <code>Rectangle.create();</code></li>
+      <li><span class="lab">E)</span> <code>object Rectangle = rect;</code></li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">6. A field (attribute) in a Java class is:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> A variable declared inside a method only</li>
+      <li><span class="lab">B)</span> A variable declared in the class body (outside methods) that stores object data</li>
+      <li><span class="lab">C)</span> Always the same as a constructor</li>
+      <li><span class="lab">D)</span> A package statement</li>
+      <li><span class="lab">E)</span> An import keyword</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">7. If <code>car</code> is an object of class <code>Vehicle</code>, which call is correct?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> <code>Vehicle.accelerate();</code></li>
+      <li><span class="lab">B)</span> <code>accelerate(car);</code></li>
+      <li><span class="lab">C)</span> <code>car.accelerate();</code></li>
+      <li><span class="lab">D)</span> <code>new accelerate();</code></li>
+      <li><span class="lab">E)</span> <code>class.accelerate(car);</code></li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">8. In an OOP method, parameters are best described as:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Values sent into the method when it is called</li>
+      <li><span class="lab">B)</span> Always private fields of the class</li>
+      <li><span class="lab">C)</span> The name of the class file</li>
+      <li><span class="lab">D)</span> Only used in <code>main</code></li>
+      <li><span class="lab">E)</span> Keywords reserved by Java</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">9. Study the method:</div>
+    <div class="code">public double area(double w, double h) {
+    return w * h;
+}</div>
+    <p>What does the <code>return</code> statement do?</p>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Prints <code>w * h</code> on the screen only</li>
+      <li><span class="lab">B)</span> Ends the method and sends the product back to the caller</li>
+      <li><span class="lab">C)</span> Creates a new object of type <code>double</code></li>
+      <li><span class="lab">D)</span> Changes the method name to <code>area</code></li>
+      <li><span class="lab">E)</span> Makes <code>w</code> and <code>h</code> into fields</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">10. Which method signature correctly returns a calculated area as a <code>double</code>?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> <code>public void area()</code></li>
+      <li><span class="lab">B)</span> <code>public area double()</code></li>
+      <li><span class="lab">C)</span> <code>public double getArea()</code></li>
+      <li><span class="lab">D)</span> <code>double public getArea()</code></li>
+      <li><span class="lab">E)</span> <code>public getArea double</code></li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">11. Two objects are created: <code>Car a = new Car();</code> and <code>Car b = new Car();</code>. Which statement is TRUE?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> <code>a</code> and <code>b</code> must always have identical field values forever</li>
+      <li><span class="lab">B)</span> <code>a</code> and <code>b</code> are separate objects; each can store its own field values</li>
+      <li><span class="lab">C)</span> Java allows only one object per class</li>
+      <li><span class="lab">D)</span> <code>b</code> replaces <code>a</code> in memory automatically</li>
+      <li><span class="lab">E)</span> Fields of <code>a</code> are shared with every other class</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">12. A variable declared <em>inside</em> a method (not in the class body) is called a:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> field / instance variable</li>
+      <li><span class="lab">B)</span> local variable</li>
+      <li><span class="lab">C)</span> constructor</li>
+      <li><span class="lab">D)</span> package</li>
+      <li><span class="lab">E)</span> superclass</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">13. In OOP thinking, which best matches “an object knows its data and can do actions”?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> All data lives only in <code>main</code> as local variables</li>
+      <li><span class="lab">B)</span> Data (fields) and behaviour (methods) belong together in a class</li>
+      <li><span class="lab">C)</span> Methods are forbidden; only fields are used</li>
+      <li><span class="lab">D)</span> Every program must use inheritance</li>
+      <li><span class="lab">E)</span> Objects cannot call methods</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">14. What is wrong with this call if <code>deposit</code> expects one <code>double</code> argument?</div>
+    <div class="code">account.deposit();</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> You cannot call methods on objects</li>
+      <li><span class="lab">B)</span> The call supplies no argument, so it does not match the method’s parameter list</li>
+      <li><span class="lab">C)</span> <code>deposit</code> must always be <code>void</code></li>
+      <li><span class="lab">D)</span> Semicolons are not allowed after method calls</li>
+      <li><span class="lab">E)</span> The class name must be used instead of <code>account</code></li>
+    </ul>
+  </div>
+
+  <div class="section-label">Section B — Encapsulation &amp; Access (Sessions 10–11) &nbsp;[13 Marks]</div>
+
+  <div class="q">
+    <div class="q-head">15. Encapsulation mainly means:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Writing longer method names</li>
+      <li><span class="lab">B)</span> Hiding an object’s data and allowing access only through controlled methods</li>
+      <li><span class="lab">C)</span> Using only public fields</li>
+      <li><span class="lab">D)</span> Inheriting from many parent classes</li>
+      <li><span class="lab">E)</span> Avoiding constructors</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">16. Which access modifier makes a field visible only inside the same class?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> public</li>
+      <li><span class="lab">B)</span> protected</li>
+      <li><span class="lab">C)</span> private</li>
+      <li><span class="lab">D)</span> open</li>
+      <li><span class="lab">E)</span> global</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">17. Why is making a bank account <code>balance</code> field <code>public</code> a bad idea?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Java does not allow public fields</li>
+      <li><span class="lab">B)</span> Other code can change the balance directly and break rules (e.g. set a negative balance)</li>
+      <li><span class="lab">C)</span> Public fields make the program run slower always</li>
+      <li><span class="lab">D)</span> The compiler deletes public fields</li>
+      <li><span class="lab">E)</span> Public fields cannot store numbers</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">18. A <strong>getter</strong> method is used to:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Create a new object</li>
+      <li><span class="lab">B)</span> Read/return the value of a private field safely</li>
+      <li><span class="lab">C)</span> Delete a class file</li>
+      <li><span class="lab">D)</span> Import a package</li>
+      <li><span class="lab">E)</span> Start the JVM</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">19. A <strong>setter</strong> method is useful because it can:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Prevent the class from compiling</li>
+      <li><span class="lab">B)</span> Validate data before assigning it to a private field</li>
+      <li><span class="lab">C)</span> Replace the need for a class name</li>
+      <li><span class="lab">D)</span> Turn private into public automatically</li>
+      <li><span class="lab">E)</span> Remove inheritance</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">20. For a private field <code>title</code> of type <code>String</code>, the usual JavaBeans getter name is:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> <code>title()</code></li>
+      <li><span class="lab">B)</span> <code>getTitle()</code></li>
+      <li><span class="lab">C)</span> <code>read_title()</code></li>
+      <li><span class="lab">D)</span> <code>TitleGet()</code></li>
+      <li><span class="lab">E)</span> <code>fetch()</code></li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">21. Study the class fragment:</div>
+    <div class="code">public class BankAccount {
+    private double balance;
+    public double getBalance() { return balance; }
+}</div>
+    <p>From <code>main</code> in another class, which line is LEGAL?</p>
+    <ul class="choices">
+      <li><span class="lab">A)</span> <code>account.balance = 100;</code></li>
+      <li><span class="lab">B)</span> <code>double x = account.getBalance();</code></li>
+      <li><span class="lab">C)</span> <code>account.balance++;</code></li>
+      <li><span class="lab">D)</span> <code>System.out.println(account.balance);</code></li>
+      <li><span class="lab">E)</span> <code>private account.balance;</code></li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">22. A setter for <code>balance</code> rejects negative amounts. What is the main benefit?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> The program never needs a constructor</li>
+      <li><span class="lab">B)</span> Invalid states are blocked at the point of change</li>
+      <li><span class="lab">C)</span> All fields become public</li>
+      <li><span class="lab">D)</span> Inheritance is disabled</li>
+      <li><span class="lab">E)</span> The JVM runs faster only</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">23. Inside a class method, <code>this.balance</code> typically means:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> A local variable named <code>balance</code> in <code>main</code> only</li>
+      <li><span class="lab">B)</span> The <code>balance</code> field of the current object</li>
+      <li><span class="lab">C)</span> The parent class name</li>
+      <li><span class="lab">D)</span> A package import</li>
+      <li><span class="lab">E)</span> A static method call</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">24. Which access level allows access from subclasses <em>and</em> from the same package (typical meaning of <code>protected</code>)?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> private</li>
+      <li><span class="lab">B)</span> protected</li>
+      <li><span class="lab">C)</span> There is no such modifier in Java</li>
+      <li><span class="lab">D)</span> void</li>
+      <li><span class="lab">E)</span> final</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">25. Compared with public fields, private fields + public getters/setters mainly improve:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Control over how data is read and changed</li>
+      <li><span class="lab">B)</span> The number of keywords Java has</li>
+      <li><span class="lab">C)</span> Screen resolution</li>
+      <li><span class="lab">D)</span> The need to delete <code>main</code></li>
+      <li><span class="lab">E)</span> Internet download speed</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">26. Study this setter:</div>
+    <div class="code">public void setAge(int age) {
+    if (age &gt;= 0 &amp;&amp; age &lt;= 120) {
+        this.age = age;
+    }
+}</div>
+    <p>If a caller executes <code>person.setAge(-5);</code>, what is the best description of the result?</p>
+    <ul class="choices">
+      <li><span class="lab">A)</span> <code>age</code> becomes −5</li>
+      <li><span class="lab">B)</span> The invalid value is ignored; <code>age</code> is not updated to −5</li>
+      <li><span class="lab">C)</span> The class is deleted</li>
+      <li><span class="lab">D)</span> Java always throws an error for every setter</li>
+      <li><span class="lab">E)</span> <code>this</code> becomes null</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">27. For a private <code>boolean available</code> field, the usual JavaBeans getter name is:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> <code>getAvailable()</code> or <code>isAvailable()</code></li>
+      <li><span class="lab">B)</span> <code>availableGet()</code></li>
+      <li><span class="lab">C)</span> <code>bool()</code></li>
+      <li><span class="lab">D)</span> <code>check()</code> only</li>
+      <li><span class="lab">E)</span> <code>privateAvailable()</code></li>
+    </ul>
+  </div>
+
+  <div class="section-label">Section C — Constructors &amp; Inheritance (Sessions 12, 15) &nbsp;[13 Marks]</div>
+
+  <div class="q">
+    <div class="q-head">28. A constructor in Java:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Must return <code>int</code></li>
+      <li><span class="lab">B)</span> Has the same name as the class and has no return type</li>
+      <li><span class="lab">C)</span> Is called only with <code>System.out.println</code></li>
+      <li><span class="lab">D)</span> Cannot take parameters</li>
+      <li><span class="lab">E)</span> Must be named <code>main</code></li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">29. When is a constructor executed?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Every time any method is called</li>
+      <li><span class="lab">B)</span> When the program ends</li>
+      <li><span class="lab">C)</span> When an object is created with <code>new</code></li>
+      <li><span class="lab">D)</span> Only if the field is public</li>
+      <li><span class="lab">E)</span> Only inside <code>jshell</code></li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">30. Inheritance in Java is declared using the keyword:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> implements</li>
+      <li><span class="lab">B)</span> inherits</li>
+      <li><span class="lab">C)</span> extends</li>
+      <li><span class="lab">D)</span> include</li>
+      <li><span class="lab">E)</span> import</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">31. Inheritance models which relationship?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> has-a</li>
+      <li><span class="lab">B)</span> is-a</li>
+      <li><span class="lab">C)</span> uses-only</li>
+      <li><span class="lab">D)</span> equals-to</li>
+      <li><span class="lab">E)</span> sorted-by</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">32. Study the code:</div>
+    <div class="code">class Vehicle { }
+class Car extends Vehicle { }</div>
+    <p>Which statement is TRUE?</p>
+    <ul class="choices">
+      <li><span class="lab">A)</span> <code>Vehicle</code> is the child class of <code>Car</code></li>
+      <li><span class="lab">B)</span> <code>Car</code> inherits non-private members of <code>Vehicle</code></li>
+      <li><span class="lab">C)</span> A class cannot extend another class in Java</li>
+      <li><span class="lab">D)</span> <code>extends</code> creates a package</li>
+      <li><span class="lab">E)</span> <code>Car</code> must redefine <code>main</code></li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">33. In a child-class constructor, <code>super(...)</code> is used to:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Delete the parent class</li>
+      <li><span class="lab">B)</span> Call the parent class constructor</li>
+      <li><span class="lab">C)</span> Make all fields public</li>
+      <li><span class="lab">D)</span> Stop inheritance</li>
+      <li><span class="lab">E)</span> Print text to the console</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">34. If you write no constructor in a class, Java provides:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Nothing — the class cannot be compiled</li>
+      <li><span class="lab">B)</span> A default no-argument constructor</li>
+      <li><span class="lab">C)</span> A constructor that returns <code>int</code></li>
+      <li><span class="lab">D)</span> An automatic <code>main</code> method</li>
+      <li><span class="lab">E)</span> Multiple inheritance</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">35. Which declaration is a valid constructor for class <code>Book</code>?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> <code>public void Book(String t) { }</code></li>
+      <li><span class="lab">B)</span> <code>public Book(String t) { title = t; }</code></li>
+      <li><span class="lab">C)</span> <code>public int Book(String t) { return 0; }</code></li>
+      <li><span class="lab">D)</span> <code>public static Book() { }</code></li>
+      <li><span class="lab">E)</span> <code>constructor Book(String t) { }</code></li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">36. A child class cannot access a parent’s <code>private</code> field directly. What is the usual correct approach?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Change the field to public in every program, always</li>
+      <li><span class="lab">B)</span> Use public/protected getters/setters (or protected access) provided by the parent</li>
+      <li><span class="lab">C)</span> Delete the parent class</li>
+      <li><span class="lab">D)</span> Use <code>import private;</code></li>
+      <li><span class="lab">E)</span> Private fields are copied into <code>main</code> automatically</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">37. In Java, a class may extend:</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Many classes at once with one <code>extends</code> list</li>
+      <li><span class="lab">B)</span> At most one other class (single class inheritance)</li>
+      <li><span class="lab">C)</span> Zero classes only — inheritance is banned</li>
+      <li><span class="lab">D)</span> Only classes named <code>Object</code> written by the student</li>
+      <li><span class="lab">E)</span> Only interfaces using <code>extends</code></li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">38. Given <code>class Car extends Vehicle</code>, which assignment is valid (is-a)?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> <code>Car c = new Vehicle();</code> (always safe without casting)</li>
+      <li><span class="lab">B)</span> <code>Vehicle v = new Car();</code></li>
+      <li><span class="lab">C)</span> <code>Car c = new String();</code></li>
+      <li><span class="lab">D)</span> <code>Vehicle v = new int();</code></li>
+      <li><span class="lab">E)</span> <code>extends v = new Car();</code></li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">39. In a subclass constructor, if you call <code>super(name)</code>, where should that call appear?</div>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Anywhere after other statements</li>
+      <li><span class="lab">B)</span> As the first statement in the subclass constructor</li>
+      <li><span class="lab">C)</span> Only inside <code>main</code></li>
+      <li><span class="lab">D)</span> Only in the parent class file</li>
+      <li><span class="lab">E)</span> After the object is destroyed</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-head">40. Study the code:</div>
+    <div class="code">class Animal {
+    public void speak() { System.out.println("..."); }
+}
+class Dog extends Animal {
+    public void speak() { System.out.println("Woof"); }
+}</div>
+    <p>What does <code>new Dog().speak();</code> print?</p>
+    <ul class="choices">
+      <li><span class="lab">A)</span> Nothing — child methods are ignored</li>
+      <li><span class="lab">B)</span> Woof</li>
+      <li><span class="lab">C)</span> A compile error always, because methods cannot share names</li>
+      <li><span class="lab">D)</span> ...</li>
+      <li><span class="lab">E)</span> Dog</li>
+    </ul>
+  </div>
+
+  <div class="end">***** END OF QUESTION PAPER *****</div>
+  <div class="footer">
+    College of Technology Galle &nbsp;|&nbsp; Full Stack Software Development &nbsp;|&nbsp; OOP Module K72T004M03 &nbsp;|&nbsp; Assignment 03 (Sessions 05–12, 15) &nbsp;|&nbsp; Author: Jayashan Liyanage
+  </div>
+
+</body>
+</html>

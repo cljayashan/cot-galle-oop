@@ -1,0 +1,381 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 18 - Abstraction â€” Abstract Classes & Interfaces</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 18 of 32 &nbsp;&bull;&nbsp; 2-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Abstraction â€” Abstract Classes & Interfaces</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 2 Hours</span>
+    <span class="stag stag-type" style="background:#fff8e1;color:#b28704;">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 18 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<div class="lesson-header" style="background:linear-gradient(135deg,#c62828,#8e0000);">
+    <div class="lesson-num">Lesson 09 of 10 — The Fourth Pillar of OOP</div>
+    <h2>Abstraction</h2>
+    <p>Does it make sense to create <code>new LibraryItem("???")</code> — an item that is neither book, magazine nor DVD? No! Some classes exist only as <em>concepts</em> for others to build on. Abstraction lets us say so in code — and lets us define pure <em>contracts</em> that unrelated classes can promise to fulfil.</p>
+    <div class="lesson-meta">
+      <span>⏱ 3 Hours Theory + Practical</span>
+      <span>📚 Pillar 4 of 4</span>
+      <span>🔗 Leads to Library Phase 6</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. What Is Abstraction?</h2>
+
+    <p>So far you have built concrete classes — <code>Book</code>, <code>Car</code>, <code>Member</code> — that you can instantiate directly. But some ideas in a system are <strong>incomplete by nature</strong>. There is no such thing as a generic "Shape" sitting in the real world, only circles and rectangles. There is no plain "Library Item" on a shelf, only books and DVDs. Abstraction is how we express that incompleteness in Java.</p>
+
+    <div class="definition-box">
+      <strong>Definition — Abstraction</strong>
+      <p><strong>Abstraction</strong> means exposing only the essential concept of something while hiding implementation details. In Java it has two tools: the <strong>abstract class</strong> (a partially-built base that cannot be instantiated) and the <strong>interface</strong> (a pure contract with no implementation at all).</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 200" role="img" aria-label="Four OOP pillars with abstraction highlighted">
+        <rect x="10" y="40" width="160" height="70" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="90" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">ENCAPSULATION</text>
+        <text x="90" y="88" text-anchor="middle" font-size="10" fill="#5b6472">hide data (L03)</text>
+        <rect x="190" y="40" width="160" height="70" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="270" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">INHERITANCE</text>
+        <text x="270" y="88" text-anchor="middle" font-size="10" fill="#5b6472">is-a reuse (L06)</text>
+        <rect x="370" y="40" width="160" height="70" rx="8" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="450" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#b28704">POLYMORPHISM</text>
+        <text x="450" y="88" text-anchor="middle" font-size="10" fill="#5b6472">one method, many forms (L07)</text>
+        <rect x="550" y="30" width="160" height="90" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="3"/>
+        <text x="630" y="62" text-anchor="middle" font-size="13" font-weight="700" fill="#c62828">ABSTRACTION</text>
+        <text x="630" y="82" text-anchor="middle" font-size="10" fill="#5b6472">concepts + contracts</text>
+        <text x="630" y="98" text-anchor="middle" font-size="10" fill="#c62828">← THIS SESSION</text>
+        <text x="360" y="155" text-anchor="middle" font-size="12" fill="#1a1f2b">Abstraction completes the four pillars — it defines WHAT must exist without forcing HOW until a concrete child appears.</text>
+      </svg>
+      <div class="cap">Figure 19.1 — Abstraction is the fourth OOP pillar. It works with inheritance and polymorphism to define incomplete families and cross-family contracts.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Abstract Classes — Concepts You Cannot Instantiate</h2>
+
+    <p>An <strong>abstract class</strong> is a class marked with the <code>abstract</code> keyword. You cannot write <code>new Shape()</code> or <code>new LibraryItem("x")</code> — the compiler refuses. The class exists solely as a blueprint for derived classes.</p>
+
+<pre><code>package shapes;
+
+import java.util.*;
+
+// 'abstract' on the class = "you cannot 'new' me - I exist only to be inherited"
+abstract class Shape {
+    private String name;
+
+    public String getName() { return name; }
+
+    public Shape(String name) { this.name = name; }
+
+    // ABSTRACT METHOD: signature only, NO body. Every child MUST override it.
+    public abstract double area();
+
+    // CONCRETE METHOD: shared implementation inherited as usual.
+    // It calls area() even though area has no body here — children supply it.
+    public void describe() {
+        System.out.println(name + " has area " + String.format("%.2f", area()));
+    }
+}
+
+class Circle extends Shape {
+    private double radius;
+
+    public double getRadius() { return radius; }
+
+    public Circle(double radius) {
+        super("Circle");
+        this.radius = radius;
+    }
+
+    @Override
+    public double area() {               // forced by the compiler!
+        return Math.PI * radius * radius;
+    }
+}
+
+class Rectangle extends Shape {
+    private double length;
+    private double width;
+
+    public double getLength() { return length; }
+    public double getWidth() { return width; }
+
+    public Rectangle(double l, double w) {
+        super("Rectangle");
+        this.length = l;
+        this.width = w;
+    }
+
+    @Override
+    public double area() {
+        return length * width;
+    }
+}
+
+public class Program {
+    public static void main(String[] args) {
+        // Shape s = new Shape("???");   // COMPILER ERROR - cannot instantiate abstract class
+
+        List&lt;Shape&gt; shapes = new ArrayList&lt;&gt;();
+        shapes.add(new Circle(5));
+        shapes.add(new Rectangle(4, 6));
+
+        for (Shape s : shapes) {
+            s.describe();       // Circle has area 78.54 / Rectangle has area 24.00
+        }
+    }
+}</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 680 220" role="img" aria-label="Abstract class hierarchy">
+        <defs>
+          <marker id="arr19" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#c62828"/></marker>
+        </defs>
+        <rect x="240" y="20" width="200" height="80" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="2" stroke-dasharray="6,3"/>
+        <text x="340" y="48" text-anchor="middle" font-size="14" font-weight="700" fill="#c62828">&lt;&lt;abstract&gt;&gt; Shape</text>
+        <line x1="255" y1="58" x2="425" y2="58" stroke="#c62828"/>
+        <text x="340" y="78" text-anchor="middle" font-size="10">+ name : String</text>
+        <text x="340" y="92" text-anchor="middle" font-size="10" fill="#c62828">+ area() : double {abstract}</text>
+        <line x1="290" y1="100" x2="180" y2="140" stroke="#c62828" stroke-width="2" marker-end="url(#arr19)"/>
+        <line x1="390" y1="100" x2="500" y2="140" stroke="#c62828" stroke-width="2" marker-end="url(#arr19)"/>
+        <rect x="80" y="140" width="200" height="70" rx="8" fill="#eef4fb" stroke="#1565c0" stroke-width="2"/>
+        <text x="180" y="168" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">Circle</text>
+        <text x="180" y="188" text-anchor="middle" font-size="10">+ Radius, + area()</text>
+        <rect x="400" y="140" width="200" height="70" rx="8" fill="#eef4fb" stroke="#1565c0" stroke-width="2"/>
+        <text x="500" y="168" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">Rectangle</text>
+        <text x="500" y="188" text-anchor="middle" font-size="10">+ Length, Width, + area()</text>
+        <text x="340" y="215" text-anchor="middle" font-size="11" fill="#5b6472">Dashed box = cannot instantiate. Solid arrows = inheritance (is-a).</text>
+      </svg>
+      <div class="cap">Figure 19.2 — UML-style abstract class hierarchy. Shape is a concept; Circle and Rectangle are concrete.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Abstract class = incomplete blueprint:</strong> Shape says "every shape has a Name and can Describe itself, and every shape HAS an area — but I cannot tell you how to compute it; that's each child's job."</li>
+        <li><strong>abstract method vs overridable concrete method:</strong> A concrete method with a body can be overridden (optional). <code>abstract</code> = "no default exists, you MUST provide one" (compiler-enforced). Mark overrides with <code>@Override</code>.</li>
+        <li><strong>The template pattern:</strong> concrete <code>describe()</code> calls abstract <code>area()</code> — the parent defines the <em>skeleton</em> of behaviour, children plug in the varying step.</li>
+        <li><strong>Library connection:</strong> our <code>LibraryItem</code> should have been abstract all along — there is no such thing as a plain "library item"! We fix that in Phase 6 (Session 20).</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">2.1 Rules for Abstract Classes</h3>
+    <ul>
+      <li>An abstract class <strong>can</strong> have constructors, fields, getters/setters, and concrete methods.</li>
+      <li>An abstract class <strong>cannot</strong> be instantiated with <code>new</code>.</li>
+      <li>If a class contains even one abstract member, the class itself must be declared abstract.</li>
+      <li>A non-abstract (concrete) child <strong>must</strong> override every inherited abstract member, or it too must be abstract.</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Interfaces — Pure Contracts</h2>
+
+    <div class="definition-box">
+      <strong>Definition — Interface</strong>
+      <p>An <strong>interface</strong> declares a set of members (methods (and getters)) with <strong>no implementation and no fields</strong> — a pure contract. A class that <em>implements</em> the interface promises to provide every member. Naming convention: interfaces are adjectives/capabilities (Printable, Lendable). A class may implement <strong>any number</strong> of interfaces.</p>
+    </div>
+
+<pre><code>import java.util.*;
+
+// An interface: WHAT must be doable - never HOW
+interface Playable {
+    void play();                       // no body; interface methods are public
+    void stop();
+    int getDurationMinutes();
+}
+
+interface Downloadable {
+    void download(String folder);
+}
+
+// A class implements interfaces with the 'implements' keyword
+class Song implements Playable, Downloadable {            // TWO interfaces at once - legal!
+    private String title;
+    private int durationMinutes;
+
+    public String getTitle() { return title; }
+    public int getDurationMinutes() { return durationMinutes; }
+
+    public Song(String title, int duration) {
+        this.title = title;
+        this.durationMinutes = duration;
+    }
+
+    public void play()  { System.out.println("▶ Playing " + title); }
+    public void stop()  { System.out.println("Stopped " + title); }
+    public void download(String folder) { System.out.println("Saving " + title + " to " + folder); }
+}
+
+class Movie implements Playable {                         // unrelated to Song - still playable
+    private String title;
+    private int durationMinutes;
+
+    public String getTitle() { return title; }
+    public int getDurationMinutes() { return durationMinutes; }
+
+    public Movie(String title, int duration) {
+        this.title = title;
+        this.durationMinutes = duration;
+    }
+
+    public void play() { System.out.println("🎬 Showing " + title); }
+    public void stop() { System.out.println("Paused " + title); }
+}
+
+class MediaCenter {
+    public void playAll(List&lt;Playable&gt; playlist) {     // interface used as a TYPE
+        for (Playable p : playlist) {
+            p.play();
+        }
+    }
+}</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 230" role="img" aria-label="Interface vs inheritance">
+        <defs>
+          <marker id="arr19b" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6a1b9a"/></marker>
+          <marker id="dot19" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><circle cx="4" cy="4" r="3" fill="#6a1b9a"/></marker>
+        </defs>
+        <text x="180" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">INHERITANCE (is-a)</text>
+        <text x="540" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#6a1b9a">INTERFACE (can-do)</text>
+        <rect x="120" y="40" width="120" height="50" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="180" y="70" text-anchor="middle" font-size="11" font-weight="700">Animal</text>
+        <line x1="150" y1="90" x2="110" y2="120" stroke="#1565c0" stroke-width="2" marker-end="url(#arr19b)"/>
+        <line x1="210" y1="90" x2="250" y2="120" stroke="#1565c0" stroke-width="2" marker-end="url(#arr19b)"/>
+        <rect x="60" y="120" width="100" height="40" rx="5" fill="white" stroke="#1565c0"/>
+        <text x="110" y="145" text-anchor="middle" font-size="10">Dog</text>
+        <rect x="200" y="120" width="100" height="40" rx="5" fill="white" stroke="#1565c0"/>
+        <text x="250" y="145" text-anchor="middle" font-size="10">Cat</text>
+        <rect x="480" y="40" width="120" height="40" rx="6" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="540" y="65" text-anchor="middle" font-size="11" font-weight="700">&lt;&lt;interface&gt;&gt;</text>
+        <text x="540" y="78" text-anchor="middle" font-size="10">Playable</text>
+        <line x1="480" y1="100" x2="420" y2="130" stroke="#6a1b9a" stroke-width="2" marker-end="url(#dot19)"/>
+        <line x1="600" y1="100" x2="660" y2="130" stroke="#6a1b9a" stroke-width="2" marker-end="url(#dot19)"/>
+        <rect x="360" y="130" width="90" height="40" rx="5" fill="white" stroke="#6a1b9a"/>
+        <text x="405" y="155" text-anchor="middle" font-size="10">Song</text>
+        <rect x="630" y="130" width="90" height="40" rx="5" fill="white" stroke="#6a1b9a"/>
+        <text x="675" y="155" text-anchor="middle" font-size="10">Movie</text>
+        <text x="180" y="185" text-anchor="middle" font-size="10" fill="#5b6472">One family tree</text>
+        <text x="540" y="185" text-anchor="middle" font-size="10" fill="#5b6472">Unrelated classes, same capability</text>
+        <rect x="80" y="200" width="560" height="28" rx="6" fill="#1a1f2b"/>
+        <text x="360" y="219" text-anchor="middle" font-size="11" fill="#fff">class Book extends LibraryItem implements Lendable  — one superclass, then interfaces</text>
+      </svg>
+      <div class="cap">Figure 19.3 — Inheritance models family (is-a); interfaces model capability (can-do) across unrelated classes. Dotted line with hollow arrow = implements.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Contract analogy:</strong> a driving licence doesn't care if you're a teacher or a doctor — it certifies you <em>can drive</em>. Playable certifies a class <em>can Play and Stop</em>, whatever else it is.</li>
+        <li><strong>Interface as a variable type:</strong> <code>List&lt;Playable&gt;</code> accepts anything that signed the contract — polymorphism <em>across</em> family trees.</li>
+        <li><strong>Why multiple interfaces are safe</strong> while multiple base classes are banned: interfaces carry no fields or method bodies, so there is nothing to clash.</li>
+        <li><strong>Preview for Session 20:</strong> <code>Lendable</code> will let Books and standalone Equipment share one lending loop even though Equipment is not a LibraryItem.</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">3.1 Abstract Class vs Interface — The Decision Table</h3>
+    <table>
+      <thead><tr><th>Question</th><th>Abstract Class</th><th>Interface</th></tr></thead>
+      <tbody>
+        <tr><td>Can have fields / constructors?</td><td>Yes</td><td>No</td></tr>
+        <tr><td>Can have implemented (concrete) methods?</td><td>Yes — share real code</td><td>No — contract only</td></tr>
+        <tr><td>How many can one class take?</td><td>Exactly one base class</td><td>Any number</td></tr>
+        <tr><td>Relationship it models</td><td><strong>"is-a"</strong> with shared code</td><td><strong>"can-do"</strong> capability</td></tr>
+        <tr><td>Members can be private/protected?</td><td>Yes, full modifiers</td><td>Public by nature</td></tr>
+        <tr><td>Typical name</td><td>Noun: Shape, LibraryItem</td><td>Capability name: Lendable, Printable</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <strong>Rule of Thumb</strong>
+      <p>Shared <em>code</em> and a true family → abstract class. Shared <em>capability</em> across unrelated classes → interface. Often you use both: <code>class Book extends LibraryItem implements Lendable</code> — one superclass, then interfaces, in that order.</p>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 19.1 — Abstract Shapes (40 min)</strong>
+      <ol>
+        <li>Build the Shapes project. Confirm <code>new Shape("x")</code> refuses to compile — note the exact error message.</li>
+        <li>Add <code>Triangle</code> (base, height). The compiler error before you write <code>area()</code> is the abstract contract working.</li>
+        <li>Add an abstract method <code>double perimeter();</code> to Shape — watch every child break until each implements it.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 19.2 — The Media Center (50 min)</strong>
+      <ol>
+        <li>Build Playable, Downloadable, Song, Movie, MediaPlayer. Create a playlist with 2 songs + 1 movie and PlayAll it.</li>
+        <li>Add <code>Podcast</code> implementing both interfaces.</li>
+        <li>Write <code>downloadAll(List&lt;Downloadable&gt; items, String folder)</code> — note Movies simply can't be in this list; the compiler enforces the capability.</li>
+        <li><strong>Challenge:</strong> add <code>IRateable { void Rate(int stars); }</code> on Song and Movie. Count what a class "is" vs what it "can do".</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 19</strong>
+      <ol>
+        <li>Define abstraction. Name Java's two abstraction tools. (4 marks)</li>
+        <li>What is the difference between an overridable concrete method and an abstract method? (4 marks)</li>
+        <li>Why can an abstract class not be instantiated? (2 marks)</li>
+        <li>Write an interface with two members and a class implementing it. (6 marks)</li>
+        <li>State four differences between abstract classes and interfaces. (8 marks)</li>
+        <li>Why may a class implement many interfaces but inherit only one class? (3 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 19 Summary</h3>
+    <ul>
+      <li>Abstract class = partially built base; cannot be instantiated; abstract members MUST be overridden.</li>
+      <li>Template pattern: concrete base methods call abstract ones children must supply.</li>
+      <li>Interface = pure contract ("can-do"); no fields, no bodies; implement as many as needed.</li>
+      <li>Abstract class for is-a + shared code; interface for capabilities across unrelated classes.</li>
+      <li>Syntax: <code>class Book extends LibraryItem implements Lendable</code> — one superclass, then interfaces.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-17.html" class="btn btn-secondary">&larr; Session 17</a>
+    <a href="session-19.html" class="btn btn-primary">Session 19 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 18 &nbsp;|&nbsp; 2 Hours &nbsp;|&nbsp; Sequence position 18 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

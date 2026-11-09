@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Additional Lessons – OOP (Java)</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .hero {
+      background: linear-gradient(135deg, #37474f 0%, #546e7a 60%, #78909c 100%);
+      color: white; padding: 14px 18px; text-align: center;
+    }
+    .hero h1 { font-family: 'Merriweather', serif; font-size: 1.3rem; margin-bottom: 4px; }
+    .hero p { font-size: 0.85rem; opacity: 0.88; margin: 0; }
+    .toc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 24px 0; }
+    .toc-card {
+      background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      text-decoration: none; color: var(--text); display: block; transition: all 0.25s;
+      border-left: 5px solid #546e7a;
+    }
+    .toc-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+    .toc-card .lesson-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-light); margin-bottom: 4px; }
+    .toc-card h4 { color: #37474f; font-size: 1rem; margin-bottom: 6px; }
+    .toc-card .hours { font-size: 0.82rem; background: var(--light-bg); display: inline-block; padding: 3px 10px; border-radius: 10px; color: var(--text-light); }
+    .toc-card.ex { border-left-color: #c62828; }
+    .toc-card.ex h4 { color: #c62828; }
+    .toc-card.scope { border-left-color: #0277bd; }
+    .toc-card.scope h4 { color: #0277bd; }
+    .note-intro {
+      background: white; border-radius: 10px; padding: 18px 22px; box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      margin: 24px 0 8px; border-left: 4px solid #546e7a;
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <p style="opacity:0.7;font-size:0.72rem;margin-bottom:2px;">College of Technology Galle</p>
+  <h1>Additional Lessons</h1>
+  <p>Optional topics that strengthen the OOP module — not part of the numbered Lesson 01–10 sequence</p>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Additional Lessons</span>
+</div>
+
+<main>
+  <div class="note-intro">
+    <p style="margin:0;">These lessons sit <strong>alongside</strong> the main 32-session plan. Use them when students need extra practice, or when the timetable allows a short enrichment block. More topics will be added here over time.</p>
+  </div>
+
+  <h2 class="section-title">Available Additional Lessons</h2>
+  <div class="toc-grid">
+    <a href="exception-handling/index.html" class="toc-card ex">
+      <div class="lesson-label">Additional A1 · 1 Session</div>
+      <h4>Exception Handling in Java</h4>
+      <p style="font-size:0.88rem;margin-bottom:8px;">try / catch / finally, common exceptions, throw, and safe input validation</p>
+      <span class="hours">~3 Hours Integrated</span>
+    </a>
+    <a href="variable-scope/index.html" class="toc-card scope">
+      <div class="lesson-label">Additional A2 · 1 Session</div>
+      <h4>Variable Scope (Simplified)</h4>
+      <p style="font-size:0.88rem;margin-bottom:8px;">Fields, parameters, local variables, block scope, and <code>this</code> — beginner-friendly</p>
+      <span class="hours">~2 Hours Integrated</span>
+    </a>
+  </div>
+</main>
+
+<footer>
+  <p>College of Technology Galle | Object Oriented Programming — Module K72T004M03 | Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+</body>
+</html>

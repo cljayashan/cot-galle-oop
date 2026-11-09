@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Model Paper 03 - OOP - Easy-Moderate</title>
+  <style>
+@page { size: A4; margin: 12mm 12mm 12mm 12mm; }
+* { box-sizing: border-box; }
+html { zoom: 0.94; }
+body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 10.5pt;
+  line-height: 1.35;
+  color: #111;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 0;
+}
+h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; margin: 0; }
+.header {
+  text-align: center;
+  border-bottom: 2.5px solid #1a3a5c;
+  padding-bottom: 7px;
+  margin-bottom: 8px;
+}
+.header .inst { font-size: 13pt; font-weight: 700; color: #1a3a5c; }
+.header .mod { font-size: 9.5pt; margin-top: 2px; }
+.header .paper-title {
+  font-size: 12.5pt;
+  font-weight: 700;
+  margin-top: 7px;
+  text-transform: uppercase;
+  color: #1a3a5c;
+}
+.header .sub { font-size: 9.5pt; margin-top: 3px; }
+.diff {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9pt;
+  font-weight: 700;
+}
+.diff-easy { background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; }
+.diff-easy-mod { background: #e3f2fd; color: #1565c0; border: 1px solid #1565c0; }
+.diff-mod { background: #fff8e1; color: #f57f17; border: 1px solid #f57f17; }
+.diff-mod-hard { background: #fff3e0; color: #e65100; border: 1px solid #e65100; }
+.diff-hard { background: #ffebee; color: #c62828; border: 1px solid #c62828; }
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 6px 0 8px;
+  font-size: 10pt;
+}
+.info strong { color: #1a3a5c; }
+.box {
+  border: 1.5px solid #1a3a5c;
+  padding: 7px 10px;
+  margin: 0 0 10px;
+  background: #f7f9fc;
+}
+.box h3 { font-size: 10pt; color: #1a3a5c; margin-bottom: 3px; }
+.box ol { margin: 2px 0 0 18px; padding: 0; }
+.box li { margin: 1px 0; }
+.q {
+  margin: 0 0 11px;
+  border-top: 1px solid #ccd;
+  padding-top: 7px;
+}
+.q-head {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 11pt;
+  color: #1a3a5c;
+  margin-bottom: 3px;
+}
+.q p { margin: 3px 0; }
+.q ol { margin: 4px 0 0 18px; }
+.q li { margin: 3px 0; }
+.code {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 9pt;
+  background: #f4f4f4;
+  border: 1px solid #ccc;
+  padding: 5px 8px;
+  margin: 4px 0;
+  white-space: pre;
+  line-height: 1.28;
+}
+.footer {
+  margin-top: 10px;
+  border-top: 1.5px solid #1a3a5c;
+  padding-top: 4px;
+  font-size: 8.5pt;
+  text-align: center;
+  color: #444;
+}
+.end {
+  text-align: center;
+  font-weight: 700;
+  margin: 10px 0 3px;
+  letter-spacing: 2px;
+  font-size: 10.5pt;
+}
+@media print {
+  body { padding: 0; }
+  .q, .box, .code { break-inside: avoid; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="inst">College of Technology Galle</div>
+    <div class="mod">Course: Full Stack Software Development &mdash; Object Oriented Programming &mdash; Module K72T004M03 &mdash; NVQ Level 05</div>
+    <div class="paper-title">Semester Model Paper 03</div>
+    <div class="sub">Focus: Classes, encapsulation, constructors intro, simple validation</div>
+    <div class="diff diff-easy-mod">Difficulty: Easy-Moderate</div>
+  </div>
+
+  <div class="info">
+    <div><strong>Duration:</strong> 3 Hours</div>
+    <div><strong>Total Marks:</strong> 100</div>
+    <div><strong>Questions:</strong> 7 structured questions (answer any <strong>5</strong>)</div>
+    <div><strong>Each question:</strong> 20 marks</div>
+  </div>
+
+  <div class="box">
+    <h3>Instructions to Candidates</h3>
+    <ol>
+      <li>Answer any <strong>five (5)</strong> questions out of the seven provided.</li>
+      <li>Each question carries <strong>20 marks</strong>. Maximum mark for this paper is <strong>100</strong>.</li>
+      <li>Write answers in the answer booklet. Do <strong>not</strong> write answers on this question paper.</li>
+      <li>Where Java code is required, write clear, syntactically correct Java as taught in this module (VS Code / JDK).</li>
+      <li>Show workings / short explanations where asked. Manage your time (about 35 minutes per question).</li>
+      <li>Mobile phones and programmable devices are not allowed.</li>
+    </ol>
+  </div>
+
+  <div class="q">
+    <div class="q-head">Question 1 &nbsp;[20 Marks]</div>
+    <p>Class anatomy.</p>
+<ol type="a">
+  <li>Label each of the following as field, method, or neither: <code>speed</code>, <code>accelerate()</code>, <code>package</code>, <code>brand</code>. <strong>(4 marks)</strong></li>
+  <li>Write a <code>Vehicle</code> class with fields <code>brand</code> and <code>speed</code>, plus methods <code>accelerate()</code> (adds 10 to speed) and <code>display()</code>. <strong>(10 marks)</strong></li>
+  <li>Create two vehicles in <code>main</code> with different brands and show their speeds after one accelerate each. <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 2 &nbsp;[20 Marks]</div>
+    <p>Access modifiers.</p>
+<ol type="a">
+  <li>Explain <code>public</code> vs <code>private</code> with one example each. <strong>(6 marks)</strong></li>
+  <li>What compile-time problem occurs if <code>main</code> tries to write to a private field directly? <strong>(4 marks)</strong></li>
+  <li>Refactor a public field <code>balance</code> into private + getter + deposit method with a positive-amount check. <strong>(10 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 3 &nbsp;[20 Marks]</div>
+    <div class="code">public class BankAccount {
+    private double balance;
+    public void deposit(double amount) {
+        if (amount &gt; 0) balance += amount;
+    }
+}</div>
+<p>Study the fragment.</p>
+<ol type="a">
+  <li>Why can <code>deposit</code> change <code>balance</code> even though the field is private? <strong>(4 marks)</strong></li>
+  <li>Add <code>withdraw(double amount)</code> that refuses negative amounts and amounts greater than balance. <strong>(8 marks)</strong></li>
+  <li>Add <code>getBalance()</code> and show three calls from <code>main</code>: deposit, withdraw, print. <strong>(8 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 4 &nbsp;[20 Marks]</div>
+    <p>Constructors - introduction.</p>
+<ol type="a">
+  <li>What is a constructor? How does its name relate to the class name? <strong>(4 marks)</strong></li>
+  <li>Does a constructor have a return type (including <code>void</code>)? Explain. <strong>(4 marks)</strong></li>
+  <li>Write a default constructor and a parameterized constructor for class <code>Product</code> with fields <code>name</code> and <code>price</code>. <strong>(8 marks)</strong></li>
+  <li>When does a constructor run? <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 5 &nbsp;[20 Marks]</div>
+    <p>The keyword <code>this</code> (simple).</p>
+<ol type="a">
+  <li>What does <code>this</code> refer to inside an instance method? <strong>(4 marks)</strong></li>
+  <li>Write <code>setPrice(double price) { this.price = price; }</code> and explain each <code>price</code>. <strong>(8 marks)</strong></li>
+  <li>What problem appears if you write <code>price = price;</code> inside that setter? <strong>(4 marks)</strong></li>
+  <li>Give one other situation where <code>this</code> is useful. <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 6 &nbsp;[20 Marks]</div>
+    <p>Rectangle: procedural vs object (bridge).</p>
+<ol type="a">
+  <li>Describe how a procedural Rectangle program stores width and height. <strong>(4 marks)</strong></li>
+  <li>Write an OO <code>Rectangle</code> with private fields, a constructor, <code>area()</code>, and <code>perimeter()</code>. <strong>(10 marks)</strong></li>
+  <li>State two benefits of the OO version for a program that needs many rectangles. <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 7 &nbsp;[20 Marks]</div>
+    <p>Library Phase 1 style - Book.</p>
+<ol type="a">
+  <li>List suitable fields for a library <code>Book</code> (at least four). <strong>(4 marks)</strong></li>
+  <li>Write <code>borrow()</code> and <code>returnBook()</code> methods that prevent double-borrow / double-return using a boolean flag. <strong>(10 marks)</strong></li>
+  <li>Explain why availability should not be set freely from outside without rules. <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+
+  <div class="end">***** END OF QUESTION PAPER *****</div>
+  <div class="footer">
+    College of Technology Galle &nbsp;|&nbsp; OOP Module K72T004M03 &nbsp;|&nbsp; Model Paper 03 (Easy-Moderate)
+  </div>
+</body>
+</html>

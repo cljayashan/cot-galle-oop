@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 06 - Memory &amp; Object Lifecycle (Full Notes)</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-logo">📚</div>
+    <div class="header-info">
+      <h1>Object Oriented Programming (Java)</h1>
+      <p>College of Technology Galle &nbsp;|&nbsp; Module K72T004M03 &ndash; Level 05</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span><strong>Lesson 06</strong></span>
+    <span><strong>Topic:</strong> Memory &amp; Object Lifecycle</span>
+    <span><strong>Duration:</strong> 4 Hours (Integrated)</span>
+    <span><strong>Author:</strong> Jayashan Liyanage</span>
+  </div>
+</header>
+
+<nav class="lesson-nav no-print">
+  <a href="../index.html">Home</a>
+  <a href="../lesson-01/index.html">L01</a>
+  <a href="../lesson-02/index.html">L02</a>
+  <a href="../lesson-03/index.html">L03</a>
+  <a href="../lesson-04/index.html">L04</a>
+  <a href="../lesson-05/index.html">L05</a>
+  <a href="index.html" class="active">L06</a>
+  <a href="../lesson-07/index.html">L07</a>
+  <a href="../lesson-08/index.html">L08</a>
+  <a href="../lesson-09/index.html">L09</a>
+  <a href="../lesson-10/index.html">L10</a>
+</nav>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#6a1b9a,#4a148c);">
+    <div class="lesson-num">Lesson 06 of 10</div>
+    <h2>Memory &amp; Object Lifecycle — Stack, Heap and the Garbage Collector</h2>
+    <p>Where does an object actually <em>live</em> when you write <code>new Book(...)</code>? Why can two variables change the same data? And who cleans up objects nobody uses? This lesson looks under the hood of the JVM — and several confusing bugs suddenly make sense.</p>
+    <div class="lesson-meta">
+      <span>⏱ 4 Hours Integrated</span>
+      <span>📋 Session 13</span>
+      <span>🔍 Explains reference bugs</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes — After this lesson you will be able to:</h3>
+    <ul>
+      <li>Describe the stack and the heap and what is stored in each</li>
+      <li>Distinguish value types from reference types and predict copy behaviour</li>
+      <li>Trace what happens in memory when an object is created and passed around</li>
+      <li>Explain in simple terms how the JVM Garbage Collector works</li>
+      <li>Explain <code>null</code> and the NullPointerException in memory terms</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1. Stack vs Heap</h2>
+    <ul>
+      <li><strong>Stack:</strong> per-method tray pile — local variables, parameters; destroyed instantly when a method returns.</li>
+      <li><strong>Heap:</strong> shared warehouse — every object created with <code>new</code>; cleaned by the Garbage Collector.</li>
+      <li><strong>Value types / primitives</strong> (int, double, boolean, char) hold data directly. <strong>Reference types</strong> (class objects, String, arrays, List) hold an <em>address</em> pointing to the heap.</li>
+    </ul>
+<pre><code>int a = 10;  int b = a;   b = 99;        // a is still 10 — independent copies
+Book x = new Book(...);  Book y = x;     // ONE Object, two remotes
+y.setTitle("HACKED");                      // x.getTitle() is also "HACKED"!</code></pre>
+    <p>Passing an object to a method passes a copy of the <em>address</em> — the method can change the caller's object. Reassigning the parameter (<code>p = new Person()</code>) affects nothing outside.</p>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. Object Lifecycle &amp; the Garbage Collector</h2>
+    <ol>
+      <li><strong>Birth:</strong> <code>new</code> allocates heap space and runs the constructor.</li>
+      <li><strong>Life:</strong> reachable through at least one reference.</li>
+      <li><strong>Abandonment:</strong> last reference gone — object is unreachable but still occupies memory.</li>
+      <li><strong>Collection:</strong> GC marks reachable objects, sweeps the rest, compacts survivors.</li>
+    </ol>
+    <p><code>null</code> means the reference holds no address. Using it throws <strong>NullPointerException</strong>.</p>
+  </div>
+
+  <div class="summary-box">
+    <h3>Lesson 06 Summary</h3>
+    <ul>
+      <li>Stack = fast, per-method; heap = where <code>new</code> objects live.</li>
+      <li>Value types copy data; reference types copy the address — two remotes, one TV.</li>
+      <li>The GC reclaims unreachable objects automatically — no manual delete in Java.</li>
+      <li><code>null</code> = points at nothing; always guard before use.</li>
+    </ul>
+  </div>
+
+  <p style="margin-top:24px;"><a href="session-13.html" class="btn btn-primary no-print">Open Session 13 Full Notes &rarr;</a></p>
+
+</main>
+
+<p style="margin-top:6px;font-size:0.8rem;">Lesson 06 Overview &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+</body>
+</html>

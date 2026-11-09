@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 05 - Methods in Depth - The BankAccount Example</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 05 of 23 &nbsp;&bull;&nbsp; Lesson 03 - Classes &amp; Objects</div>
+  <h2>Methods in Depth – Parameters, Return Values, the BankAccount Example</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type" style="background:#fff8e1;color:#b28704;">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 03 - Classes &amp; Objects &#9656; Session 05</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Write methods that accept parameters and return values</li>
+      <li>Explain the four parts of a method signature</li>
+      <li>Trace the flow of data into and out of a method call</li>
+      <li>Build a realistic BankAccount class with deposit and withdraw rules</li>
+      <li>Use guard clauses (if-statements) inside methods to protect an object's data</li>
+      <li>Use <code>double</code> for money in these labs (production code often uses <code>BigDecimal</code>)</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Anatomy of a Method</h2>
+
+    <p>In Session 04 you called methods like <code>car.accelerate()</code> with no extra information. Real programs need methods that <strong>receive values</strong> and sometimes <strong>send answers back</strong> — exactly like a flowchart process box that reads inputs and produces an output.</p>
+
+    <div class="definition-box">
+      <strong>Definition — Method</strong>
+      <p>A <strong>method</strong> is a named block of code inside a class that performs a task. It may receive input values (<strong>parameters</strong>) and may send back a result (<strong>return value</strong>). A method is the OOP version of the "function" or "subroutine" you met in flowchart notation.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 190" role="img" aria-label="Method signature anatomy">
+        <text x="380" y="60" text-anchor="middle" font-family="monospace" font-size="20" fill="#1a1f2b">
+          <tspan fill="#c62828" font-weight="700">public</tspan>
+          <tspan fill="#1565c0" font-weight="700"> double</tspan>
+          <tspan fill="#2e7d32" font-weight="700"> CalculateInterest</tspan>
+          <tspan fill="#b9770e" font-weight="700">(double rate)</tspan>
+        </text>
+        <line x1="180" y1="75" x2="180" y2="105" stroke="#c62828" stroke-width="2"/>
+        <text x="180" y="125" text-anchor="middle" font-size="11" fill="#c62828">ACCESS MODIFIER</text>
+        <text x="180" y="141" text-anchor="middle" font-size="10" fill="#5b6472">who may call it</text>
+        <line x1="300" y1="75" x2="300" y2="105" stroke="#1565c0" stroke-width="2"/>
+        <text x="300" y="125" text-anchor="middle" font-size="11" fill="#1565c0">RETURN TYPE</text>
+        <text x="300" y="141" text-anchor="middle" font-size="10" fill="#5b6472">what comes back</text>
+        <text x="300" y="155" text-anchor="middle" font-size="10" fill="#5b6472">(void = nothing)</text>
+        <line x1="460" y1="75" x2="460" y2="105" stroke="#2e7d32" stroke-width="2"/>
+        <text x="460" y="125" text-anchor="middle" font-size="11" fill="#2e7d32">NAME</text>
+        <text x="460" y="141" text-anchor="middle" font-size="10" fill="#5b6472">verb, camelCase</text>
+        <line x1="600" y1="75" x2="600" y2="105" stroke="#b9770e" stroke-width="2"/>
+        <text x="600" y="125" text-anchor="middle" font-size="11" fill="#b9770e">PARAMETERS</text>
+        <text x="600" y="141" text-anchor="middle" font-size="10" fill="#5b6472">inputs the caller</text>
+        <text x="600" y="155" text-anchor="middle" font-size="10" fill="#5b6472">must supply</text>
+      </svg>
+      <div class="cap">Figure 2.3 — The four parts of every method signature.</div>
+    </div>
+
+    <p>Think of a method as a <strong>vending machine</strong>: parameters are the coins and button press you put in; the return value is the drink that comes out; the machine's internal work is the method body — invisible to the caller.</p>
+
+    <h3 class="sub-title">1.1 The Four Combinations</h3>
+    <table>
+      <thead><tr><th>Takes Input?</th><th>Returns Output?</th><th>Example Signature</th><th>Typical Use</th></tr></thead>
+      <tbody>
+        <tr><td>No</td><td>No</td><td><code>public void describe()</code></td><td>Print information</td></tr>
+        <tr><td>Yes</td><td>No</td><td><code>public void deposit(double amount)</code></td><td>Change state using input</td></tr>
+        <tr><td>No</td><td>Yes</td><td><code>public double getBalance()</code></td><td>Report state</td></tr>
+        <tr><td>Yes</td><td>Yes</td><td><code>public double calcInterest(double rate)</code></td><td>Compute using input + state</td></tr>
+      </tbody>
+    </table>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 240" role="img" aria-label="Parameter and return flow">
+        <defs>
+          <marker id="arrIn" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1565c0"/></marker>
+          <marker id="arrOut" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2e7d32"/></marker>
+        </defs>
+        <rect x="20" y="80" width="180" height="100" rx="8" fill="#eef4fb" stroke="#1565c0" stroke-width="2"/>
+        <text x="110" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">Main()</text>
+        <text x="110" y="128" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">acc.deposit(5000);</text>
+        <text x="110" y="148" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">boolean ok = acc.withdraw(1200);</text>
+        <text x="110" y="168" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">double i = acc.calcInterest(4.5);</text>
+        <line x1="200" y1="115" x2="280" y2="115" stroke="#1565c0" stroke-width="2" marker-end="url(#arrIn)"/>
+        <text x="240" y="105" text-anchor="middle" font-size="9" fill="#1565c0">5000 copied into amount</text>
+        <rect x="285" y="60" width="190" height="140" rx="8" fill="#fff8e1" stroke="#b9770e" stroke-width="2"/>
+        <text x="380" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#b9770e">deposit(double amount)</text>
+        <text x="380" y="110" text-anchor="middle" font-size="10" fill="#1a1f2b">if amount &lt;= 0 → reject</text>
+        <text x="380" y="128" text-anchor="middle" font-size="10" fill="#1a1f2b">Balance += amount</text>
+        <text x="380" y="146" text-anchor="middle" font-size="10" fill="#1a1f2b">print confirmation</text>
+        <text x="380" y="180" text-anchor="middle" font-size="9" fill="#5b6472">void → no value returns</text>
+        <line x1="475" y1="100" x2="555" y2="100" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrOut)"/>
+        <text x="515" y="90" text-anchor="middle" font-size="9" fill="#2e7d32">true / false</text>
+        <rect x="560" y="70" width="180" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="650" y="92" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">withdraw → boolean ok</text>
+        <text x="650" y="108" text-anchor="middle" font-size="9" fill="#5b6472">return lands in ok</text>
+        <line x1="475" y1="160" x2="555" y2="160" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrOut)"/>
+        <text x="515" y="150" text-anchor="middle" font-size="9" fill="#2e7d32">interest value</text>
+        <rect x="560" y="140" width="180" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="650" y="162" text-anchor="middle" font-family="monospace" font-size="10" fill="#1a1f2b">calcInterest → double i</text>
+        <text x="650" y="178" text-anchor="middle" font-size="9" fill="#5b6472">return lands in i</text>
+        <text x="380" y="225" text-anchor="middle" font-size="11" fill="#5b6472">Call goes in → method runs → return value (if any) travels back to the calling line</text>
+      </svg>
+      <div class="cap">Figure 2.4 — How arguments flow into parameters and return values flow back to Main.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. The BankAccount Class — Methods That Protect Data</h2>
+
+    <p>A bank account is the perfect example because its rules are familiar: you cannot withdraw more than you have, and you cannot deposit a negative amount. Notice how the <em>methods enforce the rules</em> — this previews encapsulation (Lesson 03).</p>
+
+    <div class="tip-box">
+      <strong>Money and floating point</strong>
+      <p><code>double</code> uses binary floating-point and can give tiny rounding errors (e.g. 0.1 + 0.2 ≠ 0.3 exactly). Real banks often use <code>BigDecimal</code>. In this module we use <code>double</code> for simplicity and format with <code>String.format("%.2f", value)</code>.</p>
+    </div>
+
+<pre><code>// File: BankAccount.java
+
+    class BankAccount
+    {
+        // ---------- FIELDS ----------
+        public String AccountNumber;
+        public String OwnerName;
+        public double Balance;        // double is THE type for money in Java
+
+        // ---------- METHODS ----------
+
+        // Takes input, returns nothing: changes the object's state safely
+        public void deposit(double amount)
+        {
+            if (amount &lt;= 0)                          // guard clause: reject bad input
+            {
+                System.out.println("deposit must be positive!");
+                return;                               // 'return' alone exits a void method early
+            }
+            Balance = Balance + amount;               // can also be written: Balance += amount;
+            System.out.println("deposited " + String.format("%.2f", amount) + ". New balance: " + String.format("%.2f", Balance));
+        }
+
+        // Takes input AND returns a result: true = success, false = refused
+        public boolean withdraw(double amount)
+        {
+            if (amount &lt;= 0)
+            {
+                System.out.println("withdrawal must be positive!");
+                return false;
+            }
+            if (amount &gt; Balance)                     // the golden rule of banking!
+            {
+                System.out.println("Insufficient funds. Balance is only " + String.format("%.2f", Balance));
+                return false;
+            }
+            Balance -= amount;
+            System.out.println("Withdrew " + String.format("%.2f", amount) + ". New balance: " + String.format("%.2f", Balance));
+            return true;
+        }
+
+        // Takes input and returns a computed value without changing Balance
+        public double calculateAnnualInterest(double ratePercent)
+        {
+            double interest = Balance * (double)ratePercent / 100;
+            return interest;                          // hand the answer to the caller
+        }
+
+        public void printStatement()
+        {
+            System.out.println("--------------------------------");
+            System.out.println("Account : " + AccountNumber);
+            System.out.println("Owner   : " + OwnerName);
+            System.out.println("Balance : " + String.format("%.2f", Balance));
+            System.out.println("--------------------------------");
+        }
+    }
+</code></pre>
+
+<pre><code>// File: Main.java
+
+    public class Main
+    {
+        public static void main(String[] args)
+        {
+            BankAccount acc = new BankAccount();
+            acc.AccountNumber = "ACC-1001";
+            acc.OwnerName = "Nimali Perera";
+            acc.Balance = 0;
+
+            acc.deposit(5000);           // OK — 5000 copied into amount parameter
+            acc.deposit(-50);            // rejected by the guard clause
+
+            boolean ok = acc.withdraw(1200);        // ok becomes true
+            boolean ok2 = acc.withdraw(99999);      // refused → ok2 is false
+            System.out.println("Second withdrawal succeeded? " + ok2);
+
+            // Use the returned value in a calculation
+            double interest = acc.calculateAnnualInterest(4.5);
+            System.out.println("Interest at 4.5% would be: " + String.format("%.2f", interest));
+
+            acc.printStatement();
+            // pause: new java.util.Scanner(System.in).nextLine();
+        }
+    }
+</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Parameter = a mailbox:</strong> when Main calls <code>acc.deposit(5000)</code>, the value 5000 is copied into the parameter <code>amount</code>. Inside the method, <code>amount</code> behaves like a normal variable that arrived pre-filled.</li>
+        <li><strong>Guard clauses are your flowchart's DECISION diamonds:</strong> <code>if (amount &lt;= 0) ... return;</code> is exactly the diamond "amount ≤ 0? → yes: reject / no: continue". Decisions you drew in flowcharts now protect real data.</li>
+        <li><strong>Return values travel back:</strong> <code>return interest;</code> sends the number back to the calling line, where it lands in <code>double interest = ...</code>. Trace it with your finger: Main → method → back to Main.</li>
+        <li><strong><code>{Balance:C}</code></strong> formats a number as currency (e.g. Rs. depending on region settings). Just formatting — no maths involved.</li>
+        <li><strong>Why <code>boolean</code> for withdraw?</strong> The caller may need to know whether it worked — e.g. an ATM must only dispense cash if the withdrawal succeeded.</li>
+      </ol>
+    </div>
+
+    <div class="note-box">
+      <strong>Key Point — Methods Guard the Data</strong>
+      <p>Nobody should change <code>Balance</code> directly with arbitrary values. All changes go <em>through</em> deposit and withdraw, which check the rules first. In Lesson 03 we make this bulletproof by marking fields <code>private</code> so direct access becomes impossible.</p>
+    </div>
+
+    <div class="warn-box">
+      <strong>Common Beginner Errors</strong>
+      <ul>
+        <li><strong>Missing return on non-void methods:</strong> every path through <code>withdraw</code> must hit a <code>return</code> — compiler error if one branch forgets.</li>
+        <li><strong>Using <code>double</code> for money:</strong> prefer <code>BigDecimal</code> in production; use <code>double</code> carefully in these labs.</li>
+        <li><strong>Confusing parameter and argument:</strong> the <em>parameter</em> is in the method header (<code>double amount</code>); the <em>argument</em> is the value you pass at the call site (<code>5000</code>).</li>
+        <li><strong>Expecting void to return:</strong> <code>deposit</code> changes state but gives nothing back — do not write <code>double x = acc.deposit(100);</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Lab Time</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 5.1 — Build the Bank (60 min)</strong>
+      <ol>
+        <li>Create project <code>BankDemo</code> with the two files above. Run and confirm the rejected deposit and refused withdrawal messages appear.</li>
+        <li>Add a method <code>public void transfer(BankAccount target, double amount)</code> that withdraws from this account and deposits into <code>target</code> — but only if the withdrawal succeeds (use the returned boolean!).</li>
+        <li>In Main, create a second account and transfer 1000 between them. Print both statements.</li>
+        <li><strong>Test like a bank auditor:</strong> try transferring more than the balance. Nothing should be lost or created from thin air — total money before = total money after.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 5.2 — JShell Warm-Down (20 min)</strong>
+      <p>In JShell (terminal: <code>jshell</code>), define this mini-class, then experiment:</p>
+<pre><code>class Counter
+{
+    public int value;
+    public void add(int n) { value += n; }
+    public int doubled() { return value * 2; }
+}</code></pre>
+      <ol>
+        <li><code>Counter c = new Counter();</code> then <code>c.add(5); c.add(3); c.value</code> — predict before pressing Enter.</li>
+        <li><code>c.doubled()</code> — does calling this change <code>c.value</code>? Verify.</li>
+        <li>Make a second Counter and prove the two are independent.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 05</strong>
+      <ol>
+        <li>Name and explain the four parts of a method signature. (4 marks)</li>
+        <li>Write a method that takes two int parameters and returns the larger one. (4 marks)</li>
+        <li>Why can <code>double</code> be risky for money, and what type do banks often use instead? (2 marks)</li>
+        <li>Write a <code>withdraw</code> method that refuses to overdraw an account, returning boolean. (6 marks)</li>
+        <li>Explain, with a diagram, how a value passed as an argument reaches a parameter, and how a return value travels back. (5 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 05 Summary</h3>
+    <ul>
+      <li>Method signature = access modifier + return type + name + parameter list.</li>
+      <li>Parameters carry values into a method; <code>return</code> carries one value back out.</li>
+      <li><code>void</code> methods return nothing; bare <code>return;</code> exits them early.</li>
+      <li>Guard clauses (if + return) are flowchart decision diamonds protecting object state.</li>
+      <li>Use <code>double</code> for money in labs; format with <code>String.format("%.2f", value)</code>.</li>
+      <li>Design principle: change fields only through methods that enforce the rules.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-04.html" class="btn btn-secondary">&larr; S04 - Fields &amp; Vehicle</a>
+    <a href="session-06.html" class="btn btn-primary">S06 - Library Phase 1 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 05 &ndash; Methods in Depth: BankAccount &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

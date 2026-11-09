@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 04 - Loops â€” while, do-while & for</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 04 of 32 &nbsp;&bull;&nbsp; 2-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Loops â€” while, do-while & for</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 2 Hours</span>
+    <span class="stag stag-type" style="background:#fff8e1;color:#b28704;">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 04 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. From Flowchart Loop Symbols to Java Loops</h2>
+
+    <p>In flowcharts you used two loop shapes: the <strong>pre-test loop</strong> (check condition <em>before</em> entering) and the <strong>post-test loop</strong> (run the body at least once, then check). Java gives you three loop keywords — each maps to a flowchart pattern you already know.</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 300" role="img" aria-label="Flowchart loops mapped to Java while do-while for">
+        <text x="130" y="22" font-size="12" font-weight="700" fill="#1565c0">Pre-test loop (while)</text>
+        <text x="400" y="22" font-size="12" font-weight="700" fill="#e65100">Post-test loop (do-while)</text>
+        <text x="640" y="22" font-size="12" font-weight="700" fill="#2e7d32">Counter loop (for)</text>
+        <polygon points="130,55 210,95 130,135 50,95" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="130" y="92" text-anchor="middle" font-size="10" fill="#e65100">i &lt;= N?</text>
+        <text x="130" y="105" text-anchor="middle" font-size="9" fill="#e65100">(test first)</text>
+        <rect x="95" y="145" width="70" height="35" rx="4" fill="#fff7e6" stroke="#b9770e" stroke-width="2"/>
+        <text x="130" y="167" text-anchor="middle" font-size="9" fill="#b9770e">body</text>
+        <text x="130" y="200" font-size="9" fill="#1565c0" font-family="monospace">while (i &lt;= N) { ... }</text>
+        <rect x="370" y="145" width="70" height="35" rx="4" fill="#fff7e6" stroke="#b9770e" stroke-width="2"/>
+        <text x="405" y="167" text-anchor="middle" font-size="9" fill="#b9770e">body</text>
+        <polygon points="405,55 485,95 405,135 325,95" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <text x="405" y="92" text-anchor="middle" font-size="10" fill="#e65100">again?</text>
+        <text x="405" y="105" text-anchor="middle" font-size="9" fill="#e65100">(test after)</text>
+        <text x="405" y="200" font-size="9" fill="#e65100" font-family="monospace">do { ... } while (...);</text>
+        <text x="620" y="70" font-size="9" fill="#2e7d32" font-family="monospace">for (int i=1;</text>
+        <text x="620" y="85" font-size="9" fill="#2e7d32" font-family="monospace">     i&lt;=N; i++)</text>
+        <text x="620" y="100" font-size="9" fill="#2e7d32" font-family="monospace">{ body }</text>
+        <rect x="600" y="120" width="80" height="50" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="640" y="142" text-anchor="middle" font-size="9" fill="#2e7d32">init</text>
+        <text x="640" y="157" text-anchor="middle" font-size="9" fill="#2e7d32">test</text>
+        <text x="640" y="172" text-anchor="middle" font-size="9" fill="#2e7d32">update</text>
+        <text x="620" y="200" font-size="9" fill="#5b6472">All three in one line</text>
+      </svg>
+      <div class="cap">Figure 6.1 — while = test-then-repeat. do-while = repeat-then-test (at least once). for = counter loop with init, test and update bundled together.</div>
+    </div>
+
+    <table>
+      <thead><tr><th>Java Loop</th><th>Flowchart Equivalent</th><th>Runs at Least Once?</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td><code>while (condition)</code></td><td>Pre-test loop</td><td>No — may skip entirely</td><td>Unknown repetitions (input validation)</td></tr>
+        <tr><td><code>do { } while (condition);</code></td><td>Post-test loop</td><td>Yes — always runs once</td><td>Menus ("show menu, then ask again?")</td></tr>
+        <tr><td><code>for (init; test; update)</code></td><td>Counter-controlled loop</td><td>Depends on init/test</td><td>Known count (1 to N, table rows)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Example — Sum of 1 to N (for loop)</h2>
+
+    <p>Classic counter problem: add every whole number from 1 up to N. The flowchart uses a counter variable <code>i</code> that starts at 1, adds to a running total, increments, and loops while <code>i &lt;= N</code>.</p>
+
+<pre><code>import java.util.Scanner;
+
+public class SumOneToN
+{
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = Integer.parseInt(sc.nextLine());
+
+        int sum = 0;   // accumulator — holds the running total (starts at zero)
+
+        // for loop = init; condition; update
+        //   init:   int i = 1        — start counter at 1
+        //   test:   i <= n          — keep going while i is at most n
+        //   update: i++             — add 1 to i after each iteration (same as i = i + 1)
+        for (int i = 1; i <= n; i++)
+        {
+            sum = sum + i;         // add current i to the running total
+            // System.out.println("Adding " + i + ", sum so far = " + sum);  // uncomment to trace
+        }
+
+        System.out.println("Sum of 1 to " + n + " = " + sum);
+    }
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown — Sum 1 to N</strong>
+      <ol>
+        <li><strong>Accumulator pattern:</strong> <code>sum = 0</code> before the loop; inside the loop <code>sum = sum + i</code>. The variable "accumulates" values across iterations — a pattern you will use constantly.</li>
+        <li><strong>Loop variable <code>i</code>:</strong> declared inside the for header (<code>int i = 1</code>). It only exists inside the loop — a good habit that prevents accidental reuse.</li>
+        <li><strong><code>i++</code>:</strong> shorthand for "increment i by 1". Runs at the <em>end</em> of each iteration, before the condition is checked again.</li>
+        <li><strong>Trace with N=4:</strong> i=1 → sum=1; i=2 → sum=3; i=3 → sum=6; i=4 → sum=10; i=5 fails test → exit. Output: 10.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Example — Multiplication Table (for loop nested concept)</h2>
+
+    <p>Print the 5-times table from 1 to 12. One loop; each iteration prints one line.</p>
+
+<pre><code>public class MultiplicationTable
+{
+    public static void main(String[] args)
+    {
+        int number = 5;
+
+        System.out.println("=== Multiplication Table for " + number + " ===");
+
+        for (int i = 1; i <= 12; i++)
+        {
+            int product = number * i;   // PROCESS box inside the loop
+            System.out.println(number + " x " + i + " = " + product);
+        }
+    }
+}</code></pre>
+
+    <div class="tip-box">
+      <strong>Generalising the Table</strong>
+      <p>Ask the user which number's table they want (<code>Integer.parseInt(sc.nextLine())</code>), store it in <code>number</code>, and the same loop works for any value. That is the power of variables over hard-coded numbers.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. Example — Input Validation Loop (while)</h2>
+
+    <p>Sometimes you must keep asking until the user gives valid input. A <code>while</code> loop repeats <em>while</em> the input is bad — the flowchart pre-test diamond at the top.</p>
+
+<pre><code>import java.util.Scanner;
+
+public class InputValidation
+{
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+        int age = -1;   // sentinel value — anything invalid to start the loop
+
+        // Keep asking WHILE age is not in the valid range
+        while (age < 0 || age > 120)
+        {
+            System.out.print("Enter your age (0-120): ");
+            age = Integer.parseInt(sc.nextLine());
+
+            if (age < 0 || age > 120)
+            {
+                System.out.println("Invalid! Age must be between 0 and 120.");
+            }
+        }
+
+        System.out.println("Thank you. Age recorded: " + age);
+    }
+}</code></pre>
+
+    <h3 class="sub-title">4.1 do-while — At Least One Attempt</h3>
+    <p>The same validation with <code>do-while</code>: the body runs once before the first test — useful when you always want to prompt at least once.</p>
+
+<pre><code>int age;
+do
+{
+    System.out.print("Enter your age (0-120): ");
+    age = Integer.parseInt(sc.nextLine());
+    if (age < 0 || age > 120)
+        System.out.println("Invalid! Try again.");
+} while (age < 0 || age > 120);   // note the semicolon after while (...)</code></pre>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2 class="section-title">5. break and continue — Controlling Loop Flow</h2>
+
+    <table>
+      <thead><tr><th>Keyword</th><th>Effect</th><th>Flowchart Analogy</th></tr></thead>
+      <tbody>
+        <tr><td><code>break;</code></td><td>Immediately exits the entire loop</td><td>Arrow jumping out of the loop back to code after it</td></tr>
+        <tr><td><code>continue;</code></td><td>Skips the rest of <em>this</em> iteration; goes to next test</td><td>Arrow skipping remaining boxes and going back to the diamond</td></tr>
+      </tbody>
+    </table>
+
+<pre><code>// Print 1 to 10 but STOP at 7 (break)
+for (int i = 1; i <= 10; i++)
+{
+    if (i == 7)
+        break;                    // exit the for loop entirely
+    System.out.println(i);
+}
+// Output: 1 2 3 4 5 6
+
+// Print 1 to 10 but SKIP 5 (continue)
+for (int i = 1; i <= 10; i++)
+{
+    if (i == 5)
+        continue;                 // skip System.out.println for this i only
+    System.out.println(i);
+}
+// Output: 1 2 3 4 6 7 8 9 10</code></pre>
+
+    <div class="warn-box">
+      <strong>Infinite Loops</strong>
+      <p>If the loop condition never becomes false, the loop runs forever. Example: <code>while (true)</code> without a <code>break</code> inside. Always ensure something inside the loop eventually makes the condition false — or use <code>break</code> deliberately (common in menu systems; Session 07).</p>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section">
+    <h2 class="section-title">6. Lab Tasks &amp; Exam Practice</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 6.1 — Factorial Calculator (60 min)</strong>
+      <p>Create a Java Application called <code>FactorialCalc</code>. Factorial of N (written N!) = 1 × 2 × 3 × ... × N. Example: 5! = 120.</p>
+      <ol>
+        <li>Read a non-negative integer N from the user.</li>
+        <li>Use a <code>for</code> loop to multiply numbers 1 through N into an accumulator called <code>factorial</code> (start at 1, not 0 — why?).</li>
+        <li>Print: <code>5! = 120</code>.</li>
+        <li><strong>Challenge:</strong> if N &lt; 0, print an error and do not loop. If N == 0, print <code>0! = 1</code> (by definition).</li>
+      </ol>
+      <p><em>Hint: accumulator pattern — but multiply instead of add: <code>factorial = factorial * i</code>.</em></p>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 6.2 — Number Guessing Game (75 min)</strong>
+      <p>Create a Java Application called <code>GuessTheNumber</code>. The computer picks a secret number (hard-code <code>int secret = 42;</code> for now). The player keeps guessing until correct.</p>
+      <ol>
+        <li>Use a <code>while</code> loop: continue while the guess is not equal to <code>secret</code>.</li>
+        <li>Each iteration: read a guess, print "Too high", "Too low", or "Correct!" (combine loop + if from Session 05).</li>
+        <li>Count how many guesses it took; print the count when they win.</li>
+        <li><strong>Challenge:</strong> use <code>Random rnd = new Random(); int secret = rnd.Next(1, 101);</code> for a random number 1–100. Limit to 7 guesses; use <code>break</code> if they run out.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 06</strong>
+      <ol>
+        <li>Draw a flowchart for "print numbers 1 to 5". Write the equivalent <code>for</code> loop. (6 marks)</li>
+        <li>What is the difference between <code>while</code> and <code>do-while</code>? Give a situation where each is appropriate. (4 marks)</li>
+        <li>Trace this loop and give the final value of <code>sum</code>: <code>for (int i=1; i&lt;=4; i++) sum += i;</code> starting with sum=0. (3 marks)</li>
+        <li>Explain <code>break</code> and <code>continue</code> with a one-line example of each. (4 marks)</li>
+        <li>Write a program that reads N and prints the sum of all even numbers from 2 to N. (6 marks)</li>
+        <li>Why is <code>for (int i = 0; i &lt; 10; i++)</code> often used instead of <code>i &lt;= 9</code>? (2 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 06 Summary</h3>
+    <ul>
+      <li><code>while</code> = pre-test loop; may run zero times. <code>do-while</code> = post-test; runs at least once.</li>
+      <li><code>for (init; test; update)</code> bundles counter logic — ideal when you know how many repetitions.</li>
+      <li>Accumulator pattern: initialise (<code>sum = 0</code> or <code>product = 1</code>), update inside loop.</li>
+      <li><code>break</code> exits the loop; <code>continue</code> skips to the next iteration.</li>
+      <li>Loops + if statements = interactive programs (validation, guessing games, menus).</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-03.html" class="btn btn-secondary">&larr; Session 3</a>
+    <a href="session-05.html" class="btn btn-primary">Session 5 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 04 &nbsp;|&nbsp; 2 Hours &nbsp;|&nbsp; Sequence position 04 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 03 - Rectangle Activity</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>@media print { .topnav,.botnav,.no-print,footer { display:none !important; } }</style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 03 of 23 &nbsp;&bull;&nbsp; Lesson 02 - Paradigm Shift &amp; Java Bridge</div>
+  <h2>Rectangle Activity — Flowchart → Procedural Java → Rectangle Object</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 2 Hours</span>
+    <span class="stag stag-type" style="background:#e8f5e9;color:#2e7d32;">Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Session 03</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="outcomes-box">
+    <h3>After this session you will be able to:</h3>
+    <ul>
+      <li>Translate a rectangle-area flowchart into working procedural Java</li>
+      <li>Refactor the same problem into a <code>Rectangle</code> class with fields and methods</li>
+      <li>Explain why data and behaviour belong together in OOP</li>
+      <li>Create and use an object with the <code>new</code> keyword</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1. The Flowchart (You Already Know This)</h2>
+    <div class="fig">
+      <svg viewBox="0 0 760 200" role="img" aria-label="Rectangle area flowchart">
+        <defs><marker id="m1" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1f4e79"/></marker></defs>
+        <ellipse cx="90" cy="100" rx="55" ry="28" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="90" y="105" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">START</text>
+        <line x1="145" y1="100" x2="180" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#m1)"/>
+        <path d="M195,72 L310,72 L295,128 L180,128 Z" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="245" y="95" text-anchor="middle" font-size="11" fill="#1565c0">INPUT</text>
+        <text x="245" y="112" text-anchor="middle" font-size="11" fill="#1565c0">length, width</text>
+        <line x1="310" y1="100" x2="345" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#m1)"/>
+        <rect x="350" y="72" width="150" height="56" rx="4" fill="#fff7e6" stroke="#b9770e" stroke-width="2"/>
+        <text x="425" y="95" text-anchor="middle" font-size="11" fill="#b9770e">PROCESS</text>
+        <text x="425" y="112" text-anchor="middle" font-size="11" fill="#b9770e">area = L × W</text>
+        <line x1="500" y1="100" x2="535" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#m1)"/>
+        <path d="M550,72 L665,72 L650,128 L535,128 Z" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2"/>
+        <text x="600" y="95" text-anchor="middle" font-size="11" fill="#8e24aa">OUTPUT</text>
+        <text x="600" y="112" text-anchor="middle" font-size="11" fill="#8e24aa">area</text>
+        <line x1="665" y1="100" x2="690" y2="100" stroke="#1f4e79" stroke-width="2" marker-end="url(#m1)"/>
+        <ellipse cx="730" cy="100" rx="30" ry="22" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="730" y="105" text-anchor="middle" font-size="11" font-weight="700" fill="#c62828">END</text>
+      </svg>
+      <div class="cap">Figure 3.1 — Standard algorithm: input dimensions, multiply, output area.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. Version A — Procedural Java</h2>
+    <p>Data (<code>length</code>, <code>width</code>) lives as separate variables. The formula is in <code>main</code>.</p>
+
+<pre><code>import java.util.Scanner;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        // INPUT — like the INPUT parallelogram
+        System.out.print("Enter length: ");
+        double length = Double.parseDouble(scanner.nextLine());
+
+        System.out.print("Enter width: ");
+        double width = Double.parseDouble(scanner.nextLine());
+
+        // PROCESS — like the PROCESS rectangle
+        double area = length * width;
+
+        // OUTPUT — like the OUTPUT parallelogram
+        System.out.println("Area = " + area);
+    }
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>Beginner's Logic Breakdown</strong>
+      <ul>
+        <li><code>double</code> — decimal number type (length can be 5.5)</li>
+        <li><code>Scanner</code> / <code>nextLine()</code> — waits for user to type and press Enter (INPUT)</li>
+        <li><code>Double.parseDouble(...)</code> — converts text "5.5" into number 5.5</li>
+        <li><code>area = length * width</code> — same formula as flowchart PROCESS</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">3. Version B — Object-Oriented Java</h2>
+    <p>Now the rectangle <strong>knows its own dimensions</strong> and <strong>calculates its own area</strong>. Data and behaviour live together.</p>
+
+<pre><code>import java.util.Scanner;
+
+// Blueprint — describes what every rectangle has and can do
+class Rectangle
+{
+    // Fields — data (attributes)
+    public double length;
+    public double width;
+
+    // Method — behaviour
+    public double getArea()
+    {
+        return length * width;
+    }
+}
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        // Create an object from the blueprint
+        Rectangle rect = new Rectangle();
+
+        System.out.print("Enter length: ");
+        rect.length = Double.parseDouble(scanner.nextLine());
+
+        System.out.print("Enter width: ");
+        rect.width = Double.parseDouble(scanner.nextLine());
+
+        System.out.println("Area = " + rect.getArea());
+    }
+}</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 620 200" role="img" aria-label="Procedural vs OOP comparison">
+        <text x="160" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="#e65100">Procedural</text>
+        <text x="460" y="25" text-anchor="middle" font-size="13" font-weight="700" fill="#2e7d32">Object-Oriented</text>
+        <rect x="30" y="40" width="260" height="140" rx="8" fill="#fff3e0" stroke="#e65100"/>
+        <text x="50" y="70" font-size="11" fill="#333">length, width in main</text>
+        <text x="50" y="95" font-size="11" fill="#333">area = L × W in main</text>
+        <text x="50" y="130" font-size="10" fill="#666">Data and logic separated</text>
+        <rect x="330" y="40" width="260" height="140" rx="8" fill="#e8f5e9" stroke="#2e7d32"/>
+        <text x="350" y="70" font-size="11" fill="#333">rect.length, rect.width</text>
+        <text x="350" y="95" font-size="11" fill="#333">rect.getArea()</text>
+        <text x="350" y="130" font-size="10" fill="#666">Data + behaviour inside Rectangle</text>
+        <text x="310" y="100" font-size="24" fill="#1a3a5c">→</text>
+      </svg>
+      <div class="cap">Figure 3.2 — Same result, different organisation. OOP prepares you for many rectangles, not just one calculation.</div>
+    </div>
+
+    <div class="definition-box">
+      <strong>Key Terms</strong>
+      <p><strong>Class</strong> = blueprint (<code>Rectangle</code>). <strong>Object</strong> = one real instance (<code>rect</code>). <strong>new Rectangle()</strong> builds the object in memory. <strong>dot notation</strong> (<code>rect.length</code>) accesses members.</p>
+    </div>
+  </div>
+
+  <div class="lab-box">
+    <strong>Lab Task — Build Both Versions</strong>
+    <ol class="step-list">
+      <li>Create two projects: <code>RectangleProcedural</code> and <code>RectangleOop</code>.</li>
+      <li>Type both code listings exactly. Run with length=10, width=5 — both must print Area = 50.</li>
+      <li>In the OOP version, create a <strong>second</strong> object <code>Rectangle desk = new Rectangle();</code> with different sizes. Print both areas.</li>
+      <li>Answer in comments: Why is OOP better when you have 100 rectangles?</li>
+    </ol>
+  </div>
+
+  <div class="summary-box">
+    <h3>Session Summary</h3>
+    <ul>
+      <li>Same flowchart maps to procedural Java (variables in main) or OOP (Rectangle class)</li>
+      <li>Class = blueprint; object = instance; <code>new</code> creates objects</li>
+      <li>Block 1 complete — next: deep dive into classes with the Vehicle example (Session 04)</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-02.html" class="btn btn-secondary">&larr; Session 02</a>
+    <a href="../lesson-03/session-04.html" class="btn btn-primary">Session 04 &rarr;</a>
+  </div>
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Module K72T004M03 &nbsp;|&nbsp; Session 03</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

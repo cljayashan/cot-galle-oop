@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 07 - Methods &amp; Capstone – Flowchart to Procedural Java</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 07 of 07 &nbsp;&bull;&nbsp; Lesson 01 - Basic Java Programming</div>
+  <h2>Methods &amp; Capstone – Flowchart to Procedural Java</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 2 Hours</span>
+    <span class="stag stag-type">Theory + Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 01 - Basic Java Programming &#9656; Session 07</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Define and call procedural methods with <code>void</code> and return types</li>
+      <li>Pass data into methods using parameters and receive results via <code>return</code></li>
+      <li>Organise a program into reusable steps using <code>static</code> helper methods inside the <code>Program</code> class</li>
+      <li>Translate the Rectangle flowchart into a complete procedural Java program with separate calculation methods</li>
+      <li>Complete Lesson 01 with a working capstone: <code>RectangleProcedural</code> including diagonal length</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Methods — Reusable Steps in Your Program</h2>
+
+    <p>So far every line of logic lived inside <code>main</code>. As programs grow, that becomes hard to read — like writing an entire recipe as one long paragraph with no numbered steps. A <strong>method</strong> is a named block of code that performs one job. You write it once, then <strong>call</strong> it whenever you need that job done.</p>
+
+    <div class="definition-box">
+      <strong>Definition — Method (Procedural View)</strong>
+      <p>A <strong>method</strong> is a named sequence of statements grouped together. Methods accept <strong>parameters</strong> (input data), may <strong>return</strong> a result, and can be called from <code>main</code> or from other methods. In this session methods are plain reusable steps — <em>not</em> object behaviour. OOP classes come in Lesson 02.</p>
+    </div>
+
+    <h3 class="sub-title">1.1 void Methods — Do Something, Return Nothing</h3>
+    <p>A <code>void</code> method performs an action (print a message, display a menu) but does not send a value back to the caller.</p>
+
+<pre><code>public class MethodBasics
+{
+    public static void main(String[] args)
+    {
+        // CALL the method — execution jumps to displayWelcome, runs it, then returns here
+        displayWelcome();
+
+        int a = 10, b = 20;
+        printSum(a, b);    // pass 10 and 20 as parameters
+    }
+
+    // METHOD DEFINITION — must be inside the class, alongside main
+    static void displayWelcome()
+    {
+        System.out.println("=== Welcome to COT Galle ===");
+        System.out.println("Basic Java Programming - Lesson 01");
+    }
+
+    // void method WITH parameters — receives two ints, prints their sum
+    static void printSum(int x, int y)
+    {
+        int total = x + y;
+        System.out.println(x + " + " + y + " = " + total);
+    }
+}</code></pre>
+
+    <h3 class="sub-title">1.2 Return Types — Send a Value Back</h3>
+    <p>Replace <code>void</code> with a type name (<code>int</code>, <code>double</code>, <code>String</code>, <code>boolean</code>) when the method computes a result the caller needs. Use <code>return</code> to send that value back.</p>
+
+<pre><code>// Returns an int — the caller can store or use the result
+static int add(int x, int y)
+{
+    return x + y;    // sends the value back to whoever called add
+}
+
+// Usage inside main:
+int result = add(5, 3);           // result is 8
+System.out.println(add(10, 20));  // prints 30 directly</code></pre>
+
+    <table>
+      <thead><tr><th>Part</th><th>Meaning</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><code>static</code></td><td>Method belongs to the class; call without creating an object</td><td>Always use for helper methods in <code>Program</code> for now</td></tr>
+        <tr><td>Return type</td><td><code>void</code> = no value back; otherwise the type returned</td><td><code>double calculateArea(...)</code></td></tr>
+        <tr><td>Method name</td><td>Verb or verb phrase describing the job</td><td><code>calculatePerimeter</code>, <code>GetValidAge</code></td></tr>
+        <tr><td>Parameters</td><td>Input values in parentheses</td><td><code>(double length, double width)</code></td></tr>
+        <tr><td><code>return</code></td><td>Exits method and optionally sends a value</td><td><code>return length * width;</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown — Methods</strong>
+      <ol>
+        <li><strong>Define once, call many times:</strong> write <code>calculateArea</code> once; call it for ten different rectangles without copying the formula.</li>
+        <li><strong>Parameters = flowchart inputs to a sub-process:</strong> the method receives values it needs; it does not have to read from the keyboard itself (though it can).</li>
+        <li><strong>return = OUTPUT from a sub-process:</strong> instead of printing inside the method, return the value and let <code>main</code> decide what to do with it — more flexible design.</li>
+        <li><strong>static for now:</strong> we stay inside one <code>Program</code> class. Lesson 02 introduces separate classes where methods belong to objects.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Capstone — Rectangle Flowchart to Procedural Java</h2>
+
+    <p>This capstone brings together everything from Lesson 01: input, decisions, loops (if needed), and now methods. We solve the classic rectangle problem — but organise the calculations into named helper methods instead of one long <code>main</code>.</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 300 480" role="img" aria-label="Rectangle flowchart for capstone">
+        <defs><marker id="a7" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1f4e79"/></marker></defs>
+        <ellipse cx="150" cy="30" rx="55" ry="22" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="150" y="35" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">START</text>
+        <line x1="150" y1="52" x2="150" y2="76" stroke="#1f4e79" stroke-width="2" marker-end="url(#a7)"/>
+        <path d="M70,80 L240,80 L225,130 L55,130 Z" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="148" y="110" text-anchor="middle" font-size="11" fill="#1565c0">INPUT length, width</text>
+        <line x1="150" y1="130" x2="150" y2="154" stroke="#1f4e79" stroke-width="2" marker-end="url(#a7)"/>
+        <rect x="55" y="158" width="190" height="46" rx="4" fill="#fff7e6" stroke="#b9770e" stroke-width="2"/>
+        <text x="150" y="186" text-anchor="middle" font-size="11" fill="#b9770e">area = length × width</text>
+        <line x1="150" y1="204" x2="150" y2="228" stroke="#1f4e79" stroke-width="2" marker-end="url(#a7)"/>
+        <rect x="55" y="232" width="190" height="46" rx="4" fill="#fff7e6" stroke="#b9770e" stroke-width="2"/>
+        <text x="150" y="252" text-anchor="middle" font-size="11" fill="#b9770e">perimeter =</text>
+        <text x="150" y="268" text-anchor="middle" font-size="11" fill="#b9770e">2 × (length + width)</text>
+        <line x1="150" y1="278" x2="150" y2="302" stroke="#1f4e79" stroke-width="2" marker-end="url(#a7)"/>
+        <rect x="55" y="306" width="190" height="46" rx="4" fill="#fff7e6" stroke="#b9770e" stroke-width="2"/>
+        <text x="150" y="326" text-anchor="middle" font-size="11" fill="#b9770e">diagonal =</text>
+        <text x="150" y="342" text-anchor="middle" font-size="10" fill="#b9770e">√(length² + width²)</text>
+        <line x1="150" y1="352" x2="150" y2="376" stroke="#1f4e79" stroke-width="2" marker-end="url(#a7)"/>
+        <path d="M70,380 L240,380 L225,430 L55,430 Z" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="148" y="410" text-anchor="middle" font-size="11" fill="#1565c0">OUTPUT results</text>
+        <line x1="150" y1="430" x2="150" y2="450" stroke="#1f4e79" stroke-width="2" marker-end="url(#a7)"/>
+        <ellipse cx="150" cy="465" rx="55" ry="18" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="150" y="470" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">END</text>
+      </svg>
+      <div class="cap">Figure 7.1 — Rectangle capstone flowchart. Each PROCESS box becomes a method; INPUT/OUTPUT stay in main.</div>
+    </div>
+
+    <h3 class="sub-title">2.1 Complete Solution — RectangleProcedural (Fully Commented)</h3>
+
+<pre><code>import java.util.Scanner;
+
+public class RectangleProcedural
+{
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+
+        // ---------- INPUT (flowchart parallelograms) — main handles user interaction ----------
+        System.out.print("Enter length: ");
+        double length = Double.parseDouble(sc.nextLine());
+
+        System.out.print("Enter width: ");
+        double width = Double.parseDouble(sc.nextLine());
+
+        // ---------- PROCESS — delegate each formula to a dedicated method ----------
+        double area = calculateArea(length, width);
+        double perimeter = calculatePerimeter(length, width);
+        double diagonal = calculateDiagonal(length, width);
+
+        // ---------- OUTPUT ----------
+        System.out.println();
+        System.out.println("Rectangle " + length + " x " + width + ":");
+        System.out.println("  Area      = " + String.format("%.2f", area));
+        System.out.println("  Perimeter = " + String.format("%.2f", perimeter));
+        System.out.println("  Diagonal  = " + String.format("%.2f", diagonal));
+    }
+
+    // Each PROCESS box from the flowchart → one method with a clear name
+
+    static double calculateArea(double length, double width)
+    {
+        return length * width;
+    }
+
+    static double calculatePerimeter(double length, double width)
+    {
+        return 2 * (length + width);
+    }
+
+    static double calculateDiagonal(double length, double width)
+    {
+        // Pythagoras: diagonal = square root of (length² + width²)
+        return Math.sqrt(length * length + width * width);
+    }
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Mapping Flowchart → Methods</strong>
+      <ol>
+        <li><strong>main = coordinator:</strong> reads input, calls helper methods in order, prints output. main reads like the flowchart top to bottom.</li>
+        <li><strong>One method per PROCESS box:</strong> <code>calculateArea</code>, <code>calculatePerimeter</code>, <code>calculateDiagonal</code> — each does one calculation and returns a <code>double</code>.</li>
+        <li><strong>Parameters carry data:</strong> <code>length</code> and <code>width</code> flow from Main into each method — like arrows carrying values into sub-flowcharts.</li>
+        <li><strong>Math.sqrt:</strong> built-in Java method for square root. <code>length * length</code> is length²; same for width.</li>
+        <li><strong>String.format("%.2f", ...):</strong> prints the number with 2 decimal places — polish for output, not required for logic.</li>
+      </ol>
+    </div>
+
+    <div class="tip-box">
+      <strong>Why Not Put Scanner Reads Inside the Methods?</strong>
+      <p>You could — but separating input from calculation makes methods <em>reusable</em>. <code>calculateArea(5, 3)</code> works whether the numbers came from the keyboard, a file, or a future object. Keep I/O in main; keep pure calculations in helpers.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Adding Validation with Methods + Decisions</h2>
+
+    <p>Combine Session 05 decisions with methods: validate before calculating.</p>
+
+<pre><code>import java.util.Scanner;
+
+public static void main(String[] args)
+{
+    Scanner sc = new Scanner(System.in);
+    double length = readPositiveDouble(sc, "Enter length: ");
+    double width  = readPositiveDouble(sc, "Enter width: ");
+
+    double area = calculateArea(length, width);
+    System.out.println("Area = " + String.format("%.2f", area));
+}
+
+// Reusable input method — returns a valid positive number
+static double readPositiveDouble(Scanner sc, String prompt)
+{
+    double value = -1;
+    while (value &lt;= 0)
+    {
+        System.out.print(prompt);
+        value = Double.parseDouble(sc.nextLine());
+        if (value &lt;= 0)
+            System.out.println("Must be positive. Try again.");
+    }
+    return value;    // sends the valid number back to main
+}</code></pre>
+
+    <p>This pattern — a method that loops until input is valid — is professional-grade structure built entirely from Lesson 01 skills.</p>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. Lab &amp; Lesson 01 Wrap-Up</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 7.1 — RectangleProcedural Capstone (90 min)</strong>
+      <p>Build the complete <code>RectangleProcedural</code> project as shown above. Required features:</p>
+      <ol>
+        <li>Read length and width from the user.</li>
+        <li>Three helper methods: <code>calculateArea</code>, <code>calculatePerimeter</code>, <code>calculateDiagonal</code> (use <code>Math.sqrt</code>).</li>
+        <li>Print all three results with clear labels.</li>
+        <li><strong>Extension A:</strong> add <code>readPositiveDouble</code> validation method — no zero or negative dimensions.</li>
+        <li><strong>Extension B:</strong> add <code>static boolean isSquare(double length, double width)</code> that returns true when length equals width; print "This is a square" or "This is a rectangle".</li>
+      </ol>
+      <p><em>Submit: working project + hand-drawn flowchart with method names written next to each PROCESS box.</em></p>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 07</strong>
+      <ol>
+        <li>Explain the difference between a <code>void</code> method and a method that returns <code>int</code>. Give one example of each. (4 marks)</li>
+        <li>What are parameters? Why pass <code>length</code> and <code>width</code> into <code>calculateArea</code> instead of reading them inside the method? (4 marks)</li>
+        <li>Write a method <code>static double calculateAverage(double a, double b, double c)</code> that returns the mean of three numbers. Show a call from main. (5 marks)</li>
+        <li>Draw the rectangle flowchart and label which parts belong in main vs helper methods. (6 marks)</li>
+        <li>Write the formula and Java code for diagonal length using <code>Math.sqrt</code>. (3 marks)</li>
+        <li>What does <code>static</code> mean on a method inside <code>Program</code>? (We explore objects in Lesson 02.) (2 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 07 Summary — End of Lesson 01</h3>
+    <ul>
+      <li>Methods group reusable steps; <code>void</code> for actions, return types for computed values.</li>
+      <li>Parameters pass data in; <code>return</code> sends data back.</li>
+      <li><code>static</code> helper methods inside <code>Program</code> keep main readable — procedural organisation, not OOP yet.</li>
+      <li>Rectangle capstone: main handles I/O; <code>calculateArea</code>, <code>calculatePerimeter</code>, <code>calculateDiagonal</code> handle PROCESS boxes.</li>
+      <li>Lesson 01 complete: variables, I/O, decisions, loops, methods — you can write real programs.</li>
+    </ul>
+  </div>
+
+  <div class="note-box">
+    <strong>&#127881; Lesson 01 Complete</strong>
+    <p>You can now write real programs — read input, make decisions, loop, and organise logic into methods. In <strong>Lesson 02</strong> we ask a new question: <em>why does industry organise code as objects instead of long lists of steps?</em> The OOP paradigm starts in Session 08.</p>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-06.html" class="btn btn-secondary">&larr; S06 - Loops</a>
+    <a href="../lesson-02/index.html" class="btn btn-primary">Lesson 02 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 07 &ndash; Methods &amp; Capstone &nbsp;|&nbsp; These notes are for educational use only.</p>
+<p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

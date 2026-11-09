@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Model Paper 04 - OOP - Easy-Moderate</title>
+  <style>
+@page { size: A4; margin: 12mm 12mm 12mm 12mm; }
+* { box-sizing: border-box; }
+html { zoom: 0.94; }
+body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 10.5pt;
+  line-height: 1.35;
+  color: #111;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 0;
+}
+h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; margin: 0; }
+.header {
+  text-align: center;
+  border-bottom: 2.5px solid #1a3a5c;
+  padding-bottom: 7px;
+  margin-bottom: 8px;
+}
+.header .inst { font-size: 13pt; font-weight: 700; color: #1a3a5c; }
+.header .mod { font-size: 9.5pt; margin-top: 2px; }
+.header .paper-title {
+  font-size: 12.5pt;
+  font-weight: 700;
+  margin-top: 7px;
+  text-transform: uppercase;
+  color: #1a3a5c;
+}
+.header .sub { font-size: 9.5pt; margin-top: 3px; }
+.diff {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9pt;
+  font-weight: 700;
+}
+.diff-easy { background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; }
+.diff-easy-mod { background: #e3f2fd; color: #1565c0; border: 1px solid #1565c0; }
+.diff-mod { background: #fff8e1; color: #f57f17; border: 1px solid #f57f17; }
+.diff-mod-hard { background: #fff3e0; color: #e65100; border: 1px solid #e65100; }
+.diff-hard { background: #ffebee; color: #c62828; border: 1px solid #c62828; }
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 6px 0 8px;
+  font-size: 10pt;
+}
+.info strong { color: #1a3a5c; }
+.box {
+  border: 1.5px solid #1a3a5c;
+  padding: 7px 10px;
+  margin: 0 0 10px;
+  background: #f7f9fc;
+}
+.box h3 { font-size: 10pt; color: #1a3a5c; margin-bottom: 3px; }
+.box ol { margin: 2px 0 0 18px; padding: 0; }
+.box li { margin: 1px 0; }
+.q {
+  margin: 0 0 11px;
+  border-top: 1px solid #ccd;
+  padding-top: 7px;
+}
+.q-head {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 11pt;
+  color: #1a3a5c;
+  margin-bottom: 3px;
+}
+.q p { margin: 3px 0; }
+.q ol { margin: 4px 0 0 18px; }
+.q li { margin: 3px 0; }
+.code {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 9pt;
+  background: #f4f4f4;
+  border: 1px solid #ccc;
+  padding: 5px 8px;
+  margin: 4px 0;
+  white-space: pre;
+  line-height: 1.28;
+}
+.footer {
+  margin-top: 10px;
+  border-top: 1.5px solid #1a3a5c;
+  padding-top: 4px;
+  font-size: 8.5pt;
+  text-align: center;
+  color: #444;
+}
+.end {
+  text-align: center;
+  font-weight: 700;
+  margin: 10px 0 3px;
+  letter-spacing: 2px;
+  font-size: 10.5pt;
+}
+@media print {
+  body { padding: 0; }
+  .q, .box, .code { break-inside: avoid; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="inst">College of Technology Galle</div>
+    <div class="mod">Course: Full Stack Software Development &mdash; Object Oriented Programming &mdash; Module K72T004M03 &mdash; NVQ Level 05</div>
+    <div class="paper-title">Semester Model Paper 04</div>
+    <div class="sub">Focus: Encapsulation practice, overloading intro, memory basics, inheritance vocab</div>
+    <div class="diff diff-easy-mod">Difficulty: Easy-Moderate</div>
+  </div>
+
+  <div class="info">
+    <div><strong>Duration:</strong> 3 Hours</div>
+    <div><strong>Total Marks:</strong> 100</div>
+    <div><strong>Questions:</strong> 7 structured questions (answer any <strong>5</strong>)</div>
+    <div><strong>Each question:</strong> 20 marks</div>
+  </div>
+
+  <div class="box">
+    <h3>Instructions to Candidates</h3>
+    <ol>
+      <li>Answer any <strong>five (5)</strong> questions out of the seven provided.</li>
+      <li>Each question carries <strong>20 marks</strong>. Maximum mark for this paper is <strong>100</strong>.</li>
+      <li>Write answers in the answer booklet. Do <strong>not</strong> write answers on this question paper.</li>
+      <li>Where Java code is required, write clear, syntactically correct Java as taught in this module (VS Code / JDK).</li>
+      <li>Show workings / short explanations where asked. Manage your time (about 35 minutes per question).</li>
+      <li>Mobile phones and programmable devices are not allowed.</li>
+    </ol>
+  </div>
+
+  <div class="q">
+    <div class="q-head">Question 1 &nbsp;[20 Marks]</div>
+    <p>Design rule: hide data.</p>
+<ol type="a">
+  <li>State the usual rule for fields vs methods regarding <code>public</code>/<code>private</code>. <strong>(4 marks)</strong></li>
+  <li>Write an encapsulated <code>Employee</code> with private <code>name</code> and <code>salary</code>, getters, and a setter for salary that rejects values below 0. <strong>(10 marks)</strong></li>
+  <li>Show illegal vs legal access from <code>main</code> (one illegal line commented with the reason). <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 2 &nbsp;[20 Marks]</div>
+    <p>Method overloading (same name, different parameters).</p>
+<ol type="a">
+  <li>What is method overloading? <strong>(4 marks)</strong></li>
+  <li>Write three overloaded <code>print</code> methods: one for <code>int</code>, one for <code>String</code>, one for <code>int</code> and <code>String</code>. <strong>(9 marks)</strong></li>
+  <li>How does Java decide which overloaded method to call? <strong>(4 marks)</strong></li>
+  <li>Can two methods overload if they differ only by return type? Explain. <strong>(3 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 3 &nbsp;[20 Marks]</div>
+    <p>Constructor overloading.</p>
+<ol type="a">
+  <li>Write class <code>Member</code> with fields <code>id</code> and <code>name</code>, a no-arg constructor (default values), and a two-arg constructor. <strong>(10 marks)</strong></li>
+  <li>In <code>main</code>, create one object with each constructor and print their data. <strong>(6 marks)</strong></li>
+  <li>What does Java provide if you write no constructor at all? <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 4 &nbsp;[20 Marks]</div>
+    <p>Stack vs heap (simple memory).</p>
+<ol type="a">
+  <li>In simple words, what lives on the stack and what lives on the heap? <strong>(6 marks)</strong></li>
+  <li>Explain why <code>Book a = b;</code> can make two variables affect the same book. <strong>(8 marks)</strong></li>
+  <li>What does <code>null</code> mean? What exception appears if you call a method on <code>null</code>? <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 5 &nbsp;[20 Marks]</div>
+    <p>Inheritance vocabulary.</p>
+<ol type="a">
+  <li>Define inheritance and the is-a relationship with one example (e.g. Car / Vehicle). <strong>(6 marks)</strong></li>
+  <li>Which keyword creates an inheritance link in Java? Write one class header example. <strong>(4 marks)</strong></li>
+  <li>Who is the superclass and who is the subclass in <code>class Dog extends Animal</code>? <strong>(4 marks)</strong></li>
+  <li>Can a subclass use private fields of the superclass directly? How should it access them? <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 6 &nbsp;[20 Marks]</div>
+    <p>Variable scope (simplified).</p>
+<ol type="a">
+  <li>Define scope in one sentence. <strong>(3 marks)</strong></li>
+  <li>Classify <code>count</code> (field), <code>value</code> (parameter), and <code>next</code> (declared inside a method) by scope. <strong>(6 marks)</strong></li>
+  <li>Why does a variable declared inside an <code>if</code> block fail to compile if used after the block? <strong>(5 marks)</strong></li>
+  <li>Write a tiny example that needs <code>this.x = x;</code> and explain why. <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 7 &nbsp;[20 Marks]</div>
+    <div class="code">class Counter {
+    private int n;
+    public void bump() { n = n + 1; }
+    public int getN() { return n; }
+}
+// main:
+Counter c = new Counter();
+c.bump(); c.bump();
+System.out.println(c.getN());</div>
+<p>Short code reading.</p>
+<ol type="a">
+  <li>What is printed? Explain step by step. <strong>(6 marks)</strong></li>
+  <li>Is <code>n</code> a field or a local variable? How do you know? <strong>(4 marks)</strong></li>
+  <li>Add a constructor that sets <code>n</code> to a starting value supplied by the caller. <strong>(6 marks)</strong></li>
+  <li>What happens if <code>main</code> tries <code>c.n = 100;</code>? <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+
+  <div class="end">***** END OF QUESTION PAPER *****</div>
+  <div class="footer">
+    College of Technology Galle &nbsp;|&nbsp; OOP Module K72T004M03 &nbsp;|&nbsp; Model Paper 04 (Easy-Moderate)
+  </div>
+</body>
+</html>

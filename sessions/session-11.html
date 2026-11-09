@@ -1,0 +1,620 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 11 - Getters/Setters & Library Phase 2</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 11 of 32 &nbsp;&bull;&nbsp; 3-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Getters/Setters & Library Phase 2</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type" style="background:#fff8e1;color:#b28704;">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 11 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<div class="section">
+    <h2 class="section-title">1. Java Has No Auto-Properties</h2>
+
+    <p>Session 07&rsquo;s approach is the <em>correct and standard</em> way in Java: <code>acc.setOwnerName("Ruwan")</code> and <code>acc.getBalance()</code>. Unlike some languages that offer <strong>auto-properties</strong> (field-like assignment that secretly runs get/set code), <strong>Java does not have that feature.</strong> You always write explicit methods — and that is a good thing for beginners, because nothing is hidden.</p>
+
+    <div class="definition-box">
+      <strong>Definition &mdash; Getter / Setter</strong>
+      <p>A <strong>getter</strong> is a public method that returns a private field (<code>getBalance()</code>). A <strong>setter</strong> is a public method that assigns a new value to a private field after optional validation (<code>setBalance(double amount)</code>). Together they are the Java way to encapsulate data.</p>
+    </div>
+
+    <div class="tip-box">
+      <strong>Important contrast</strong>
+      <p>Java has <strong>no</strong> language-level auto-properties. Always write <code>getX</code>/<code>setX</code> (or <code>isX</code> for booleans). VS Code can generate them for you (Right-click → Source Action → Generate Getters and Setters, or Ctrl+. → Generate Getters and Setters).</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 230" role="img" aria-label="Getter and setter flow">
+        <defs><marker id="arr8a" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2e7d32"/></marker><marker id="arr8b" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1565c0"/></marker></defs>
+        <rect x="20" y="90" width="110" height="50" rx="8" fill="#eef4fb" stroke="#1f4e79" stroke-width="2"/>
+        <text x="75" y="120" text-anchor="middle" font-size="12" font-weight="700" fill="#1f4e79">main code</text>
+        <text x="75" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">READ: getBalance()</text>
+        <line x1="130" y1="70" x2="200" y2="70" stroke="#2e7d32" stroke-width="2" marker-end="url(#arr8a)"/>
+        <rect x="205" y="50" width="150" height="40" rx="6" fill="#e8f5e9" stroke="#2e7d32"/>
+        <text x="280" y="75" text-anchor="middle" font-size="11" fill="#1a1f2b">return balance;</text>
+        <line x1="355" y1="70" x2="420" y2="70" stroke="#2e7d32" stroke-width="2" marker-end="url(#arr8a)"/>
+        <text x="75" y="175" text-anchor="middle" font-size="11" font-weight="700" fill="#1565c0">WRITE: setBalance(5000)</text>
+        <line x1="130" y1="160" x2="200" y2="160" stroke="#1565c0" stroke-width="2" marker-end="url(#arr8b)"/>
+        <rect x="205" y="140" width="150" height="40" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+        <text x="280" y="165" text-anchor="middle" font-size="11" fill="#1a1f2b">validate; store</text>
+        <line x1="355" y1="160" x2="420" y2="160" stroke="#1565c0" stroke-width="2" marker-end="url(#arr8b)"/>
+        <rect x="430" y="55" width="310" height="130" rx="10" fill="#f4f7fb" stroke="#5b6472" stroke-width="2"/>
+        <text x="585" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1f2b">Private field</text>
+        <text x="585" y="110" text-anchor="middle" font-family="monospace" font-size="12" fill="#5b6472">balance = 5000</text>
+        <text x="585" y="140" text-anchor="middle" font-size="11" fill="#1a1f2b">Public methods only</text>
+        <text x="585" y="160" text-anchor="middle" font-size="10" fill="#c62828">validation cannot be skipped</text>
+      </svg>
+      <div class="cap">Figure 8.1 &mdash; Getter returns the field; setter validates then stores. Callers never touch <code>balance</code> directly.</div>
+    </div>
+
+    <h3 class="sub-title">1.1 The Full Getter/Setter Pattern</h3>
+
+<pre><code>class BankAccount
+{
+    // 1) The PRIVATE FIELD — stores the actual data
+    private double balance;
+
+    // 2) GETTER — read access
+    public double getBalance()
+    {
+        return balance;
+    }
+
+    // 3) SETTER — write access with validation
+    public void setBalance(double newBalance)
+    {
+        if (newBalance &lt; 0)
+        {
+            System.out.println("Balance cannot be negative. Ignored.");
+            return;           // reject — the field stays unchanged
+        }
+        balance = newBalance; // accept and store
+    }
+}
+
+// ---- Using it ----
+BankAccount acc = new BankAccount();
+acc.setBalance(5000);               // accepted
+acc.setBalance(-99);                // rejected, message printed
+System.out.println(acc.getBalance()); // prints 5000</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner&rsquo;s Logic Breakdown</strong>
+      <ol>
+        <li><strong>Two things, one idea:</strong> the private field <code>balance</code> is the storage box; <code>getBalance</code>/<code>setBalance</code> are the guarded windows.</li>
+        <li><strong>The parameter is the incoming value:</strong> in <code>setBalance(double newBalance)</code>, <code>newBalance</code> is whatever the caller passed.</li>
+        <li><strong>Naming convention (JavaBeans):</strong> field <code>title</code> → <code>getTitle()</code> / <code>setTitle(String title)</code>. For <code>boolean</code>, prefer <code>isAvailable()</code> instead of <code>getAvailable()</code>.</li>
+        <li><strong>No magic assignment:</strong> you write <code>acc.setBalance(5000)</code>, not <code>acc.balance = 5000</code> from outside.</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">1.2 Simple Getters/Setters (No Validation)</h3>
+    <p>When a field needs no rules today, still keep it private and generate trivial getters/setters. You can add validation later without changing how callers read the value.</p>
+
+<pre><code>class Book
+{
+    private String title;
+    private String author;
+    private String isbn;          // no public setter — read-only from outside
+    private boolean available = true;
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getAuthor() { return author; }
+    public void setAuthor(String author) { this.author = author; }
+
+    public String getIsbn() { return isbn; }
+    // setIsbn stays package/private or used only from constructors/methods inside the class
+    void setIsbn(String isbn) { this.isbn = isbn; }
+
+    public boolean isAvailable() { return available; }
+    public void setAvailable(boolean available) { this.available = available; }
+}</code></pre>
+
+    <table>
+      <thead><tr><th>Form</th><th>Syntax</th><th>When to Use</th></tr></thead>
+      <tbody>
+        <tr><td>Public field</td><td><code>public String title;</code></td><td>Never in production code — no protection</td></tr>
+        <tr><td>Simple getter/setter</td><td><code>getTitle()</code> / <code>setTitle(...)</code></td><td>Simple storage; rules can be added later</td></tr>
+        <tr><td>Validating setter</td><td>setter with <code>if</code> checks</td><td>Whenever writes need logic/validation</td></tr>
+        <tr><td>Read-only</td><td>public getter, no public setter</td><td>Values set once (ID, ISBN)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <strong>VS Code Shortcut</strong>
+      <p>Place the cursor in the class → Right-click → <strong>Source Action</strong> → <strong>Generate Getters and Setters</strong> (or press <strong>Ctrl+.</strong> → Generate Getters and Setters) → select fields. VS Code writes the boilerplate. Standard in professional Java development.</p>
+    </div>
+
+    <h3 class="sub-title">1.3 Computed Methods (Never Store What You Can Calculate)</h3>
+
+<pre><code>class Rectangle
+{
+    private double length;
+    private double width;
+
+    public double getLength() { return length; }
+    public void setLength(double length) { this.length = length; }
+    public double getWidth() { return width; }
+    public void setWidth(double width) { this.width = width; }
+
+    // COMPUTED — no stored field; fresh every call
+    public double getArea() { return length * width; }
+    public double getPerimeter() { return 2 * (length + width); }
+    public boolean isSquare() { return length == width; }
+}
+
+Rectangle r = new Rectangle();
+r.setLength(5);
+r.setWidth(3);
+System.out.println(r.getArea());   // 15
+r.setWidth(10);
+System.out.println(r.getArea());   // 50 — always up to date</code></pre>
+
+    <div class="note-box">
+      <strong>Key Point</strong>
+      <p>If area were a stored field, changing width could leave a stale value. A computed method cannot be out of date. Rule: <em>never store what you can compute</em>.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. Employee Example — Every Access Style</h2>
+
+<pre><code>// File: Employee.java
+public class Employee
+{
+    private String name;
+    private String department;
+    private String employeeId;       // read-only from outside
+    private double monthlySalary;    // validating setter
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
+
+    public String getEmployeeId() { return employeeId; }
+    public void assignId(String id) { this.employeeId = id; }  // controlled write
+
+    public double getMonthlySalary() { return monthlySalary; }
+    public void setMonthlySalary(double monthlySalary)
+    {
+        if (monthlySalary &lt; 0)
+        {
+            System.out.println("Salary cannot be negative.");
+            return;
+        }
+        this.monthlySalary = monthlySalary;
+    }
+
+    public double getAnnualSalary() { return monthlySalary * 12; }
+    public double getEpf() { return monthlySalary * 0.08; }   // 8% EPF
+
+    public void printPaySlip()
+    {
+        System.out.println("--- Pay Slip: " + employeeId + " ---");
+        System.out.println("Name       : " + name + " (" + department + ")");
+        System.out.println("Monthly    : " + String.format("%.2f", monthlySalary));
+        System.out.println("EPF (8%)   : " + String.format("%.2f", getEpf()));
+        System.out.println("Annual     : " + String.format("%.2f", getAnnualSalary()));
+    }
+}</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner&rsquo;s Logic Breakdown</strong>
+      <ul>
+        <li><strong>Pick the right tool:</strong> name needs no rules → simple setter. Salary must never be negative → validating setter. Annual salary is derivable → computed method. ID must not change freely → no public setter.</li>
+        <li><strong>Ladder of preference:</strong> public field (never) → simple getter/setter → validating setter.</li>
+      </ul>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 8.1 &mdash; Getter/Setter Workout (45 min)</strong>
+      <ol>
+        <li>Create project <code>HRSystem</code> with <code>Employee.java</code> as above.</li>
+        <li>In <code>Main</code>, create two employees, assign IDs, set salaries, print pay slips.</li>
+        <li>Try <code>setMonthlySalary(-100)</code> and confirm it is rejected.</li>
+        <li>Add <code>public double getEtf() { return monthlySalary * 0.03; }</code> and include it on the pay slip.</li>
+        <li>Use Source Action → Generate Getters and Setters to regenerate getters/setters for a new field <code>email</code>.</li>
+      </ol>
+    </div>
+
+    </div>
+
+<div class="section part-break"><h2 class="section-title">Library System Project &ndash; Phase 2: Encapsulating Book &amp; Member</h2></div>
+<div class="practical-header">
+    <div class="prac-num">Library System &nbsp;&bull;&nbsp; Phase 2 of 6</div>
+    <h3>Hardening the Library &mdash; Properties Everywhere + the Member Class</h3>
+    <div class="prac-meta">
+      <span>&#9203; 4 Hours</span>
+      <span>&#128218; Session 09</span>
+      <span>&#128193; Opens Phase 1 Project</span>
+      <span>&#128221; Continuous Assessment Project</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. New Requirements from the Client</h2>
+
+    <div class="note-box">
+      <strong>The Client&rsquo;s Request &mdash; Phase 2</strong>
+      <p>&ldquo;We need to register <strong>members</strong>. Each member has a name, a membership number, and may borrow <strong>at most 3 books at a time</strong>. We also found a bug risk: staff were editing book data directly and corrupted some records &mdash; please make that impossible.&rdquo;</p>
+    </div>
+
+    <p>Translation into our new skills: the &ldquo;corruption&rdquo; complaint = we must encapsulate Book. The &ldquo;at most 3 books&rdquo; rule = a guarded counter inside Member. Note how naturally requirements map to encapsulation!</p>
+
+    <div class="definition-box">
+      <strong>Definition &mdash; Refactoring</strong>
+      <p><strong>Refactoring</strong> means improving the internal structure of code <em>without changing its external behaviour</em>. The menu must work exactly as before &mdash; only the insides of Book get safer. Callers switch to get/set methods; the menu behaviour stays the same.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 200" role="img" aria-label="Book availability state machine">
+        <defs><marker id="arr9a" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2e7d32"/></marker><marker id="arr9b" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1565c0"/></marker></defs>
+        <circle cx="150" cy="100" r="55" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="150" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#2e7d32">AVAILABLE</text>
+        <text x="150" y="115" text-anchor="middle" font-size="10" fill="#5b6472">isAvailable = true</text>
+        <circle cx="610" cy="100" r="55" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="610" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#c62828">BORROWED</text>
+        <text x="610" y="115" text-anchor="middle" font-size="10" fill="#5b6472">isAvailable = false</text>
+        <path d="M210 85 Q 380 30 550 85" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#arr9a)"/>
+        <text x="380" y="45" text-anchor="middle" font-size="11" fill="#2e7d32">Borrow() succeeds</text>
+        <path d="M550 115 Q 380 170 210 115" fill="none" stroke="#1565c0" stroke-width="2" marker-end="url(#arr9b)"/>
+        <text x="380" y="175" text-anchor="middle" font-size="11" fill="#1565c0">Return()</text>
+        <rect x="280" y="155" width="200" height="35" rx="6" fill="#fff8e1" stroke="#b9770e"/>
+        <text x="380" y="177" text-anchor="middle" font-size="10" fill="#b9770e">Only Borrow()/Return() may change state</text>
+      </svg>
+      <div class="cap">Figure 9.1 &mdash; Book state machine: availability toggles only through Borrow() and returnBook(); <code>isAvailable public getter / no public setter</code> seals the transitions.</div>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 210" role="img" aria-label="Member borrow limit diagram">
+        <rect x="20" y="30" width="200" height="150" rx="10" fill="#eef4fb" stroke="#1f4e79" stroke-width="2"/>
+        <text x="120" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#1f4e79">Member: Amara</text>
+        <text x="120" y="80" text-anchor="middle" font-size="11" fill="#5b6472">booksBorrowed: 0/3</text>
+        <rect x="50" y="95" width="140" height="22" rx="4" fill="#e8f5e9" stroke="#2e7d32"/>
+        <text x="120" y="110" text-anchor="middle" font-size="10" fill="#2e7d32">canBorrow = true</text>
+        <text x="120" y="145" text-anchor="middle" font-size="10" fill="#5b6472">Borrow 3 books &darr;</text>
+        <text x="120" y="165" text-anchor="middle" font-size="10" fill="#c62828">4th borrow BLOCKED</text>
+        <rect x="280" y="30" width="200" height="150" rx="10" fill="#eef4fb" stroke="#1f4e79" stroke-width="2"/>
+        <text x="380" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#1f4e79">Member: Amara</text>
+        <text x="380" y="80" text-anchor="middle" font-size="11" fill="#5b6472">booksBorrowed: 3/3</text>
+        <rect x="310" y="95" width="140" height="22" rx="4" fill="#ffebee" stroke="#c62828"/>
+        <text x="380" y="110" text-anchor="middle" font-size="10" fill="#c62828">canBorrow = false</text>
+        <text x="380" y="145" text-anchor="middle" font-size="10" fill="#5b6472">MAX_BOOKS = 3 (const)</text>
+        <rect x="540" y="30" width="200" height="150" rx="10" fill="#f4f7fb" stroke="#5b6472" stroke-width="2"/>
+        <text x="640" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1f2b">Cooperation</text>
+        <text x="640" y="85" text-anchor="middle" font-size="10" fill="#5b6472">Member checks limit</text>
+        <text x="640" y="105" text-anchor="middle" font-size="10" fill="#5b6472">Book checks availability</text>
+        <text x="640" y="125" text-anchor="middle" font-size="10" fill="#5b6472">Each class guards</text>
+        <text x="640" y="145" text-anchor="middle" font-size="10" fill="#5b6472">its own rule</text>
+        <line x1="220" y1="105" x2="275" y2="105" stroke="#1f4e79" stroke-width="2"/>
+        <line x1="480" y1="105" x2="535" y2="105" stroke="#1f4e79" stroke-width="2"/>
+      </svg>
+      <div class="cap">Figure 9.2 &mdash; Member borrow limit: <code>canBorrow</code> is a computed method; when 3/3 books are borrowed, the 4th attempt is refused before Book is even asked.</div>
+    </div>
+
+    <h3 class="sub-title">Step 1 &mdash; Refactor Book to Use Getters/Setters</h3>
+
+<pre><code>// File: Book.java  (Phase 2 - encapsulated version)
+
+    class Book
+    {
+        // Simple getters/setters replace public fields.
+        // Callers change from book.title = ... to book.setTitle(...). That's refactoring!
+        private String title;
+        public String getTitle() { return title; }
+        public void setTitle(String title) { this.title = title; }
+        private String author;
+        public String getAuthor() { return author; }
+        public void setAuthor(String author) { this.author = author; }
+
+        // ISBN never changes after creation - lock the setter from outside
+        private String isbn;
+        public String getIsbn() { return isbn; }
+        // no public setter — write only inside this class
+
+        // Availability may ONLY change via Borrow/Return - not from outside
+            private boolean isAvailable = true;
+    public boolean isAvailable() { return isAvailable; }
+    private void setAvailable(boolean isAvailable) { this.isAvailable = isAvailable; }
+
+        private int yearPublished;
+        public int getYearPublished() { return yearPublished; }
+        public void setYearPublished(int yearPublished) { this.yearPublished = yearPublished; }
+
+        // Temporary way to set the locked ISBN (constructors replace this in Phase 3)
+        public void setIsbn(String isbn)
+        {
+            this.isbn = isbn;                      // allowed inside the class
+        }
+
+        public boolean borrow()                    // returns success/failure
+        {
+            if (!isAvailable)
+            {
+                System.out.println("Sorry, '" + title + "' is already borrowed.");
+                return false;                 // state unchanged - still borrowed
+            }
+            isAvailable = false;              // legal: we are inside the class
+            System.out.println("You have borrowed '" + title + "'.");
+            return true;
+        }
+
+        public void returnBook()
+        {
+            if (isAvailable)
+            {
+                System.out.println("'" + title + "' was not borrowed.");
+                return;
+            }
+            isAvailable = true;
+            System.out.println("'" + title + "' returned. Thank you!");
+        }
+
+        public void printDetails()
+        {
+            String status = isAvailable ? "Available" : "Borrowed";
+            System.out.println(title + " by " + author + " (" + yearPublished + ") | ISBN: " + isbn + " | " + status);
+        }
+    }
+</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner&rsquo;s Logic Breakdown &mdash; Book</strong>
+      <ol>
+        <li><strong>Why the program still compiles:</strong> callers switch from public fields to <code>b1.setTitle("...")</code> / <code>b1.getTitle()</code>. Only lines that <em>set</em> ISBN or isAvailable directly will now error &mdash; exactly the dangerous lines we want to catch.</li>
+        <li><strong><code>isAvailable public getter / no public setter</code></strong> is the heart of Phase 2: everyone may <em>check</em> availability, but only borrow() and returnBook() may <em>change</em> it.</li>
+        <li><strong>borrow() now returns boolean</strong> because the Member class needs to know whether the borrow actually happened before counting it.</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">Step 2 &mdash; The Member Class (New)</h3>
+
+<pre><code>// File: Member.java
+
+    class Member
+    {
+        private static final int MAX_BOOKS = 3;           // static final = fixed forever, class-wide rule
+
+        private String name;
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+        private String membershipNumber;
+        public String getMembershipNumber() { return membershipNumber; }
+        // no public setter — write only inside this class
+
+        // Encapsulated counter: readable by all, changeable only by borrowBook/returnBook
+            private int booksBorrowed = 0;
+    public int getBooksBorrowed() { return booksBorrowed; }
+    private void setBooksBorrowed(int booksBorrowed) { this.booksBorrowed = booksBorrowed; }
+
+        // Computed method - always accurate, derived from the counter
+        public boolean canBorrow() { return booksBorrowed &lt; MAX_BOOKS; }
+
+        public void setMembershipNumber(String number)
+        {
+            this.membershipNumber = number;        // private set allowed inside the class
+        }
+
+        public void borrowBook(Book book)
+        {
+            if (!canBorrow())
+            {
+                System.out.println(name + " already has " + booksBorrowed + " books - limit is " + MAX_BOOKS + ".");
+                return;
+            }
+
+            boolean success = book.borrow();     // ask the Book; it enforces ITS own rule
+            if (success)
+            {
+                booksBorrowed++;              // ++ adds 1; only counted if borrow worked
+                System.out.println(name + " now has " + booksBorrowed + " book(s).");
+            }
+        }
+
+        public void returnBook(Book book)
+        {
+            book.returnBook();
+            if (booksBorrowed &gt; 0)
+            {
+                booksBorrowed--;              // -- subtracts 1
+            }
+        }
+
+        public void printCard()
+        {
+            System.out.println("[" + membershipNumber + "] " + name + " - borrowed: " + booksBorrowed + "/" + MAX_BOOKS);
+        }
+    }
+</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner&rsquo;s Logic Breakdown &mdash; Member</strong>
+      <ol>
+        <li><strong>Two objects cooperating:</strong> <code>member.borrowBook(book)</code> passes a Book <em>object</em> as a parameter. Member asks Book to borrow itself; each class enforces its own rule.</li>
+        <li><strong><code>const</code>:</strong> MAX_BOOKS is a rule, not data &mdash; it cannot change while the program runs.</li>
+        <li><strong>Trust chain:</strong> borrowBook only increments when <code>book.borrow()</code> reported true. Correct bookkeeping falls out when each class guards its own state.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Menu Updates for Phase 2</h2>
+
+    <p>Extend your Phase 1 <code>Main.java</code> menu with member registration and member-aware borrowing. Below is a reference pattern for the new options:</p>
+
+<pre><code>import java.util.ArrayList;
+import java.util.List;
+
+import java.util.Scanner;
+
+// File: Main.java  (excerpt - menu additions for Phase 2)
+
+    public class Main
+    {
+        static List&lt;Book&gt; books = new ArrayList&lt;&gt;();
+        static List&lt;Member&gt; members = new ArrayList&lt;&gt;();   // NEW list for members
+
+        public static void main(String[] args)
+        {
+        Scanner scanner = new Scanner(System.in);
+            // ... seed books from Phase 1 ...
+
+            boolean running = true;
+            while (running)
+            {
+                System.out.println("\n=== Library System - Phase 2 ===");
+                System.out.println("1. Add book    2. List books    3. Search book");
+                System.out.println("4. Borrow book 5. Return book   6. Show available");
+                System.out.println("7. Register member  8. Show member cards");   // NEW
+                System.out.println("0. Exit");
+                System.out.print("Choice: ");
+                String choice = scanner.nextLine();
+
+                switch (choice)
+                {
+                    case "4":
+                        borrowWithMember();    // CHANGED: ask which member first
+                        break;
+                    case "7":
+                        registerMember();      // NEW
+                        break;
+                    case "8":
+                        showMemberCards();     // NEW
+                        break;
+                    // ... other cases unchanged ...
+                }
+            }
+        }
+
+        static void registerMember()
+        {
+            Member m = new Member();
+            System.out.print("Name: ");
+            m.setName(scanner.nextLine());
+            System.out.print("Membership number: ");
+            m.setMembershipNumber(scanner.nextLine());
+            members.add(m);
+            System.out.println("Member registered.");
+        }
+
+        static void showMemberCards()
+        {
+            for (Member m : members)
+                m.printCard();
+        }
+
+        static void borrowWithMember()
+        {
+            System.out.print("Member number: ");
+            String num = scanner.nextLine();
+            Member found = null;
+            for (Member m : members) {
+                if (m.getMembershipNumber().equals(num)) { found = m; break; }
+            }
+            if (found == null) { System.out.println("Member not found."); return; }
+
+            System.out.print("Book ISBN: ");
+            String isbn = scanner.nextLine();
+            Book book = null;
+            for (Book b : books) {
+                if (b.getIsbn().equals(isbn)) { book = b; break; }
+            }
+            if (book == null) { System.out.println("Book not found."); return; }
+
+            found.borrowBook(book);            // Member + Book cooperate
+        }
+    }
+</code></pre>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 9.1 &mdash; Refactor &amp; Wire Up (90 min)</strong>
+      <ol>
+        <li>Open your Phase 1 <code>LibrarySystem</code> project. Replace Book.java with the encapsulated version. Fix any red squiggles in Main.java (change direct ISBN assignment to <code>setIsbn(...)</code>).</li>
+        <li>Add Member.java. In Main, create a <code>List&lt;Member&gt;</code> with at least two members.</li>
+        <li>Extend the menu: <strong>7. Register member</strong>, <strong>8. Show member cards</strong>.</li>
+        <li>Change the Borrow menu option: first ask <em>which member</em> is borrowing (search by membership number), then call <code>member.borrowBook(found)</code>.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 9.2 &mdash; Prove the Rules Hold (assessed, 60 min)</strong>
+      <p>Run this exact scenario and screenshot/record the output for your project file:</p>
+      <ol>
+        <li>Member &ldquo;Amara&rdquo; borrows 3 different books &mdash; all succeed; card shows 3/3.</li>
+        <li>Amara tries a 4th book &rarr; refused by the <em>Member</em> rule.</li>
+        <li>Member &ldquo;Bimal&rdquo; tries to borrow a book Amara already has &rarr; refused by the <em>Book</em> rule.</li>
+        <li>Amara returns one book &rarr; card shows 2/3; now Bimal can borrow that book.</li>
+        <li>In Main.java, try to write <code>found.isAvailable = true;</code> &rarr; show the compiler error proving corruption is impossible. Then delete the line.</li>
+        <li><strong>Checkpoint:</strong> demo to the lecturer &mdash; Library System progress mark #2.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 09</strong>
+      <ol>
+        <li>What is refactoring? Why do properties make refactoring safer than public fields? (4 marks)</li>
+        <li>Write a class <code>Member</code> that stores a privately-set borrow count and enforces a maximum of 3 borrowings. (8 marks)</li>
+        <li>Explain how two classes can each protect their own rules yet cooperate (Book + Member example). (5 marks)</li>
+        <li>What is a <code>const</code>? How does it differ from a normal field? (3 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 09 Summary &mdash; Library Phase 2 Complete</h3>
+    <ul>
+      <li>Refactoring = safer insides, same outside behaviour; properties keep field-like syntax.</li>
+      <li><code>private set</code> sealed the Book&rsquo;s availability state machine inside the class.</li>
+      <li>Member enforces the 3-book limit with a guarded counter and a computed <code>canBorrow</code>.</li>
+      <li>Objects passed as parameters let classes cooperate while each guards its own state.</li>
+      <li>The compiler now physically prevents the data corruption the client complained about.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-10.html" class="btn btn-secondary">&larr; Session 10</a>
+    <a href="session-12.html" class="btn btn-primary">Session 12 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 11 &nbsp;|&nbsp; 3 Hours &nbsp;|&nbsp; Sequence position 11 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

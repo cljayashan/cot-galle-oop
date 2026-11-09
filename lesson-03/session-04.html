@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 04 - Classes and Objects - Fields and the Vehicle Example</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 04 of 23 &nbsp;&bull;&nbsp; Lesson 03 - Classes &amp; Objects</div>
+  <h2>Classes &amp; Objects – Fields and the Vehicle Example</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type" style="background:#fff8e1;color:#b28704;">Integrated</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 03 - Classes &amp; Objects &#9656; Session 04</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#1565c0,#0d47a1);">
+    <div class="lesson-num">Lesson 03 of 10 — Core OOP Begins</div>
+    <h2>Classes &amp; Objects</h2>
+    <p>Until now you drew <strong>flowcharts</strong> and wrote short procedural Java in one file. From this lesson onward you become an <strong>object designer</strong>: you describe real-world things as classes, build objects from them, and let each object carry its own data. Today we focus on <strong>fields</strong> — the memory inside every object — using a familiar <strong>Vehicle</strong> example.</p>
+    <div class="lesson-meta">
+      <span>&#9203; 10 Hours Integrated</span>
+      <span>&#128218; Sessions 04 – 06</span>
+      <span>&#128213; Library Project Phase 1</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Define the terms class, object, instance and field precisely</li>
+      <li>Explain the difference between a blueprint (class) and a built item (object)</li>
+      <li>Declare fields with appropriate Java data types inside a class</li>
+      <li>Create multiple independent objects with the <code>new</code> keyword</li>
+      <li>Organise a VS Code folder with one class per file</li>
+      <li>Apply the noun/verb method to turn a problem description into a class design</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Class vs Object — From Flowcharts to Blueprints</h2>
+
+    <p>In Session 03 you turned a Rectangle flowchart into Java where variables lived in <code>Main</code>. That works for tiny programs, but real software models many things at once — cars, accounts, books. OOP gives each "thing" its own bundle of data. The vocabulary starts here.</p>
+
+    <div class="definition-box">
+      <strong>Definition — Class</strong>
+      <p>A <strong>class</strong> is a blueprint or template that describes what attributes (data) and methods (behaviour) a certain kind of object will have. A class does not hold real data in memory by itself — it is only the design, like an empty registration form before anyone fills it in.</p>
+    </div>
+
+    <div class="definition-box">
+      <strong>Definition — Object (Instance)</strong>
+      <p>An <strong>object</strong> is a concrete <em>instance</em> of a class, created with the <code>new</code> keyword. Each object gets its own copy of the fields in memory. Creating an object is called <strong>instantiation</strong>.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 260" role="img" aria-label="One class, many objects">
+        <rect x="20" y="40" width="220" height="180" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="3"/>
+        <text x="130" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#1565c0">class Vehicle (blueprint)</text>
+        <line x1="35" y1="80" x2="225" y2="80" stroke="#1565c0" stroke-width="1"/>
+        <text x="130" y="102" text-anchor="middle" font-size="11" fill="#1a1f2b">Brand : String</text>
+        <text x="130" y="120" text-anchor="middle" font-size="11" fill="#1a1f2b">Speed : int</text>
+        <line x1="35" y1="132" x2="225" y2="132" stroke="#1565c0" stroke-width="1" stroke-dasharray="4 4"/>
+        <text x="130" y="154" text-anchor="middle" font-size="11" fill="#b9770e">accelerate()</text>
+        <text x="130" y="172" text-anchor="middle" font-size="11" fill="#b9770e">describe()</text>
+        <text x="130" y="205" text-anchor="middle" font-size="10" fill="#5b6472">No data memory — just a design</text>
+        <defs><marker id="a4" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2e7d32"/></marker></defs>
+        <line x1="240" y1="90" x2="300" y2="70" stroke="#2e7d32" stroke-width="2" marker-end="url(#a4)"/>
+        <line x1="240" y1="130" x2="300" y2="130" stroke="#2e7d32" stroke-width="2" marker-end="url(#a4)"/>
+        <line x1="240" y1="170" x2="300" y2="190" stroke="#2e7d32" stroke-width="2" marker-end="url(#a4)"/>
+        <text x="270" y="45" font-size="10" fill="#2e7d32" font-weight="700">new Vehicle()</text>
+        <rect x="305" y="30" width="200" height="70" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="405" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">object: car</text>
+        <text x="405" y="70" text-anchor="middle" font-size="10" fill="#1a1f2b">Brand = "Toyota"</text>
+        <text x="405" y="86" text-anchor="middle" font-size="10" fill="#1a1f2b">Speed = 120</text>
+        <rect x="305" y="105" width="200" height="70" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="405" y="127" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">object: bus</text>
+        <text x="405" y="145" text-anchor="middle" font-size="10" fill="#1a1f2b">Brand = "Lanka Ashok"</text>
+        <text x="405" y="161" text-anchor="middle" font-size="10" fill="#1a1f2b">Speed = 60</text>
+        <rect x="305" y="180" width="200" height="70" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="405" y="202" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">object: bike</text>
+        <text x="405" y="220" text-anchor="middle" font-size="10" fill="#1a1f2b">Brand = "Bajaj"</text>
+        <text x="405" y="236" text-anchor="middle" font-size="10" fill="#1a1f2b">Speed = 80</text>
+        <text x="620" y="130" text-anchor="middle" font-size="11" fill="#5b6472">Each object has its OWN</text>
+        <text x="620" y="148" text-anchor="middle" font-size="11" fill="#5b6472">copy of Brand and Speed,</text>
+        <text x="620" y="166" text-anchor="middle" font-size="11" fill="#5b6472">but SHARES the method code</text>
+      </svg>
+      <div class="cap">Figure 2.1 — One blueprint, many independent objects. Changing car.Speed never affects bus.Speed.</div>
+    </div>
+
+    <p>Real-world analogies to cement the idea:</p>
+    <table>
+      <thead><tr><th>Class (blueprint)</th><th>Objects (instances)</th></tr></thead>
+      <tbody>
+        <tr><td>House architectural plan</td><td>The actual houses built at No. 12, No. 14, No. 16</td></tr>
+        <tr><td>Cake recipe</td><td>Each cake baked from the recipe</td></tr>
+        <tr><td>Student registration form design</td><td>Each filled-in form (one per student)</td></tr>
+        <tr><td><code>class Vehicle</code></td><td><code>car</code>, <code>bus</code>, <code>bike</code> created with <code>new</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <strong>Bridge from Flowcharts</strong>
+      <p>Think of a class as the <em>legend</em> on your flowchart that defines what a "Vehicle" box can store. Each object is one actual box on the diagram with real values written inside it.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Fields — The Object's Memory</h2>
+
+    <div class="definition-box">
+      <strong>Definition — Field (Attribute)</strong>
+      <p>A <strong>field</strong> is a variable declared directly inside a class (outside any method). It stores the state/data of each object. In OOP theory fields are called <em>attributes</em>; Java programmers usually say <em>fields</em>.</p>
+    </div>
+
+    <p>Designing fields is a modelling exercise: <em>"What must every Vehicle remember about itself?"</em> Compare with Session 02 where <code>width</code> and <code>height</code> were local variables in <code>Main</code> — now they live <em>inside</em> the object so they survive between method calls.</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 220" role="img" aria-label="Field memory for two objects">
+        <text x="380" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1f2b">Memory when two Vehicle objects exist</text>
+        <rect x="30" y="40" width="300" height="160" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="180" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">car (object on the heap)</text>
+        <line x1="45" y1="72" x2="315" y2="72" stroke="#2e7d32"/>
+        <text x="55" y="95" font-size="11" fill="#1a1f2b">Brand  →  "Toyota"</text>
+        <text x="55" y="115" font-size="11" fill="#1a1f2b">Model  →  "Corolla"</text>
+        <text x="55" y="135" font-size="11" fill="#1a1f2b">Speed  →  20</text>
+        <text x="55" y="155" font-size="11" fill="#1a1f2b">FuelLevel  →  39.0</text>
+        <text x="55" y="185" font-size="10" fill="#5b6472">Separate memory block</text>
+        <rect x="430" y="40" width="300" height="160" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="580" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">bus (object on the heap)</text>
+        <line x1="445" y1="72" x2="715" y2="72" stroke="#1565c0"/>
+        <text x="455" y="95" font-size="11" fill="#1a1f2b">Brand  →  "Lanka Ashok Leyland"</text>
+        <text x="455" y="115" font-size="11" fill="#1a1f2b">Model  →  "Viking"</text>
+        <text x="455" y="135" font-size="11" fill="#1a1f2b">Speed  →  0</text>
+        <text x="455" y="155" font-size="11" fill="#1a1f2b">FuelLevel  →  90.0</text>
+        <text x="455" y="185" font-size="10" fill="#5b6472">Separate memory block</text>
+        <rect x="280" y="95" width="200" height="50" rx="6" fill="#fff8e1" stroke="#b9770e" stroke-width="2" stroke-dasharray="5 3"/>
+        <text x="380" y="118" text-anchor="middle" font-size="10" font-weight="700" fill="#b9770e">class Vehicle code</text>
+        <text x="380" y="132" text-anchor="middle" font-size="9" fill="#5b6472">shared by all objects</text>
+      </svg>
+      <div class="cap">Figure 2.2 — Each object owns its own field values. Method code is shared; data is not.</div>
+    </div>
+
+    <p>Create the Vehicle class in a <strong>separate file</strong> (in Explorer: New File → name it <code>Vehicle.java</code>):</p>
+
+<pre><code>// File: Vehicle.java
+// One class per file keeps projects organised — professional habit from day one.
+
+    class Vehicle
+    {
+        // ================= FIELDS (attributes) =================
+        // Declared inside the class, OUTSIDE any method.
+        // Every Vehicle object gets its own copy of each field.
+
+        public String Brand;        // e.g. "Toyota"
+        public String Model;        // e.g. "Corolla"
+        public int Year;            // e.g. 2020
+        public double FuelLevel;    // litres currently in the tank
+        public int Speed;           // current speed in km/h
+
+        // ================= METHODS (behaviour) =================
+
+        public void accelerate()
+        {
+            Speed = Speed + 10;                 // increase this object's own speed
+            FuelLevel = FuelLevel - 0.5;        // accelerating burns fuel
+            System.out.println(Brand + " accelerates to " + Speed + " km/h. Fuel left: " + FuelLevel + " L");
+        }
+
+        public void brake()
+        {
+            this.speed = 0;                          // stop this vehicle
+            System.out.println(Brand + " has stopped.");
+        }
+
+        public void describe()
+        {
+            System.out.println(Year + " " + Brand + " " + Model + " | Speed: " + Speed + " km/h | Fuel: " + FuelLevel + " L");
+        }
+    }
+</code></pre>
+
+    <p>And the program that uses it (this stays in <code>Main.java</code>):</p>
+
+<pre><code>// File: Main.java
+
+    public class Main
+    {
+        public static void main(String[] args)
+        {
+            // Instantiate two independent vehicles from the same blueprint
+            Vehicle car = new Vehicle();
+            car.Brand = "Toyota";
+            car.Model = "Corolla";
+            car.Year  = 2020;
+            car.FuelLevel = 40;
+            car.this.speed = 0;
+
+            Vehicle bus = new Vehicle();
+            bus.Brand = "Lanka Ashok Leyland";
+            bus.Model = "Viking";
+            bus.Year  = 2018;
+            bus.FuelLevel = 90;
+            bus.this.speed = 0;
+
+            // Each object acts on ITS OWN data
+            car.describe();
+            bus.describe();
+
+            car.accelerate();     // only the car speeds up
+            car.accelerate();     // car is now at 20 km/h
+            bus.describe();       // bus is still at 0 km/h — unaffected!
+
+            car.brake();
+            // pause: new java.util.Scanner(System.in).nextLine();
+        }
+    }
+</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Two files, one program:</strong> VS Code (Extension Pack for Java) compiles every <code>.java</code> file in the folder together. <code>Main.java</code> can see <code>Vehicle.java</code> because they are in the same package (or the default package).</li>
+        <li><strong>Fields live outside methods:</strong> <code>Speed</code> is declared at class level, so it survives between method calls. A variable declared <em>inside</em> a method is destroyed when the method ends — like a flowchart box that exists only inside one process block.</li>
+        <li><strong>Trace the flow:</strong> read <code>Main</code> top to bottom like a flowchart. When we call <code>car.accelerate()</code>, the line <code>Speed = Speed + 10;</code> means "the speed <em>of car</em>". When we later call <code>bus.describe()</code>, bus's Speed is still 0 — proof that each object owns separate data.</li>
+        <li><strong><code>new Vehicle()</code>:</strong> asks the runtime to allocate memory for a new object and return a reference (label) you store in <code>car</code> or <code>bus</code>.</li>
+      </ol>
+    </div>
+
+    <div class="warn-box">
+      <strong>Common Beginner Errors</strong>
+      <ul>
+        <li><strong>Forgetting <code>new</code>:</strong> writing <code>Vehicle car;</code> then <code>car.Brand = "Toyota";</code> crashes — you declared a label but never built the object. Always <code>Vehicle car = new Vehicle();</code></li>
+        <li><strong>Confusing class and object:</strong> <code>Vehicle.accelerate()</code> is wrong — you must call the method on an <em>object</em>: <code>car.accelerate()</code>.</li>
+        <li><strong>Fields declared inside Main:</strong> then they are just local variables, not part of the object. Fields go directly inside the class body.</li>
+        <li><strong>Wrong file:</strong> putting the class inside <code>Main.java</code> works for tiny demos but hides the habit of one class per file. Start correctly now.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Designing Your Own Classes — The Noun/Verb Method</h2>
+    <p>A reliable recipe for turning a problem description into a class design — the same thinking you used when naming boxes in a flowchart:</p>
+    <ol class="step-list">
+      <li><strong>Read the problem and underline the nouns.</strong> "A <u>student</u> enrols in a <u>course</u> and receives a <u>grade</u>." → candidate classes: Student, Course, Grade.</li>
+      <li><strong>For each noun, ask: what must it remember?</strong> → fields with types. Student: Name (String), IndexNumber (String), Average (double).</li>
+      <li><strong>Circle the verbs connected to each noun.</strong> "enrols", "calculates average" → methods: <code>enroll()</code>, <code>calculateAverage()</code>.</li>
+      <li><strong>Write the class skeleton</strong> — fields first, then empty methods, then fill in method bodies one at a time, testing as you go.</li>
+    </ol>
+
+    <div class="tip-box">
+      <strong>Design Tip</strong>
+      <p>A good class is a <em>specialist</em>, not a "do-everything" class. If you find a class collecting unrelated fields (student marks AND printer settings?), split it. One class = one clear responsibility.</p>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 4.1 — The Vehicle Fleet (45 min)</strong>
+      <ol>
+        <li>Create a Java Console Application <code>VehicleDemo</code> with the two files exactly as shown above. Run it and study the output order.</li>
+        <li>Add a field <code>public int PassengerCapacity;</code> and include it in <code>describe()</code>.</li>
+        <li>Add a method <code>public void refuel(double litres)</code> that adds to <code>FuelLevel</code> and prints the new level. (Parameters are previewed here — full theory in Session 05.)</li>
+        <li>Create a third vehicle (a motorbike) in Main and take all three through: describe → accelerate twice → describe → brake.</li>
+        <li><strong>Predict-then-run:</strong> before running, write on paper what all output lines will say. Compare. Any surprise means a misunderstanding worth fixing now.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 4.2 — Design From Scratch: The Student Class (45 min)</strong>
+      <ol>
+        <li>Using the noun/verb method, design a <code>Student</code> class with at least 4 fields (name, index number, and marks for two subjects) and 2 methods (<code>calculateAverage()</code> returning double, and <code>printReport()</code>).</li>
+        <li>Implement it in a new project <code>StudentDemo</code>, one class per file.</li>
+        <li>In Main, create three Student objects with different marks and print all three reports.</li>
+        <li><strong>Challenge:</strong> add a <code>boolean hasPassed()</code> method that returns true if the average is 50 or above, and use it to print "PASS"/"FAIL" on each report.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 04</strong>
+      <ol>
+        <li>Distinguish between a class and an object, giving a real-world analogy. (4 marks)</li>
+        <li>What is a field? Where must fields be declared? (3 marks)</li>
+        <li>Write a Java class <code>Book</code> with three suitable fields and one method. (6 marks)</li>
+        <li>Two objects are created from the same class. Explain what they share and what they do not share. (4 marks)</li>
+        <li>Explain the noun/verb method for identifying classes and methods from a problem statement. (4 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 04 Summary</h3>
+    <ul>
+      <li>Class = blueprint (no data memory); object = instance created with <code>new</code> (own field copies).</li>
+      <li>Fields are class-level variables that store each object's state; they persist between method calls.</li>
+      <li>Methods act on the fields of the object they are called on: <code>car.accelerate()</code> changes only car.</li>
+      <li>Professional habit: one class per .java file (Explorer → New File → <code>ClassName.java</code>).</li>
+      <li>Noun/verb analysis converts a problem description into classes, fields and methods.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="../lesson-02/session-03.html" class="btn btn-secondary">&larr; Session 03</a>
+    <a href="session-05.html" class="btn btn-primary">Session 05 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 04 &ndash; Classes &amp; Objects: The Vehicle Example &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

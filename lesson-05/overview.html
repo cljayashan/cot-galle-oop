@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 05 – Constructors &amp; Overloading (Full Notes)</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-logo">📚</div>
+    <div class="header-info">
+      <h1>Object Oriented Programming (Java)</h1>
+      <p>College of Technology Galle &nbsp;|&nbsp; Module K72T004M03 – Level 05</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span><strong>Lesson 05</strong></span>
+    <span><strong>Topic:</strong> Constructors &amp; Method Overloading</span>
+    <span><strong>Duration:</strong> 10 Hours (Theory + Practical)</span>
+    <span><strong>Author:</strong> Jayashan Liyanage</span>
+  </div>
+</header>
+
+<nav class="lesson-nav no-print">
+  <a href="../index.html">Home</a>
+  <a href="../lesson-01/index.html">L01</a>
+  <a href="../lesson-02/index.html">L02</a>
+  <a href="../lesson-03/index.html">L03</a>
+  <a href="../lesson-04/index.html">L04</a>
+  <a href="index.html" class="active">L05</a>
+  <a href="../lesson-06/index.html">L06</a>
+  <a href="../lesson-07/index.html">L07</a>
+  <a href="../lesson-08/index.html">L08</a>
+  <a href="../lesson-09/index.html">L09</a>
+  <a href="../lesson-10/index.html">L10</a>
+</nav>
+
+<main>
+
+  <div class="lesson-header" style="background:linear-gradient(135deg,#e65100,#bf360c);">
+    <div class="lesson-num">Lesson 05 of 10</div>
+    <h2>Constructors &amp; Method Overloading</h2>
+    <p>Objects born complete and valid in one line, plus one method name serving many input shapes. Applied in Library System Phase 3 with a new <code>Library</code> class.</p>
+    <div class="lesson-meta">
+      <span>⏱ 10 Hours Integrated</span>
+      <span>📋 Sessions 10 – 12</span>
+      <span>📚 Library Project Phase 3</span>
+    </div>
+  </div>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this lesson you will be able to:</h3>
+    <ul>
+      <li>Write default, parameterized and chained constructors</li>
+      <li>Use <code>this</code> for field/parameter clashes and constructor chaining</li>
+      <li>Define valid overloads and predict compiler overload selection</li>
+      <li>Refactor object creation to constructors across a project</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">1. Constructors (Session 10)</h2>
+    <div class="definition-box">
+      <strong>Definition — Constructor</strong>
+      <p>A special method with the class's own name and no return type that runs automatically, exactly once, when <code>new</code> creates the object. Its job: a valid starting state.</p>
+    </div>
+<pre><code>class Book
+{
+    private String isbn;
+    public String getIsbn() { return isbn; }
+    // no public setter — write only inside this class
+
+    public Book(String title, String author, String isbn)   // parameterized constructor
+    {
+        this.title = title; this.author = author;
+        this.isbn = isbn;               // constructors may set private-set properties
+    }
+}
+
+Book b = new Book("Clean Code", "Robert C. Martin", "978-0132350884");  // one line, complete
+// new Book()  -&gt; compiler error: your own constructor removed the free empty one</code></pre>
+    <ul>
+      <li><code>this.name = name;</code> — field vs parameter clash resolution.</li>
+      <li><code>public Student(String name) { this(name, 18); }</code> — chaining, one place for logic.</li>
+      <li>Trap: adding <code>void</code> makes it an ordinary method, not a constructor.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">2. Method Overloading &amp; the <code>this</code> Keyword (Session 11)</h2>
+    <div class="definition-box">
+      <strong>Definition — Overloading</strong>
+      <p>Several methods with the same name but different parameter lists (count, types or order). The compiler picks the match from the arguments — compile-time polymorphism. Return type alone cannot distinguish overloads.</p>
+    </div>
+<pre><code>public int    Add(int a, int b)           // ok
+public int    Add(int a, int b, int c)    // ok – different count
+public double add(double a, double b)     // ok – different types
+// public double add(int a, int b)        // ERROR – only return type differs
+
+public Student(String name) {
+        this(name, 18);
+    }   // this(...) must be first statement — chains constructors</code></pre>
+    <ul>
+      <li>Overload identical-meaning operations (Add, Find); use separate names for different meanings (findByIsbn).</li>
+      <li><code>this</code> refers to the current object — resolves field/parameter name clashes and enables constructor chaining.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">3. Library Phase 3 (Session 12)</h2>
+<pre><code>import java.util.ArrayList;
+import java.util.List;
+
+class Library
+{
+    private List&lt;Book&gt; catalog = new ArrayList&lt;&gt;();
+
+    public void addBook(Book book) { catalog.add(book); }
+
+    public Book find(String title) { ... }              // overload by parameter count/types
+    public Book find(String author, int year) { ... }
+    public Book findByIsbn(String isbn) { ... }         // separate name when meaning differs
+}</code></pre>
+    <ul>
+      <li>Book: full constructor + short overload chaining; Set methods deleted.</li>
+      <li>New <code>Library</code> class owns the private catalog with overloaded search.</li>
+      <li>Patterns: <code>return</code> inside foreach exits on first match; <code>ToLower()</code> for case-insensitive compare; null when not found.</li>
+    </ul>
+  </div>
+
+  <div class="summary-box">
+    <h3>Lesson 05 Summary</h3>
+    <ul>
+      <li>Constructors guarantee complete, valid objects; chaining removes duplication.</li>
+      <li>Overloads differ by parameter list only; compiler routes calls at compile time.</li>
+      <li><code>this</code> resolves name clashes and chains constructors to a single logic point.</li>
+      <li>Library System: one-line creation, dedicated Library class, flexible search.</li>
+    </ul>
+  </div>
+
+  <p style="margin-top:24px;" class="no-print">
+    <a href="session-10.html" class="btn btn-primary">Session 10 – Constructors &rarr;</a>
+    <a href="session-11.html" class="btn btn-secondary" style="margin-left:8px;">Session 11 – Overloading &rarr;</a>
+    <a href="session-12.html" class="btn btn-secondary" style="margin-left:8px;">Session 12 – Library Phase 3 &rarr;</a>
+  </p>
+
+  <div class="nav-buttons no-print">
+    <a href="../lesson-04/overview.html" class="btn btn-secondary">&larr; Lesson 04 – Encapsulation</a>
+    <a href="../lesson-06/overview.html" class="btn btn-primary">Lesson 06 – Memory &amp; GC &rarr;</a>
+  </div>
+
+</main>
+
+<p style="margin-top:6px;font-size:0.8rem;">Lesson 05 – Constructors &amp; Overloading &nbsp;|&nbsp; These notes are for educational use only.</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+</body>
+</html>

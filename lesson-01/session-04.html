@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 04 - Operators &amp; Formatted Output</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    @media print {
+      .topnav,.botnav,.no-print,footer { display:none !important; }
+      a { color:inherit !important; text-decoration:none !important; }
+      a[href]::after { content:none !important; }
+      @page { margin:18mm 15mm; }
+      body { font-size:11pt; }
+      h2,h3 { page-break-after:avoid; }
+      .section,.fig,table { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 04 of 07 &nbsp;&bull;&nbsp; Lesson 01 - Basic Java Programming</div>
+  <h2>Operators &amp; Formatted Output</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 2 Hours</span>
+    <span class="stag stag-type">Theory + Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <span class="crumb">&#9656; Lesson 01 - Basic Java Programming &#9656; Session 04</span>
+  <a href="overview.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;font-weight:600;">&#128218; Full Lesson</a>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+  <div class="outcomes-box">
+    <h3>Learning Outcomes – After this session you will be able to:</h3>
+    <ul>
+      <li>Use arithmetic operators (+, −, *, /, %, increment) in Java expressions</li>
+      <li>Apply relational and logical operators to compare values and combine conditions</li>
+      <li>Explain operator precedence and use parentheses to control evaluation order</li>
+      <li>Format console output using concatenation, <code>String.format</code>, and <code>printf</code></li>
+      <li>Build a simple calculator and a grade-checker program using operators only</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Arithmetic Operators</h2>
+
+    <p>Operators are symbols that perform actions on values (operands). You already used <code>+</code> and <code>-</code> in the Age Calculator and Temp Converter. Here is the complete set for basic arithmetic:</p>
+
+    <table>
+      <thead>
+        <tr><th>Operator</th><th>Name</th><th>Example</th><th>Result</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>+</code></td><td>Addition</td><td><code>10 + 3</code></td><td><code>13</code></td><td>Also joins strings: <code>"Hi" + "!"</code> → <code>"Hi!"</code></td></tr>
+        <tr><td><code>-</code></td><td>Subtraction</td><td><code>10 - 3</code></td><td><code>7</code></td><td>—</td></tr>
+        <tr><td><code>*</code></td><td>Multiplication</td><td><code>10 * 3</code></td><td><code>30</code></td><td>—</td></tr>
+        <tr><td><code>/</code></td><td>Division</td><td><code>10 / 3</code></td><td><code>3</code></td><td>With <code>int</code> operands, remainder is discarded</td></tr>
+        <tr><td><code>/</code></td><td>Division</td><td><code>10.0 / 3</code></td><td><code>3.333...</code></td><td>With <code>double</code>, you get a decimal result</td></tr>
+        <tr><td><code>%</code></td><td>Modulo (remainder)</td><td><code>10 % 3</code></td><td><code>1</code></td><td>Remainder after division: 10 ÷ 3 = 3 remainder 1</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">1.1 Integer vs. Floating-Point Division</h3>
+    <p>This is one of the most common beginner surprises. When <em>both</em> operands are <code>int</code>, Java performs <strong>integer division</strong> — it throws away the decimal part:</p>
+<pre><code>int a = 7;
+int b = 2;
+System.out.println(a / b);      // prints 3, NOT 3.5
+
+double x = 7.0;
+double y = 2;
+System.out.println(x / y);      // prints 3.5</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><code>7 / 2</code> with integers: 7 ÷ 2 = 3 remainder 1. Java keeps the <code>3</code> and discards the <code>.5</code>.</li>
+        <li><code>7 % 2</code> gives the remainder: <code>1</code>. So <code>a / b</code> and <code>a % b</code> together tell you the full division result.</li>
+        <li>To get a decimal result from two integers, cast one to <code>double</code>: <code>(double)a / b</code> → <code>3.5</code>.</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">1.2 Increment and Decrement</h3>
+    <p>These shorthand operators add or subtract 1 from a variable:</p>
+<pre><code>int count = 5;
+count++;          // count is now 6  (same as count = count + 1)
+count--;          // count is now 5  (same as count = count - 1)
+
+int x = 5;
+int y = x++;      // y = 5, then x becomes 6  (post-increment: use first, then add)
+int a = 5;
+int b = ++a;      // a becomes 6, then b = 6  (pre-increment: add first, then use)</code></pre>
+
+    <div class="tip-box">
+      <strong>Practical Advice</strong>
+      <p>For now, prefer the clear form <code>count = count + 1</code> over <code>count++</code> until you are comfortable. Both do the same thing, but the long form is easier to read when learning.</p>
+    </div>
+
+    <h3 class="sub-title">1.3 Compound Assignment Operators</h3>
+    <p>Shorthand for "do an operation and store the result back in the same variable":</p>
+<pre><code>int total = 100;
+total += 10;    // same as total = total + 10;   → total is 110
+total -= 5;     // same as total = total - 5;    → total is 105
+total *= 2;     // same as total = total * 2;    → total is 210
+total /= 3;     // same as total = total / 3;    → total is 70</code></pre>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. Relational and Logical Operators</h2>
+
+    <p>Relational operators <strong>compare</strong> two values and produce a <code>boolean</code> result (<code>true</code> or <code>false</code>). You will use these heavily in Session 05 with <code>if</code> statements — today we store and print the results directly.</p>
+
+    <h3 class="sub-title">2.1 Relational Operators</h3>
+    <table>
+      <thead>
+        <tr><th>Operator</th><th>Meaning</th><th>Example</th><th>Result</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>==</code></td><td>Equal to</td><td><code>5 == 5</code></td><td><code>true</code></td></tr>
+        <tr><td><code>!=</code></td><td>Not equal to</td><td><code>5 != 3</code></td><td><code>true</code></td></tr>
+        <tr><td><code>&gt;</code></td><td>Greater than</td><td><code>10 &gt; 3</code></td><td><code>true</code></td></tr>
+        <tr><td><code>&lt;</code></td><td>Less than</td><td><code>10 &lt; 3</code></td><td><code>false</code></td></tr>
+        <tr><td><code>&gt;=</code></td><td>Greater than or equal</td><td><code>50 &gt;= 50</code></td><td><code>true</code></td></tr>
+        <tr><td><code>&lt;=</code></td><td>Less than or equal</td><td><code>45 &lt;= 50</code></td><td><code>true</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <strong>== vs =</strong>
+      <p><code>==</code> is "is equal to?" (a comparison). <code>=</code> is "store this value" (an assignment). Mixing them up is a classic beginner error: <code>if (x = 5)</code> is invalid; it must be <code>if (x == 5)</code>.</p>
+    </div>
+
+    <h3 class="sub-title">2.2 Logical Operators</h3>
+    <p>Logical operators combine two <code>boolean</code> values:</p>
+    <table>
+      <thead>
+        <tr><th>Operator</th><th>Name</th><th>Meaning</th><th>Example</th><th>Result</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>&amp;&amp;</code></td><td>AND</td><td>True only if <em>both</em> sides are true</td><td><code>true &amp;&amp; false</code></td><td><code>false</code></td></tr>
+        <tr><td><code>||</code></td><td>OR</td><td>True if <em>at least one</em> side is true</td><td><code>true || false</code></td><td><code>true</code></td></tr>
+        <tr><td><code>!</code></td><td>NOT</td><td>Flips true to false and vice versa</td><td><code>!true</code></td><td><code>false</code></td></tr>
+      </tbody>
+    </table>
+
+<pre><code>int mark = 75;
+boolean passed = mark >= 50;                    // true
+boolean distinction = mark >= 75;             // true
+boolean failed = mark &lt; 50;                   // false
+
+boolean passedWithDistinction = passed &amp;&amp; distinction;   // true &amp;&amp; true = true
+boolean passedOrFailed = passed || failed;               // true || false = true
+boolean notFailed = !failed;                             // !false = true</code></pre>
+
+    <div class="note-box">
+      <strong>Preview: Decision Structures (Session 05)</strong>
+      <p>Today you store comparison results in <code>boolean</code> variables and print them. In Session 05 you will use these same operators inside <code>if</code> statements to make the program <em>choose</em> different actions — e.g. print "Pass" only when <code>mark &gt;= 50</code>.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Operator Precedence</h2>
+
+    <p>When an expression has multiple operators, Java follows rules about which to evaluate first — just like BODMAS/PEMDAS in mathematics.</p>
+
+    <table>
+      <thead>
+        <tr><th>Priority (high to low)</th><th>Operators</th><th>Example</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 — Parentheses</td><td><code>( )</code></td><td><code>(2 + 3) * 4</code> → 20</td></tr>
+        <tr><td>2 — Multiplication, Division, Modulo</td><td><code>* / %</code></td><td><code>10 + 2 * 3</code> → 16 (not 36)</td></tr>
+        <tr><td>3 — Addition, Subtraction</td><td><code>+ -</code></td><td><code>10 - 2 + 3</code> → 11</td></tr>
+        <tr><td>4 — Relational</td><td><code>&gt; &lt; &gt;= &lt;=</code></td><td>Evaluated after arithmetic</td></tr>
+        <tr><td>5 — Equality</td><td><code>== !=</code></td><td>Evaluated after relational</td></tr>
+        <tr><td>6 — Logical AND</td><td><code>&amp;&amp;</code></td><td>Evaluated after equality</td></tr>
+        <tr><td>7 — Logical OR</td><td><code>||</code></td><td>Evaluated last</td></tr>
+      </tbody>
+    </table>
+
+<pre><code>// Without parentheses — multiplication happens first
+int result = 2 + 3 * 4;        // 2 + 12 = 14
+
+// With parentheses — addition happens first
+int result2 = (2 + 3) * 4;     // 5 * 4 = 20
+
+// Temperature formula from Session 03 — parentheses are essential!
+double fahrenheit = (celsius * 9 / 5) + 32;</code></pre>
+
+    <div class="tip-box">
+      <strong>When in Doubt, Use Parentheses</strong>
+      <p>Parentheses make your intent clear to both the compiler and anyone reading your code. <code>(a + b) * c</code> is always clearer than relying on precedence rules.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2 class="section-title">4. Formatted Console Output</h2>
+
+    <p>Session 03 introduced joining text with <code>+</code> and <code>String.format</code>. Today we go further — controlling how numbers appear on screen.</p>
+
+    <h3 class="sub-title">4.1 Concatenation Recap</h3>
+<pre><code>String name = "Kasun";
+int mark = 87;
+double average = 72.4567;
+
+System.out.println("Student: " + name);
+System.out.println("Mark: " + mark);
+System.out.println("Average: " + average);</code></pre>
+
+    <h3 class="sub-title">4.2 Format Specifiers with String.format / printf</h3>
+    <p>Use <code>String.format</code> or <code>System.out.printf</code> to control decimal places, alignment, and padding:</p>
+<pre><code>double price = 1499.5;
+double pi = 3.14159265;
+
+System.out.println("Price: Rs" + String.format("%.2f", price));  // Price: Rs1499.50
+System.out.println("Pi to 2 dp: " + String.format("%.2f", pi));  // Pi to 2 dp: 3.14
+System.out.println("Pi to 4 dp: " + String.format("%.4f", pi));  // Pi to 4 dp: 3.1416
+
+int mark = 87;
+System.out.printf("Mark: %5d%n", mark);          // right-aligned in 5 characters: "   87"
+System.out.printf("%-10s|%n", "Name");           // left-aligned in 10 characters: "Name      |"</code></pre>
+
+    <table>
+      <thead>
+        <tr><th>Specifier</th><th>Meaning</th><th>Example Input</th><th>Output</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>%.2f</code></td><td>Fixed 2 decimal places</td><td><code>String.format("%.2f", 3.14159)</code></td><td><code>3.14</code></td></tr>
+        <tr><td><code>%.0f</code></td><td>Fixed 0 decimal places (rounds)</td><td><code>String.format("%.0f", 72.6)</code></td><td><code>73</code></td></tr>
+        <tr><td><code>%.2f</code> + Rs</td><td>Simple currency style</td><td><code>"Rs" + String.format("%.2f", 1500)</code></td><td><code>Rs1500.00</code></td></tr>
+        <tr><td><code>%5d</code></td><td>Right-align int in 5 characters</td><td><code>System.out.printf("%5d", 42)</code></td><td><code>"   42"</code></td></tr>
+        <tr><td><code>%-10s</code></td><td>Left-align String in 10 characters</td><td><code>System.out.printf("%-10s", "Hi")</code></td><td><code>"Hi        "</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">4.3 Building a Simple Results Table</h3>
+<pre><code>System.out.println("+------------------------------+");
+System.out.println("|     STUDENT RESULTS TABLE    |");
+System.out.println("+----------+-------+----------+");
+System.out.printf("| %-8s | %5s | %-8s |%n", "Name", "Mark", "Status");
+System.out.println("+----------+-------+----------+");
+System.out.printf("| %-8s | %5d | %-8s |%n", "Kasun", 85, "Pass");
+System.out.printf("| %-8s | %5d | %-8s |%n", "Nimal", 42, "Fail");
+System.out.printf("| %-8s | %5d | %-8s |%n", "Sithmi", 91, "Pass");
+System.out.println("+----------+-------+----------+");</code></pre>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><code>%5d</code> means "print an int right-aligned in a field 5 characters wide". Small numbers get spaces before them so columns line up.</li>
+        <li><code>%-10s</code> means "print text left-aligned in a field 10 characters wide". Extra spaces go after the text.</li>
+        <li>Combining alignment with a header row and separator lines creates professional-looking tables — even in a Java application.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2 class="section-title">5. Lab Exercises</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 4.1 — Simple Calculator (45 min)</strong>
+      <p>Create a Java Application called <code>SimpleCalculator</code>. The program should:</p>
+      <ol>
+        <li>Ask the user for two numbers (use <code>Double.parseDouble</code>).</li>
+        <li>Calculate and display all five results on separate lines with clear labels:
+          <ul>
+            <li>Sum (a + b)</li>
+            <li>Difference (a − b)</li>
+            <li>Product (a × b)</li>
+            <li>Quotient (a ÷ b) — formatted to 2 decimal places using <code>String.format("%.2f", ...)</code></li>
+            <li>Remainder (a % b) — only meaningful for whole numbers; cast to <code>int</code> for this line</li>
+          </ul>
+        </li>
+        <li>Print a formatted summary line: <code>=== 15.00 + 4.00 = 19.00 ===</code></li>
+        <li>Test with: (15, 4), (10, 3), and (7.5, 2.5).</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 4.2 — Grade Checker (45 min)</strong>
+      <p>Create a Java Application called <code>GradeChecker</code>. The program should:</p>
+      <ol>
+        <li>Ask the user for a student's name and their exam mark (0–100).</li>
+        <li>Store these comparison results in <code>boolean</code> variables (no <code>if</code> yet — just calculate and print):
+          <ul>
+            <li><code>boolean isPass</code> = mark is 50 or above</li>
+            <li><code>boolean isDistinction</code> = mark is 75 or above</li>
+            <li><code>boolean isFail</code> = mark is below 50</li>
+            <li><code>boolean isValid</code> = mark is between 0 and 100 inclusive</li>
+          </ul>
+        </li>
+        <li>Print all four boolean results with descriptive labels, e.g. <code>Pass (>=50): True</code>.</li>
+        <li>Print a formatted results table showing: Name, Mark (right-aligned), Pass, Distinction, Fail.</li>
+        <li>Test with marks: 85, 50, 49, 100, and 0.</li>
+        <li><strong>Challenge preview:</strong> Add a comment in your code showing how you <em>would</em> write an <code>if</code> statement to print "Congratulations!" only when <code>isDistinction</code> is true — you will make this work in Session 05.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 04</strong>
+      <ol>
+        <li>State the result of: <code>17 % 5</code>, <code>17 / 5</code> (int), and <code>17.0 / 5</code> (double). Explain the difference. (4 marks)</li>
+        <li>List the six relational operators and give an example expression for each. (6 marks)</li>
+        <li>Explain the difference between <code>&amp;&amp;</code> and <code>||</code> with a truth-table style example. (4 marks)</li>
+        <li>What is operator precedence? Evaluate: <code>2 + 3 * 4</code> and <code>(2 + 3) * 4</code>. (3 marks)</li>
+        <li>Format the value <code>72.4567</code> to 2 decimal places using concatenation or String.format. (2 marks)</li>
+        <li>Write a program that reads two integers and prints their sum, product, and whether the first is greater than the second. (6 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 04 Summary</h3>
+    <ul>
+      <li>Arithmetic: <code>+ - * / %</code>; integer division discards decimals; <code>%</code> gives the remainder.</li>
+      <li>Increment/decrement: <code>++</code> and <code>--</code> add or subtract 1; compound operators like <code>+=</code> combine operation and assignment.</li>
+      <li>Relational operators (<code>== != &gt; &lt; &gt;= &lt;=</code>) compare values and produce <code>boolean</code> results.</li>
+      <li>Logical operators: <code>&amp;&amp;</code> (AND), <code>||</code> (OR), <code>!</code> (NOT) combine boolean expressions.</li>
+      <li>Precedence: parentheses first, then */%, then +−, then comparisons, then logical. Use parentheses when unsure.</li>
+      <li>Formatting: <code>String.format("%.2f", value)</code> for decimals, <code>%-10s</code> for left-aligned columns.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-03.html" class="btn btn-secondary">&larr; S03 - Variables &amp; I/O</a>
+    <a href="session-05.html" class="btn btn-primary">S05 - Decision Structures &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 04 &ndash; Operators &amp; Formatted Output &nbsp;|&nbsp; These notes are for educational use only.</p>
+<p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Model Paper 08 - OOP - Moderate-Hard</title>
+  <style>
+@page { size: A4; margin: 12mm 12mm 12mm 12mm; }
+* { box-sizing: border-box; }
+html { zoom: 0.94; }
+body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 10.5pt;
+  line-height: 1.35;
+  color: #111;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 0;
+}
+h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; margin: 0; }
+.header {
+  text-align: center;
+  border-bottom: 2.5px solid #1a3a5c;
+  padding-bottom: 7px;
+  margin-bottom: 8px;
+}
+.header .inst { font-size: 13pt; font-weight: 700; color: #1a3a5c; }
+.header .mod { font-size: 9.5pt; margin-top: 2px; }
+.header .paper-title {
+  font-size: 12.5pt;
+  font-weight: 700;
+  margin-top: 7px;
+  text-transform: uppercase;
+  color: #1a3a5c;
+}
+.header .sub { font-size: 9.5pt; margin-top: 3px; }
+.diff {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9pt;
+  font-weight: 700;
+}
+.diff-easy { background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; }
+.diff-easy-mod { background: #e3f2fd; color: #1565c0; border: 1px solid #1565c0; }
+.diff-mod { background: #fff8e1; color: #f57f17; border: 1px solid #f57f17; }
+.diff-mod-hard { background: #fff3e0; color: #e65100; border: 1px solid #e65100; }
+.diff-hard { background: #ffebee; color: #c62828; border: 1px solid #c62828; }
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 6px 0 8px;
+  font-size: 10pt;
+}
+.info strong { color: #1a3a5c; }
+.box {
+  border: 1.5px solid #1a3a5c;
+  padding: 7px 10px;
+  margin: 0 0 10px;
+  background: #f7f9fc;
+}
+.box h3 { font-size: 10pt; color: #1a3a5c; margin-bottom: 3px; }
+.box ol { margin: 2px 0 0 18px; padding: 0; }
+.box li { margin: 1px 0; }
+.q {
+  margin: 0 0 11px;
+  border-top: 1px solid #ccd;
+  padding-top: 7px;
+}
+.q-head {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 11pt;
+  color: #1a3a5c;
+  margin-bottom: 3px;
+}
+.q p { margin: 3px 0; }
+.q ol { margin: 4px 0 0 18px; }
+.q li { margin: 3px 0; }
+.code {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 9pt;
+  background: #f4f4f4;
+  border: 1px solid #ccc;
+  padding: 5px 8px;
+  margin: 4px 0;
+  white-space: pre;
+  line-height: 1.28;
+}
+.footer {
+  margin-top: 10px;
+  border-top: 1.5px solid #1a3a5c;
+  padding-top: 4px;
+  font-size: 8.5pt;
+  text-align: center;
+  color: #444;
+}
+.end {
+  text-align: center;
+  font-weight: 700;
+  margin: 10px 0 3px;
+  letter-spacing: 2px;
+  font-size: 10.5pt;
+}
+@media print {
+  body { padding: 0; }
+  .q, .box, .code { break-inside: avoid; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="inst">College of Technology Galle</div>
+    <div class="mod">Course: Full Stack Software Development &mdash; Object Oriented Programming &mdash; Module K72T004M03 &mdash; NVQ Level 05</div>
+    <div class="paper-title">Semester Model Paper 08</div>
+    <div class="sub">Focus: Library/school style systems, interfaces, exam-style design</div>
+    <div class="diff diff-mod-hard">Difficulty: Moderate-Hard</div>
+  </div>
+
+  <div class="info">
+    <div><strong>Duration:</strong> 3 Hours</div>
+    <div><strong>Total Marks:</strong> 100</div>
+    <div><strong>Questions:</strong> 7 structured questions (answer any <strong>5</strong>)</div>
+    <div><strong>Each question:</strong> 20 marks</div>
+  </div>
+
+  <div class="box">
+    <h3>Instructions to Candidates</h3>
+    <ol>
+      <li>Answer any <strong>five (5)</strong> questions out of the seven provided.</li>
+      <li>Each question carries <strong>20 marks</strong>. Maximum mark for this paper is <strong>100</strong>.</li>
+      <li>Write answers in the answer booklet. Do <strong>not</strong> write answers on this question paper.</li>
+      <li>Where Java code is required, write clear, syntactically correct Java as taught in this module (VS Code / JDK).</li>
+      <li>Show workings / short explanations where asked. Manage your time (about 35 minutes per question).</li>
+      <li>Mobile phones and programmable devices are not allowed.</li>
+    </ol>
+  </div>
+
+  <div class="q">
+    <div class="q-head">Question 1 &nbsp;[20 Marks]</div>
+    <p>Full encapsulation review.</p>
+<ol type="a">
+  <li>Critique a class that exposes public arrays of marks - what can go wrong? <strong>(6 marks)</strong></li>
+  <li>Redesign with private data, controlled addMark/getAverage, and validation 0-100. <strong>(10 marks)</strong></li>
+  <li>Write a short note on information hiding for a non-technical manager. <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 2 &nbsp;[20 Marks]</div>
+    <p>Multi-level inheritance care.</p>
+<ol type="a">
+  <li>Write inheritance chain Vehicle -&gt; Car -&gt; ElectricCar with one new field/method at each level. <strong>(10 marks)</strong></li>
+  <li>Show constructor chaining with <code>super</code> at each level. <strong>(6 marks)</strong></li>
+  <li>State one risk of deep inheritance trees and one alternative (e.g. composition). <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 3 &nbsp;[20 Marks]</div>
+    <p>Interface segregation lite.</p>
+<ol type="a">
+  <li>Define interfaces <code>Borrowable</code> and <code>Reservable</code> with suitable methods. <strong>(6 marks)</strong></li>
+  <li>Implement a <code>Book</code> that is borrowable and reservable, and a <code>Magazine</code> that is only borrowable. <strong>(10 marks)</strong></li>
+  <li>Why might two small interfaces be better than one large "LibraryItemOps" interface? <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 4 &nbsp;[20 Marks]</div>
+    <p>Polymorphic collections.</p>
+<ol type="a">
+  <li>Create an abstract <code>Staff</code> with <code>work()</code>; concrete <code>Librarian</code> and <code>Clerk</code>. <strong>(8 marks)</strong></li>
+  <li>Store both in a <code>List&lt;Staff&gt;</code> (or array) and invoke <code>work()</code> in a loop. <strong>(6 marks)</strong></li>
+  <li>Explain what would break if <code>work</code> were removed from the superclass and only defined in subclasses while the list type stayed <code>Staff</code>. <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 5 &nbsp;[20 Marks]</div>
+    <p>Classroom composition.</p>
+<ol type="a">
+  <li>Write <code>Desk</code> and a <code>Classroom</code> that owns a fixed array/list of desks created in its constructor. <strong>(10 marks)</strong></li>
+  <li>Add <code>occupyDesk(int index, String studentName)</code> with bounds checks. <strong>(6 marks)</strong></li>
+  <li>Why is this composition rather than a weak association? <strong>(4 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 6 &nbsp;[20 Marks]</div>
+    <div class="code">class A {
+    void hello() { System.out.println("A"); }
+}
+class B extends A {
+    void hello() { System.out.println("B"); }
+    void onlyB() { System.out.println("onlyB"); }
+}</div>
+<p>Predict and reason.</p>
+<ol type="a">
+  <li>For <code>A x = new B();</code> which calls compile: <code>x.hello()</code>, <code>x.onlyB()</code>? What prints for the legal call? <strong>(8 marks)</strong></li>
+  <li>How can you call <code>onlyB</code> safely using a cast? What risk does a wrong cast bring? <strong>(6 marks)</strong></li>
+  <li>Rewrite using an override-only design so clients need no cast for normal use. <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+  <div class="q">
+    <div class="q-head">Question 7 &nbsp;[20 Marks]</div>
+    <p>Exam scenario - COT library desk.</p>
+<ol type="a">
+  <li>A librarian needs to search by title keyword and borrow by ISBN. Outline classes/methods (no full code). <strong>(8 marks)</strong></li>
+  <li>Write the <code>matchesSearch(String keyword)</code> method body using <code>toLowerCase</code> / <code>contains</code>. <strong>(6 marks)</strong></li>
+  <li>Explain where encapsulation and exceptions would improve this desk system. <strong>(6 marks)</strong></li>
+</ol>
+
+  </div>
+
+  <div class="end">***** END OF QUESTION PAPER *****</div>
+  <div class="footer">
+    College of Technology Galle &nbsp;|&nbsp; OOP Module K72T004M03 &nbsp;|&nbsp; Model Paper 08 (Moderate-Hard)
+  </div>
+</body>
+</html>

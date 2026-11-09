@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 27 - Revision â€” Inheritance & Polymorphism Drills</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 27 of 32 &nbsp;&bull;&nbsp; 3-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>Revision â€” Inheritance & Polymorphism Drills</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 3 Hours</span>
+    <span class="stag stag-type" style="background:#f3e5f5;color:#6a1b9a;">Revision</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 27 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<div class="note-box">
+  <strong>Revision Session</strong>
+  <p>Re-read the sections below, redo lab tasks without looking at solutions, and test yourself using the summary boxes.</p>
+</div><div class="lesson-header" style="background:linear-gradient(135deg,#558b2f,#33691e);">
+    <div class="lesson-num">Lesson 08 of 10 — The Third Pillar of OOP</div>
+    <h2>Polymorphism</h2>
+    <p>Greek: <em>poly</em> = many, <em>morph</em> = form. The same method call — <code>animal.makeSound()</code> — produces a bark from a Dog and a meow from a Cat. The caller doesn't need to know or care which one it is talking to. This one idea powers most professional software design.</p>
+    <div class="lesson-meta">
+      <span>⏱ 4 Hours Integrated</span>
+      <span>📋 Session 17 of 23</span>
+      <span>🏛 Pillar 3 of 4</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. The Setup: A Child in a Parent-Shaped Box</h2>
+
+    <p>First, a fact that surprises everyone: because a Car <em>is a</em> Vehicle, Java allows this:</p>
+
+<pre><code>Vehicle v = new Car("Toyota", 2022, 4);   // a Car stored in a Vehicle variable — LEGAL!
+// Think: a Car parked in a space marked "Vehicles". Perfectly truthful.
+
+v.accelerate();          // fine — Vehicles can accelerate
+// v.openBoot();         // ERROR — the variable's TYPE is Vehicle, so only Vehicle
+//                          members are visible through it, even though a Car is inside.</code></pre>
+
+    <p>Why would we ever do this? Because it lets one variable (or one List!) handle <em>any</em> vehicle — car, bus or bike. But it raises the key question: if the child <em>changed</em> a method, which version runs through the parent-typed variable — the parent's or the child's?</p>
+
+    <div class="definition-box">
+      <strong>Definition — Polymorphism (Runtime)</strong>
+      <p><strong>Runtime polymorphism</strong> lets a derived class provide its own implementation of a base-class method, and guarantees the derived version runs <em>even when the object is accessed through a base-typed variable</em>. Java enables it by default: instance methods are overridable unless marked <code>final</code>. Mark replacements with <code>@Override</code>.</p>
+    </div>
+
+    <h3 class="sub-title">1.1 The Classic Demo — Animals</h3>
+
+<pre><code>package zoo;
+
+class Animal {
+    private String name;
+
+    public String getName() { return name; }
+
+    public Animal(String name) { this.name = name; }
+
+    // overridable by default = "this is my default; children MAY replace it"
+    public void makeSound() {
+        System.out.println(name + " makes a generic animal sound.");
+    }
+}
+
+class Dog extends Animal {
+    public Dog(String name) { super(name); }
+
+    // @Override = "I am replacing the parent's version"
+    @Override
+    public void makeSound() {
+        System.out.println(getName() + " says: Woof! Woof!");
+    }
+}
+
+class Cat extends Animal {
+    public Cat(String name) { super(name); }
+
+    @Override
+    public void makeSound() {
+        System.out.println(getName() + " says: Meow~");
+    }
+}
+
+class Duck extends Animal {
+    public Duck(String name) { super(name); }
+    // No override — Duck inherits the parent's default sound
+}
+
+public class Program {
+    public static void main(String[] args) {
+        Animal a1 = new Dog("Rex");
+        Animal a2 = new Cat("Whiskers");
+        Animal a3 = new Duck("Donald");
+
+        a1.makeSound();   // Rex says: Woof! Woof!      <- DOG's version ran!
+        a2.makeSound();   // Whiskers says: Meow~       <- CAT's version ran!
+        a3.makeSound();   // Donald makes a generic...  <- no override, parent version
+
+        // The magic: the SAME LINE of code behaves differently per object.
+        // Java looks at the ACTUAL object at runtime, not the variable's type.
+    }
+}</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 220" role="img" aria-label="Dynamic dispatch">
+        <rect x="40" y="30" width="180" height="70" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="130" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#1565c0">Animal a1</text>
+        <text x="130" y="75" text-anchor="middle" font-size="10" fill="#5b6472">variable type = Animal</text>
+        <text x="130" y="90" text-anchor="middle" font-size="10" fill="#c62828">actual object = Dog</text>
+        <rect x="280" y="120" width="200" height="70" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="380" y="145" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">a1.makeSound()</text>
+        <text x="380" y="165" text-anchor="middle" font-size="10" fill="#1a1f2b">runtime checks actual type</text>
+        <text x="380" y="180" text-anchor="middle" font-size="10" fill="#2e7d32">→ runs Dog's override</text>
+        <line x1="130" y1="100" x2="320" y2="125" stroke="#c62828" stroke-width="2" stroke-dasharray="4 3"/>
+        <text x="220" y="118" font-size="9" fill="#c62828">points to</text>
+        <rect x="520" y="30" width="200" height="160" rx="8" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+        <text x="620" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#b28704">Compile time</text>
+        <text x="620" y="75" text-anchor="middle" font-size="10" fill="#5b6472">variable type decides</text>
+        <text x="620" y="90" text-anchor="middle" font-size="10" fill="#5b6472">which members exist</text>
+        <text x="620" y="120" text-anchor="middle" font-size="11" font-weight="700" fill="#2e7d32">Runtime</text>
+        <text x="620" y="140" text-anchor="middle" font-size="10" fill="#5b6472">actual object decides</text>
+        <text x="620" y="155" text-anchor="middle" font-size="10" fill="#5b6472">which overridden method runs</text>
+        <text x="620" y="175" text-anchor="middle" font-size="10" fill="#5b6472">(dynamic dispatch)</text>
+      </svg>
+      <div class="cap">Figure 17.1 — For overridable methods, Java checks the actual object at runtime, not the variable's declared type.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Two types in play:</strong> the variable's type (Animal — decided at compile time) and the object's actual type (Dog — decided when <code>new</code> ran). For an overridable method, Java waits until <em>runtime</em>, checks the actual object, and runs <em>its</em> version. This lookup is called <strong>dynamic dispatch</strong>.</li>
+        <li><strong>Remote-control analogy:</strong> an Animal-shaped remote has a "makeSound" button. Point it at a dog — bark. Point it at a cat — meow. Same button, behaviour decided by what's actually in front of it.</li>
+        <li><strong>Java note:</strong> In Java, instance methods are overridable by default (unless <code>final</code>). Always mark replacements with <code>@Override</code> so the compiler verifies you are truly overriding.</li>
+        <li><strong>Contrast with overloading (Session 11):</strong> overloading = same name, different <em>parameters</em>, chosen at <em>compile time</em>. Overriding = same name, same signature, different <em>class</em>, chosen at <em>runtime</em>. Exams love this comparison!</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">1.2 Calling the Parent Version Too: <code>super.method()</code></h3>
+<pre><code>class Puppy extends Dog {
+    public Puppy(String name) { super(name); }
+
+    @Override
+    public void makeSound() {
+        super.makeSound();                          // first do everything Dog does...
+        System.out.println(getName() + " also whimpers cutely.");
+    }
+}
+// Output for a Puppy: "Rex says: Woof! Woof!" then "Rex also whimpers cutely."</code></pre>
+    <p>Use <code>super.method()</code> when the child wants to <em>extend</em> rather than completely replace the parent's behaviour.</p>
+
+    <h3 class="sub-title">1.3 The Trap: Forgetting <code>@Override</code></h3>
+<pre><code>class Fox extends Animal {
+    public Fox(String name) { super(name); }
+
+    // Typo in the name — this is a NEW method, not an override!
+    public void makesound() {   // wrong capitalisation
+        System.out.println(getName() + ": Ring-ding-ding!");
+    }
+}
+
+Fox f = new Fox("Fergus");
+f.makesound();               // Ring-ding-ding!      (calls the new method)
+
+Animal a = new Fox("Fergus");
+a.makeSound();               // generic animal sound!!! (parent version — no true override)
+// Without @Override, the compiler never warned you. Always annotate overrides.</code></pre>
+
+    <div class="warn-box">
+      <strong>Rule of Thumb</strong>
+      <p>Always put <code>@Override</code> on methods that replace a parent method. If you mistype the name or signature, the compiler errors immediately instead of silently creating a brand-new method that never participates in polymorphism.</p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 700 140" role="img" aria-label="Overloading vs overriding">
+        <rect x="20" y="20" width="310" height="100" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="175" y="45" text-anchor="middle" font-size="12" font-weight="700" fill="#1565c0">Compile-Time (Overloading)</text>
+        <text x="175" y="65" text-anchor="middle" font-size="10" fill="#1a1f2b">Same method name, different parameters</text>
+        <text x="175" y="82" text-anchor="middle" font-size="10" fill="#1a1f2b">Deposit(int) vs Deposit(double)</text>
+        <text x="175" y="100" text-anchor="middle" font-size="10" fill="#5b6472">Decided when you compile (Session 11)</text>
+        <rect x="370" y="20" width="310" height="100" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+        <text x="525" y="45" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">Runtime (Overriding)</text>
+        <text x="525" y="65" text-anchor="middle" font-size="10" fill="#1a1f2b">Same name + signature, different class</text>
+        <text x="525" y="82" text-anchor="middle" font-size="10" fill="#1a1f2b">@Override (overridable by default)</text>
+        <text x="525" y="100" text-anchor="middle" font-size="10" fill="#5b6472">Decided when program runs (this session)</text>
+      </svg>
+      <div class="cap">Figure 17.2 — Overloading vs overriding: compile-time vs runtime polymorphism.</div>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 17.1 — The Zoo (45 min)</strong>
+      <ol>
+        <li>Build the Zoo project with Animal, Dog, Cat, Duck exactly as above. Verify the three outputs.</li>
+        <li>Add <code>Cow</code> (override: "Moo!") and the <code>Puppy extends Dog</code> two-level override with <code>super.makeSound()</code>.</li>
+        <li>Temporarily rename <code>makeSound</code> in Dog without <code>@Override</code> — observe that polymorphism breaks. Add <code>@Override</code> back and fix the name.</li>
+        <li>Recreate the Fox typo trap (wrong method name, no @Override); run both calls; write one sentence on why the outputs differ.</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 17.2 — Shapes with Polymorphic Area (45 min)</strong>
+      <ol>
+        <li>Base class <code>Shape</code> with <code>public double area() { return 0; }</code> and a <code>describe()</code> method that prints the area.</li>
+        <li>Children: <code>Circle</code> (radius), <code>RectangleShape</code> (length, width), <code>Triangle</code> (base, height) — each overrides <code>area()</code> with its own formula.</li>
+        <li>In Main: <code>Shape s = new Circle(5); System.out.println(s.area());</code> — confirm the circle's formula ran through the Shape variable.</li>
+        <li><strong>Challenge:</strong> describe() lives only in Shape yet prints the right area for every child — explain why in a comment (hint: describe() calls the overridable area()).</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 17</strong>
+      <ol>
+        <li>Define polymorphism. Distinguish compile-time (overloading) from runtime (overriding) polymorphism. (6 marks)</li>
+        <li>What do the keywords method overriding with <code>@Override</code> each declare? (4 marks)</li>
+        <li>Given a base variable holding a child object, state which method version runs and why. (4 marks)</li>
+        <li>Write a base class and two children demonstrating overriding, with a Main that proves dynamic dispatch. (8 marks)</li>
+        <li>What is accidentally hiding methods (avoid; always use @Override) and why is it usually a mistake? (4 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 17 Summary</h3>
+    <ul>
+      <li>A child object may live in a parent-typed variable (is-a makes it truthful).</li>
+      <li><code>overridable</code> (parent permits) + <code>override</code> (child replaces) = runtime polymorphism.</li>
+      <li>For overridable methods, the <em>actual object</em> decides which version runs — dynamic dispatch.</li>
+      <li><code>super.method()</code> extends instead of replaces; <code>new</code> hides and breaks the promise — avoid.</li>
+      <li>Overloading = compile-time, different parameters. Overriding = runtime, different classes.</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-26.html" class="btn btn-secondary">&larr; Session 26</a>
+    <a href="session-28.html" class="btn btn-primary">Session 28 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 27 &nbsp;|&nbsp; 3 Hours &nbsp;|&nbsp; Sequence position 27 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

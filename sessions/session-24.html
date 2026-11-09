@@ -1,0 +1,406 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 24 - School Project â€” Desks, Composition & Full Assembly</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .part-break { margin-top: 28px; padding-top: 8px; border-top: 3px solid var(--primary); }
+    @media print { .topnav,.botnav,.no-print,footer { display:none !important; } @page { margin:18mm 15mm; } }
+  </style>
+</head>
+<body>
+
+<div class="session-banner">
+  <div class="snum">Session 24 of 32 &nbsp;&bull;&nbsp; 2-Hour Session &nbsp;&bull;&nbsp; Object Oriented Programming</div>
+  <h2>School Project â€” Desks, Composition & Full Assembly</h2>
+  <div class="smeta">
+    <span class="stag">&#9203; 2 Hours</span>
+    <span class="stag stag-type" style="background:#e8f5e9;color:#2e7d32;">Practical</span>
+  </div>
+</div>
+
+<div class="topnav no-print">
+  <a href="../index.html">&#127968; Home</a>
+  <a href="index.html">&#128218; Sessions</a>
+  <span class="crumb">&#9656; Session 24 of 32</span>
+  <button class="pdf-btn" type="button" onclick="exportSessionPdf(this)" title="Download PDF"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> PDF</button>
+</div>
+
+<main>
+
+<div class="practical-header">
+    <div class="prac-num">School Project &nbsp;&bull;&nbsp; Part 2 of 2 — Module Finale</div>
+    <h3>Composition, the School Class, and Everything Together</h3>
+    <div class="prac-meta">
+      <span>⏱ 5 Hours</span>
+      <span>📅 Session 23 of 23</span>
+      <span>📂 Opens SchoolSystem Project</span>
+      <span>📝 Final Assessed Demo</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2 class="section-title">1. Desks — Composition with a Purpose</h2>
+
+    <p>Desks aren't just decoration: a student <em>sits at</em> a desk, and a room is full when every desk is taken. The desks are <strong>created by the classroom, for the classroom</strong> — pure composition. When the classroom object is destroyed, its desks are destroyed with it. There is no way to obtain a Desk reference from outside the Classroom.</p>
+
+<pre><code>// File: Desk.java
+package schoolsystem;
+
+class Desk
+{
+private int deskNumber; // Which student sits here? (null = free). An association INSIDE a composed part!
+public int getDeskNumber() { return deskNumber; }
+private void setDeskNumber(int deskNumber) { this.deskNumber = deskNumber; }
+private Student occupant;
+public Student getOccupant() { return occupant; }
+private void setOccupant(Student occupant) { this.occupant = occupant; }
+public boolean isFree() { return this.occupant == null; }
+
+// Only Classroom creates Desks — via new Desk(i) inside its constructor
+public Desk(int number)
+{
+    this.deskNumber = number;
+}
+
+public void seat(Student s)   { this.occupant = s; }
+public void vacate()          { this.occupant = null; }
+}</code></pre>
+
+<pre><code>// File: Classroom.java  (Part 2 upgrade - composition added)
+package schoolsystem;
+
+
+import java.util.*;
+class Classroom
+{
+private String roomNumber;
+public String getRoomNumber() { return roomNumber; }
+private void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+private Teacher teacher;
+public Teacher getTeacher() { return teacher; }
+void setTeacher(Teacher teacher) { this.teacher = teacher; }
+private List&lt;Student&gt; students = new ArrayList<>();
+
+// ===== COMPOSITION: desks are born inside, never exposed as a list =====
+private List&lt;Desk&gt; desks = new ArrayList<>();
+
+public int getCapacity() { return desks.size(); }
+public int getStudentCount() { return students.size(); }
+public boolean isFull() { return getStudentCount() >= getCapacity(); }
+
+public Classroom(String roomNumber, int deskCount)
+{
+    this.roomNumber = roomNumber;
+    for (int i = 1; i &lt;= deskCount; i++)
+    {
+        desks.add(new Desk(i));            // the room BUILDS its own desks
+    }
+}
+
+public void SetTeacher(teacher t) { this.teacher = t; }
+
+public void enroll(Student s)
+{
+    if (IsFull)                                        // capacity comes from desks!
+    {
+        System.out.println("Room " + roomNumber + " is FULL (" + capacity + " desks).");
+        return;
+    }
+    if (students.contains(s))
+    {
+        System.out.println(s.getName() + " is already in " + roomNumber + ".");
+        return;
+    }
+    students.add(s);
+
+    // Seat the student at the first free desk
+    for (Desk d : desks)
+    {
+        if (d.isFree())
+        {
+            d.seat(s);
+            System.out.println(s.getName() + " enrolled in " + roomNumber + ", seated at desk " + d.getDeskNumber() + ".");
+            return;
+        }
+    }
+}
+
+public void remove(Student s)
+{
+    if (!students.remove(s)) return;
+
+    for (Desk d : desks)
+    {
+        if (d.setOccupant(= s)
+        {
+            d.vacate());
+            return;
+        }
+    }
+}
+
+public void transfer(Student s, Classroom target)
+{
+    if (!students.contains(s))
+    {
+        System.out.println(s.getName() + " is not in " + roomNumber + ".");
+        return;
+    }
+    if (target.IsFull)
+    {
+        System.out.println("Cannot transfer - " + target.getRoomNumber() + " is full.");
+        return;
+    }
+    remove(s);
+    target.enroll(s);
+}
+
+public void printRegister()
+{
+    String teacherName = this.teacher == null ? "(no teacher)" : teacher.getName();
+    System.out.println("--- Room " + roomNumber + " | " + teacherName + " | " + getStudentCount() + "/" + capacity + " seats ---");
+    for (Desk d : desks)
+    {
+        String who = d.isFree() ? "(free)" : d.getOccupant().toString();
+        System.out.println("   Desk " + d.getDeskNumber() + ": " + who);
+    }
+}
+}</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 240" role="img" aria-label="Composition lifecycle diagram">
+        <defs>
+          <marker id="dia23" markerWidth="18" markerHeight="12" refX="16" refY="6" orient="auto"><path d="M0,6 L8,0 L16,6 L8,12 Z" fill="#c62828" stroke="#c62828"/></marker>
+        </defs>
+        <text x="360" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1f2b">Composition Lifecycle — Classroom ◆ Desk</text>
+        <rect x="40" y="50" width="200" height="80" rx="10" fill="#fff8e1" stroke="#b28704" stroke-width="2"/>
+        <text x="140" y="78" text-anchor="middle" font-size="12" font-weight="700">new Classroom("R12", 3)</text>
+        <text x="140" y="98" text-anchor="middle" font-size="10">Constructor runs loop:</text>
+        <text x="140" y="115" text-anchor="middle" font-size="10">desks.Add(new Desk(1..3))</text>
+        <text x="280" y="95" text-anchor="middle" font-size="20" fill="#5b6472">→</text>
+        <rect x="300" y="50" width="200" height="80" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+        <text x="400" y="78" text-anchor="middle" font-size="12" font-weight="700">Room R12 alive</text>
+        <text x="400" y="98" text-anchor="middle" font-size="10">3 Desk objects exist</text>
+        <text x="400" y="115" text-anchor="middle" font-size="10">ONLY reachable via R12</text>
+        <text x="530" y="95" text-anchor="middle" font-size="20" fill="#5b6472">→</text>
+        <rect x="550" y="50" width="150" height="80" rx="10" fill="#f5f5f5" stroke="#5b6472" stroke-width="2" stroke-dasharray="5,3"/>
+        <text x="625" y="78" text-anchor="middle" font-size="12" font-weight="700">R12 unreachable</text>
+        <text x="625" y="98" text-anchor="middle" font-size="10">GC collects R12</text>
+        <text x="625" y="115" text-anchor="middle" font-size="10">+ all 3 Desks</text>
+        <line x1="140" y1="155" x2="400" y2="155" stroke="#c62828" stroke-width="2" marker-end="url(#dia23)"/>
+        <rect x="80" y="175" width="80" height="35" rx="5" fill="white" stroke="#c62828"/>
+        <text x="120" y="198" text-anchor="middle" font-size="10">Desk 1</text>
+        <rect x="180" y="175" width="80" height="35" rx="5" fill="white" stroke="#c62828"/>
+        <text x="220" y="198" text-anchor="middle" font-size="10">Desk 2</text>
+        <rect x="280" y="175" width="80" height="35" rx="5" fill="white" stroke="#c62828"/>
+        <text x="320" y="198" text-anchor="middle" font-size="10">Desk 3</text>
+        <text x="360" y="230" text-anchor="middle" font-size="11" fill="#5b6472">Desks cannot exist without Classroom — composition enforced by creation site + encapsulation.</text>
+      </svg>
+      <div class="cap">Figure 23.1 — Composition lifecycle: desks are created inside Classroom and destroyed when the classroom is garbage-collected.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>Composition drives real rules:</strong> capacity is <code>desks.Count</code> — because desks are fixed at construction, capacity is a hard physical fact.</li>
+        <li><strong>Layered relationships:</strong> Desk (composed part) holds an association to Student (Occupant). The room owns desks; a desk knows its sitter; the sitter is aggregated by the room.</li>
+        <li><strong>Desks never leak:</strong> no method returns a Desk or the desk list. Outsiders see only Capacity and IsFull.</li>
+        <li><strong>Teacher uses Classroom</strong> (association from Session 22) is unchanged — composition adds desks without breaking the earlier design.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2 class="section-title">2. The School — Tying It All Together</h2>
+
+<pre><code>// File: School.java
+package schoolsystem;
+
+
+import java.util.*;
+class School
+{
+private String name; // School CREATES its classrooms → COMPOSITION
+public String getName() { return name; }
+private void setName(String name) { this.name = name; }
+private List&lt;Classroom&gt; classrooms = new ArrayList<>();
+
+// teachers exist independently (can resign) → AGGREGATION
+private List&lt;teacher&gt; teachers = new ArrayList<>();
+
+public School(String name)
+{
+    this.name = name;
+}
+
+public Classroom buildClassroom(String roomNumber, int deskCount)
+{
+    Classroom room = new Classroom(roomNumber, deskCount);
+    classrooms.add(room);
+    return room;
+}
+
+public void HireTeacher(teacher t)
+{
+    teachers.add(t);
+    System.out.println(t.getName() + " hired at " + name + ".");
+}
+
+public void printSummary()
+{
+    System.out.println("======== " + name + " ========");
+    System.out.println("Classrooms: " + classrooms.size() + " | teachers: " + teachers.size());
+    for (Classroom room : classrooms)
+    {
+        room.PrintRegister();
+    }
+}
+}</code></pre>
+
+<pre><code>// File: Program.java - the grand finale script
+School cot = new School("College of Technology Galle");
+
+Classroom r12 = cot.buildClassroom("R12", 3);
+Classroom r15 = cot.buildClassroom("R15", 2);
+
+teacher silva = new Teacher("Mr. Silva", "Mathematics");
+teacher fernando = new Teacher("Ms. Fernando", "Science");
+cot.HireTeacher(silva);
+cot.HireTeacher(fernando);
+
+silva.assignTo(r12);
+fernando.assignTo(r15);
+
+Student amara = new Student("Amara", "S001");
+Student bimal = new Student("Bimal", "S002");
+Student chami = new Student("Chami", "S003");
+Student dilan = new Student("Dilan", "S004");
+
+r12.enroll(amara);     // seated at desk 1
+r12.enroll(bimal);     // desk 2
+r12.enroll(chami);     // desk 3 - room now FULL
+r12.enroll(dilan);     // refused: "Room R12 is FULL (3 desks)."
+
+r15.enroll(dilan);     // fine - desk 1 of R15
+r12.TransferTo(chami, r15);   // Chami moves and takes R15's last desk
+
+cot.printSummary();    // full picture: rooms, teachers, students, desk occupancy</code></pre>
+
+    <div class="fig">
+      <svg viewBox="0 0 760 280" role="img" aria-label="Full school system diagram">
+        <defs>
+          <marker id="arr23" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1565c0"/></marker>
+          <marker id="dia23o" markerWidth="18" markerHeight="12" refX="16" refY="6" orient="auto"><path d="M0,6 L8,0 L16,6 L8,12 Z" fill="white" stroke="#b28704" stroke-width="1.5"/></marker>
+          <marker id="dia23f" markerWidth="18" markerHeight="12" refX="16" refY="6" orient="auto"><path d="M0,6 L8,0 L16,6 L8,12 Z" fill="#c62828" stroke="#c62828"/></marker>
+        </defs>
+        <rect x="300" y="15" width="160" height="55" rx="8" fill="#f5f5f5" stroke="#5b6472" stroke-width="2"/>
+        <text x="380" y="40" text-anchor="middle" font-size="13" font-weight="700">School</text>
+        <text x="380" y="58" text-anchor="middle" font-size="10">buildClassroom(), HireTeacher()</text>
+        <rect x="80" y="100" width="150" height="55" rx="8" fill="#fff8e1" stroke="#b28704"/>
+        <text x="155" y="125" text-anchor="middle" font-size="12" font-weight="700">Classroom</text>
+        <text x="155" y="143" text-anchor="middle" font-size="10">Teacher, Enroll(), desks</text>
+        <rect x="305" y="100" width="120" height="55" rx="8" fill="#e3f2fd" stroke="#1565c0"/>
+        <text x="365" y="125" text-anchor="middle" font-size="12" font-weight="700">Teacher</text>
+        <text x="365" y="143" text-anchor="middle" font-size="10">uses Classroom</text>
+        <rect x="500" y="100" width="120" height="55" rx="8" fill="#e8f5e9" stroke="#2e7d32"/>
+        <text x="560" y="125" text-anchor="middle" font-size="12" font-weight="700">Student</text>
+        <text x="560" y="143" text-anchor="middle" font-size="10">aggregated</text>
+        <rect x="80" y="200" width="100" height="45" rx="6" fill="#ffebee" stroke="#c62828"/>
+        <text x="130" y="228" text-anchor="middle" font-size="11" font-weight="700">Desk</text>
+        <line x1="380" y1="70" x2="155" y2="100" stroke="#c62828" stroke-width="2" marker-end="url(#dia23f)"/>
+        <text x="250" y="82" text-anchor="middle" font-size="9" fill="#c62828">School ◆ Classroom</text>
+        <line x1="305" y1="127" x2="230" y2="127" stroke="#1565c0" stroke-width="2" marker-end="url(#arr23)"/>
+        <text x="268" y="118" text-anchor="middle" font-size="9" fill="#1565c0">Teacher → Room</text>
+        <line x1="500" y1="127" x2="230" y2="127" stroke="#b28704" stroke-width="2" marker-end="url(#dia23o)"/>
+        <text x="380" y="118" text-anchor="middle" font-size="9" fill="#b28704">Room ◇ Student</text>
+        <line x1="155" y1="155" x2="130" y2="200" stroke="#c62828" stroke-width="2" marker-end="url(#dia23f)"/>
+        <text x="100" y="180" text-anchor="middle" font-size="9" fill="#c62828">Room ◆ Desk</text>
+        <rect x="480" y="200" width="260" height="70" rx="8" fill="#1a1f2b"/>
+        <text x="610" y="225" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Module Complete — 23 Sessions</text>
+        <text x="610" y="245" text-anchor="middle" font-size="10" fill="#ccc">4 Pillars + 3 Relationships + 2 Projects</text>
+        <text x="610" y="262" text-anchor="middle" font-size="10" fill="#ccc">Library System + School System</text>
+      </svg>
+      <div class="cap">Figure 23.2 — Complete School system: all three relationship types in one design.</div>
+    </div>
+
+    <div class="logic-box">
+      <strong>&#129504; Beginner's Logic Breakdown</strong>
+      <ol>
+        <li><strong>One paragraph of Main = the whole module:</strong> constructors build encapsulated objects; Teacher uses Classroom (association); Classroom has Students (aggregation); Classroom has Desks (composition — destroyed with classroom).</li>
+        <li><strong>buildClassroom vs HireTeacher:</strong> one creates inside (composition), one accepts from outside (aggregation). The method shape tells you the relationship.</li>
+        <li><strong>Capacity chain:</strong> "R12 is FULL" traced backwards: Enroll → IsFull → Capacity → composed desk count.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2 class="section-title">3. Final Assignment &amp; Demo</h2>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 23.1 — Complete the School (90 min, assessed)</strong>
+      <ol>
+        <li>Add Desk and upgrade Classroom to the composition version; add the School class; run the finale script and verify every line of output.</li>
+        <li>Add <code>School.findRoom(String roomNumber)</code> and menu-drive the system: build room, hire teacher, assign, enrol, transfer, summary.</li>
+        <li>Print the summary AFTER the transfers and check desk numbers make sense (vacated desks are reused).</li>
+      </ol>
+    </div>
+
+    <div class="lab-box">
+      <strong>&#128300; Lab Task 23.2 — Design Defence (assessed, 60 min)</strong>
+      <p>The module's final assessed activity. Each student answers on paper, then discusses with the lecturer:</p>
+      <ol>
+        <li>List every relationship in your SchoolSystem and classify it (association / aggregation / composition) with a one-sentence justification each.</li>
+        <li>Confirm: Teacher <strong>uses</strong> Classroom; Classroom <strong>has</strong> Desks that are <strong>destroyed with the classroom</strong>.</li>
+        <li>The client asks: "Students should borrow textbooks from a school library." Design the addition: which classes, which relationships?</li>
+        <li>Spot the design flaw: if we made <code>desks</code> public, what disasters become possible? Name the pillar that prevents them.</li>
+        <li>Zip and submit SchoolSystem + your written answers.</li>
+      </ol>
+    </div>
+
+    <div class="exam-box">
+      <strong>Likely Exam Questions from Session 23 (Module Synthesis)</strong>
+      <ol>
+        <li>Implement a class composed of parts created in its constructor, with a capacity rule derived from the parts. (10 marks)</li>
+        <li>Contrast aggregation vs composition using the School example. (6 marks)</li>
+        <li>Identify all relationships in a given class diagram and justify each. (8 marks)</li>
+        <li>Synthesis: for each OOP pillar and relationship type, point to one example in a school management system. (10 marks)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>Session 23 Summary — MODULE COMPLETE</h3>
+    <ul>
+      <li>Composition in action: desks born in the constructor drive a real capacity rule; destroyed with the classroom.</li>
+      <li>Teacher uses Classroom (association); Classroom has Students (aggregation); Classroom has Desks (composition).</li>
+      <li>Method shape reveals relationship: Build… creates inside; Hire… accepts outside.</li>
+      <li>You have now used every tool in the module — four pillars + three relationships — in two working systems.</li>
+      <li>From flowcharts to full OOP systems in 80 hours. Well done!</li>
+    </ul>
+  </div>
+
+  <div class="botnav no-print">
+    <a href="session-23.html" class="btn btn-secondary">&larr; Session 23</a>
+    <a href="session-25.html" class="btn btn-primary">Session 25 &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>College of Technology Galle &nbsp;|&nbsp; Object Oriented Programming &ndash; Module K72T004M03 &nbsp;|&nbsp; Level 05</p>
+  <p style="margin-top:6px;font-size:0.8rem;">Session 24 &nbsp;|&nbsp; 2 Hours &nbsp;|&nbsp; Sequence position 24 of 32</p>
+  <p style="margin-top:6px;font-size:0.8rem;"><strong>Author:</strong> Jayashan Liyanage</p>
+</footer>
+
+<script src="../js/vendor/pdfmake.min.js"></script>
+<script src="../js/vendor/vfs_fonts.js"></script>
+<script src="../js/export-pdf.js"></script>
+</body>
+</html>

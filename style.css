@@ -1,0 +1,859 @@
+/* ============================================================
+   Object Oriented Programming (C# .NET) Module - Shared Stylesheet
+   College of Technology Galle
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap');
+
+:root {
+  --primary: #1a3a5c;
+  --secondary: #2e7d32;
+  --accent: #e65100;
+  --highlight: #f9a825;
+  --light-bg: #f5f7fa;
+  --card-bg: #ffffff;
+  --border: #dde3ea;
+  --text: #212529;
+  --text-light: #6c757d;
+  --info: #0277bd;
+  --warning: #f57f17;
+  --danger: #c62828;
+  --success: #2e7d32;
+  --note-bg: #e8f5e9;
+  --note-border: #43a047;
+  --tip-bg: #e3f2fd;
+  --tip-border: #1e88e5;
+  --warn-bg: #fff8e1;
+  --warn-border: #fdd835;
+  --def-bg: #f3e5f5;
+  --def-border: #8e24aa;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text);
+  background: var(--light-bg);
+}
+
+/* ---- PRINT STYLES ---- */
+@media print {
+  body { background: white; font-size: 13pt; }
+  .no-print { display: none !important; }
+  .page-break { page-break-before: always; }
+  header, .lesson-nav { page-break-after: avoid; }
+  h2, h3 { page-break-after: avoid; }
+  table { page-break-inside: avoid; }
+  .note-box, .definition-box, .tip-box { page-break-inside: avoid; }
+}
+
+/* ---- HEADER ---- */
+header {
+  background: linear-gradient(135deg, var(--primary) 0%, #0d2137 100%);
+  color: white;
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  padding: 5px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.header-logo {
+  width: 34px;
+  height: 34px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.header-info h1 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  line-height: 1.2;
+}
+.header-info p { font-size: 0.72rem; opacity: 0.8; line-height: 1.2; }
+.header-meta {
+  display: flex;
+  gap: 14px;
+  padding: 3px 18px;
+  background: rgba(0,0,0,0.2);
+  font-size: 0.72rem;
+  flex-wrap: wrap;
+}
+.header-meta span { opacity: 0.9; }
+.header-meta strong { color: var(--highlight); }
+
+/* ---- LESSON NAV ---- */
+.lesson-nav {
+  background: var(--primary);
+  padding: 3px 18px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.75rem;
+}
+.lesson-nav a {
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.lesson-nav a:hover, .lesson-nav a.active {
+  background: var(--highlight);
+  color: var(--primary);
+  border-color: var(--highlight);
+  font-weight: 700;
+}
+
+/* ---- MAIN LAYOUT ---- */
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 30px 20px 60px;
+}
+
+/* ---- LESSON HEADER ---- */
+.lesson-header {
+  background: linear-gradient(135deg, var(--primary), #1565c0);
+  color: white;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(26,58,92,0.25);
+}
+.lesson-header .lesson-num {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--highlight);
+  margin-bottom: 2px;
+}
+.lesson-header h2 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+.lesson-header .lesson-meta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+.lesson-header .lesson-meta span {
+  background: rgba(255,255,255,0.15);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* ---- OUTCOMES BOX ---- */
+.outcomes-box {
+  background: var(--tip-bg);
+  border-left: 5px solid var(--tip-border);
+  border-radius: 8px;
+  padding: 20px 25px;
+  margin-bottom: 30px;
+}
+.outcomes-box h3 {
+  color: var(--info);
+  margin-bottom: 10px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.outcomes-box ul {
+  list-style: none;
+  padding: 0;
+}
+.outcomes-box ul li {
+  padding: 4px 0 4px 24px;
+  position: relative;
+  font-size: 0.95rem;
+}
+.outcomes-box ul li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--tip-border);
+  font-weight: 700;
+}
+
+/* ---- SECTION HEADINGS ---- */
+.section {
+  margin-bottom: 40px;
+}
+
+h2.section-title {
+  font-family: 'Merriweather', serif;
+  font-size: 1.5rem;
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary);
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+h3.sub-title {
+  font-size: 1.15rem;
+  color: var(--secondary);
+  margin-top: 25px;
+  margin-bottom: 12px;
+  padding-left: 14px;
+  border-left: 4px solid var(--secondary);
+}
+
+h4.topic-title {
+  font-size: 1rem;
+  color: var(--accent);
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+/* ---- PARAGRAPH ---- */
+p {
+  margin-bottom: 14px;
+  text-align: justify;
+}
+
+/* ---- SPECIAL BOXES ---- */
+.note-box {
+  background: var(--note-bg);
+  border-left: 5px solid var(--note-border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+.note-box strong { color: var(--note-border); display: block; margin-bottom: 6px; font-size: 0.85rem; text-transform: uppercase; }
+
+.definition-box {
+  background: var(--def-bg);
+  border-left: 5px solid var(--def-border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 20px 0;
+}
+.definition-box strong { color: var(--def-border); display: block; margin-bottom: 6px; font-size: 0.85rem; text-transform: uppercase; }
+
+.tip-box {
+  background: var(--tip-bg);
+  border-left: 5px solid var(--tip-border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+.tip-box strong { color: var(--info); display: block; margin-bottom: 6px; font-size: 0.85rem; text-transform: uppercase; }
+
+.warn-box {
+  background: var(--warn-bg);
+  border-left: 5px solid var(--warn-border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+.warn-box strong { color: var(--warning); display: block; margin-bottom: 6px; font-size: 0.85rem; text-transform: uppercase; }
+
+.exam-box {
+  background: #fff3e0;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin: 25px 0;
+}
+.exam-box strong { color: var(--accent); display: block; margin-bottom: 8px; font-size: 0.9rem; text-transform: uppercase; }
+
+/* Print/PDF-safe versions: dark text on light background so titles and
+   contents remain visible even when background graphics are not printed. */
+@media print {
+  .summary-box {
+    background: #eef4fb !important;
+    color: #1a1f2b !important;
+    border: 2px solid #1565c0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    page-break-inside: avoid;
+  }
+  .summary-box h3 { color: #0d47a1 !important; }
+  .summary-box ul li { color: #1a1f2b !important; opacity: 1 !important; }
+  .exam-box { background: #fff3e0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; page-break-inside: avoid; }
+  .exam-box strong { color: #e65100 !important; display: block !important; }
+}
+
+/* ---- TABLES ---- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.93rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+thead th {
+  background: var(--primary);
+  color: white;
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+}
+tbody td {
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--border);
+}
+tbody tr:nth-child(even) { background: #f8f9fa; }
+tbody tr:hover { background: #e8eef5; }
+
+/* ---- CODE BLOCKS ---- */
+pre {
+  background: #000000;
+  color: #d4d4d4;
+  border-radius: 8px;
+  padding: 20px;
+  overflow-x: auto;
+  margin: 20px 0;
+  font-family: 'Source Code Pro', Consolas, 'Courier New', monospace;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  border: 1px solid #222;
+}
+code {
+  font-family: 'Source Code Pro', Consolas, 'Courier New', monospace;
+  background: #e9ecef;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.88em;
+  color: var(--danger);
+}
+pre code { background: transparent; padding: 0; color: #d4d4d4; font-size: inherit; }
+
+/* ---- LISTS ---- */
+ul, ol {
+  padding-left: 25px;
+  margin-bottom: 14px;
+}
+ul li, ol li {
+  margin-bottom: 6px;
+  line-height: 1.7;
+}
+ul li::marker { color: var(--primary); }
+
+/* ---- DIAGRAM / FIGURE ---- */
+.diagram {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 25px;
+  margin: 25px 0;
+  text-align: center;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.85rem;
+  line-height: 1.9;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+}
+.diagram .diagram-title {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ---- SVG FIGURES (like reference file) ---- */
+.fig {
+  margin: 18px 0;
+  text-align: center;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 14px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.fig svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.cap {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-top: 8px;
+  font-style: italic;
+  text-align: center;
+}
+@media print {
+  .fig { page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+}
+
+/* ---- CARD GRID ---- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 18px;
+  margin: 20px 0;
+}
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--primary);
+  transition: transform 0.2s;
+}
+.card:hover { transform: translateY(-3px); }
+.card h4 { color: var(--primary); margin-bottom: 10px; }
+.card.green { border-top-color: var(--secondary); }
+.card.orange { border-top-color: var(--accent); }
+.card.yellow { border-top-color: var(--highlight); }
+.card.blue { border-top-color: var(--info); }
+
+/* ---- RESOURCES SECTION ---- */
+.resources-section {
+  background: white;
+  border-radius: 10px;
+  padding: 25px 30px;
+  margin-top: 40px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  border-top: 4px solid var(--accent);
+}
+.resources-section h3 { color: var(--accent); margin-bottom: 15px; }
+.resource-list { list-style: none; padding: 0; }
+.resource-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.93rem;
+}
+.resource-list li:last-child { border-bottom: none; }
+.resource-list li .res-icon { font-size: 1.2em; flex-shrink: 0; margin-top: 2px; }
+.resource-list li a { color: var(--info); text-decoration: none; font-weight: 600; }
+.resource-list li a:hover { text-decoration: underline; }
+
+/* ---- OOP MODULE: LAB TASK BOX ---- */
+.lab-box {
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  border: 2px solid #2e7d32;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin: 25px 0;
+}
+.lab-box > strong:first-child {
+  color: #2e7d32;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.lab-box ol, .lab-box ul { margin-bottom: 8px; }
+
+/* ---- OOP MODULE: BEGINNER'S LOGIC BREAKDOWN BOX ---- */
+.logic-box {
+  background: #fff8e1;
+  border-left: 5px solid #f9a825;
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+.logic-box > strong:first-child {
+  color: #b28704;
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+.logic-box ol li, .logic-box ul li { margin-bottom: 8px; }
+.logic-box code { background: #fff3cd; color: #7a5c00; }
+
+/* ---- OOP MODULE: PRACTICAL / STEP STYLES (shared) ---- */
+.practical-header {
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  color: white;
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 30px 0 20px;
+  box-shadow: 0 4px 15px rgba(46,125,50,0.3);
+}
+.practical-header .prac-num { font-size:0.8rem; text-transform:uppercase; letter-spacing:2px; color:#a5d6a7; margin-bottom:5px; }
+.practical-header h3 { font-size:1.4rem; margin-bottom:8px; }
+.practical-header .prac-meta { display:flex; gap:15px; flex-wrap:wrap; font-size:0.85rem; opacity:0.85; margin-top:10px; }
+.practical-header .prac-meta span { background:rgba(255,255,255,0.15); padding:3px 10px; border-radius:12px; }
+
+.step-list { list-style:none; padding:0; counter-reset:step-counter; }
+.step-list li {
+  counter-increment: step-counter;
+  padding: 12px 15px 12px 55px;
+  position: relative;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+.step-list li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  width: 28px;
+  height: 28px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.objective-list { list-style:none; padding:0; }
+.objective-list li { padding: 5px 5px 5px 28px; position:relative; }
+.objective-list li::before { content:"🎯"; position:absolute; left:0; }
+
+/* ---- FOOTER ---- */
+footer {
+  background: var(--primary);
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  padding: 20px;
+  font-size: 0.85rem;
+}
+
+/* ---- NAVIGATION BUTTONS ---- */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid var(--border);
+}
+.btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: #0d2137; }
+.btn-secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+.btn-secondary:hover { background: var(--primary); color: white; }
+
+/* ---- SESSION PLAN TABLE ---- */
+.session-table th { background: #1a3a5c; }
+.session-table .theory-row { background: #e3f2fd; }
+.session-table .practical-row { background: #e8f5e9; }
+.session-table .mixed-row { background: #fff8e1; }
+
+/* ---- SUMMARY BOX ---- */
+.summary-box {
+  background: linear-gradient(135deg, #1a3a5c, #1565c0);
+  color: white;
+  border-radius: 10px;
+  padding: 25px 30px;
+  margin: 30px 0;
+}
+.summary-box h3 { color: var(--highlight); margin-bottom: 12px; }
+.summary-box ul { padding-left: 20px; }
+.summary-box ul li { margin-bottom: 6px; opacity: 0.9; }
+
+/* ---- SESSION PAGE HEADER ---- */
+.session-banner {
+  background: linear-gradient(135deg, #1a3a5c 0%, #0d47a1 100%);
+  color: white;
+  padding: 6px 16px;
+}
+.session-banner .snum {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.75;
+  margin-bottom: 0;
+  line-height: 1.2;
+}
+.session-banner h2 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.05rem;
+  margin: 0 0 3px;
+  line-height: 1.2;
+}
+.session-banner .smeta { display: flex; gap: 4px; flex-wrap: wrap; }
+.session-banner .stag,
+.stag {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.15);
+  line-height: 1.4;
+}
+.stag-type { background: #e3f2fd !important; color: #1565c0 !important; }
+.topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 16px;
+  background: #f0f4f8;
+  border-bottom: 1px solid #dde;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-height: 28px;
+}
+.topnav a { font-size: 0.75rem; color: var(--primary); text-decoration: none; font-weight: 600; }
+.topnav a:hover { text-decoration: underline; }
+.topnav .crumb { font-size: 0.72rem; color: var(--text-light); }
+.botnav { display: flex; justify-content: space-between; margin: 30px 0 10px; flex-wrap: wrap; gap: 10px; }
+
+/* ---- LESSON FOLDER INDEX HERO ---- */
+.lesson-hero {
+  background: linear-gradient(135deg, #1a3a5c, #0d47a1);
+  color: white;
+  padding: 6px 16px;
+}
+.lesson-hero .lnum {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.7;
+  margin-bottom: 0;
+  line-height: 1.2;
+}
+.lesson-hero h2 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.05rem;
+  margin: 0 0 3px;
+  line-height: 1.2;
+}
+.lesson-hero .lmeta { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 3px; }
+.lesson-hero .ltag {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  background: rgba(255,255,255,0.18);
+  line-height: 1.4;
+}
+
+/* ---- SESSION PDF BUTTON (compact, in topnav) ---- */
+.pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  padding: 3px 9px;
+  background: #c62828;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: inherit;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.pdf-btn:hover { background: #b71c1c; }
+.pdf-btn svg { flex-shrink: 0; }
+.pdf-btn:disabled { opacity: 0.7; cursor: wait; }
+.pdf-btn-loading { font-size: 0.72rem; }
+
+/* ---- PDF EXPORT RENDER (off-screen, fully visible to html2canvas) ---- */
+#pdf-render-host {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 960px;
+  z-index: -9999;
+  pointer-events: none;
+  overflow: visible;
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-200vw);
+}
+.pdf-export-unit-wrap {
+  padding: 0;
+  margin: 0;
+  width: 960px;
+}
+.pdf-export-unit-wrap > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.pdf-export-sheet,
+.pdf-export-cover {
+  width: 960px;
+  background: #fff;
+  color: #212529;
+  font-family: 'Open Sans', 'Segoe UI', Arial, sans-serif;
+  font-size: 11pt;
+  line-height: 1.55;
+  padding: 0;
+  box-sizing: border-box;
+}
+.pdf-export-cover {
+  padding: 48px 36px;
+  text-align: center;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 2px solid #1a3a5c;
+  border-radius: 8px;
+}
+.pdf-cover-inst { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px; color: #666; margin-bottom: 8px; }
+.pdf-cover-module { font-size: 0.78rem; color: #1a3a5c; margin-bottom: 28px; }
+.pdf-cover-title { font-family: 'Merriweather', Georgia, serif; font-size: 1.55rem; color: #1a3a5c; margin: 0 0 14px; line-height: 1.3; }
+.pdf-cover-session { font-size: 0.82rem; color: #555; margin-bottom: 10px; }
+.pdf-cover-tags { font-size: 0.8rem; color: #1565c0; margin-bottom: 24px; }
+.pdf-cover-author { font-size: 0.82rem; color: #444; margin-top: 20px; padding-top: 16px; border-top: 1px solid #dde; }
+
+.pdf-export-sheet .section-title {
+  font-size: 1.05rem;
+  margin-top: 0;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #1a3a5c;
+}
+.pdf-export-sheet .fig {
+  margin: 12px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+}
+.pdf-export-sheet .fig svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  shape-rendering: geometricPrecision;
+  text-rendering: geometricPrecision;
+}
+.pdf-export-sheet .definition-box,
+.pdf-export-sheet .info-box,
+.pdf-export-sheet .warning-box,
+.pdf-export-sheet .note-box,
+.pdf-export-sheet .exam-box,
+.pdf-export-sheet .lab-box,
+.pdf-export-sheet .logic-box,
+.pdf-export-sheet .summary-box,
+.pdf-export-sheet .tip-box,
+.pdf-export-sheet .warn-box,
+.pdf-export-sheet .outcomes-box {
+  page-break-inside: avoid;
+}
+.pdf-export-sheet table { width: 100%; font-size: 0.85rem; border-collapse: collapse; margin: 10px 0; }
+.pdf-export-sheet th, .pdf-export-sheet td { border: 1px solid #ccc; padding: 6px 8px; }
+.pdf-export-sheet th { background: #e3f2fd; }
+.pdf-export-sheet .card { margin-bottom: 10px; padding: 10px; border: 1px solid #dde; border-radius: 6px; }
+.pdf-export-sheet .pdf-plain-link { color: inherit; text-decoration: none; }
+
+/* ---- PDF / PRINT TOOLBAR (legacy) ---- */
+.pdf-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px 24px;
+  background: #fff8f8;
+  border-bottom: 1px solid #f5c6cb;
+  gap: 10px;
+}
+.pdf-save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 20px;
+  background: #c62828;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: background 0.2s, transform 0.1s;
+  font-family: 'Open Sans', sans-serif;
+}
+.pdf-save-btn:hover { background: #b71c1c; transform: translateY(-1px); }
+.pdf-save-btn:active { transform: translateY(0); }
+.pdf-save-btn svg { flex-shrink: 0; }
+
+/* ============================================================
+   GLOBAL PRINT / PDF STYLES
+   ============================================================ */
+@media print {
+  /* Hide all interactive / navigation elements */
+  .no-print,
+  .pdf-btn,
+  .pdf-toolbar,
+  .pdf-save-btn,
+  .lesson-nav,
+  .session-topnav,
+  .topnav,
+  .session-nav,
+  .nav-buttons,
+  .session-footer-nav,
+  .session-botnav,
+  .botnav,
+  footer {
+    display: none !important;
+  }
+
+  /* Remove link decoration and URL display in printed output */
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+  a[href]::after {
+    content: none !important;
+  }
+
+  /* Page setup */
+  @page {
+    margin: 18mm 15mm;
+  }
+  body { font-size: 11pt; }
+  .section { page-break-inside: avoid; }
+  h2, h3 { page-break-after: avoid; }
+  table { page-break-inside: avoid; }
+  .fig { page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+
+  /* Hide duration / hour labels in student handouts */
+  .pdf-hide-hours,
+  .session-banner .stag:not(.stag-type),
+  .lesson-meta > span:first-child,
+  .prac-meta > span:first-child,
+  .lesson-hero .ltag,
+  .header-meta > span:nth-child(3) {
+    display: none !important;
+  }
+}
